@@ -5,3 +5,4 @@
 /.kanon-replies/
 __pycache__/
 *.pyc
+/.lake/

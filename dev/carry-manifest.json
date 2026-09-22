@@ -43,7 +43,7 @@
       "origin": "assay",
       "source": "dev/gates.sh",
       "source_sha256": "573b872f9315924c7b5da6df8614c2fa03958ce258448903cabde56f5406b21b",
-      "adapted_sha256": "b82e31a67255f04bf5f7e0f34f9cae3437b5baf57c03f35ee6d229d8cc8481b7"
+      "adapted_sha256": "00e70db804d62ced43f1d09346ee78fae29772502672f24e561330e8e5bbbb26"
     },
     {
       "path": "dev/house.sh",

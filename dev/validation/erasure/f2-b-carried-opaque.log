@@ -1,0 +1,4 @@
+erased proof
+erased Layout
+rec [any; pair<union nat,union any>]
+fun pack (union any) : struct pair<union nat,union any> := KStruct pair<union nat,union any> [KLit 7; KVar 0]

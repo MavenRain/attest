@@ -1,0 +1,6 @@
+twin/F2Neg.lean:7:61: error: Type mismatch
+  x
+has type
+  AttestTwin.LayoutOf opaqueProof
+but is expected to have type
+  PUnit

@@ -1,0 +1,11 @@
+(copy_files ../../test/sys_io.ml)
+
+(executable
+ (name opaque_test)
+ (modules opaque_test sys_io)
+ (libraries kanon_kernel kanon_surface attest_erase))
+
+(rule
+ (alias runtest)
+ (deps (source_tree ../../fixtures/erasure))
+ (action (chdir %{workspace_root} (run %{exe:opaque_test.exe}))))

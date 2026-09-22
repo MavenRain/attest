@@ -1,0 +1,3 @@
+(library
+ (name attest_erase)
+ (libraries kanon_kernel))

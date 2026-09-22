@@ -3,4 +3,4 @@
 (executable
  (name attest)
  (public_name attest)
- (libraries kanon_kernel kanon_surface))
+ (libraries kanon_kernel kanon_surface attest_erase))

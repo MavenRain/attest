@@ -1,0 +1,9 @@
+Error:
+- expected : core.Done{0}
+- observed : core.Done{value}
+Context:
+- value : U32
+Location: core.let_bound_value
+121 | def let_bound_value(value):
+122>|   {==}
+123 |

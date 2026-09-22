@@ -58,3 +58,86 @@ The changes are prepared for the user's review and commit.
 Next: Stage B's opaque-proof erasure work. USER step 8 remains required for
 a green TRACE-ERASURE row. Stage 0 toolchain, SP1, and denominator tasks are
 not closed by Stage A. Rungs 2 and 3 remain OPEN until denominator freezing.
+
+## 2026-09-22: Stage B erasure increment
+
+Starting from Stage A commit `9a03183`, implemented `attest build --erase`
+and a proof-opaque erasure environment in `erase/opaque.ml`. Classification
+uses checked types; every Prop-valued definition becomes a typed postulate
+before erasure. Both the full environment and the declaration stream are
+sealed, so the carried program walker cannot restore proof bodies. Runtime
+definitions, types, and the family table are preserved. No kernel or surface
+source changed; all 594 carried files still pass the provenance gate.
+
+USER step 8 now has executable evidence. The F2 function and pair examples
+both change erased output on the actual assay `eebe37e` checkout. Those four
+pin outputs agree with the newly compiled carried eraser. The pin commit,
+binary hash, fixture hashes, and output hashes are in
+`validation/f2-pin.json`; `python3 -P dev/f2-pin-check.py ASSAY_PIN`
+regenerates the evidence on a clean pin checkout whose assay.exe digest
+matches the value pinned in the script.
+
+Validation on the implementation working copy:
+
+| check | result |
+| --- | --- |
+| Stage A gates | Passed, including 337 kernel tests, 20 surface checks, carry, R0, house rules, and line budgets. |
+| Erasure regressions | Four pairs identical; all four differ with the carried evaluator; proof-shape control identical. |
+| Opaque environment tests | Six tests cover direct proofs, aliases, proof functions, inherited scope, runtime reduction, classifier errors, and a poisoned proof body. |
+| Erasure CLI | Six checks passed, including usage/input errors, check errors, and a checked but unsupported layout returning exit 2. |
+| Initial Lean twins | F2 and Acc sources elaborate with Lean 4.33.1 under `-DwarningAsError=true` with empty logs; LEAN-TOOLCHAIN compares the lean that ran with `lean-toolchain`; a token guard rejects `by`, `sorry`, `admit` and `native_decide` outside comments; LEAN-AXIOMS prints the axioms of every enumerated declaration and allows only `F2Fixture.opaqueProof` and `AccFixture.R`. The Acc eliminator is noncomputable. |
+| Erasure mutations | All five caught after successful builds in isolated copies, including the Lean `sorry` row. |
+| Dune runtest | Passed, including the new erasure test executable. |
+| Stage A mutations | Not rerun against the updated tree; the Stage A record is a historical snapshot. |
+
+`python3 -P dev/erasure-gates.py --record` regenerates
+`validation/erasure.json` and its logs with implementation hashes.
+`python3 -P dev/erasure-mutations.py --record` regenerates mutation evidence.
+The Stage A record remains a historical snapshot of its original tree.
+
+Stage B remains OPEN. The concrete Acc seed is refused at its Nat index:
+`index above universe: the index x of Acc lives at 1 and Acc is declared at 0`.
+The Lean twin accepts the corresponding Prop family. The carried singleton
+large-elimination criterion also excludes recursive families, so relaxing
+the index check alone will not implement the planned Acc row. The full
+24 ACCEPT / 12 REFUSE twin corpus and Acc erasure/mutation gates are not
+claimed. `dev/gates.sh TRACE-ERASURE` fails explicitly on this frontier.
+The existing carry pin and kernel budgets remain binding for the next step.
+
+This entry records local implementation review and executable validation.
+No independent review agent or Stage B completion is claimed.
+
+## 2026-09-22: Bend 2 evaluator pilot
+
+Added an optional evaluator subset under `pilot/bend2/` to test both proposed
+migration benefits. The production kernel remains OCaml. Bend is pinned to
+2.0.25, commit `ff7a40cc9070a34c78399ecd2bbe46a044ad9b4b`.
+
+The dependent scope and environment representation checks four laws, rejects
+three invalid programs, and catches two mutations through failed proofs.
+All 128 generated programs agree with attest's checked evaluator across
+Bend native, Bend JavaScript, and the matched OCaml implementation.
+
+The final seven paired measurements gave median fresh native builds of
+508.83 ms for Bend versus 298.39 ms for OCaml (1.71 times longer), and
+edited builds of 569.23 ms versus 237.64 ms (2.40 times longer). The
+predeclared adoption gate required at least a 10% improvement in both.
+The stronger scope guarantees passed; the build-speed gate failed.
+Keep OCaml for the production evaluator under this toolchain.
+
+`python3 -P pilot/bend2/run.py --bend-root PATH --record` regenerates
+`dev/validation/bend-pilot.json` and its logs. The record pins compiler,
+pilot, and oracle sources and retains all paired samples. See the pilot
+README for the subset boundary, trusted components, and reproduction steps.
+This experiment does not close the existing Stage B Acc frontier.
+
+### 2026-09-22 (review fix F3: inline proof positions pinned as open)
+
+The carried `lib/erase.ml` stays verbatim. Its let arm evaluates a
+Prop-typed binding to its value and a case on an inline proof reduces, so a
+proof written inside a runtime-typed definition keeps its body and selects
+the erased layout. SPEC.md 1.1 names both positions as open. Four fixtures
+(`let-proof`, `scrutinee-proof` and their `-opaque` twins) and the
+`ERASURE-OPEN` rows of `dev/erasure-gates.py` pin the difference; the rows
+fail when the frontier closes, which is the signal to move them into
+`ROWS`. `dev/validation/erasure.json` is re-recorded with the new rows.

@@ -1,0 +1,8 @@
+'F2Fixture.proof' does not depend on any axioms
+'F2Fixture.opaqueProof' depends on axioms: [F2Fixture.opaqueProof]
+'F2Fixture.keep' does not depend on any axioms
+'F2Fixture.opaqueKeep' depends on axioms: [F2Fixture.opaqueProof]
+'F2Fixture.pack' does not depend on any axioms
+'F2Fixture.opaquePack' depends on axioms: [F2Fixture.opaqueProof]
+'AccFixture.R' depends on axioms: [AccFixture.R]
+'AccFixture.step' depends on axioms: [AccFixture.R]

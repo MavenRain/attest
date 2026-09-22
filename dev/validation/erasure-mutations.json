@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "baseline_sha256": "df00eb6c78825a85fdaee073bdb37966cfbfce003b755dea7fae9e197cef8d52",
+  "implementation_sha256": {
+    "erase/opaque.ml": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
+    "erase/test/opaque_test.ml": "90d3fa103c77f1e175857be0b2e73576bee80f975a6ca3c908d6e5f9d5e9c4d0",
+    "dev/erasure-mutations.py": "a1e0dd8d61613c3bfcb01aedb14e2baa372c2f0fd8f4bc32aef17866852a19f3",
+    "dev/erasure-gates.py": "781482fb2440dc9b8ce0667eb298e78b9dce3963a47baf5dd7b24000826af943"
+  },
+  "mutations": [
+    {
+      "name": "proof-guard",
+      "path": "erase/opaque.ml",
+      "before_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
+      "mutated_sha256": "455d164e9231f95266a09f85479d9b732b6f5515f34c71ea65b3e366c5351841",
+      "log_sha256": "3f6f1c5f3ec493e276b299d34c74d22b57c2f758f0060f4917e84c84c1c29c67",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=f2-a first_diff="
+    },
+    {
+      "name": "row-reinsertion",
+      "path": "erase/opaque.ml",
+      "before_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
+      "mutated_sha256": "0a9fa1690d532f18945ba6f142dbb931e60c58b5924ad85d3697f951d411f249",
+      "log_sha256": "3f6f1c5f3ec493e276b299d34c74d22b57c2f758f0060f4917e84c84c1c29c67",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=f2-a first_diff="
+    },
+    {
+      "name": "inherited-scope",
+      "path": "erase/opaque.ml",
+      "before_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
+      "mutated_sha256": "e3e047810076625b295daf439a42d8aca7d808582a451989d2e5e9860cd4f697",
+      "log_sha256": "ab4912ac392ccb303cc47e666e7787bb8f8c67b1d9c7327eaa8d1526ab8070b0",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "OPAQUE-ERASE exit=1"
+    },
+    {
+      "name": "missing-twin",
+      "path": "fixtures/erasure/f2-a-opaque.att",
+      "before_sha256": "839c51c805c2d39d58c3b4b984d236a132405d7c1471b28775e478ed362f5eb6",
+      "mutated_sha256": null,
+      "log_sha256": "771ff0d62bc69926d008aa6967465568b3265398ad0fa4f979e233e5345b8129",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=f2-a opaque twin missing",
+      "deleted": true
+    },
+    {
+      "name": "lean-sorry",
+      "path": "twin/F2.lean",
+      "before_sha256": "d05c8f23eb9a9af2fc9ad1ea2499e035a8916fccec61ad25c93d14e5382dd4e8",
+      "mutated_sha256": "2e8315d208ca32de07e73bb857cfd35f2de4c090f1f53e8823da6a248ca6e9c5",
+      "log_sha256": "20fba5f95b19535f2813fdc1467e7574c7b5d2e11a15f6c28fcaf2cd62be06b7",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "LEAN-F2 exit=1 expected=0"
+    }
+  ]
+}

@@ -2,3 +2,10 @@
  (name pass_bench)
  (modules pass_bench)
  (libraries kanon_kernel kanon_surface unix))
+
+(copy_files ../test/sys_io.ml)
+
+(executable
+ (name erase_probe)
+ (modules erase_probe sys_io)
+ (libraries kanon_kernel kanon_surface))

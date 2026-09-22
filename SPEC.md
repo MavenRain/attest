@@ -1,4 +1,4 @@
-# attest specification, M0 Stage A
+# attest specification, M0 Stage A and the erasure increment
 
 Stage A carries the assay kernel at `eebe37e00ecb7fdce739c49f50a6dd49c45022b1`.
 The binding design and remaining stages are in
@@ -16,15 +16,58 @@ followed by `AXIOMS FILE count=N`. A failed check never prints a success row.
 `attest spec-count` prints the inherited R0 block and rejects counts other than
 two formers and five declared shapes.
 
+`attest build --erase FILE.att` checks the whole file and prints its erased
+term. Proof globals become typed postulates for every erasure evaluation,
+including globals inherited from the checked environment and declarations
+reinserted while walking the file. It writes no ELF or output file.
+
 Exit 0 means success, 1 means a parse, elaboration, type, or R0-count failure,
-and 64 means invalid arguments or an unreadable input. The shared `Sys_io`
+2 means an erasure refusal, and 64 means invalid arguments or an unreadable
+input. The shared `Sys_io`
 module converts standard-library file errors into results. There is one
 source catch site, inherited in `test/sys_io.ml` and reused by the driver
 through a Dune copy rule.
 
 ELF production, execution, external-host disclosure, and compiler-walk
 disclosure arrive in subsequent stages. Their commands are not advertised
-by the Stage A executable.
+by the executable.
+
+### 1.1 Proof opacity and the current frontier
+
+The carried global record has no quantity field. `erase/opaque.ml` classifies
+definitions whose declared type lives in `Prop` at the checking boundary,
+then supplies their types without their bodies to the carried eraser. Type
+inference for classification uses the original checked environment. The
+subsequent erasure evaluator sees only the projected environment. Runtime
+definitions and the inductive family table are preserved. The API takes the
+final globals and declaration rows returned together by `Elab.check_in`.
+
+The F2 fixtures use a closed singleton reflexivity proposition. Its proof
+selects a width-zero runtime layout in the carried evaluator. A runtime
+function and a pair constructor expose the difference from an opaque
+postulate. The new evaluator gives byte-identical erased terms on each
+pair, also covering proof aliases, proof-valued functions, and a changed
+proof shape. This is executable regression evidence, not a general erasure
+theorem. ELF comparisons begin only when the encoder exists.
+
+Opaque, proof-computed types can still cause a named erasure refusal. For
+example, `fixtures/erasure/opaque-layout-refusal.att` checks but exits 2
+because its tuple's type no longer reduces to a right former. No partial
+erased program is printed on that failure.
+
+Two proof positions stay open in the carried walker. A proof written inline
+inside a runtime-typed definition keeps its body: a `let` binding whose type
+lives in `Prop` is evaluated and bound to its value, and a case scrutinee
+that is an inline proof is reduced. In both positions the proof body selects
+the erased layout, so `fixtures/erasure/let-proof.att` and
+`fixtures/erasure/scrutinee-proof.att` erase differently from their sealed
+twins `let-proof-opaque.att` and `scrutinee-proof-opaque.att`. The
+`ERASURE-OPEN` rows of `dev/erasure-gates.py` pin this difference until
+`lib/erase.ml` binds such proofs to a neutral.
+
+Stage B is open: `fixtures/erasure/acc.att` fails the inherited index universe
+check, the inline proof positions above are unsealed, and the full LEAN-TWIN corpus and Acc erasure/mutations are unfinished.
+No kernel rule or carry pin is changed by this increment.
 
 ## 2 Kernel
 
@@ -57,8 +100,11 @@ under `lower/` against 1,100 and `elf/` against 800, and every Rust source under
 size is informational. Tests and the timing helper are outside the kernel.
 
 `dev/gates.sh` builds before running the carry, R0, house, driver, kernel,
-surface, axiom, budget, and timing checks. It stops on a failed command and
-keeps complete leg output under `.gatework/stage-a/`. Kernel timing uses
+surface, axiom, budget, and timing checks. It then runs the erasure regression,
+CLI, and initial Lean checks. `STAGE-A` and `ERASURE` select either group;
+`TRACE-ERASURE` exits 1 while the Acc frontier is open. Gates stop on a failed
+command and keep leg output under `.gatework/stage-a/` and `.gatework/erasure/`.
+Kernel timing uses
 one warm-up and seven measured runs. Rung 1 reports parse and combined
 elaboration/check timings for the named, hashed Stage A example. The inherited
 frontend couples elaboration and checking, so they are reported together.

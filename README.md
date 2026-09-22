@@ -2,9 +2,10 @@
 
 attest is a programming language with Kan extensions as its only type formers.  The compiler targets the RISC-V bytecode that Succinct SP1 proves.
 
-M0 Stage A implements the carried Kan kernel, parser, checker, and axiom
-disclosure. RISC-V emission and SP1 execution follow in later stages of
-[the M0 plan](design/attest-m0/M0-PLAN.md).
+M0 includes the carried Kan kernel, parser, checker, axiom disclosure, and
+the first Stage B erasure increment. `attest build --erase` prints the
+erased term with proof globals opaque. RISC-V emission and SP1 execution
+follow in later stages of [the M0 plan](design/attest-m0/M0-PLAN.md).
 
 With OCaml 5.2 or newer, Dune 3.24, Zarith 1.14, Python 3, ripgrep, and zsh
 already available:
@@ -14,6 +15,7 @@ zsh -f dev/dunecho.sh build
 _build/default/bin/attest.exe check corpus/id.att
 _build/default/bin/attest.exe check --axioms corpus/id.att
 _build/default/bin/attest.exe spec-count
+_build/default/bin/attest.exe build --erase fixtures/erasure/f2-a.att
 zsh -f dev/gates.sh
 zsh -f dev/dunecho.sh test
 zsh -f dev/mutations.sh
@@ -22,9 +24,31 @@ zsh -f dev/mutations.sh
 The build wrapper uses `dunecho` when available and otherwise Dune. Set
 `ATTEST_OPAM_SWITCH` to select an installed switch. The tools install nothing.
 
+The default gates also require the pinned Lean toolchain in `lean-toolchain`.
+`zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
+increment compares four proof-bodied/opaque pairs, reproduces the carried
+eraser's layout differences, and checks two Lean source files.
+`python3 -P dev/erasure-mutations.py` checks four isolated mutations.
+
+Stage B remains open. The pinned kernel rejects the `Acc` fixture's `Nat`
+index in `Prop`, although its Lean twin elaborates. The full 24 ACCEPT and
+12 REFUSE Lean corpus is also outstanding. `zsh -f dev/gates.sh TRACE-ERASURE`
+reports that blocker and exits 1. See [the build log](dev/M0-BUILD-LOG.md).
+
+The Lean package is reusable with `require attestTwin from "../attest"` in
+a dependent project's `lakefile.lean`, followed by `import AttestTwin`.
+Its sources use term proofs; the `Acc` witness checks elimination in the
+kernel and is explicitly noncomputable. These are initial twins, not the
+complete LEAN-TWIN corpus.
+
 See [SPEC.md](SPEC.md) for the current command contract and
 [CARRIED.md](CARRIED.md) for provenance and the documented carry adjustments.
 The package is licensed under MIT OR Apache-2.0.
+
+The optional [Bend 2 evaluator pilot](pilot/bend2/README.md) tests stronger
+scope guarantees and native build speed against OCaml. The guarantees pass;
+native builds and rebuilds are slower on the pinned toolchain, so the pilot
+does not recommend migrating the production evaluator.
 
 The design corpus is under design/:
 - kan-sp1-lang-design-brief.md: the design brief and the ratified rulings (section 10).

@@ -21,3 +21,48 @@ A fresh positive gate run passed before all 13 scratch-copy probes. Each probe r
 | kernel-growth | `lib/check.ml` | 1 | `TRUSTED-LINES kernel=4197/4100 lower=0/1100 encoder=0/800 harness=0/100 FAIL` |
 
 The former checks use two bounded probes: extending the former inventory after a successful rebuild exercises R0-COUNT; adding a term constructor exercises exhaustive-match rejection at BUILD. This does not claim a fully routed third former. The shape probe adds a declared constructor without its refusal citation. The axiom probe adds a well-typed postulate of Type 0 to the ACCEPT example. These are the concrete probes used for the corresponding plan rows.
+
+## 2026-09-22: Stage B erasure increment
+
+All five mutations build successfully and then fail with the required
+named diagnostic. Three are behavioral kills of the sealing code. The
+fourth is an input-presence check: the gate tests that each opaque twin
+exists before it reads it and names the row that lacks one. The fifth
+replaces the F2 twin proof term with `sorry` and shows that the Lean leg
+rejects it. The harness
+uses isolated copies and first requires the unmutated erasure gate to
+pass. Records and logs are in `validation/erasure-mutations.json` and
+`validation/erasure-mutations/`. A row whose change is a source edit
+records the hash of the mutated file as `mutated_sha256`. A row whose
+change is a file removal records `mutated_sha256: null` and
+`deleted: true`; no hash of empty bytes stands in for a missing file.
+
+| probe | change | observed gate failure |
+| --- | --- | --- |
+| proof-guard | Disable sealing of proof definitions. | F2 function erased outputs differ. |
+| row-reinsertion | Leave the declaration stream unsealed. | The carried walker restores the proof body; F2 outputs differ. |
+| inherited-scope | Leave the input environment unsealed. | The opaque environment tests reject retained proof bodies. |
+| missing-twin | Remove one opaque companion (recorded with `mutated_sha256: null`, `deleted: true`). | `row=f2-a opaque twin missing`, the presence check before the read. |
+| lean-sorry | Replace `.refl trivial` with `sorry` in `twin/F2.lean`. | `LEAN-F2 exit=1 expected=0`: lean runs with `-DwarningAsError=true`, so the sorry warning ends the leg before the empty-log, token and axiom checks. |
+
+The changed-proof-shape control (`fixtures/erasure/f2-a-shape.att`) agrees
+with the `f2-a` body log under the new eraser. This shows that the sealing
+eraser does not read the proof body. It is not a positive control for
+sealing: its proof normalizes to `refl` before erasure, so the carried
+eraser also prints identical output for `f2-a` and `f2-a-shape`. Any closed
+proof of `Equal` without axioms normalizes to `refl` under the carried
+evaluator, so no control with a closed `Layout` can differ under the
+carried eraser. A proof stuck on a bound variable needs `Layout` to be a
+function, which changes the runtime rows and no longer compares with
+`f2-a`. The gate row reports the control as `shape_insensitive=1`. Among
+the mutants, proof-guard and row-reinsertion fail earlier at row `f2-a`
+(`first_diff=27`), missing-twin fails on the absent opaque twin, and
+inherited-scope and lean-sorry reach the control and pass it, which shows the control
+cannot discriminate. The planned Acc mutations remain open because the
+carried kernel currently rejects the Acc family at checking, before
+erasure.
+
+The `ERASURE-OPEN` rows (`let-proof`, `scrutinee-proof`) are expected-different
+pins, not sealing mutants: they hold while the carried walker keeps inline
+proof bodies and turn red when `lib/erase.ml` seals let-bound and scrutinee
+proofs. No mutant targets them yet.

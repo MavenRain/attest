@@ -1,16 +1,17 @@
-(** Stage A checks and disclosures, sharing the carried total I/O boundary. *)
+(** Checking and erasure, sharing the carried total I/O boundary. *)
 
 type error =
   | Arguments of string list
   | Input of string * string
   | Check of string * Kanon_kernel.Error.t
+  | Erase of string * Kanon_kernel.Error.t
   | Counts
 
 type display = Summary | Checked_form | Axioms
-type command = Spec_count | Check_file of display * string
+type command = Spec_count | Check_file of display * string | Erase_file of string
 
 let usage : string =
-  "usage: attest check [--print|--axioms] FILE.att | attest spec-count"
+  "usage: attest check [--print|--axioms] FILE.att | attest build --erase FILE.att | attest spec-count"
 
 let parse (args : string list) : (command, error) result =
   match args with
@@ -18,6 +19,7 @@ let parse (args : string list) : (command, error) result =
   | [ "check"; path ] -> Ok (Check_file (Summary, path))
   | [ "check"; "--print"; path ] -> Ok (Check_file (Checked_form, path))
   | [ "check"; "--axioms"; path ] -> Ok (Check_file (Axioms, path))
+  | [ "build"; "--erase"; path ] -> Ok (Erase_file path)
   | other -> Error (Arguments other)
 
 let read_file (path : string) : (string, error) result =
@@ -60,6 +62,14 @@ let run (cmd : command) : (unit, error) result =
         Kanon_surface.Elab.check_text Kanon_kernel.Global.initial source
         |> Result.map_error (fun error -> Check (path, error)))
       |> Result.map (display mode path)
+  | Erase_file path ->
+      Result.bind (read_file path) (fun source ->
+        Kanon_surface.Elab.check_in Kanon_kernel.Global.initial source
+        |> Result.map_error (fun error -> Check (path, error)))
+      |> Fun.flip Result.bind (fun (globals, rows) ->
+             Attest_erase.Opaque.program globals rows
+             |> Result.map_error (fun error -> Erase (path, error)))
+      |> Result.map (fun rows -> print_string (Kanon_kernel.Erase.print rows))
 
 let report (error : error) : int =
   match error with
@@ -70,6 +80,9 @@ let report (error : error) : int =
       let message = Kanon_kernel.Error.to_string error in
       Printf.printf "CHECK %s FAIL %s\n" path message;
       Printf.eprintf "attest: check: %s\n" message; 1
+  | Erase (path, error) ->
+      let message = Kanon_kernel.Error.to_string error in
+      Printf.eprintf "attest: erase: %s: %s\n" path message; 2
   | Counts -> prerr_endline "attest: spec-count: expected two formers and five shapes"; 1
 
 let () =

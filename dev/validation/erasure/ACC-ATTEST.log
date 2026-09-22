@@ -1,0 +1,2 @@
+CHECK fixtures/erasure/acc.att FAIL index above universe: the index x of Acc lives at 1 and Acc is declared at 0
+attest: check: index above universe: the index x of Acc lives at 1 and Acc is declared at 0

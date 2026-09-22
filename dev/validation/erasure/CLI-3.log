@@ -1,0 +1,2 @@
+CHECK fixtures/ill-typed.att FAIL mismatch: the term has type Type 2 and the expected type is Type 1
+attest: check: mismatch: the term has type Type 2 and the expected type is Type 1

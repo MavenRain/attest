@@ -1,0 +1,7 @@
+Error:
+- expected : Empty
+- observed : Unit
+Location: main
+5 | def main() -> Core.Term<0n>:
+6>|   Core.Var{0n, Unit{}}
+7 |

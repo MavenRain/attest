@@ -1,0 +1,7 @@
+mu Equal : Prop with
+| refl : Equal
+
+def proof : Equal := refl
+def alias : Equal := proof
+def Layout : Type 0 := case alias as p in Equal return Type 0 with | refl => prod ()
+def keep : (x : Layout) -> Layout := fun (x : Layout) => x

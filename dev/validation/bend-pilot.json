@@ -1,0 +1,1752 @@
+{
+  "schema": 1,
+  "recorded_at": "2026-09-22T20:19:45.118249+00:00",
+  "log_normalization": "trailing spaces, tabs, and CR removed per line; raw output hashes retained",
+  "toolchain": {
+    "commit": "ff7a40cc9070a34c78399ecd2bbe46a044ad9b4b",
+    "version": "bend 2.0.25",
+    "binary_sha256": "a745353338ca6aa8cbf8c756432f3efd74d04fd5e48629931708281e63553700",
+    "source_sha256": {
+      "main.ts": "92dcdb49e82fd59443e3aea10784f7dcf03a93f5a21920666543098b657b6b1e",
+      "bend.ts": "93c2a43deeb82c15683e4e25bbc5dec5ac3edff9f54e09acc0975e290fcaeb85",
+      "comp.ts": "c19b9be5be69930be218e68880ae5a1aa13e51cda0d2a0547bcb7259fdf96bc3",
+      "base.bend": "e5639663177f2de93ef34867c029698aa4e68a98d46629f0b15452b67b99d798"
+    },
+    "tools": {
+      "ocaml": "5.2.1",
+      "dune": "3.24.2",
+      "bun": "1.3.11",
+      "clang": "Apple clang version 21.0.0 (clang-2100.0.123.102)",
+      "node": "v23.10.0"
+    },
+    "platform": "macOS-26.4-arm64-arm-64bit-Mach-O",
+    "machine": "arm64"
+  },
+  "source_sha256": {
+    "pilot/bend2/bend.sh": "4ccd2f71d90f1ac695cffcedb2538aeb7c89d65406614543e026724b398814aa",
+    "pilot/bend2/core.bend": "f724fcf32cc41b10bf60e55513a4b11a0337af35d6d8d82ade83b37bde9a0f35",
+    "pilot/bend2/dune": "c17b8dfa6576aebf9b30712b4eb3c5708db540de344f675ea196b6afea383968",
+    "pilot/bend2/model.ml": "1b634471b9d6dbd992ec8df578be291751c7cea27e61196b4c7ac29a6414173c",
+    "pilot/bend2/oracle.ml": "a9227f79c4595f3f4203f4c8404fc9ff7062a6dc6c66d5eeb44f3cf41db68918",
+    "pilot/bend2/reject/closed_var.bend": "289725c1bf4b1e6fb94aa74be0759f2a99323340bcd5906bf8012549626153b3",
+    "pilot/bend2/reject/environment.bend": "514f61b8658eafd590269218eb71dcb1541a8bcab152315bc46fa8356eabfce2",
+    "pilot/bend2/reject/let_scope.bend": "14d7fb831ac304c4d7c99d9740941103af8183dd31ae7bf721de03332ffbcc7a",
+    "pilot/bend2/run.py": "031c3baf48535ff5f57a44fe5cdc9a9d3c93f16231d64ee01cce7cb8dd014ad8",
+    "pilot/bend2/runtime.bend": "e4a00297f9f377d075715c3adf014bd8545679087052f72f6c843a92de76ac91",
+    "pilot/bend2/runtime.ml": "d1d71a32d797eb50cef0839f9aba8da1a837f14bf8903f617b254051b6cef595",
+    "pilot/bend2/smoke.bend": "394d32107f0b9c909a948f7e7133fc7b315a9d9c622bc88559227637b0e3d232"
+  },
+  "guarantees": {
+    "laws": [
+      "lookup_head",
+      "lookup_tail",
+      "closed_var_impossible",
+      "let_bound_value"
+    ],
+    "invalid_programs_rejected": [
+      "closed_var.bend",
+      "environment.bend",
+      "let_scope.bend"
+    ],
+    "proof_mutations_caught": [
+      {
+        "mutation": "lookup-head",
+        "law": "lookup_head"
+      },
+      {
+        "mutation": "let-value",
+        "law": "let_bound_value"
+      }
+    ],
+    "unsafe_definitions": 0,
+    "proof_holes": 0
+  },
+  "differential": {
+    "rows": 128,
+    "lanes": [
+      "Bend native",
+      "Bend JavaScript",
+      "OCaml model"
+    ],
+    "oracle": "attest Elab.check_in + Eval.eval + Eval.quote",
+    "seed": 20260922,
+    "corpus_sha256": "9c226b418b9731b3f9c1eda35aab98af4456f3e39e1ad607a4138bf2c53f69c4",
+    "attest_source_sha256": "e212f61ea5aa5341d62a1e175064685bddc79201b41276b59ef6e5ae4c98e626",
+    "oracle_binary_sha256": "8c7c5bd77ebe54209ea609e6dce751097caac398fcb5b7c6a04e1342c9f8c31e",
+    "oracle_source_sha256": {
+      "lib/bignum.ml": "7159dd7e75fa08a5fc272cba76a8ec6214c7d190151dabf7db1a13bf5ecddd72",
+      "lib/budget.ml": "7d8b2afc86883415c892d6fea0e56c2115e4d859b6b6daa21c611b4e9517f028",
+      "lib/budget.mli": "b830149c9eb6d9362786d2e92c2dc8322f4d31f7b4cfc960ac6e1681d385578f",
+      "lib/check.ml": "cdc3712bf5ed0fa49d8dae34ea946d85a195ea94b25235c821b155570010e335",
+      "lib/conv.ml": "e73e707bcdac54808d8f8a1d9e9a174062edf0afd970972dee2c6d024f6bbe39",
+      "lib/dune": "0e60f3ebdbbf7182dba98dd70eb2d494bd83d6e2934dd1f344f98e4b0e392ec0",
+      "lib/erase.ml": "a6d03447ab9dfedf8e53bceff26cd7da57f113bb4b5d1453aecd618fac508a88",
+      "lib/error.ml": "44c9c263479575ec04db5056404a5940d6bb5514a5b9e1ec6215385c6eccb5b6",
+      "lib/eterm.ml": "028ff6e790f9c391463b961f7a3eac12e105d484285cfde1597e52c5b9ac69c7",
+      "lib/eval.ml": "155ddf7578d4ad68352505064616bed6afa7a260a88f3ddf1722b95fa6a6bd18",
+      "lib/global.ml": "2e5d2d932dfddcb329bcfdf237df87a70f2d79820470dc236e337ec6d275c329",
+      "lib/level.ml": "344bb9819870d8c459154ac8109ba1d69a4ee4312670f3887c6ed30d3dbca448",
+      "lib/level.mli": "c143b2b97e417724a81f8e83548b946d3339917488758b4d5fbf9da9e72e6811",
+      "lib/literal.ml": "80554b1d98c8dde3b474023a01ac57cc4abcaba2a5f20b707041cc5f0361b617",
+      "lib/order.ml": "d2cc3258fde25b61ba33093eaf19112c319329dc5b46ba029b3f042c14388e94",
+      "lib/positivity.ml": "97cb5fc9484ecaec360b4be1ac42f0668ae767aad25efc10ddbc1d4143185471",
+      "lib/pp.ml": "69618578ebb33a3d9803e604760252c77c64681aef2d847f3e1b40f9464e3895",
+      "lib/prim.ml": "5224df4f75e499b8fb962fad2a256b31086fcc9de5ab2f353eb90f61a8408aaa",
+      "lib/quantity.ml": "bf3f633c40a0dbb362cf85ca41b798ae0c9e1d4eca7e09f9b6f482bab2bfbb8b",
+      "lib/rules.ml": "b625cec31061ca79f77669889039e4ae2658393911e39076dc65189022f702ab",
+      "lib/shape.ml": "dafd7741b4332dcab6faba9cb9afb131fb3654172e0d375b1edd1046e69f7f7b",
+      "lib/spec_count.ml": "9a4cb97373ddbabb6156b04f92cc41803ee1b714391ccb669cf38e60d36437e6",
+      "lib/term.ml": "2de6729958bfbc3af10ed2e9c51d6591ab40fa16bd19b7acea1fbf37adf60690",
+      "lib/totality.ml": "046c608584ac21d465d46b05119a89dca5488a15113359eea30ed318a3f7c028",
+      "lib/value.ml": "997f4634df60744c49555e896c1de8d60e51a1086e731e547b48450def9c68c7",
+      "surface/dune": "c45bcc3721c5711848423635d08c3d5e41691bb32adda95efa0be17b7f3a3be4",
+      "surface/elab.ml": "657b134e25e495e6edc5435bb3c9335bc48637915045fba91da9a595d2e3280d",
+      "surface/lexer.ml": "bb524f0202a01ab0b7a2e94745c9af50c5eede2a4c7d3fa450be785e2eb14254",
+      "surface/parser.ml": "107bb45cfba1335a41cf0268e6c28e05dbb961c1c454c47ef364683d6e04d977",
+      "surface/syntax.ml": "774c0c713f2cdfe493656131b446eb10614e9415ef4d3a0d7cf8a64d2da04c5a",
+      "surface/token.ml": "cd93b520f023f2aa80f42a4e352b47e63fd0c05e399f4c2344af898054fbb6db"
+    }
+  },
+  "timings": {
+    "cold_native_build": {
+      "bend": {
+        "median_ms": 508.831167,
+        "min_ms": 462.167083,
+        "max_ms": 671.793625
+      },
+      "ocaml": {
+        "median_ms": 298.388542,
+        "min_ms": 256.471083,
+        "max_ms": 388.410125
+      },
+      "bend_over_ocaml": 1.7052637597592473,
+      "paired_samples_ms": [
+        {
+          "bend": 545.782625,
+          "ocaml": 388.410125
+        },
+        {
+          "ocaml": 324.446916,
+          "bend": 508.831167
+        },
+        {
+          "bend": 462.167083,
+          "ocaml": 259.370125
+        },
+        {
+          "ocaml": 256.471083,
+          "bend": 533.299917
+        },
+        {
+          "bend": 671.793625,
+          "ocaml": 298.388542
+        },
+        {
+          "ocaml": 275.123417,
+          "bend": 502.720916
+        },
+        {
+          "bend": 469.832417,
+          "ocaml": 303.203584
+        }
+      ]
+    },
+    "edited_native_build": {
+      "bend": {
+        "median_ms": 569.234959,
+        "min_ms": 463.871166,
+        "max_ms": 968.961584
+      },
+      "ocaml": {
+        "median_ms": 237.6395,
+        "min_ms": 204.383042,
+        "max_ms": 280.055125
+      },
+      "bend_over_ocaml": 2.3953718089795677,
+      "paired_samples_ms": [
+        {
+          "ocaml": 204.383042,
+          "bend": 498.179792
+        },
+        {
+          "bend": 569.234959,
+          "ocaml": 259.246042
+        },
+        {
+          "ocaml": 214.579,
+          "bend": 463.871166
+        },
+        {
+          "bend": 968.961584,
+          "ocaml": 248.71575
+        },
+        {
+          "ocaml": 235.719875,
+          "bend": 684.015792
+        },
+        {
+          "bend": 632.758375,
+          "ocaml": 280.055125
+        },
+        {
+          "ocaml": 237.6395,
+          "bend": 518.970541
+        }
+      ]
+    },
+    "native_runtime": {
+      "bend": {
+        "median_ms": 7.438625,
+        "min_ms": 6.785625,
+        "max_ms": 8.915667
+      },
+      "ocaml": {
+        "median_ms": 6.693208,
+        "min_ms": 6.336541,
+        "max_ms": 7.608292
+      },
+      "bend_over_ocaml": 1.1113691670720527,
+      "paired_samples_ms": [
+        {
+          "bend": 8.216917,
+          "ocaml": 7.486167
+        },
+        {
+          "ocaml": 6.693208,
+          "bend": 8.094833
+        },
+        {
+          "bend": 7.438625,
+          "ocaml": 7.001416
+        },
+        {
+          "ocaml": 6.336541,
+          "bend": 6.785625
+        },
+        {
+          "bend": 6.964958,
+          "ocaml": 6.532125
+        },
+        {
+          "ocaml": 6.577625,
+          "bend": 7.375875
+        },
+        {
+          "bend": 8.915667,
+          "ocaml": 7.608292
+        }
+      ]
+    },
+    "bend_check_only": {
+      "samples_ms": [
+        162.13875,
+        165.289708,
+        238.262167,
+        165.611417,
+        144.802583,
+        149.608458,
+        145.76
+      ],
+      "median_ms": 162.13875
+    },
+    "method": {
+      "samples": 7,
+      "order": "alternating paired languages",
+      "threshold_ratio": 0.9,
+      "cold": "fresh artifacts; filesystem and OS caches are not flushed",
+      "edited": "one source constant changed; binary hash and new checksum required",
+      "included": "compiler process, proof checking, optimization, native compile and link",
+      "excluded": "toolchain bootstrap, source generation, correctness runs",
+      "runtime": "single process including startup; 2500 terms, 24 nested lets, dynamic seed",
+      "bend_threads": 1,
+      "bend_gpu": "off",
+      "ocaml_build": "Dune native, -O3"
+    }
+  },
+  "verdict": {
+    "stronger_scope_guarantees": true,
+    "faster_cold_build": false,
+    "faster_edited_build": false,
+    "both_benefits_demonstrated": false,
+    "recommendation": "retain OCaml"
+  },
+  "commands": [
+    {
+      "name": "pin",
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-bend-toolchain",
+      "exit": 0,
+      "ms": 25.531709,
+      "log_sha256": "0df815928b5ef654d01273d7a0e22515c8d422585949b3e1f44b6bf4ccccfc95",
+      "raw_output_sha256": "0df815928b5ef654d01273d7a0e22515c8d422585949b3e1f44b6bf4ccccfc95"
+    },
+    {
+      "name": "pin-clean",
+      "command": [
+        "git",
+        "diff",
+        "--exit-code",
+        "HEAD",
+        "--",
+        "bend2"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-bend-toolchain",
+      "exit": 0,
+      "ms": 35.011834,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "bend-version",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "version"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 161.887875,
+      "log_sha256": "13d5bfd6c700c40c56040cbb8e232de58f21ca00c87916c586bf451532536ea9",
+      "raw_output_sha256": "13d5bfd6c700c40c56040cbb8e232de58f21ca00c87916c586bf451532536ea9"
+    },
+    {
+      "name": "ocaml-version",
+      "command": [
+        "ocamlopt",
+        "-version"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 42.75275,
+      "log_sha256": "4e001f5f34a8940927b497e5657a1bba9a35094b2c1f992de2fbee40af237d5b",
+      "raw_output_sha256": "4e001f5f34a8940927b497e5657a1bba9a35094b2c1f992de2fbee40af237d5b"
+    },
+    {
+      "name": "dune-version",
+      "command": [
+        "dune",
+        "--version"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 55.31025,
+      "log_sha256": "e66b40ed1bd96d9633f75e17c7774a52f6a5316e62f816b26934d5bb20dfce16",
+      "raw_output_sha256": "e66b40ed1bd96d9633f75e17c7774a52f6a5316e62f816b26934d5bb20dfce16"
+    },
+    {
+      "name": "bun-version",
+      "command": [
+        "bun",
+        "--version"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 32.453083,
+      "log_sha256": "793de7b6d4c7a5d8dc78b85c58824834f38880e82eb46bf6572fa601c4231503",
+      "raw_output_sha256": "793de7b6d4c7a5d8dc78b85c58824834f38880e82eb46bf6572fa601c4231503"
+    },
+    {
+      "name": "clang-version",
+      "command": [
+        "/usr/bin/clang",
+        "--version"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 167.283667,
+      "log_sha256": "b53e5903c47dc4e5d0ce1356569842638e0dd138382236f976a17bd96114bbac",
+      "raw_output_sha256": "b53e5903c47dc4e5d0ce1356569842638e0dd138382236f976a17bd96114bbac"
+    },
+    {
+      "name": "node-version",
+      "command": [
+        "node",
+        "--version"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 22.06075,
+      "log_sha256": "3aed219785658cbdb4e44c8d659c31b8a0be6bb4f8e69faaaba6fb99990178ec",
+      "raw_output_sha256": "3aed219785658cbdb4e44c8d659c31b8a0be6bb4f8e69faaaba6fb99990178ec"
+    },
+    {
+      "name": "proofs",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/pilot/bend2/smoke.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 127.242459,
+      "log_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84",
+      "raw_output_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84"
+    },
+    {
+      "name": "reject-closed_var",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/pilot/bend2/reject/closed_var.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 1,
+      "ms": 109.6175,
+      "log_sha256": "4f3a530fee7af1a22be50b9b62941e3e682ab2c15316db1256c843d03e428f59",
+      "raw_output_sha256": "6abfc40a7169c0c937171a5585de72e1b97e072c2c54083e804b71eb945278b3"
+    },
+    {
+      "name": "reject-environment",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/pilot/bend2/reject/environment.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 1,
+      "ms": 102.131917,
+      "log_sha256": "140963a0043adcf4e473592f93a1e64e15fedd66ac110c59f90e085a2e559efe",
+      "raw_output_sha256": "c47c6e545b05804c3d70659e295763c497ab4b782a0d10251ebd38e59edbcff6"
+    },
+    {
+      "name": "reject-let_scope",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/pilot/bend2/reject/let_scope.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 1,
+      "ms": 114.266208,
+      "log_sha256": "0b9660864c01e9184a133c461ade79da734d4186982f8cbbe460ab18ec28e6e6",
+      "raw_output_sha256": "c5fc283b6a781319427dae58b1635fc51aaeb552714fd518e1c1d465ac520540"
+    },
+    {
+      "name": "mutation-lookup-head",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/mutation-lookup-head/smoke.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 1,
+      "ms": 108.395917,
+      "log_sha256": "3299cc9e833a22bee945c65bfa6dcdb366590c9db0a70b3d982d9457b00b48ca",
+      "raw_output_sha256": "12f1f24857c49ba48a0c7dc1b0383723c22f66730942e8b378f4c45850a93f65"
+    },
+    {
+      "name": "mutation-let-value",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/mutation-let-value/smoke.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 1,
+      "ms": 101.533083,
+      "log_sha256": "97ad7eaeed9f02dda1b6b86bace3b233523381b70db6fdae0a3b94701e1e5f9a",
+      "raw_output_sha256": "1884929259acbffc744821419e66a85e99e2d6421db9fc645b20d3510e907e9a"
+    },
+    {
+      "name": "oracle-build",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/dunecho.sh",
+        "build"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 184.007084,
+      "log_sha256": "9e007d7a4010fcc271a69a2546c4c166962b8c019f48235eca93e8512b6a997b",
+      "raw_output_sha256": "9e007d7a4010fcc271a69a2546c4c166962b8c019f48235eca93e8512b6a997b"
+    },
+    {
+      "name": "oracle-corpus",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/_build/default/pilot/bend2/oracle.exe",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/corpus/corpus.att"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 21.888542,
+      "log_sha256": "0c487523184d827d0401a95dbd5ccf008241e9f9b439e7d2a12475cece49e255",
+      "raw_output_sha256": "0c487523184d827d0401a95dbd5ccf008241e9f9b439e7d2a12475cece49e255"
+    },
+    {
+      "name": "corpus-check",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/corpus/main.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 194.081583,
+      "log_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84",
+      "raw_output_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84"
+    },
+    {
+      "name": "corpus-native-build",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/corpus/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/corpus/bend-native"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 1832.615333,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "corpus-native-run",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/corpus/bend-native",
+        "--threads",
+        "1",
+        "--gpu",
+        "off"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 307.28025,
+      "log_sha256": "b38b8634261c7abf20998382441e162516cb751237959eec7621d82a3935f398",
+      "raw_output_sha256": "b38b8634261c7abf20998382441e162516cb751237959eec7621d82a3935f398"
+    },
+    {
+      "name": "corpus-js-build",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/corpus/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/corpus/main.js"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 231.44175,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "corpus-js-run",
+      "command": [
+        "node",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/corpus/main.js"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 195.164292,
+      "log_sha256": "b38b8634261c7abf20998382441e162516cb751237959eec7621d82a3935f398",
+      "raw_output_sha256": "b38b8634261c7abf20998382441e162516cb751237959eec7621d82a3935f398"
+    },
+    {
+      "name": "corpus-ocaml-build",
+      "command": [
+        "ocamlopt",
+        "-O3",
+        "-o",
+        "ocaml-native",
+        "model.ml",
+        "main.ml"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/corpus",
+      "exit": 0,
+      "ms": 236.412292,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "corpus-ocaml-run",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/corpus/ocaml-native"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 253.889334,
+      "log_sha256": "b38b8634261c7abf20998382441e162516cb751237959eec7621d82a3935f398",
+      "raw_output_sha256": "b38b8634261c7abf20998382441e162516cb751237959eec7621d82a3935f398"
+    },
+    {
+      "name": "cold-0-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-0/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-0/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 545.782625,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-0-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-0/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 262.890042,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-0-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-0/ocaml",
+      "exit": 0,
+      "ms": 388.410125,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-0-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-0/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 324.65975,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-1-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-1/ocaml",
+      "exit": 0,
+      "ms": 324.446916,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-1-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-1/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 204.221708,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-1-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-1/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-1/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 508.831167,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-1-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-1/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 172.713,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-2-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-2/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-2/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 462.167083,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-2-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-2/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 153.851792,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-2-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-2/ocaml",
+      "exit": 0,
+      "ms": 259.370125,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-2-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-2/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 175.846417,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-3-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-3/ocaml",
+      "exit": 0,
+      "ms": 256.471083,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-3-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-3/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 175.571041,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-3-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-3/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-3/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 533.299917,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-3-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-3/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 175.032625,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-4-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-4/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-4/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 671.793625,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-4-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-4/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 204.129125,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-4-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-4/ocaml",
+      "exit": 0,
+      "ms": 298.388542,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-4-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-4/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 228.97225,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-5-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-5/ocaml",
+      "exit": 0,
+      "ms": 275.123417,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-5-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-5/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 187.946542,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-5-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-5/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-5/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 502.720916,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-5-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-5/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 180.516958,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-6-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-6/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-6/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 469.832417,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-6-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-6/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 173.154791,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "cold-6-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-6/ocaml",
+      "exit": 0,
+      "ms": 303.203584,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cold-6-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/cold-6/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 178.68125,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "edit-warm-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 442.069625,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-warm-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml",
+      "exit": 0,
+      "ms": 250.483083,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-0-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml",
+      "exit": 0,
+      "ms": 204.383042,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-0-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 257.493375,
+      "log_sha256": "ad35baf03700d31bcd9a1c95d2b2660626d57313a617cc86c44c2d4075d91f63",
+      "raw_output_sha256": "ad35baf03700d31bcd9a1c95d2b2660626d57313a617cc86c44c2d4075d91f63"
+    },
+    {
+      "name": "edit-0-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 498.179792,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-0-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 273.284375,
+      "log_sha256": "ad35baf03700d31bcd9a1c95d2b2660626d57313a617cc86c44c2d4075d91f63",
+      "raw_output_sha256": "ad35baf03700d31bcd9a1c95d2b2660626d57313a617cc86c44c2d4075d91f63"
+    },
+    {
+      "name": "edit-1-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 569.234959,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-1-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 248.912,
+      "log_sha256": "5a8f28f88fcfdbda9fe62b778d348ad8c6df3857ea883a8759c5815257329c49",
+      "raw_output_sha256": "5a8f28f88fcfdbda9fe62b778d348ad8c6df3857ea883a8759c5815257329c49"
+    },
+    {
+      "name": "edit-1-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml",
+      "exit": 0,
+      "ms": 259.246042,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-1-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 246.0575,
+      "log_sha256": "5a8f28f88fcfdbda9fe62b778d348ad8c6df3857ea883a8759c5815257329c49",
+      "raw_output_sha256": "5a8f28f88fcfdbda9fe62b778d348ad8c6df3857ea883a8759c5815257329c49"
+    },
+    {
+      "name": "edit-2-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml",
+      "exit": 0,
+      "ms": 214.579,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-2-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 256.309125,
+      "log_sha256": "f75ab70e290c1f1b0bc9bf56668e0f6dd422845211c295f7da6cd726360205a1",
+      "raw_output_sha256": "f75ab70e290c1f1b0bc9bf56668e0f6dd422845211c295f7da6cd726360205a1"
+    },
+    {
+      "name": "edit-2-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 463.871166,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-2-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 287.839375,
+      "log_sha256": "f75ab70e290c1f1b0bc9bf56668e0f6dd422845211c295f7da6cd726360205a1",
+      "raw_output_sha256": "f75ab70e290c1f1b0bc9bf56668e0f6dd422845211c295f7da6cd726360205a1"
+    },
+    {
+      "name": "edit-3-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 968.961584,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-3-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 252.883958,
+      "log_sha256": "ca0ac5a6b352a214cab90632260fecd3a435e4eac7c8a3e0b28e9704dc1f25f2",
+      "raw_output_sha256": "ca0ac5a6b352a214cab90632260fecd3a435e4eac7c8a3e0b28e9704dc1f25f2"
+    },
+    {
+      "name": "edit-3-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml",
+      "exit": 0,
+      "ms": 248.71575,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-3-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 272.684791,
+      "log_sha256": "ca0ac5a6b352a214cab90632260fecd3a435e4eac7c8a3e0b28e9704dc1f25f2",
+      "raw_output_sha256": "ca0ac5a6b352a214cab90632260fecd3a435e4eac7c8a3e0b28e9704dc1f25f2"
+    },
+    {
+      "name": "edit-4-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml",
+      "exit": 0,
+      "ms": 235.719875,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-4-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 268.733666,
+      "log_sha256": "e7d5c685f01edc7a2d9d1b34f61104e744f21bffbe39586c89acedae8a314bdb",
+      "raw_output_sha256": "e7d5c685f01edc7a2d9d1b34f61104e744f21bffbe39586c89acedae8a314bdb"
+    },
+    {
+      "name": "edit-4-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 684.015792,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-4-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 262.03525,
+      "log_sha256": "e7d5c685f01edc7a2d9d1b34f61104e744f21bffbe39586c89acedae8a314bdb",
+      "raw_output_sha256": "e7d5c685f01edc7a2d9d1b34f61104e744f21bffbe39586c89acedae8a314bdb"
+    },
+    {
+      "name": "edit-5-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 632.758375,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-5-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 250.742542,
+      "log_sha256": "4e920f22906108a2969462f66eee4a6c1390e89ebb850dd9584d36e7c2ffa448",
+      "raw_output_sha256": "4e920f22906108a2969462f66eee4a6c1390e89ebb850dd9584d36e7c2ffa448"
+    },
+    {
+      "name": "edit-5-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml",
+      "exit": 0,
+      "ms": 280.055125,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-5-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 278.432708,
+      "log_sha256": "4e920f22906108a2969462f66eee4a6c1390e89ebb850dd9584d36e7c2ffa448",
+      "raw_output_sha256": "4e920f22906108a2969462f66eee4a6c1390e89ebb850dd9584d36e7c2ffa448"
+    },
+    {
+      "name": "edit-6-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml",
+      "exit": 0,
+      "ms": 237.6395,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-6-ocaml-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 257.459541,
+      "log_sha256": "d25b8c404b5577b196fb65fe234ae72c78c1eddcfef6c4d38902a209712f3b6c",
+      "raw_output_sha256": "d25b8c404b5577b196fb65fe234ae72c78c1eddcfef6c4d38902a209712f3b6c"
+    },
+    {
+      "name": "edit-6-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 518.970541,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edit-6-bend-verify",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/edited/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 241.503208,
+      "log_sha256": "d25b8c404b5577b196fb65fe234ae72c78c1eddcfef6c4d38902a209712f3b6c",
+      "raw_output_sha256": "d25b8c404b5577b196fb65fe234ae72c78c1eddcfef6c4d38902a209712f3b6c"
+    },
+    {
+      "name": "runtime-build-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main.bend",
+        "-o",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 610.66125,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "runtime-warm-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 183.375292,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "runtime-build-ocaml",
+      "command": [
+        "dune",
+        "build",
+        "main.exe",
+        "--display=quiet"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/ocaml",
+      "exit": 0,
+      "ms": 464.057459,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "runtime-warm-ocaml",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 221.268,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "runtime-0-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 8.216917,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "runtime-0-ocaml",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/ocaml/_build/default/main.exe",
+        "7"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 7.486167,
+      "log_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191",
+      "raw_output_sha256": "1417ec201ab1c8219621f0d2ce82c7a3becb4fcd482b09be1421c0fc75c51191"
+    },
+    {
+      "name": "runtime-1-ocaml",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/ocaml/_build/default/main.exe",
+        "8"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 6.693208,
+      "log_sha256": "c6330f70abff77094108c3c47f8d5706180a027dd032423522e3128a3e8f0188",
+      "raw_output_sha256": "c6330f70abff77094108c3c47f8d5706180a027dd032423522e3128a3e8f0188"
+    },
+    {
+      "name": "runtime-1-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "8"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 8.094833,
+      "log_sha256": "c6330f70abff77094108c3c47f8d5706180a027dd032423522e3128a3e8f0188",
+      "raw_output_sha256": "c6330f70abff77094108c3c47f8d5706180a027dd032423522e3128a3e8f0188"
+    },
+    {
+      "name": "runtime-2-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "9"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 7.438625,
+      "log_sha256": "703dcce05663ec629eea45d4e494874bf6d8396033db7e63a074baa570c01bae",
+      "raw_output_sha256": "703dcce05663ec629eea45d4e494874bf6d8396033db7e63a074baa570c01bae"
+    },
+    {
+      "name": "runtime-2-ocaml",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/ocaml/_build/default/main.exe",
+        "9"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 7.001416,
+      "log_sha256": "703dcce05663ec629eea45d4e494874bf6d8396033db7e63a074baa570c01bae",
+      "raw_output_sha256": "703dcce05663ec629eea45d4e494874bf6d8396033db7e63a074baa570c01bae"
+    },
+    {
+      "name": "runtime-3-ocaml",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/ocaml/_build/default/main.exe",
+        "10"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 6.336541,
+      "log_sha256": "d6e9e2bf62d65e93fbd0e337d266b2ba09e204bdcb33cd8a2cc6e58aa178a978",
+      "raw_output_sha256": "d6e9e2bf62d65e93fbd0e337d266b2ba09e204bdcb33cd8a2cc6e58aa178a978"
+    },
+    {
+      "name": "runtime-3-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "10"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 6.785625,
+      "log_sha256": "d6e9e2bf62d65e93fbd0e337d266b2ba09e204bdcb33cd8a2cc6e58aa178a978",
+      "raw_output_sha256": "d6e9e2bf62d65e93fbd0e337d266b2ba09e204bdcb33cd8a2cc6e58aa178a978"
+    },
+    {
+      "name": "runtime-4-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "11"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 6.964958,
+      "log_sha256": "9e3462a2ec2d5d745342ac4ea4ec57e4ac6a4fe8a2f75c4d86b0663689b1b19f",
+      "raw_output_sha256": "9e3462a2ec2d5d745342ac4ea4ec57e4ac6a4fe8a2f75c4d86b0663689b1b19f"
+    },
+    {
+      "name": "runtime-4-ocaml",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/ocaml/_build/default/main.exe",
+        "11"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 6.532125,
+      "log_sha256": "9e3462a2ec2d5d745342ac4ea4ec57e4ac6a4fe8a2f75c4d86b0663689b1b19f",
+      "raw_output_sha256": "9e3462a2ec2d5d745342ac4ea4ec57e4ac6a4fe8a2f75c4d86b0663689b1b19f"
+    },
+    {
+      "name": "runtime-5-ocaml",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/ocaml/_build/default/main.exe",
+        "12"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 6.577625,
+      "log_sha256": "5babb6ca7337482d410aa5f3b807a97840d1090f8b8ccce16390c6f9da249c6e",
+      "raw_output_sha256": "5babb6ca7337482d410aa5f3b807a97840d1090f8b8ccce16390c6f9da249c6e"
+    },
+    {
+      "name": "runtime-5-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "12"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 7.375875,
+      "log_sha256": "5babb6ca7337482d410aa5f3b807a97840d1090f8b8ccce16390c6f9da249c6e",
+      "raw_output_sha256": "5babb6ca7337482d410aa5f3b807a97840d1090f8b8ccce16390c6f9da249c6e"
+    },
+    {
+      "name": "runtime-6-bend",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main",
+        "--threads",
+        "1",
+        "--gpu",
+        "off",
+        "--",
+        "13"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 8.915667,
+      "log_sha256": "9146fe56707038591e427ad99a28d9bbcb76175cd79ac9ad440db6bdb17d11f3",
+      "raw_output_sha256": "9146fe56707038591e427ad99a28d9bbcb76175cd79ac9ad440db6bdb17d11f3"
+    },
+    {
+      "name": "runtime-6-ocaml",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/ocaml/_build/default/main.exe",
+        "13"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 7.608292,
+      "log_sha256": "9146fe56707038591e427ad99a28d9bbcb76175cd79ac9ad440db6bdb17d11f3",
+      "raw_output_sha256": "9146fe56707038591e427ad99a28d9bbcb76175cd79ac9ad440db6bdb17d11f3"
+    },
+    {
+      "name": "check-only-0",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 162.13875,
+      "log_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84",
+      "raw_output_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84"
+    },
+    {
+      "name": "check-only-1",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 165.289708,
+      "log_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84",
+      "raw_output_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84"
+    },
+    {
+      "name": "check-only-2",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 238.262167,
+      "log_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84",
+      "raw_output_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84"
+    },
+    {
+      "name": "check-only-3",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 165.611417,
+      "log_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84",
+      "raw_output_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84"
+    },
+    {
+      "name": "check-only-4",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 144.802583,
+      "log_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84",
+      "raw_output_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84"
+    },
+    {
+      "name": "check-only-5",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 149.608458,
+      "log_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84",
+      "raw_output_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84"
+    },
+    {
+      "name": "check-only-6",
+      "command": [
+        "/Users/oobi/Documents/gpt4/attest-bend-toolchain/bin/bend",
+        "/Users/oobi/Documents/gpt4/attest-stage-b/.gatework/bend-pilot/builds-cr65kvbg/runtime/bend/main.bend",
+        "--check-only"
+      ],
+      "cwd": "/Users/oobi/Documents/gpt4/attest-stage-b",
+      "exit": 0,
+      "ms": 145.76,
+      "log_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84",
+      "raw_output_sha256": "3155557f2fa6b6fe55b661347e56893dc0b52fa1977b6800a8d26dbff1d3db84"
+    }
+  ]
+}

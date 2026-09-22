@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "pin": "eebe37e00ecb7fdce739c49f50a6dd49c45022b1",
+  "pin_worktree": "/Users/oobi/Documents/kan-sp1-lang-assay-pin",
+  "executable_sha256": "35d102b909bfba3a27046402ec517507ebf47ed51a9622e3fc4feaffbc0ac4f3",
+  "script_sha256": "246087c464ad20dd4cba4e62a287beb61df27c4b7bea7cd88b8b34a014d7fb6e",
+  "rows": [
+    {
+      "row": "f2-a",
+      "source_sha256": "a1dfa6ed6568297be41e14251a1567b9fd133c869048201dba49a48abf86753a",
+      "output_sha256": "d33e5fab092f0cd6371189dfe421d97f6e64d6dc94decf0667fba8c739271b4c"
+    },
+    {
+      "row": "f2-a-opaque",
+      "source_sha256": "839c51c805c2d39d58c3b4b984d236a132405d7c1471b28775e478ed362f5eb6",
+      "output_sha256": "5929751379c08bf0a92dd4b8e29ad7b03300d94b9e5fb9307d2f4b416be0b32e"
+    },
+    {
+      "row": "f2-b",
+      "source_sha256": "1d903b3c36c2bc00157d8653327a2fc2a4b4850fa210faa9d17f762b336168ec",
+      "output_sha256": "1feb050f60cfcf786bb7ea08336ba06cb4b007b867bfef35b753c6beec68252a"
+    },
+    {
+      "row": "f2-b-opaque",
+      "source_sha256": "db48d44bc6f15b31bfce60e75e0ed50f385f3eef42dd9aee97ae68c7b27fe68b",
+      "output_sha256": "95227bbca7e962f6986b49ebe8d6dc3ae7bda8dc77db0e84c899cbca9808b9c9"
+    }
+  ]
+}

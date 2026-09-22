@@ -1,0 +1,6 @@
+name = "attestTwin"
+version = "0.1.0"
+defaultTargets = ["AttestTwin"]
+
+[[lean_lib]]
+name = "AttestTwin"

@@ -1,0 +1,11 @@
+Error:
+- expected : 0
+- observed : head
+Context:
+- n    : Nat
+- head : U32
+- tail : core.Env(n)
+Location: core.lookup_head
+95 | def lookup_head(n, head, tail):
+96>|   {==}
+97 |
