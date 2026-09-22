@@ -1,0 +1,392 @@
+{
+  "attacks": [
+    {
+      "label": "attack:P2",
+      "result": {
+        "findings": [
+          {
+            "evidence": "P2:9 byte-exact kernel, P2:143 Q6 kept, only extra lever drops backend Contract.lower (P2:53). Ratio 1.956 vs 1.0 unanswered. Bend 2 commands BELIEVED S2:215 yet P2:47 cites VERIFIED. P2:160 asserts ratio under 1.0 unmeasured.",
+            "id": "R2-SPEED",
+            "lethality": "fatal",
+            "title": "Byte-exact checker keeps the 1.956 deficit, no M0 lever, believed denominator, unmeasured M2 ratio claim"
+          },
+          {
+            "evidence": "A/lib/term.ml:49-50 two formers, shape.ml:10-15 closed. A/lib/erase.ml:567,581,583,684,686 refuse SPar and SNu, spec-count shapes admitted 3, so Quot and coinductives are names until M2/M3. Host ecall mapping by global name, no gate.",
+            "id": "R0-SMUGGLE",
+            "lethality": "survivable",
+            "title": "Two formers hold, R0 rows 3 and 5 are names at the pin, extern by-name table in lower is ungated"
+          },
+          {
+            "evidence": "P2:41 host-in-kernel: Host is an ordinary inductive (P2:103), a value in a type is quantity Zero and well typed, lean accepts the twin, row dropped by P2's own rule. wrong-index, large-elim-prop cite no module. level.ml 11 lines.",
+            "id": "R1-REFUSE",
+            "lethality": "survivable",
+            "title": "host-in-kernel REFUSE row is unrefusable, two rows name no site, levels absent at M0"
+          },
+          {
+            "evidence": "P2:138 reopens Q1 on S2:24 DEFAULT_TARGET riscv64im. S2 section 8 reference is rv32im only; T6 assembled rv64im W-forms (addw 00b5053b). P2:140 cycles = total_instruction_count while cached report.rs:33 carries gas().",
+            "id": "R3-ISA",
+            "lethality": "survivable",
+            "title": "RV64IM and ELF64 rest on one S2 row, W-forms lack a reference, cost model omits precompile gas"
+          },
+          {
+            "evidence": "erase.ml:102-104 and check.ml:61-62 make bytes proof-term independent, but the gate's 'without proofs' transform is undefined. addLt/subLe recognition sits in dropped emit/contract.ml:311,721 (P2:151); eterm.ml:24-38 ktm has no carrier.",
+            "id": "ERASE-LEVER",
+            "lethality": "survivable",
+            "title": "TRACE-ERASURE is a two-build test and the proof-supplied add has no site in the five walks"
+          },
+          {
+            "evidence": "P2:137 keeps assay because mech is UNMEASURED (S1 section 3, Stage 0 step 5). P2:83 flip at 211 ms is the 2x ruling restated. A/lib 6,193 lines exceeds veil 5,250 and mech 3,000 bounds; P2 section 13 not read in full.",
+            "id": "Q0-PROVISIONAL",
+            "lethality": "survivable",
+            "title": "Kernel choice restates the ruling, mech unmeasured, trusted-lines bound over the family limits"
+          },
+          {
+            "evidence": "P2:118-134 adds lower, encode (four files), an RV64IM emulator (0 lines today) and a Rust harness, all trusted. P2:160 M2 exit needs ratio under 1.0 while assay's M1 ratio is open at 1.956; no RATIO-FAIL branch.",
+            "id": "STAGING",
+            "lethality": "survivable",
+            "title": "Three new trusted components and an M2 exit that assumes the open ratio is closed"
+          }
+        ],
+        "ok": true,
+        "path": "/Users/oobi/Documents/kan-sp1-lang-attack-2.md"
+      },
+      "run": "wf_bc04b059-186"
+    },
+    {
+      "label": "attack:P3",
+      "result": {
+        "findings": [
+          {
+            "evidence": "A/lib/rules.ml:20 \"SPar arrives at M1\", :23 \"SNu arrives at M2\" (VERIFIED rg); S1:104 shapes admitted 3: SPi SColl SMu; P3:34 Quot and subtype rows, P3:80 marks the count BELIEVED, P3:129 TWIN-LEAN Stage A gate",
+            "id": "R1-UNADMITTED-SHAPES",
+            "lethality": "fatal",
+            "title": "M0 ACCEPT corpus needs SPar and SNu, which the carried kernel refuses"
+          },
+          {
+            "evidence": "M/lib/check.ml:43 Level_scope.check per checked term, :265 :448 :527 solver calls (VERIFIED rg); A/README.md:3 ratio 1.956099 (VERIFIED); S2:215 bend commands BELIEVED, bend absent (brief 236); P3:136 commits rung 5 at 1.0",
+            "id": "R2-SPEED",
+            "lethality": "fatal",
+            "title": "Overlay adds a level solver to a 1.956 checker; no M0 lever on the check walk; no measured Bend 2 denominator"
+          },
+          {
+            "evidence": "A/lib/term.ml:46-59 13 constructors, two formers; shape.ml:11-15 five shapes (VERIFIED awk); P3:16 Commit : Bytes -> Prog Unit, Prog occurs once with no Kan construction; A/lib/global.ml:33-38 axioms never reach erased output (VERIFIED rg)",
+            "id": "R0-SMUGGLE",
+            "lethality": "survivable",
+            "title": "Prog is a type former by postulate; extern globals contradict assay's axiom rule"
+          },
+          {
+            "evidence": "cut -f3 M/map/prelude.map.tsv | sort | uniq -c: 2273 UNMAPPED, 185 NEVER, 19 NAME_ONLY, 0 NAME_AND_TYPE (VERIFIED); P3:30 fail when NAME_ONLY or UNMAPPED above zero; P3:133 Stage E exit gate",
+            "id": "STAGE-E-PRELUDE-COUNT",
+            "lethality": "survivable",
+            "title": "Count-mode PRELUDE-CHECKED Stage E gate fails on 2,292 of 2,477 names today"
+          },
+          {
+            "evidence": "Brief 306-307, 312-313: Word32 and bare instruction chosen by the TYPE of a quantity-0 binder; P3:34 Word32 with bound proof in ACCEPT, P3:35-37 unproved Word32 addition in REFUSE; brief 114-116 gate has no second ELF",
+            "id": "TRACE-ERASURE-LEG",
+            "lethality": "survivable",
+            "title": "Second gate leg is a REFUSE program on every bound-proof row"
+          },
+          {
+            "evidence": "diff A/lib vs V/lib changed lines: check 37, conv 0, eval 0, rules 662 (VERIFIED); P3:62 claims byte-for-byte shared files and a 212-line delta; S1:155 delta cut against veil; P3:141 moves bound to 7,000",
+            "id": "OVERLAY-PORT-ACCOUNTING",
+            "lethality": "survivable",
+            "title": "Overlay files are not shared byte for byte between assay and veil"
+          },
+          {
+            "evidence": "fd 13 right (S2:88 VERIFIED); S2:27 RV32 unsupported BELIEVED; P3:84 8-byte alignment no S2 row; P3:92 UINT256_MUL layout BELIEVED; P3:109 twin cycle parity no ecall rule; S2 section 8 Apple clang lacks RISC-V, P3:131 names no path",
+            "id": "R3-BELIEVED-ROWS",
+            "lethality": "survivable",
+            "title": "Target facts cited as fact from BELIEVED rows; clang path unnamed"
+          }
+        ],
+        "ok": true,
+        "path": "/Users/oobi/Documents/kan-sp1-lang-attack-3.md"
+      },
+      "run": "wf_bc04b059-186"
+    },
+    {
+      "label": "attack:P1",
+      "result": {
+        "findings": [
+          {
+            "evidence": "A/lib/erase.ml:174-175,183 re-enter Check.infer_univ and Eval.whnf per binder; A/dev/M1-CLOSE.md:57-58 ratio 1.16 at load 14.57 vs 1.956 at load 32.99, identical sources; S2:213-214 Bend 2 check and compile commands BELIEVED; P1:36-37 band BELIEVED",
+            "id": "R2-SPEED",
+            "lethality": "fatal",
+            "title": "M1 ratio 1.0 unreachable on any measured number; walks=5 is a decoration; 1.956 is a load artifact; Bend 2 denominator has no command"
+          },
+          {
+            "evidence": "A/lib/erase.ml:182-187 tests as_univ, width_zero (:161), proof_free after Eval.whnf; term T := Elim p (motive Type) (refl => Ran (SColl 0)) erases with body refl, stays runtime with a postulated body; P1:54 dismisses this hole",
+            "id": "R5-ERASURE",
+            "lethality": "survivable",
+            "title": "TRACE-ERASURE theorem false as stated: runtime_ty reads proof bodies through whnf plus width_zero under subsingleton large elimination"
+          },
+          {
+            "evidence": "A/lib/term.ml:46-59 thirteen constructors, A/lib/shape.ml:10-15 closed, V/lib/shape.ml:16 SZk template; A/lib/check.ml:183-187 types LInt via Prim.nat_ty so new kinds add kernel names; rules.ml:215 SPi quantity on binder; P1:16 postulates vs brief:350 AXIOMS exact",
+            "id": "R0-SMUGGLE",
+            "lethality": "survivable",
+            "title": "No third former on the pin; literal typing rule, quantity wording and precompile postulates are decorations the R0 gates cannot see"
+          },
+          {
+            "evidence": "P1:26 rows Or into Type, Type:Type, Word32 add, Sigma projection, Host in pure def lack a pin site; P1:97 emits a check instead of refusing; A/lib/erase.ml:560-562 refuses by shape only; S1:103-104 SPar not admitted so AXIOMS vacuous at M0",
+            "id": "R1-STRENGTH",
+            "lethality": "survivable",
+            "title": "Five REFUSE rows have no refusal site; Word32 and Host rows cannot refuse in check and the Lean twin of Word32 exits 0; Acc erasure site unnamed"
+          },
+          {
+            "evidence": "S2:44-64 codes match P1:88-95, S2:88 FD 13, S2:25,94 64-bit VM VERIFIED; brief:488 Q2 says RV32IM twin, brief:107 ELF32; P1:113-114 DEFAULT KEPT; P2:138-139 and P3:116 mark REOPENED; S2:83-84 UINT256 carry variants unaddressed",
+            "id": "R3-TARGET",
+            "lethality": "survivable",
+            "title": "Codes and layout verified against S2; Q1 and Q2 wording changed to RV64IM ELF64 without the REOPENED mark siblings carry"
+          },
+          {
+            "evidence": "S1:74-83 kernel=3997 bound=4000; P1:104 adds literal kinds, each needs a Prim name and check rule in counted files; P1:133 lifts the bound only at M1; P1:60 7,938 mech lines BELIEVED and include the overlay P1 ports",
+            "id": "R6-KERNEL",
+            "lethality": "survivable",
+            "title": "TRUSTED-LINES has 3 lines of headroom at M0 for four new literal kinds; mech line count overstates the gap"
+          },
+          {
+            "evidence": "brief:113-116 vs P1:53 bodies-only; A/dev/M1-CLOSE.md:57-58 two attempts open on the lineage; P1:47 skip rule under 30 GiB with brief:539 disk at 27 GiB",
+            "id": "R7-STAGING",
+            "lethality": "survivable",
+            "title": "TRACE-ERASURE redefined to bodies only without REOPENED; weeks claim BELIEVED; M0 exit OPEN on PROVE-ONCE until the USER disk step"
+          }
+        ],
+        "ok": false,
+        "path": "/Users/oobi/Documents/kan-sp1-lang-attack-1.md"
+      },
+      "run": "wf_4e11f4d5-c55"
+    }
+  ],
+  "brief": "/Users/oobi/Documents/kan-sp1-lang-design-brief.md",
+  "date": "2026-09-22",
+  "files": [
+    {
+      "lines": 233,
+      "path": "/Users/oobi/Documents/kan-sp1-lang-dossier-kernels.md"
+    },
+    {
+      "lines": 284,
+      "path": "/Users/oobi/Documents/kan-sp1-lang-dossier-toolchain.md"
+    },
+    {
+      "lines": 139,
+      "path": "/Users/oobi/Documents/kan-sp1-lang-dossier-priorart.md"
+    },
+    {
+      "lines": 140,
+      "path": "/Users/oobi/Documents/kan-sp1-lang-proposal-1.md"
+    },
+    {
+      "lines": 174,
+      "path": "/Users/oobi/Documents/kan-sp1-lang-proposal-2.md"
+    },
+    {
+      "lines": 147,
+      "path": "/Users/oobi/Documents/kan-sp1-lang-proposal-3.md"
+    },
+    {
+      "lines": 59,
+      "path": "/Users/oobi/Documents/kan-sp1-lang-attack-1.md"
+    },
+    {
+      "lines": 87,
+      "path": "/Users/oobi/Documents/kan-sp1-lang-attack-2.md"
+    },
+    {
+      "lines": 48,
+      "path": "/Users/oobi/Documents/kan-sp1-lang-attack-3.md"
+    },
+    {
+      "lines": 155,
+      "path": "/Users/oobi/Documents/kan-sp1-lang-design-verdict.md"
+    }
+  ],
+  "judge": {
+    "flipTrigger": "not held, UNMEASURED: assay median 421.774 ms over 7 runs on 77 fixtures (S1 section 3); M/lib has no term.ml or shape.ml, veil submodule absent, mech unbuilt; term.ml A vs V byte-identical (diff -q), overlay needed as code only.",
+    "kernelBase": "assay",
+    "name": "attest, extension .att, driver attest (attest check, attest build, attest run, attest --axioms, attest --externs, attest --passes, attest spec-count), from P1:7, the same word P3 proposed;  collision note INFORMATION only, every row BELIEVED because no registry host answered from this sandbox: settle with curl on https://crates.io/api/v1/crates/attest, https://pypi.org/pypi/attest/json, https://registry.npmjs.org/attest, https://formulae.brew.sh/api/formula/attest.json and https://api.github.com/search/repositories?q=attest;  attest is a common English word and a probable crate and test-library name;  vouch (P2:7) is the runner-up word if the user prefers a rarer one",
+    "openQuestions": [
+      "HANDOFF-NEEDED (not a user question).  DONE: predecessor line read, P1 (140 lines) and A1 (59 lines) read in full, 13 probes run (runners /private/tmp/claude/kan-sp1-lang-panel/judge-probe.sh and judge-probe2.sh), scores and rulings fixed (fields here).  ON DISK: /Users/oobi/Documents/kan-sp1-lang-design-verdict.md chunk 1 only, 3,292 bytes, 26 lines: header (date 2026-09-21, DRAFT), Ratification, Scores table, Winner.  LEFT: append the sections Probes, Per-proposal verdict, Findings, The synthesized design, Milestones M0 to M3, Trusted lines, Stage 0 USER steps, Name, Open questions with cat >> heredocs under 8 KB each, every command line ending ' # [skip-disk]', two spaces after periods and semicolons, ASCII, no dashes, at most 320 lines total, then check: wc -l FILE;  rg -n '[^\\x00-\\x7F]' FILE;  rg -n '[a-z0-9)]\\. [A-Z]' FILE.  The sub-budget hook denied every Bash call after call 18, so nothing below reached the file.  PROBES (all ran 09-21/22, VERIFIED unless marked): 1 rg -n '^  \\| ' A/lib/term.ml prints 13 constructors at :47-59, type-building Univ Lan Ran.  2 A/lib/shape.ml:10-15 five shapes;  V/lib/shape.ml:16-19 adds SZk SFhc SMpc;  diff -q term.ml A vs V identical, shape.ml differ;  M/lib has no term.ml or shape.ml.  3 wc: A/lib 6,193 lines 22 files, M/lib 3,744 in 9, V/lib 7,576 in 23.  4 zsh -f A/dev/r0-count.sh R0-COUNT OK;  A/_build/default/bin/assay.exe spec-count: formers 2 Lan Ran, shapes declared 5, admitted 3 SPi SColl SMu, named rules present 3 proof-irrelevance subsingleton-large-elimination literal-fast-path;  zsh -f A/dev/trusted-lines.sh: kernel=3997 want=3997 bound=4000, emitter=1800/1800, assembler=238/600, keccak=89/250, abi=35/400, layout=8/250, listing=54/250, total=2224/3550 OK;  A/lib/rules.ml:20-23 SPar arrives at M1, SNu at M2;  A/dev has denominator.sh, denominators.json, gates.sh (gates.sh has no TRACE-ERASURE line, so P2's Stage F precedent stays BELIEVED).  5 A/lib/erase.ml:173-177 proof_free = Eval.quote then Check.infer_univ;  :182-187 runtime_ty = Eval.whnf then as_univ, width_zero, proof_free;  :191-193 point_runtime;  A/lib/eval.ml:84-93 unfolds a reducible non-recursive Def, keeps Axiom and Prim neutral.  6 A/lib/literal.ml:5-7 LString or LInt;  A/lib/check.ml:183 types LInt by a kernel name;  check.ml:61-62 readable;  A/lib/rules.ml:215 SPi quantity on the first component;  M/lib/check.ml:43 Level_scope.check per checked term.  7 A/dev/M1-CLOSE.md:58-59 attempt 01 ratio 1.163762 load 14.57, attempt 02 ratio 1.956099 load 32.99.  8 /Users/oobi/.sp1/bin/cargo-prove prove --version prints cargo-prove sp1 (d454975 2026-04-11);  plain --version refused.  9 clang rv64im: addi a0,a0,1 00150513, addw 00b5053b, mulw 02b5053b, lui t0,0x10 000102b7, addi t0,t0,0x109 10928293, ecall 00000073, ld sp,0(sp) 00013103;  rv32im add 00b50533, mul 02b50533, lw 00012103.  10 cut -f3 M/map/prelude.map.tsv: 19 NAME_ONLY, 185 NEVER, 2273 UNMAPPED, 0 NAME_AND_TYPE.  11 cached bend_README.md:122-124 names only bend guide and bend PROOF.bend;  raw.githubusercontent.com fetch refused;  check and compile subcommands BELIEVED, settled by bend --help after USER step 2.  12 df -g: 21 GiB free.  13 no registry host answered, name rows BELIEVED.  PER-PROPOSAL: P1 r0 7 (walk holds, R0-DIFF real;  minus postulate route A1 F3, literal kinds as kernel rules, SPi quantity wording), strength 7 (24+12+8 rows, every R0 row mapped P1:25-28 :72-78;  minus five REFUSE rows without a site, two unrefusable, Word32 twin exits 0, M0 monomorphic), speed 5 (recipe A/dev/denominator.sh, commands marked BELIEVED P1:32, six twins, Q6 levers, counters, UNMET path P1:37;  minus lone 1.956, walks=5 hides reentries, no per-pass split, two twins not like for like, 3-rung ladder), target 9 (all S2 rows VERIFIED, 15 codes matched by A1 F5, probe 9;  minus Q2 wording, UINT256 variant), erasure 7 (E1-E3 by line, theorem stated, GUARD-TWIN;  minus false as stated F2), kernelchoice 8 (P1:58-61), staging 7 (six stages, one mutation per gate;  minus 3 lines TRUSTED-LINES headroom, moved gate texts, M0 exit waits on USER step 1);  no BELIEVED cited as fact.  P2 49: round 1 kept except erasure 8 to 7 (P2:75 'not on the proof content' and --trust-proofs replacing arguments only;  probe 5 shows runtime_ty unfolds a reducible global proof, so a binder's erasure can turn on a global proof body under subsingleton large elimination).  P3 41 unchanged.  FINDINGS A1: F1 STANDS IN PART NOT FATAL (reentries hidden, fix PASSES prints walks=5 reentries=<n>;  1.956 quoted alone, quote both rows and the load;  Bend command BELIEVED for every proposal, rung 1 numerator per-pass split at Stage A, rung 2 denominator plus hash at Stage 0c, if no compile subcommand then attest check vs bend check is the like-for-like row;  twins pinned per pair, Word32 over Fin with a proof in both, keccak row on the pure core in both;  REFUTED 'unreachable on any measured number' since no denominator exists, ratio informational at M0 and binding at M1 with a printed UNMET path, same as round 1 on A2 F1).  F2 STANDS SURVIVABLE, reaches P2 and P3, mechanism CONFIRMED probe 5, fixture BELIEVED;  fix: erasure decides positions with an evaluator that never unfolds a quantity-0 global, TRACE-ERASURE on proof bodies through it, A1 F2 term is the seed mutation.  F3 STANDS: literal kinds as named rules in spec-count;  SPi wording fixed;  postulates dropped for Prog free monad plus EXTERN-ROSTER and --externs;  --axioms empty at M0 and M1, exactly Quot.sound from M2.  F4 STANDS: a site per REFUSE row, LOWER-REFUSE gate for Word32 without proof and the pure Host call (also fails by type once Prog is a type), Word32 twin over Fin, Acc erasure fixture at Stage B.  F5 IN PART: Q2 wording REOPENED (OQ1);  pick UINT256_MUL 0x0001011D, MUL_CARRY 0x00010131 an M2 option;  refuted for Q1 (default text says ISA per S2).  F6 STANDS CONFIRMED kernel=3997/4000, OQ4 bounds 4,100 M0 and 4,400 M1.  F7 IN PART: TRACE-ERASURE on bodies REOPENED (OQ7), PROVE-ONCE OPEN until USER step 1, weeks BELIEVED.  A2 and A3 rulings of round 1 unchanged.  DESIGN: round 1 design (A/lib eebe37e byte-exact term.ml shape.ml spec_count.ml with R0-DIFF vs kanon 2c2e6e6;  level overlay merge at M1;  erase and eterm RV64 reprs erase.ml:249 :413 eterm.ml:17-22 RWord RStruct RUnion RFunc RThunk plus KPrim;  budget counter;  R0 table five rows SPi SColl SPar(M2) SMu SNu(M3) with Lean features, lowering and gates per P1:72-80;  Word32 = Lan_SPi Nat (n < 2^32) second component erased by Prop type;  ambient Prop, proof irrelevance, subsingleton large elimination, Quot.sound from M2;  Host = Lan (SColl 8), Prog = Lan_SMu over 1 + Sigma (h : Host) (Resp h -> X), In nodes lowered to ecalls, code in t0, a0 a1, a2 for WRITE: Read HINT_LEN 0xF0 HINT_READ 0xF1, Commit WRITE 0x02 fd 13, Halt SHA_EXTEND 0x00300105 SHA_COMPRESS 0x00010106 then 8 COMMIT 0x10, 8 COMMIT_DEFERRED_PROOFS 0x1A a1=0, HALT 0x00, Keccak KECCAK_PERMUTE 0x00010109, Sha256, U256Mul UINT256_MUL 0x0001011D, Bn254 ADD 0x0001010E DOUBLE 0x0000010F, Secp256k1 ADD 0x0001010A DOUBLE 0x0000010B DECOMPRESS 0x0000010C;  never ENTER_UNCONSTRAINED EXIT_UNCONSTRAINED VERIFY_SP1_PROOF MPROTECT POSEIDON2, HOST-ROSTER scans the ELF t0 immediates;  traps: div rem never trap, guest faults only bad memory and bad ecall, bound proof removes a check else check plus branch to Halt 1;  pipeline carry surface 183+143+620+302+1,179 and lib, M/import 1,543 sibling, adapt level erase 1,484 eterm 117 budget 27 bin/assay 221 to attest with --passes --axioms --externs spec-count, differential 88 and diff.py 272 to dev/exec-diff.py, proofs/ reference/ templates, rewrite emit 493 to lower.ml about 900 and asm 238 plus listing 54 to rv64im.ml elf64.ml runtime.ml about 700, drop contract 894 recognize 254 model 143 abi 35 layout 8 keccak 89, new emu/rv64im.ml about 700 outside the base and sp1-exec-harness at most 100 Rust lines on sp1-sdk = 6.1.0 execute only;  ELF64 class BELIEVED until llvm-readelf on the hello guest (elf.rs:84-85 accepts both), little endian, e_machine 243, e_type 2, two PT_LOAD 0x78000000 RX and 0x78100000 RW, p_align 0x1000, no section table, stub sets sp and bump pointer, 96-byte HALT fixture first, no C extension, ENC-XCHECK from the 14-row reference plus one rv64 object per W form;  harness prints EXEC cycles=<n> syscalls=<n> pv=<hex> exit=<n> from ExecutionReport report.rs:40-41, emulator prints the same, EXEC-DIFF compares, exit=fault both sides;  PROVE-ONCE core then verify on the smallest row per milestone under /usr/bin/time -l, skipped with a reason under 30 GiB disk or 16 GiB memory, milestone OPEN on that row;  cost = total_instruction_count plus syscalls, informational M0 binding M1;  R1 LEAN-TWIN 24 ACCEPT 12 REFUSE at M0 with the F4 fixes, 8 more at M1, 48 by M2, coinductives M3, PRELUDE-CHECKED count mode M0, ratchet M1, fail-closed M2;  R2 rows bend_check and bend_compile ms per kloc frozen Stage 0c with DENOMINATORS.sha256 by the A/dev/denominator.sh recipe, twins main.bend with main.lean (S3 finding 2) plus six corpus pairs with lines pinned, M0 levers direct encoding no optimizer fuel WALKS 5 with reentries, M1 levers memoised conversion over hashconsed terms first on proof_free and runtime_ty after a hashconsing bench on the 77 fixtures at Stage F;  trusted base kernel bucket 4,100 M0 4,400 M1, lower 1,100, encoder 800, harness 100, disclosure attest check --axioms, attest check --externs, attest build --passes, attest spec-count, dev/r0-count.sh, dev/r0-audit.sh, dev/trusted-lines.sh, shasum -c dev/DENOMINATORS.sha256).  MILESTONES: M0 Stage A carry (BUILD CARRY R0-COUNT R0-AUDIT R0-DIFF SUITE-KERNEL AXIOMS-empty TRUSTED-LINES rung 1), B erase (TRACE-ERASURE via opaque-proof evaluator with the F2 seed, Acc fixture, LEAN-TWIN), C lower and encode (ENC-XCHECK, ELF-ACCEPTED on HALT), D emulator and harness (EXEC-DIFF HOST-ROSTER PUBVAL-DIGEST, Read Commit Halt), E effects (Keccak Sha256 U256Mul, GUARD-TWIN, LOWER-REFUSE), F freeze (CYCLE-BUDGET pinned, M0-TIME, rung 2 and rung 3 at most 2.0 informational, DENOMINATORS, PASSES, hashconsing bench, PROVE-ONCE smallest row);  M0 gate EXEC-DIFF and TRACE-ERASURE green on 16 rows, LEAN-TWIN 24/24 12/12, AXIOMS empty, PROVE-ONCE done or OPEN;  M1 rung 4 at most 1.0 binding OPEN allowed and printed, CYCLE-BUDGET binding, overlay merged with one level-polymorphic row, PRELUDE-CHECKED check mode, kernel at most 4,400, 8 more rows;  M2 SPar admitted, AXIOMS exactly Quot.sound, 48 rows, fail-closed PRELUDE-CHECKED, full roster vs software twins in cycles, rung 5;  M3 SNu admitted with EXTRA corpus, proved encoder (riscv-coq decode_encode port, S3 finding 5 BELIEVED) replaces ENC-XCHECK, PROVE-ONCE on the largest row.  TRUSTED LINES section: probe 4 rows verbatim plus whole-lib 6,193 informational plus the OQ4 bounds.  STAGE 0 USER (brief 517-526): 1 diskfree --apply to 30 GiB (21 today);  2 Bend 2 install curl -fsSL https://bend-lang.com/install.sh | sh then bend --help recorded into dev/bend-cli.txt;  3 MODIFIED toolchain present (probe 8), build hello guests for riscv64im and riscv32im, llvm-readelf -h, execute both;  4 optional spike;  5 veil checkout (brief 216-217) then zsh -f M/dev/dunecho.sh build and RUNS=7 zsh -f M/dev/bench.sh SUITE-KERNEL 'M/_build/default/test/main.exe M/vendor/veil/test';  6 ADDED cargo fetch sp1-sdk 6.1.0;  7 ADDED Stage 0c denominator.sh freeze with DENOMINATORS.sha256;  8 ADDED round 2: write the two A1 F2 fixtures (refl body vs opaque postulate) and diff the erase output on the pin before Stage B.  NAME section: the name field here.  OPEN QUESTIONS section: OQ1 to OQ6 below plus OQ7 (reopens the TRACE-ERASURE text of brief 4.6): the gate compares an ELF with proof bodies against one with the same proofs replaced by opaque postulates, both erased through the evaluator that never unfolds a quantity-0 global, plus GUARD-TWIN;  recommended ratify, because a bound proof binder changes the instruction (addLt) by design.  NEXT for the relaunched judge: skip all reads and probes, append the sections above in 6 heredoc chunks, run the three checks, return this StructuredOutput with the HANDOFF entry replaced by OQ7.",
+      "OQ1 (reopens Q1 and Q2): target RV64IM and ELF64 for the installed v6.1.0 executor, emulator twin RV64IM.  Recommended: yes;  USER step 3 settles the ELF class and the RV32 refusal (crates/build/src/lib.rs:16 VERIFIED, RV32 refusal BELIEVED).",
+      "OQ2 (reopens Q6): M0-RATIO informational at M0 (rung 3 at most 2.0) and binding at M1 with an OPEN exit allowed and printed;  if bend --help shows no compile subcommand, the like-for-like row is attest check against bend check and the full-compile row is informational.  Recommended: yes;  memoised conversion stays at M1.",
+      "OQ3 (reopens Q5): PRELUDE-CHECKED as a ratchet at M1 (NEVER named, at least 40 percent NAME_AND_TYPE) and fail-closed on NAME_ONLY = 0 and UNMAPPED = 0 at M2, because today's counts are 0 NAME_AND_TYPE, 19 NAME_ONLY, 2273 UNMAPPED, 185 NEVER (probe 10).  Recommended: yes.",
+      "OQ4 (reopens none, TRUSTED-LINES): kernel bucket bound 4,100 at M0 (the literal kinds and their check rules) and 4,400 at M1 (the 267-line overlay), lower 1,100, encoder 800, harness 100;  the gate prints kernel=3997/4000 today (probe 4) and the whole lib is 6,193 lines, informational;  the brief's 3,000 is a kanon-era number neither candidate meets.  Recommended: ratify.",
+      "OQ5 (reopens Q4 in part): Host at M0 is Read, Commit and Halt at Stage D and Keccak, Sha256 and U256Mul at Stage E;  Bn254 and Secp256k1 at M2;  Halt carries the SHA-256 commit path (8 COMMIT, 8 COMMIT_DEFERRED_PROOFS, HALT);  UINT256_MUL 0x0001011D chosen over MUL_CARRY 0x00010131.  Recommended: yes.",
+      "OQ6 (reopens Q0): the flip stays open until USER step 5 prints a mechanism-lang median on the 77 fixtures.  Recommended: keep assay unless that median is under 211 ms, because the overlay costs about 480 lines under either base and term.ml is byte-identical between the assay pin and veil (probe 2)."
+    ],
+    "scores": [
+      {
+        "erasure": 7,
+        "kernelchoice": 8,
+        "proposal": "P1 attest (Kan-honest, strength-first, assay kernel, Host after erase)",
+        "r0": 7,
+        "speed": 5,
+        "staging": 7,
+        "strength": 7,
+        "target": 9,
+        "total": 50
+      },
+      {
+        "erasure": 7,
+        "kernelchoice": 7,
+        "proposal": "P2 vouch (target-first, speed-first, assay kernel byte-exact, Host as Lan SColl 8)",
+        "r0": 8,
+        "speed": 5,
+        "staging": 8,
+        "strength": 6,
+        "target": 8,
+        "total": 49
+      },
+      {
+        "erasure": 6,
+        "kernelchoice": 8,
+        "proposal": "P3 attest (parity-first, concedes the flip, assay base plus overlay port and M/import)",
+        "r0": 6,
+        "speed": 4,
+        "staging": 5,
+        "strength": 6,
+        "target": 6,
+        "total": 41
+      }
+    ],
+    "verdictPath": "/Users/oobi/Documents/kan-sp1-lang-design-verdict.md",
+    "winner": "P1 attest, 50/70, over P2 vouch 49 and P3 attest 41.  Decided on the target axis: the RV64IM W forms, the ecall word and the lui-addi syscall sequence P1 asserts as VERIFIED S2 rows were cross-checked with clang on this machine (addw 00b5053b, mulw 02b5053b, ecall 00000073), while P2 marks the W forms, the ELF class and the pointer convention BELIEVED.  Grafted from P2 and P3: Host as the library sum Lan (SColl 8) and Prog as the free monad Lan_SMu over Host, EXTERN-ROSTER with --externs beside --axioms, the five-rung M0-RATIO ladder with the denominator hash, M/import as a sibling with PRELUDE-CHECKED count mode at M0 and check mode at M1, CYCLE-BUDGET printing cycles and syscalls, one rv64 reference object per W form, KPrim in eterm.  Kept from P1: R0-DIFF, LEAN-TWIN 24 plus 12, ENC-XCHECK, HOST-ROSTER, PUBVAL-DIGEST, GUARD-TWIN, PASSES with reentries, the PROVE-ONCE resource guard, the trap story, the erasure theorem restated with the F2 fix, the name attest."
+  },
+  "judgeRound2": {
+    "flipTrigger": "not held, UNMEASURED: assay median 421.774 ms over 7 runs on 77 fixtures (S1 section 3); mechanism-lang unbuilt, veil submodule absent (S1 section 1); overlay needed as code (M/import/levels.ml:1 vs A/lib/level.ml:2), not as a kernel choice.",
+    "kernelBase": "assay",
+    "name": "vouch, extension .vch, driver vouch (P2:7); collision note INFORMATION only, all BELIEVED, no curl ran: settle with curl on crates.io/api/v1/crates/vouch, pypi.org/pypi/vouch/json, registry.npmjs.org/vouch, formulae.brew.sh/api/formula/vouch.json, api.github.com/search/repositories?q=vouch; attest (P3:7) is a common test-library word",
+    "openQuestions": [
+      "HANDOFF-NEEDED (not a user question). DONE: brief (539 lines), S1, S2, S3, P2, A2, P3, A3 and the kanon verdict headers read in full; scores, Q0 ruling, findings, design, milestones, Stage 0 steps, name and OQ1 to OQ6 fixed (below and in the other fields). LEFT: /Users/oobi/Documents/kan-sp1-lang-design-verdict.md is NOT written (the sub-budget hook denied every Bash call after the reads; no Write tool); no judge probe ran. NEXT (relaunched judge, 4 Bash calls, every command line ends with ' # [skip-disk]'): (1) optional one-call probe: /Users/oobi/.sp1/bin/cargo-prove prove --version; rg -n 'arrives at' /Users/oobi/Documents/kan-sp1-lang-assay-pin/lib/rules.ml; rg -n 'Level_scope.check' /Users/oobi/Documents/kan-sp1-lang-mech-pin/lib/check.ml; cut -f3 /Users/oobi/Documents/kan-sp1-lang-mech-pin/map/prelude.map.tsv | sort | uniq -c. (2) write the verdict in 3 heredoc chunks under 8 KB each (two spaces after periods, ASCII, no dashes, at most 320 lines) with the kanon header shape (Ratification, Scores, Winner, Probes, Per-proposal verdict, Findings, The synthesized design, Milestones M0 to M3, Trusted base, Load-bearing facts still needing verification, Open questions). (3) StructuredOutput as here. SCORE EVIDENCE: r0 8/6 (both: A/lib/term.ml:49-50 two formers, A/lib/shape.ml:10-15 five shapes, spec-count 'formers 2: Lan Ran' and 'shapes admitted 3' per S1 section 5; P2 Host = Lan (SColl 8) construction with term walk P2:31, extern table ungated A2 F2; P3 'Prog' bodiless type constant A3 F3 P3:16). strength 6/6 (P2 10 ACCEPT + 6 REFUSE, every R0 row mapped P2:37-41 and section 8, host-in-kernel unrefusable A2 F3, levels M1 and Quot M2; P3 48 rows and the importer in two modes P3:30-34 but Quot and coinductive rows need SPar and SNu the pin refuses, A/lib/rules.ml:20 'SPar arrives at M1' and :23 'SNu arrives at M2', A3 F1, and count mode fails on 2,292 of 2,477 names, A3 F4: 2273 UNMAPPED 185 NEVER 19 NAME_ONLY 0 NAME_AND_TYPE). speed 5/4 (no Bend 2 number, S2 section 7; P2 drops the sixth walk, WALKS 5, honest OPEN at M1 P2:57, but no M0 lever on the check walk and P2:160 asserts an unmeasured M2 ratio, A2 F1 in part; P3's overlay adds Level_scope.check per term at M0, M/lib/check.ml:43, A3 F2). target 8/6 (both RV64IM at v6.1.0, S2 section 2, crates/build/src/lib.rs:16, and the S2 section 3 codes; P2 marks W forms, ELF class and pointer convention BELIEVED P2:173; P3 states 8-byte alignment, UINT256_MUL layout and twin cycle parity as facts, A3 F7, one point lost). erasure 8/6 (P2 argues from A/lib/quantity.ml:14-22 and erase.ml:102-104 with the --trust-proofs second leg P2:73-75; P3's second leg is a REFUSE program on bound-proof rows, A3 F5). kernelchoice 7/8 (both keep assay on S1 section 3; P3 adds the seam argument P3:59-64; its 212-line delta is wrong, A3 F6: check 37, rules 662). staging 8/5 (P2 six stages, seven weeks, assay gate scripts by copy then delta, seven added gates P2:85-88 and section 12; P3 TWIN-LEAN at Stage A and fail-closed PRELUDE-CHECKED at Stage E unreachable A3 F1 and F4, no weeks, bound moved silently P3:141). Tiebreak (VERIFIED on this machine: S1 timing, S2 'cargo-prove sp1 (d454975 2026-04-11)', S2 clang rows) does not move the order. Q0: DEFAULT KEPT assay; trigger 1 UNMEASURED (assay median_ms=421.774 min 334.754 max 582.340 runs=7 on 77 fixtures, S1 section 3; ls M/vendor/veil | wc -l prints 0, S1 section 1; a flip needs a mech median under 211 ms); trigger 2 HELD as code (M/import/levels.ml:1 Param Max Imax vs A/lib/level.ml:2 type t = int, S1 section 7) and NOT as a kernel choice (267 overlay lines plus a merge of check 37 and rules 662 changed lines, A3 F6); the seam: M/lib/check.ml:43 runs Level_scope.check on every checked term, strictly more work on a byte-identical term.ml (S1 section 5); settle by USER step 5 (brief 216-217) then zsh -f M/dev/dunecho.sh build and RUNS=7 zsh -f M/dev/bench.sh SUITE-KERNEL 'M/_build/default/test/main.exe M/vendor/veil/test'. FINDINGS STAND: A2 F1 in part (no M0 lever on the check walk, P2:160 unmeasured, lines per twin pair unpinned; NOT fatal to the design: the ratio is informational at M0 by the Q3 and Q6 defaults and the M1 exit may stay OPEN as assay's), A2 F2 (EXTERN-ROSTER gate, R0-COUNT prints shapes admitted, AXIOMS empty at M0 and M1), A2 F3 (host-in-kernel becomes a quantity row refused by A/lib/check.ml:61-62, sites named), A2 F4 (ELF class BELIEVED until the hello guest, rv64 reference object per W form, CYCLE-BUDGET prints cycles and syscalls), A2 F5 (KPrim with a closed prim roster), A2 F6, A2 F7 in part (harness bound 100 Rust lines, emulator outside the trusted base), A3 F1 (Quot and subtype rows to M2, coinductives to M3), A3 F2 (overlay at M1, count mode at M0 needs none), A3 F3 (Prog = Lan_SMu free monad over Host, In nodes lowered to ecalls), A3 F4 (count mode informational at M0, fail-closed at M1), A3 F5, A3 F6, A3 F7 in part. REFUTED: A2 F1's 'no lever at all on the check ratio' (the Q6 M1 levers act on the check walk) and its believed-as-fact charge on P2:47 (the recipe row is VERIFIED at A/dev/denominator.sh and P2 marks the commands BELIEVED); A2 F4's 'UINT256_MUL unseen' (P2:140 prints syscalls beside cycles); A3 F3's 'new global kind needed' (the free monad form needs none). DESIGN: A/lib at eebe37e carried byte-exact; adapt level (overlay merge at M1), erase and eterm (RV64 word and heap reprs, erase.ml :249 :413, eterm.ml :17-22, KPrim), budget (counter); R0 rows SPi and SColl admitted real, SMu admitted (Kan by naming plus universal property, S3 finding 7 BELIEVED), SPar declared and admitted at M2 with AXIOMS then exactly Quot.sound, SNu declared and admitted at M3; AXIOMS empty at M0 and M1; Host = Lan (SColl 8), Prog = Lan_SMu over 1 + Sigma (h : Host) (Resp h -> X); roster from S2 section 3 (code in t0, a0 a1, a2 for WRITE): Read HINT_LEN 0xF0 + HINT_READ 0xF1, Commit WRITE 0x02 fd 13, Halt COMMIT 0x10 x8 + COMMIT_DEFERRED_PROOFS 0x1A x8 + HALT 0x00, Keccak KECCAK_PERMUTE 0x00010109, Sha256 SHA_EXTEND 0x00300105 + SHA_COMPRESS 0x00010106, U256Mul UINT256_MUL 0x0001011D, Bn254 ADD 0x0001010E DOUBLE 0x0000010F, Secp256k1 ADD 0x0001010A DOUBLE 0x0000010B DECOMPRESS 0x0000010C; pipeline: carry surface (lexer 183, token 143, parser 620, syntax 302, elab 1,179) and lib, lower rewrite from emit/emit.ml 493 (about 900 lines), encode rewrite from asm/asm.ml 238 and listing 54 (rv64im.ml, elf64.ml, runtime.ml, about 700), drop emit/contract 894, recognize 254, model 143, abi 35, layout 8, keccak 89, execute adapt (bin/differential.ml 88, evm/diff.py 272 to dev/exec-diff.py, harness Rust about 100 lines on sp1-sdk 6.1.0 per S2 section 5, emu/rv64im.ml about 700 outside the trusted base), M/import 1,543 lines carried as a sibling; ELF64 (class BELIEVED until llvm-readelf on the hello guest, elf.rs:84-85 accepts ELF32 or ELF64), little endian, e_machine 243, e_type 2, two PT_LOAD at 0x78000000 RX and 0x78100000 RW, p_align 0x1000, no section table, stub sets sp and bump pointer, calls main, SHA-256 by precompile, 8 COMMIT + 8 COMMIT_DEFERRED_PROOFS + HALT, 96-byte HALT fixture first (S2 section 4); cost = total_instruction_count() plus syscalls (report.rs:40-41), informational M0, binding M1; R1 10 + 6 rows at M0 and 48 by M2, PRELUDE-CHECKED count mode M0 and check mode M1; R2 bend_check and bend_compile ms per kloc frozen at Stage 0c with clang excluded, commands BELIEVED until bend --help, twins = Bend bench/checker main.bend with main.lean (S3 finding 2) plus the corpus with lines pinned per pair, M0 levers direct encoding and no optimizer and WALKS 5, M1 levers memoised conversion over hashconsed terms and per-definition fuel with a hashconsing bench on the 77 fixtures first; trusted base kernel 6,193 (bound 6,200 M0, 6,700 M1), lower 1,000, encode 800, harness 100, disclosure vouch check --axioms and --externs, vouch build --passes, dev/trusted-lines.sh, dev/r0-count.sh, dev/r0-audit.sh, shasum -c DENOMINATORS.sha256. MILESTONES: M0 EXEC-DIFF green on 16 rows, TRACE-ERASURE byte-identical, CYCLE-BUDGET pinned, M0-RATIO rung 3 at most 2.0 informational, AXIOMS empty, PROVE-ONCE on the smallest row; M1 rung 4 at most 1.0 binding (OPEN allowed and printed), CYCLE-BUDGET binding, overlay merged, PRELUDE-CHECKED check mode, one level-polymorphic row; M2 SPar admitted, AXIOMS exactly Quot.sound, 48 rows, rung 5 measured; M3 SNu admitted, full roster, PROVE-ONCE on three programs; ladder rung 1 numerator only (Stage A), 2 both medians plus hash (Stage F), 3 at most 2.0 (M0), 4 at most 1.0 binding (M1), 5 still at most 1.0 after the overlay (M2). STAGE 0 USER: 1 diskfree --apply; 2 Bend 2 install 'curl -fsSL https://bend-lang.com/install.sh | sh' then bend --help; 3 MODIFIED: the succinct toolchain is present (S2 section 1), build a hello guest for riscv64im and riscv32im, llvm-readelf -h, execute both; 4 optional spike; 5 veil checkout (brief 216-217) then the Q0 bench; 6 ADDED cargo fetch of sp1-sdk 6.1.0 for the harness; 7 ADDED Stage 0c dev/denominator.sh with DENOMINATORS.sha256 frozen.",
+      "OQ1 (reopens Q1 and Q2): target RV64IM and ELF64 for the installed v6.1.0 executor, emulator twin RV64IM.  Recommended: yes; settle the ELF class and RV32 support with the Stage 0 hello guest (S2 section 2, crates/build/src/lib.rs:16 VERIFIED, RV32 refusal BELIEVED).",
+      "OQ2 (reopens Q6): M0-RATIO binds at M1 as the default says, with an OPEN M1 exit allowed and printed as assay's is, and a hashconsing bench on the 77 fixtures at M0 Stage F as informational.  Recommended: yes; do not move memoised conversion into M0.",
+      "OQ3 (reopens Q5): PRELUDE-CHECKED at M1 as a covered-percent ratchet (NEVER named, at least 40 percent NAME_AND_TYPE) and fail-closed on NAME_ONLY=0 and UNMAPPED=0 at M2, because today's counts are 0 NAME_AND_TYPE, 19 NAME_ONLY, 2273 UNMAPPED, 185 NEVER (A3 F4).  Recommended: yes.",
+      "OQ4 (reopens none, TRUSTED-LINES): kernel bound 6,200 at M0 and 6,700 at M1 with the overlay counted; the brief's 3,000 is a kanon-era number neither candidate meets (assay 6,193, S1 section 4).  Recommended: ratify.",
+      "OQ5 (reopens Q4 in part): Host at M0 is Read, Commit and Halt at Stage D, Keccak, Sha256 and U256Mul at Stage E, Bn254 and Secp256k1 at M2; Halt carries the SHA-256 commit path (8 COMMIT, 8 COMMIT_DEFERRED_PROOFS, HALT, S2 finding 4).  Recommended: yes.",
+      "OQ6 (reopens Q0): the flip stays open until USER step 5 lands and the RUNS=7 bench prints a mechanism-lang median on the 77 fixtures.  Recommended: keep assay unless that median is under 211 ms, because the overlay port costs about 480 lines under either base."
+    ],
+    "scores": [
+      {
+        "erasure": 8,
+        "kernelchoice": 7,
+        "proposal": "P2 vouch (target-first, speed-first, assay kernel byte-exact)",
+        "r0": 8,
+        "speed": 5,
+        "staging": 8,
+        "strength": 6,
+        "target": 8,
+        "total": 50
+      },
+      {
+        "erasure": 6,
+        "kernelchoice": 8,
+        "proposal": "P3 attest (parity-first, concedes the flip, assay base plus overlay port and M/import)",
+        "r0": 6,
+        "speed": 4,
+        "staging": 5,
+        "strength": 6,
+        "target": 6,
+        "total": 41
+      }
+    ],
+    "verdictPath": "/Users/oobi/Documents/kan-sp1-lang-design-verdict.md",
+    "winner": "P2 vouch, 50/70, with P3's parity spine (M/import as a sibling directory, PRELUDE-CHECKED count mode informational at M0 and check mode at M1, the five-rung M0-RATIO ladder with the denominator hash, --externs beside --axioms, the overlay port as a merge with A3 F6's numbers) and the attack fixes (EXTERN-ROSTER, KPrim in eterm, the --trust-proofs second leg of TRACE-ERASURE, CYCLE-BUDGET printing cycles and syscalls, one rv64 reference object per W form, Prog as the free monad Lan_SMu over Host) grafted in.  P1 was ABSENT on disk (A2:3, A3:3)."
+  },
+  "notes": [
+    "all three scouts, P1 and both judges hit the per-agent context cap; dossiers and the verdict tail were assembled by closer units from handoffs and return values",
+    "P1 ran in round 3 after its round 2 agent died before writing"
+  ],
+  "proposals": [
+    {
+      "label": "propose:P2",
+      "result": {
+        "lines": 174,
+        "ok": true,
+        "path": "/Users/oobi/Documents/kan-sp1-lang-proposal-2.md",
+        "summary": "P2 written: name vouch (.vch), assay kernel provisional (S1 assay 421.774 ms, mech UNMEASURED), five walks, direct ELF64 encoder. Q1 and Q2 REOPENED in wording: installed SP1 v6.1.0 is RV64IM per S2, not RV32IM. No former or shape added; SPar and SNu flagged as declared-not-admitted namings. Numbered-list markers \"1. \" carry single spaces."
+      },
+      "run": "wf_bc04b059-186"
+    },
+    {
+      "label": "propose:P3",
+      "result": {
+        "lines": 147,
+        "ok": true,
+        "path": "/Users/oobi/Documents/kan-sp1-lang-proposal-3.md",
+        "summary": "P3 attest (.att) written, sections 0 to 14, ASCII, no dashes.  Concedes the Q0 flip on S1 numbers (trigger 1 unmeasured, trigger 2 ports to assay for 480 lines).  Q1 REOPENED to RV64IM v6.1.0, Q5 reopened in part (count-mode import at M0).  Residual: lines 145-147 use `N. ` list markers with one space, fix: sd '^([123])\\. ' -- '- W$1: ' FILE."
+      },
+      "run": "wf_bc04b059-186"
+    },
+    {
+      "label": "propose:P1",
+      "result": {
+        "lines": 36,
+        "ok": false,
+        "path": "/private/tmp/claude/kan-sp1-lang-panel/HANDOFF.md",
+        "summary": "[handoff-needed] /private/tmp/claude/kan-sp1-lang-panel/HANDOFF.md  Sub-budget hook blocked Bash after chunk 1.  Proposal file /Users/oobi/Documents/kan-sp1-lang-proposal-1.md holds sections 0 to 2 (36 lines).  Sections 3 to 14 are complete in HANDOFF.md below the marker with three exact append and check commands.  Never write the literal cargocho check into the file."
+      },
+      "run": "wf_bc04b059-186"
+    },
+    {
+      "label": "propose:P1",
+      "result": {
+        "lines": 140,
+        "ok": true,
+        "path": "/Users/oobi/Documents/kan-sp1-lang-proposal-1.md",
+        "summary": "P1 written: name attest (.att, driver attest), 15 sections 0 to 14, assay kernel byte-exact (term.ml:46-59, shape.ml:11-15), Host sum framework-only, R0 table with construction-or-naming per row, TRACE-ERASURE argued from quantity.ml and erase.ml:102-193, ISA resolved to RV64IM per S2, all Q0 to Q7 DEFAULT KEPT, three weak points named. ASCII, two-space spacing, 140 lines."
+      },
+      "run": "wf_4e11f4d5-c55"
+    }
+  ],
+  "runs": [
+    {
+      "id": "wf_c32fcd6a-a46",
+      "journal": "/Users/oobi/.claude/projects/-Users-oobi-Documents-claude4/f7a6ca52-a903-4507-a4b6-d9de980b3634/subagents/workflows/wf_c32fcd6a-a46/journal.jsonl"
+    },
+    {
+      "id": "wf_bc04b059-186",
+      "journal": "/Users/oobi/.claude/projects/-Users-oobi-Documents-claude4/f7a6ca52-a903-4507-a4b6-d9de980b3634/subagents/workflows/wf_bc04b059-186/journal.jsonl"
+    },
+    {
+      "id": "wf_4e11f4d5-c55",
+      "journal": "/Users/oobi/.claude/projects/-Users-oobi-Documents-claude4/f7a6ca52-a903-4507-a4b6-d9de980b3634/subagents/workflows/wf_4e11f4d5-c55/journal.jsonl"
+    }
+  ],
+  "scouts": [
+    {
+      "label": "scout:kernels",
+      "result": {
+        "lines": 143,
+        "ok": false,
+        "path": "/Users/oobi/Documents/kan-sp1-lang-dossier-kernels.md",
+        "summary": "[handoff-needed] /private/tmp/claude/kan-sp1-lang-panel/HANDOFF.md Sections 1-6 written (143 lines). Sections 7-10 drafted in HANDOFF.md blocks A and B, ready to cat >> append. assay built 9 s, suite median 421.774 ms; mech BLOCKED (veil submodule empty). Q0: default assay stands; flip 1 UNMEASURED, flip 2 held as code only."
+      },
+      "run": "wf_c32fcd6a-a46"
+    },
+    {
+      "label": "scout:toolchain",
+      "result": {
+        "lines": 0,
+        "ok": false,
+        "path": "/Users/oobi/Documents/kan-sp1-lang-dossier-toolchain.md",
+        "summary": "[handoff-needed] /private/tmp/claude/kan-sp1-lang-panel/HANDOFF.md holds the complete 246-line dossier text (all probes, fetches, syscall codes, RV32IM table done); sub-budget hook blocked the final write.  Relaunch: copy the DOSSIER block to the target path, run the two rg checks and wc.  Key finding: installed SP1 v6.1.0 is RV64IM, succinct toolchain present."
+      },
+      "run": "wf_c32fcd6a-a46"
+    },
+    {
+      "label": "scout:priorart",
+      "result": {
+        "lines": 34,
+        "ok": false,
+        "path": "/Users/oobi/Documents/kan-sp1-lang-dossier-priorart.md",
+        "summary": "[handoff-needed] /private/tmp/claude/kan-sp1-lang-panel/s3/HANDOFF.md.  Dossier chunk 1 (method, Juvix, Kind2, Bend 2) written, 34 lines.  Chunks 2 to 4 (Lurk through Kan rows, table, seven findings) drafted verbatim in the handoff with exact append and verify commands.  Sub-budget hook denied Bash at call 22.  Cache under s3."
+      },
+      "run": "wf_c32fcd6a-a46"
+    }
+  ],
+  "ratification": {
+    "date": "2026-09-22",
+    "ruling": "ratify all",
+    "openQuestions": "OQ1 to OQ7 ratified by the user; recorded in brief section 10"
+  }
+}

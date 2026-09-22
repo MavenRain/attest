@@ -1,0 +1,99 @@
+{
+  "name": "attest",
+  "date": "2026-09-22",
+  "deliverable": "/Users/oobi/Documents/attest-m0/M0-PLAN.md",
+  "never_commit": true,
+  "runs": [
+    {
+      "id": "wf_86a88ed7-c13",
+      "script": "kan-sp1-lang-m0-plan-launch",
+      "child_script": "/Users/oobi/Documents/kan-sp1-lang-m0-plan.js",
+      "agents": 16,
+      "errors": 0,
+      "minutes": 62,
+      "author_rounds": 2,
+      "shape_rounds": 2,
+      "record": {
+        "lines": 688,
+        "headings": 14,
+        "dashes": 0,
+        "pending": 0
+      },
+      "attacks": {
+        "K1": 5,
+        "K2": 7,
+        "K3": 7
+      },
+      "confirmed": 7,
+      "fixed": 7,
+      "refuted": [
+        "K1-3",
+        "K2-7"
+      ],
+      "below_cap": [
+        "K1-4",
+        "K1-5",
+        "K3-7"
+      ],
+      "unmet": []
+    },
+    {
+      "id": "wf_8fb4e3d0-f4f",
+      "script": "kan-sp1-lang-m0-plan-reverify",
+      "agents": 5,
+      "fable_limit_failures": [
+        "reverify",
+        "fix-r2"
+      ],
+      "retried_on": "opus",
+      "reverify": {
+        "ok": false,
+        "problems": [
+          "C1",
+          "C4",
+          "C5",
+          "C7"
+        ],
+        "file": "/Users/oobi/Documents/kan-sp1-lang-m0-reverify.md"
+      },
+      "fix": {
+        "applied": 6,
+        "items": [
+          "K1-4",
+          "K1-5",
+          "C1 rider",
+          "C4 rider",
+          "C5 rider",
+          "C7 rider"
+        ],
+        "edits": 19,
+        "corrections_rows": "R2-1 to R2-6"
+      },
+      "check": {
+        "lines": 694,
+        "headings": 14,
+        "dashes": 0,
+        "pending": 0,
+        "sp1_exec_harness_hits": 0,
+        "verified_on_disk_by_main": true
+      }
+    }
+  ],
+  "files": {
+    "attest-m0/M0-PLAN.md": 694,
+    "attest-m0/parts": "14 part files 00-bindings.md to 13-next.md",
+    "kan-sp1-lang-m0-plan.js": 201,
+    "kan-sp1-lang-m0-attack-1.md": 42,
+    "kan-sp1-lang-m0-attack-2.md": 49,
+    "kan-sp1-lang-m0-attack-3.md": 55,
+    "kan-sp1-lang-m0-adjudication.md": 53,
+    "kan-sp1-lang-m0-reverify.md": 21,
+    "kan-sp1-lang-m0-handoff": "handoff files, both rounds"
+  },
+  "open": [
+    "K3-7: ASD-STE100 sentence-length pass, 33 clauses over 40 words, left to the user",
+    "round-2 edits had a mechanical check only, no independent adversarial re-verify",
+    "Stage 0 USER steps 2, 3, 4, the second half of 5, 6, 7 and 8",
+    "Stage A of M0 starts on a new user ask"
+  ]
+}
