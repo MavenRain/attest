@@ -1,0 +1,7 @@
+/_build/
+/.gatework/
+/.kanon-exec/
+/.kanon-wait/
+/.kanon-replies/
+__pycache__/
+*.pyc

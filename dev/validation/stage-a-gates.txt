@@ -1,0 +1,53 @@
+OK build: 0 errors, 0 warnings
+BUILD OK
+CARRY files=594 diff=0 unlisted=0
+PIN eebe37e
+CARRY reference=assay:git,mechanism:git
+R0-COUNT formers=2 schema=4 shapes=5 admitted=3 OK
+R0-AUDIT OK
+R0-DIFF vs=2c2e6e6 rows=3 diff=0 OK
+R0-DIFF reference=kanon:git
+HOUSE no-exception OK
+HOUSE no-mutable-state OK
+HOUSE no-mutable-state roots=lib
+HOUSE one-catch-site OK
+test/sys_io.ml:19:  try Ok (thunk ()) with Sys_error m -> Error m
+HOUSE no-bool-match OK
+HOUSE no-em-dash OK
+HOUSE no-loop-keyword OK
+HOUSE no-bare-division OK
+HOUSE OK
+DRIVER-EXIT pass=13 fail=0 stage=A OK
+BENCH SUITE-KERNEL median_ms=196.701 min_ms=195.180 max_ms=202.228 runs=7
+SUITE-KERNEL pass=337 fail=0 median_ms=196.701 OK
+SL-SURFACE constructor-sugar OK
+SL-SURFACE mutual-sugar OK
+SL-SURFACE match-elaboration OK
+SL-SURFACE mu-roundtrip OK
+SL-SURFACE legacy-mu-roundtrip OK
+SL-SURFACE mutual-roundtrip OK
+SL-SURFACE legacy-mutual-roundtrip OK
+SL-SURFACE match-roundtrip OK
+SL-SURFACE case-roundtrip OK
+SL-SURFACE mixed-fields-roundtrip OK
+SL-SURFACE nested-match-roundtrip OK
+SL-SURFACE empty-match-roundtrip OK
+SL-SURFACE case-numeric-roundtrip OK
+SL-SURFACE match-numeric-refusal OK
+SL-SURFACE mutual-empty-refusal OK
+SL-SURFACE mutual-singleton-refusal OK
+SL-SURFACE mutual-unclosed-refusal OK
+SL-SURFACE mutual-and-refusal OK
+SL-SURFACE nu-term-refusal OK
+SL-SURFACE nu-declaration-refusal OK
+SL-SURFACE-OK 20/20
+SL-SURFACE OK
+AXIOMS corpus/id.att count=0
+AXIOMS-empty rows=1 OK
+TRUSTED-LINES kernel=3997/4100 lower=0/1100 encoder=0/800 harness=0/100 OK
+TRUSTED-LINES whole_lib=6193/6193 INFO
+M0-RATIO rung=1 pass=parse ms=0.013113 runs=7 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=elaborate-check ms=0.022888 runs=7 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=2 OPEN reason=denominators-not-frozen
+M0-RATIO rung=3 OPEN reason=denominators-not-frozen
+STAGE-A OK

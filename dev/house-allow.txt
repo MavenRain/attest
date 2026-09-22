@@ -1,0 +1,1 @@
+bin/attest.ml	parse	| other -> Error (Arguments other)	CLI string-list dispatch rejects all unrecognized argument sequences.

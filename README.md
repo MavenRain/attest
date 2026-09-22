@@ -2,7 +2,29 @@
 
 attest is a programming language with Kan extensions as its only type formers.  The compiler targets the RISC-V bytecode that Succinct SP1 proves.
 
-The language code arrives at Stage A of M0 and follows the repository layout in design/attest-m0/M0-PLAN.md, section 3.
+M0 Stage A implements the carried Kan kernel, parser, checker, and axiom
+disclosure. RISC-V emission and SP1 execution follow in later stages of
+[the M0 plan](design/attest-m0/M0-PLAN.md).
+
+With OCaml 5.2 or newer, Dune 3.24, Zarith 1.14, Python 3, ripgrep, and zsh
+already available:
+
+```sh
+zsh -f dev/dunecho.sh build
+_build/default/bin/attest.exe check corpus/id.att
+_build/default/bin/attest.exe check --axioms corpus/id.att
+_build/default/bin/attest.exe spec-count
+zsh -f dev/gates.sh
+zsh -f dev/dunecho.sh test
+zsh -f dev/mutations.sh
+```
+
+The build wrapper uses `dunecho` when available and otherwise Dune. Set
+`ATTEST_OPAM_SWITCH` to select an installed switch. The tools install nothing.
+
+See [SPEC.md](SPEC.md) for the current command contract and
+[CARRIED.md](CARRIED.md) for provenance and the documented carry adjustments.
+The package is licensed under MIT OR Apache-2.0.
 
 The design corpus is under design/:
 - kan-sp1-lang-design-brief.md: the design brief and the ratified rulings (section 10).

@@ -1,0 +1,3 @@
+AXIOM smuggled
+AXIOMS corpus/id.att count=1
+AXIOMS-empty FAIL: row=corpus/id.att exit=0

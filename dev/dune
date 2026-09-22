@@ -1,0 +1,4 @@
+(executable
+ (name pass_bench)
+ (modules pass_bench)
+ (libraries kanon_kernel kanon_surface unix))

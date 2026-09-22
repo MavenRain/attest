@@ -1,0 +1,2 @@
+E lib/quantity.ml:160:20  unused-var  unused variable unused.
+FAIL build: 1 error, 0 warnings

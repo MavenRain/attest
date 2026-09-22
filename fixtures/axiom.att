@@ -1,0 +1,3 @@
+axiom Witness : Type 0
+
+def idWitness : (x : Witness) -> Witness := fun (x : Witness) => x

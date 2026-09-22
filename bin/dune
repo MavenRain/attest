@@ -1,0 +1,6 @@
+(copy_files ../test/sys_io.ml)
+
+(executable
+ (name attest)
+ (public_name attest)
+ (libraries kanon_kernel kanon_surface))

@@ -1,0 +1,272 @@
+{
+  "version": 1,
+  "stage": "A",
+  "recorded_at": "2026-09-22T17:31:18.034543+00:00",
+  "baseline_command": "zsh -f dev/gates.sh",
+  "baseline_exit": 0,
+  "baseline_sha256": "97bda15413bffa015a4b30dc9741a66d7255b29f8c295b5a605cfac5eb250b59",
+  "implementation_sha256": {
+    "bin/attest.ml": "416392162ee277727afff8cefb043b468e9d4e7db5e027b1d5d0739548be7bf9",
+    "corpus/id.att": "5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768",
+    "dev/axioms-empty.py": "6bbb3e715b054566c72f36112e3a0713017ebcacb307a9bd2a0ec7eb7fd003d7",
+    "dev/axioms-empty.sh": "2c988243d3f0046b7b6411a069db4fa3f8a10372a6b22c6adacdc90697cd77cf",
+    "dev/bench.sh": "5327775ad07b4cc9b5ef83bbc8c1c3326f14e95abf4e20a09c3b5c46be72c3fd",
+    "dev/carry-check.py": "df58b4be8e532f589ff77c16fa5fdb567dc08e45493de875915de174cc1cd08e",
+    "dev/carry-check.sh": "f2cdc9e711e229c77550f0c04175a7bbc0301c0c6571c1161e2fff8ca91127fc",
+    "dev/carry-manifest.json": "6c7d1fc33a56e1962cbe287691f2ede36f6e0ec988534b15377dfdcb89f3f4d7",
+    "dev/driver-exit.py": "5ddb0b20d30ddb5e6890cc28de20e4d15a6d45fc34760752bd34749a4dfce27d",
+    "dev/driver-exit.sh": "5247f8f04edd72bbb32a83a711ac5c44bd0b0720cd009947a26ebb0c525cdfa7",
+    "dev/dunecho.sh": "a2404628fc4669ddc463bf755f8a1785f711975d7dbc7459849a33cbb74bb858",
+    "dev/gates.sh": "b82e31a67255f04bf5f7e0f34f9cae3437b5baf57c03f35ee6d229d8cc8481b7",
+    "dev/house-catchalls.py": "b18fbd431d9b889ad6ada79994a7592955eaf927d4eb67f4c23985d5b9380208",
+    "dev/house.sh": "ba20b71be4572bd613d45969523df0c99cc51e4c8a2cd1dd635c8a3d4534cc36",
+    "dev/mutations.py": "b1c0993c28f070ca7dcbcf8096608636c84973d732f659d469c21ea2065f6151",
+    "dev/mutations.sh": "95d7a63279430ed4c93e54b589f56955dca84f0c1d6623b496c237f649a2ba03",
+    "dev/pass_bench.ml": "951ea46a13f713cc180d6bc38aaa11a91b04f6ac743f0c6562b01f58d9ac078e",
+    "dev/r0-audit.py": "bbdf72153e6abbe9c1ea871c19cc4c145ee2c5f5417d20b5293ed00312c27875",
+    "dev/r0-audit.sh": "41c126b7c05a228e678c03b7d689e575fbd49f9961bd50505fa3dd23b6c2817f",
+    "dev/r0-count.py": "369a24bb641532dc03b8435bd1695676438150a1d9fdfd09b121dce4a63e11d1",
+    "dev/r0-count.sh": "604189b36bad2698c8413ff354a3601679abf1baf18bea23e2606570e7f0242c",
+    "dev/r0-diff.py": "098d00d1129ab4f8c7881d50c36d6154cc236e8d5a3563acf29ee939dfd7a80f",
+    "dev/r0-diff.sh": "ce4be64ad9b6d29987338f75e50dddfcf11510dce104a0ca6eff25515f1cce03",
+    "dev/r0-diff/shape.ml": "dafd7741b4332dcab6faba9cb9afb131fb3654172e0d375b1edd1046e69f7f7b",
+    "dev/r0-diff/spec_count.ml": "9a4cb97373ddbabb6156b04f92cc41803ee1b714391ccb669cf38e60d36437e6",
+    "dev/r0-diff/term.ml": "2de6729958bfbc3af10ed2e9c51d6591ab40fa16bd19b7acea1fbf37adf60690",
+    "dev/ratio.py": "66b249a7a5437165d3cef5915abf5489fb501216e62ab9345881bb8d06b56855",
+    "dev/ratio.sh": "ad82ec3b064daad657f9d68e4706afda30ad383929dc503bc60a728e11e85222",
+    "dev/stage-a-gates.py": "cb4d5b388f69eef032ffe5b6eafb43356bf63ffde8f21a112ffe604c5a3134c6",
+    "dev/trusted-lines.py": "d55e686943dc65001fe25e25199a8ad65f4b6a664136b1c8e838b077007fe3c1",
+    "dev/trusted-lines.sh": "a074d44fc4eae56df855e4b3337f98ac7c9cb8abaa852d480bde7fe5ddd2105f",
+    "dune": "e88e6e149b59ff1b98e4da964d307a9da36df9812091021601ac487bf13f6f87",
+    "dune-project": "9e29997649e5a56cbcf8be2d3d2a7d535400981a2335a49ed1191c9bdc101370",
+    "fixtures/axiom.att": "4816bc22b4df989472ee01ad996a777779a7d25f3fba025c0a24977f67dfb41b",
+    "fixtures/ill-typed.att": "002467c127d1a517b44532639e8e16211381d7798ef4b6eddc6780b18a86d428",
+    "test/dune": "c769410ca780f52a47c36e9f154c1baebbd102750da3ae3aa30a48177a054a10"
+  },
+  "mutation_command": "zsh -f dev/mutations.sh --record",
+  "mutation_exit": 0,
+  "mutations": [
+    {
+      "name": "PIN",
+      "path": "dev/PIN",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/carry-check.sh"
+      ],
+      "before_sha256": "3bf6d34f6b5d4e66313952174d01d60de74e7b189318e03a8b3d052597d5348a",
+      "after_sha256": "45eb77addc102d401e4441309753a6f53fa940bff1a9594261f8e8661b37f2f5",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "PIN .* FAIL expected=",
+      "log": "dev/validation/mutations/PIN.log",
+      "observed": "PIN eebe37e00ecb7fdce739c49f50a6dd49c45022b0 FAIL expected=eebe37e00ecb7fdce739c49f50a6dd49c45022b1",
+      "log_sha256": "3dc83a750a06ff5172789739344ab072dddd9d350485a8281bd8ec2d77cc4eb1"
+    },
+    {
+      "name": "CARRY",
+      "path": "lib/quantity.ml",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/carry-check.sh"
+      ],
+      "before_sha256": "bf3f633c40a0dbb362cf85ca41b798ae0c9e1d4eca7e09f9b6f482bab2bfbb8b",
+      "after_sha256": "b149589b6b2f4e8615136de8712f6d6ed8f8b2b1e4dab64058f6a3e01f64b1c6",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "CARRY FAIL path=lib/quantity.ml",
+      "log": "dev/validation/mutations/CARRY.log",
+      "observed": "CARRY FAIL path=lib/quantity.ml",
+      "log_sha256": "576ebf284424e5ab13134544684d3fc0fea6af2079593796e60185f378161b82"
+    },
+    {
+      "name": "CARRY-unlisted",
+      "path": "lib/unlisted.ml",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/carry-check.sh"
+      ],
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after_sha256": "3b28b97c5be1452321a6af2f9391aa63199c23669adc656736c37b7ae2e4b382",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "unlisted=1",
+      "log": "dev/validation/mutations/CARRY-unlisted.log",
+      "observed": "CARRY files=594 diff=0 unlisted=1 FAIL",
+      "log_sha256": "71a33fa48983cbaa780fcde41916e71c4856710b3f393371331e4d0ea9d70061"
+    },
+    {
+      "name": "CARRY-origin",
+      "path": "dev/carry-manifest.json",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/carry-check.sh"
+      ],
+      "before_sha256": "6c7d1fc33a56e1962cbe287691f2ede36f6e0ec988534b15377dfdcb89f3f4d7",
+      "after_sha256": "953c49c87b703a0338070d706afdfc1f253876a1237cb6e3e7a21682c6f3b426",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "unknown carry origin",
+      "log": "dev/validation/mutations/CARRY-origin.log",
+      "observed": "CARRY FAIL: unknown carry origin: unknown",
+      "log_sha256": "e5a90a80e63f65cfcfc585e858ff95fd5851a3845b2317968b360fd207e06810"
+    },
+    {
+      "name": "BUILD",
+      "path": "lib/quantity.ml",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/dunecho.sh",
+        "build"
+      ],
+      "before_sha256": "bf3f633c40a0dbb362cf85ca41b798ae0c9e1d4eca7e09f9b6f482bab2bfbb8b",
+      "after_sha256": "67f967b031a75a02b3b5e6622b04b3410fda25c93df6a94dcac478073e72be1c",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "unused-var|unused variable unused",
+      "log": "dev/validation/mutations/BUILD.log",
+      "observed": "E lib/quantity.ml:160:20  unused-var  unused variable unused.",
+      "log_sha256": "cc8b76b306c90e90cc31744afde61a096af0bd807ca9af91b7420dd7aa011b6d"
+    },
+    {
+      "name": "SUITE-KERNEL",
+      "path": "test/golden/a01-fun-app.checked",
+      "gate": [
+        "_build/default/test/main.exe",
+        "test"
+      ],
+      "before_sha256": "bf4c9198e5a83ab9d31db5ffbf4916e493f5f6f9ca8a3239736800c355430846",
+      "after_sha256": "9408feba3b02e8a0d483c35d997ecfea0bfe623cecd91fb0860cbb9c7ffcdd64",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "SUITE-KERNEL FAIL",
+      "log": "dev/validation/mutations/SUITE-KERNEL.log",
+      "observed": "SUITE-KERNEL FAIL",
+      "log_sha256": "dcc260fa28be7d266d309314ad9b4b5c1fe19dac46f21cc9b3c26bc851b200eb"
+    },
+    {
+      "name": "R0-former-count",
+      "path": "lib/term.ml",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/r0-count.sh"
+      ],
+      "before_sha256": "2de6729958bfbc3af10ed2e9c51d6591ab40fa16bd19b7acea1fbf37adf60690",
+      "after_sha256": "dedbddf8c9cc177110225ba142b5aaea6a9d628394edab9c11ed637f4b921410",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "R0-COUNT FAIL",
+      "log": "dev/validation/mutations/R0-former-count.log",
+      "observed": "R0-COUNT FAIL: spec-count exit=1: attest: spec-count: expected two formers and five shapes",
+      "log_sha256": "82d6073353d95884595f38043704ff02fdb40fe75023bcf6ad38073d6e70cb36"
+    },
+    {
+      "name": "R0-third-constructor",
+      "path": "lib/term.ml",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/dunecho.sh",
+        "build"
+      ],
+      "before_sha256": "2de6729958bfbc3af10ed2e9c51d6591ab40fa16bd19b7acea1fbf37adf60690",
+      "after_sha256": "32d731d05f8acba189e8170c44d19f022996829f282f8ddc64bacc45d2dd82e3",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "KHost",
+      "log": "dev/validation/mutations/R0-third-constructor.log",
+      "observed": "E lib/term.ml:102:4  partial-match  this pattern-matching is not exhaustive. Here is an example of a case that is not matched: KHost (_, _)",
+      "log_sha256": "c1fa32b92e938642f1fdaf3f78bc90b3fb116e96e80f9c7814c730edcfdfc780"
+    },
+    {
+      "name": "R0-shape",
+      "path": "lib/shape.ml",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/r0-audit.sh"
+      ],
+      "before_sha256": "dafd7741b4332dcab6faba9cb9afb131fb3654172e0d375b1edd1046e69f7f7b",
+      "after_sha256": "d3fe43cdbe52a19d131e108200bd9f0ef4c47216f2de89d8bee6b7e7e0594a24",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "KHost.*no refusal row",
+      "log": "dev/validation/mutations/R0-shape.log",
+      "observed": "SPEC.md: KHost of lib/shape.ml has no refusal row",
+      "log_sha256": "c1a5b5767d603d201442481d1487936a6124ea248cb33404e941e597c6e26879"
+    },
+    {
+      "name": "R0-walk-order",
+      "path": "lib/shape.ml",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/r0-diff.sh"
+      ],
+      "before_sha256": "dafd7741b4332dcab6faba9cb9afb131fb3654172e0d375b1edd1046e69f7f7b",
+      "after_sha256": "877c9f15baed567bfa273165f474deadf2a4666ec9c8d0f9dcb2a409c2b3ad85",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "R0-DIFF FAIL row=shape.ml",
+      "log": "dev/validation/mutations/R0-walk-order.log",
+      "observed": "R0-DIFF FAIL row=shape.ml",
+      "log_sha256": "407bfa45a2f3f55be2c07b660230bc16874bc44e3a33c6d7c868d112f6c50325"
+    },
+    {
+      "name": "R0-reference",
+      "path": "dev/r0-diff/term.ml",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/r0-diff.sh"
+      ],
+      "before_sha256": "2de6729958bfbc3af10ed2e9c51d6591ab40fa16bd19b7acea1fbf37adf60690",
+      "after_sha256": "3737b456e6c638e128b3e2768f269cb00e8732ce87cba190c5bcb5896d1db66d",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "reference checksum",
+      "log": "dev/validation/mutations/R0-reference.log",
+      "observed": "R0-DIFF FAIL row=term.ml: reference checksum",
+      "log_sha256": "133bdb45597fdcf211e260ffb0f8455c97445791a3c599f1a11fe649b560005d"
+    },
+    {
+      "name": "AXIOMS",
+      "path": "corpus/id.att",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/axioms-empty.sh"
+      ],
+      "before_sha256": "5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768",
+      "after_sha256": "04234ca7d567803002ea23f0e9b26952d95b35bd4ddae0dded616176d0ca62f1",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "AXIOM smuggled",
+      "log": "dev/validation/mutations/AXIOMS.log",
+      "observed": "AXIOM smuggled",
+      "log_sha256": "5473f781e664a3e70d89524c69ae55af8a5f69199f37dc6c3593f5ab06b529b1"
+    },
+    {
+      "name": "kernel-growth",
+      "path": "lib/check.ml",
+      "gate": [
+        "zsh",
+        "-f",
+        "dev/trusted-lines.sh"
+      ],
+      "before_sha256": "cdc3712bf5ed0fa49d8dae34ea946d85a195ea94b25235c821b155570010e335",
+      "after_sha256": "45269b6623a54ad6b0a6be723ebf909398d6789a2c571d9650239dfb687de25e",
+      "exit": 1,
+      "caught": true,
+      "diagnostic": "kernel=4197/4100.*FAIL",
+      "log": "dev/validation/mutations/kernel-growth.log",
+      "observed": "TRUSTED-LINES kernel=4197/4100 lower=0/1100 encoder=0/800 harness=0/100 FAIL",
+      "log_sha256": "cbee574c4eccdcb635400e94f24f06ca30d9a6cd9e4beae6e8b74b897ad9dc89"
+    }
+  ]
+}
