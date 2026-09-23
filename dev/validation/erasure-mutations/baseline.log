@@ -1,6 +1,8 @@
 PROP-INDEX pass=28 total=28 OK
 ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
-ERASURE-OPEN rows=2 different=2 OPEN
+INLINE-ERASE pass=13 total=13 OK
+ERASURE-INLINE rows=6 identical=6 carried_diff=6 OK
+ERASURE-OPEN rows=1 different=1 OPEN
 ERASURE-CLI pass=6 fail=0 OK
 LEAN-TOOLCHAIN pinned=leanprover/lean4:v4.33.1 ran=4.33.1 OK
 LEAN-AXIOMS declarations=8 axioms=['AccFixture.R', 'F2Fixture.opaqueProof'] extra=0 OK

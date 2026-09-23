@@ -14,12 +14,14 @@ ROOT = Path(__file__).resolve().parent.parent
 DRIVER = "_build/default/bin/attest.exe"
 ROWS = {"f2-a": ("proof",), "f2-b": ("proof",),
         "proof-alias": ("proof", "alias"), "proof-function": ("proof",)}
-# Open frontier rows (SPEC.md 1.1). A proof written inline inside a
-# runtime-typed definition keeps its body in the carried walker, as a let
-# binding or as a case scrutinee, and selects the erased layout. Each row
-# pairs the inline form with its sealed-postulate twin and pins that their
-# erased outputs still differ. A closed frontier makes these rows fail.
-OPEN_ROWS = {"let-proof": "let-bound proof", "scrutinee-proof": "proof case scrutinee"}
+INLINE_ROWS = ("let-proof", "scrutinee-proof", "projection-proof", "projection-second-proof",
+               "lambda-proof", "binder-proof")
+# Suite rows the slice relies on; the count comes from the suite summary.
+INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
+                               "family-collision", "runtime", "local-type", "rows", "binders",
+                               "motive", "shape-payload", "redeclared", "payload-postulates"))
+# Proofs depending on local binders still select layouts (SPEC.md 1.1).
+OPEN_ROWS = {"local-proof": "proof depending on a local index"}
 
 
 def digest(data):
@@ -56,6 +58,9 @@ def regression(logs):
             or int(summary[2]) != rows):
         raise ValueError(f"PROP-INDEX summary mismatch rows={rows} last={last!r}")
     print(last.decode())
+    unit = execute(logs, "OPAQUE-ERASE", ["_build/default/erase/test/opaque_test.exe"])
+    if unit.stdout != b"OPAQUE-ERASE pass=6 fail=0\n":
+        raise ValueError("incomplete opaque evaluator tests")
     records = []
     for name, proofs in ROWS.items():
         body = Path("fixtures/erasure") / (name + ".att")
@@ -85,11 +90,50 @@ def regression(logs):
                       [DRIVER, "build", "--erase", "fixtures/erasure/f2-a-shape.att"])
     if control.stdout != (logs / "f2-a-body.log").read_bytes():
         raise ValueError("proof shape control changed erasure")
-    unit = execute(logs, "OPAQUE-ERASE", ["_build/default/erase/test/opaque_test.exe"])
-    if unit.stdout != b"OPAQUE-ERASE pass=6 fail=0\n":
-        raise ValueError("incomplete opaque evaluator tests")
     print(f"ERASURE-REGRESSION rows={len(ROWS)} identical={len(records)} "
           f"carried_diff={len(records)} shape_insensitive=1 OK")
+    return records
+
+
+def runtime_output(output):
+    return b"\n".join(line for line in output.splitlines() if not line.startswith(b"erased "))
+
+
+def inline_rows(logs):
+    unit = execute(logs, "INLINE-ERASE", ["_build/default/erase/test/inline_test.exe"])
+    lines = unit.stdout.rstrip(b"\n").split(b"\n")
+    rows = [re.fullmatch(rb"INLINE-ERASE row=(\S+) OK", line) for line in lines[:-1]]
+    names = [row[1].decode() for row in rows if row is not None]
+    summary = re.fullmatch(rb"INLINE-ERASE pass=(\d+) total=(\d+) OK", lines[-1])
+    if (unit.stderr or summary is None or not names or len(names) != len(rows)
+            or int(summary[1]) != int(summary[2]) or int(summary[2]) != len(names)):
+        raise ValueError(f"INLINE-ERASE summary mismatch rows={len(names)} last={lines[-1]!r}")
+    missing = sorted(INLINE_SUITE_ROWS - set(names))
+    if missing:
+        raise ValueError(f"INLINE-ERASE rows missing: {missing}")
+    print(lines[-1].decode())
+    records = []
+    for name in INLINE_ROWS:
+        body = Path("fixtures/erasure") / (name + ".att")
+        opaque = body.with_name(name + "-opaque.att")
+        a = runtime_output(execute(logs, name + "-body",
+                           [DRIVER, "build", "--erase", str(body)]).stdout)
+        b = runtime_output(execute(logs, name + "-opaque",
+                           [DRIVER, "build", "--erase", str(opaque)]).stdout)
+        if not a or a != b or b"fun keep " not in a or b"__attest_inline_proof_" in a:
+            raise ValueError(f"row={name} inline proof changed runtime output")
+        before_a = runtime_output(execute(logs, name + "-carried-body",
+                           ["_build/default/dev/erase_probe.exe", str(body)]).stdout)
+        before_b = runtime_output(execute(logs, name + "-carried-opaque",
+                           ["_build/default/dev/erase_probe.exe", str(opaque)]).stdout)
+        if before_a == before_b or b"fun keep " not in before_b:
+            raise ValueError(f"row={name} carried eraser did not reproduce the inline regression")
+        records.append({"row": name, "expected": "runtime-identical", "carried_diff": True,
+                        "body_sha256": digest((ROOT / body).read_bytes()),
+                        "opaque_sha256": digest((ROOT / opaque).read_bytes()),
+                        "runtime_sha256": digest(a)})
+    print(f"ERASURE-INLINE rows={len(INLINE_ROWS)} identical={len(records)} "
+          f"carried_diff={len(records)} OK")
     return records
 
 
@@ -98,11 +142,17 @@ def open_rows(logs):
     for name, path in OPEN_ROWS.items():
         body = Path("fixtures/erasure") / (name + ".att")
         opaque = body.with_name(name + "-opaque.att")
-        a = execute(logs, name + "-body", [DRIVER, "build", "--erase", str(body)]).stdout
-        b = execute(logs, name + "-opaque", [DRIVER, "build", "--erase", str(opaque)]).stdout
-        if not a or not b or a == b or b"fun " not in b:
+        a = runtime_output(execute(logs, name + "-body", [DRIVER, "build", "--erase", str(body)]).stdout)
+        b = runtime_output(execute(logs, name + "-opaque", [DRIVER, "build", "--erase", str(opaque)]).stdout)
+        if not a or not b or a == b:
             raise ValueError(f"row={name} frontier moved: {path} erases like its sealed twin; "
-                             "close the SPEC.md 1.1 entry and move the row into ROWS")
+                             "close the SPEC.md 1.1 entry and move the row into INLINE_ROWS")
+        # The frontier is the runtime function keep dropped from the body.
+        if b"fun keep " in a:
+            raise ValueError(f"row={name} frontier moved: {path} kept its runtime function; "
+                             "close the SPEC.md 1.1 entry and move the row into INLINE_ROWS")
+        if b"fun keep " not in b:
+            raise ValueError(f"row={name} sealed twin regressed: {path} dropped keep")
         records.append({"row": name, "expected": "different", "path": path,
                         "body_sha256": digest((ROOT / body).read_bytes()),
                         "opaque_sha256": digest((ROOT / opaque).read_bytes()),
@@ -278,7 +328,8 @@ def record(logs, rows):
     data = {"version": 1, "scope": "Stage B erasure increment", "stage_b": "OPEN",
             "rows": rows, "open": ["Acc erased proof binder and recursive proof elimination",
             "full TRACE-ERASURE including Acc",
-            "inline let-bound and case-scrutinee proofs keep their bodies (rows let-proof, scrutinee-proof)"],
+            "proofs depending on local binders keep their bodies (row local-proof)",
+            "unannotated proof introductions without an expected type and family metadata"],
             "implementation_sha256": {str(p.relative_to(ROOT)): digest(p.read_bytes())
                                       for p in sorted(set(paths))},
             "logs_sha256": {p.name: digest(p.read_bytes()) for p in sorted(logs.glob("*.log"))}}
@@ -293,7 +344,7 @@ def main():
     logs = ROOT / ("dev/validation/erasure" if args.record else ".gatework/erasure")
     logs.mkdir(parents=True, exist_ok=True)
     try:
-        rows = regression(logs) + open_rows(logs)
+        rows = regression(logs) + inline_rows(logs) + open_rows(logs)
         cli_checks(logs)
         twins(logs)
         if args.record:

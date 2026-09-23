@@ -36,44 +36,48 @@ by the executable.
 
 The carried global record has no quantity field. `erase/opaque.ml` classifies
 definitions whose declared type lives in `Prop` at the checking boundary,
-then supplies their types without their bodies to the carried eraser. Type
-inference for classification uses the original checked environment. The
-subsequent erasure evaluator sees only the projected environment. Runtime
-definitions and the inductive family table are preserved. The API takes the
+then supplies their types without their bodies to the carried eraser.
+Classification uses the original checked environment. The API takes the
 final globals and declaration rows returned together by `Elab.check_in`.
 
-The F2 fixtures use a closed singleton reflexivity proposition. Its proof
-selects a width-zero runtime layout in the carried evaluator. A runtime
-function and a pair constructor expose the difference from an opaque
-postulate. The new evaluator gives byte-identical erased terms on each
-pair, also covering proof aliases, proof-valued functions, and a changed
-proof shape. This is executable regression evidence, not a general erasure
-theorem. ELF comparisons begin only when the encoder exists.
+`erase/inline.ml` also seals closed inline proofs in ordinary entries when
+their type is available from a closed annotation or let type, or can be
+inferred independently. Closedness includes type syntax, shape payloads,
+and motives. Fresh typed postulates replace these proof terms before the
+erasure evaluator runs. Their names avoid existing globals and families;
+they are internal to erasure and add no source declarations or axiom
+disclosures. Declaration rows use the rewritten environment, including
+entries inherited from earlier checking. The inductive family table is
+preserved. Runtime computations remain executable.
 
-Opaque, proof-computed types can still cause a named erasure refusal. For
-example, `fixtures/erasure/opaque-layout-refusal.att` checks but exits 2
-because its tuple's type no longer reduces to a right former. No partial
-erased program is printed on that failure.
+The four global F2 pairs cover a runtime function, a pair constructor,
+proof aliases, and proof-valued functions. They produce byte-identical
+erased terms. Six inline pairs cover let-bound proofs, direct case
+scrutinees, both pair projections, a lambda-bound proof, and a proof under
+let and case binders. Their runtime output is identical
+after removing `erased NAME` declaration notices. The gate reproduces a
+runtime difference with the carried eraser for every pair. Thirteen semantic
+tests cover poisoned proof bodies at known types, inherited entries, name
+collisions, runtime lets, local type annotations, and rewritten rows.
+This is regression evidence; a general erasure theorem and ELF comparisons
+remain later work.
 
-Two proof positions stay open in the carried walker. A proof written inline
-inside a runtime-typed definition keeps its body: a `let` binding whose type
-lives in `Prop` is evaluated and bound to its value, and a case scrutinee
-that is an inline proof is reduced. In both positions the proof body selects
-the erased layout, so `fixtures/erasure/let-proof.att` and
-`fixtures/erasure/scrutinee-proof.att` erase differently from their sealed
-twins `let-proof-opaque.att` and `scrutinee-proof-opaque.att`. The
-`ERASURE-OPEN` rows of `dev/erasure-gates.py` pin this difference until
-`lib/erase.ml` binds such proofs to a neutral.
+Opaque, proof-computed types can still cause a named erasure refusal.
+`fixtures/erasure/opaque-layout-refusal.att` checks but exits 2 because its
+tuple's type no longer reduces to a right former. No partial erased program
+is printed on that failure.
 
-Stage B is open: `fixtures/erasure/acc.att` fails the erased-binder runtime
-read check. Its family and constructor now check in `acc-family.att`.
-The `acc-runtime-proof.att` variant with a nonzero proof binder reaches the
-existing refusal of large elimination for a recursive Prop family.
-The inline proof positions above are unsealed, and Acc erasure remains
-unfinished. The separate LEAN-TWIN checking corpus
-passes 24 ACCEPT and 12 REFUSE pairs in the fragment shared by both kernels.
-The checker adaptation below is recorded in the carry manifest; the carry
-pins and the term, shape, and count definitions are unchanged.
+Proofs depending on local binders remain open. The `local-proof.att` pair
+pins a runtime difference for an inline proof indexed by a local Nat.
+Unannotated introductions without an independently inferable type and
+inline proofs in family metadata are also outside this increment.
+
+Stage B remains open: `acc.att` fails the erased-binder runtime read check,
+although its family and constructor check in `acc-family.att`.
+`acc-runtime-proof.att` reaches the recursive singleton elimination refusal.
+`TRACE-ERASURE` continues to exit 1. The separate LEAN-TWIN checking corpus
+passes 24 ACCEPT and 12 REFUSE pairs in the shared fragment. This increment
+changes no checker rule, carry pin, term constructor, shape, or count.
 
 ## 2 Kernel
 

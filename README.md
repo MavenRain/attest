@@ -29,9 +29,10 @@ The build wrapper uses `dunecho` when available and otherwise Dune. Set
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four proof-bodied/opaque pairs, reproduces the carried
-eraser's layout differences, and checks the initial F2 and Acc witnesses
-plus the F2 negative probe. `python3 -P dev/erasure-mutations.py` checks ten
+increment compares four global proof pairs and six closed inline proof
+pairs against their opaque twins. It reproduces the carried eraser's layout
+differences and checks the initial F2 and Acc witnesses
+plus the F2 negative probe. `python3 -P dev/erasure-mutations.py` checks seventeen
 isolated mutations. The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -39,7 +40,11 @@ The checker now admits erased indices of `Prop` families, including the
 `Acc` declaration and constructor in `fixtures/erasure/acc-family.att`.
 Twenty-eight regression cases cover their universe and quantity boundaries.
 Stage B remains open: `Acc` runtime elimination still hits the erased-binder
-and recursive-singleton restrictions, and inline proof erasure is unfinished.
+and recursive-singleton restrictions. Closed inline let proofs, annotated
+scrutinees, and both pair projections now erase like their opaque twins.
+Thirteen semantic tests protect this boundary. Proofs depending on local
+binders, unannotated introductions without an inferable type, and family
+metadata remain open.
 `zsh -f dev/gates.sh TRACE-ERASURE` reports these frontiers and exits 1.
 See [the build log](dev/M0-BUILD-LOG.md).
 

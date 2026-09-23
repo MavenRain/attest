@@ -1,0 +1,5 @@
+mu Equal : Prop with
+| refl : Equal
+
+def Layout : Type 0 := case ((refl, 7) : Equal * Nat).1 as p in Equal return Type 0 with | refl => prod ()
+def keep : (x : Layout) -> Layout := fun (x : Layout) => x

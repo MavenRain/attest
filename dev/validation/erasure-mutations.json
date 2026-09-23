@@ -1,45 +1,118 @@
 {
   "version": 1,
-  "baseline_sha256": "77606fa1d15a3eaaf2f5811428c5972dbee3153030bdfd33c6a2f88243f3d87a",
+  "baseline_sha256": "b9e7bff1127bc44dddf0ba77f00e6c44cb04feb674e2f380e5b7d07610596d94",
   "implementation_sha256": {
-    "erase/opaque.ml": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
+    "erase/opaque.ml": "b7f0a147e459169364dfc1952be1704e282d6ec654c2273914dcece5789e3916",
+    "erase/inline.ml": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
+    "erase/inline.mli": "63767da20e36d5af471503c36969e06a248548e0c259a074342170103673fdea",
     "lib/check.ml": "7e7ad934440f0664208c0aaa1ee47c678e61fc121d8e5abb1d85852eeecd8d75",
     "erase/test/prop_index.ml": "f91dad5b39128c9135e44584bd19aee10a2e10a94f245fd5b8bba2400fbb3401",
-    "erase/test/dune": "d310a83e1dbbdfcdc02d3d2829556e8b6c7f65f342f8d53a96b0096d53f10df3",
+    "erase/test/dune": "662b48a1f8b4c8dcf180d8bdb2c94eba6cf9bb86dc1a54125d2d0357343a021a",
     "erase/test/opaque_test.ml": "90d3fa103c77f1e175857be0b2e73576bee80f975a6ca3c908d6e5f9d5e9c4d0",
-    "dev/erasure-mutations.py": "977a48e1eae86bab132c922a09921126cce77106ea7c519f99ce223c4dafaaf4",
-    "dev/erasure-gates.py": "b6c94dd59c3fa7e2bac5718e884fb7395356bce90e2dc51a5e06b200e4cd1c9d"
+    "erase/test/inline_test.ml": "59730b79391efd5d5c219688f636d18e396ce018e9b08a73aaa264e2bb96c2d1",
+    "dev/erasure-mutations.py": "79fddf00584f8b4c019de17adcf073a65acbb922195046aa8083a4c9a17973fd",
+    "dev/erasure-gates.py": "23dd061e0eaab036b8fa19fa0b00fbc7de8ee767191f3811aa5d6ddfe4550e5c"
   },
   "mutations": [
     {
       "name": "proof-guard",
       "path": "erase/opaque.ml",
-      "before_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
-      "mutated_sha256": "455d164e9231f95266a09f85479d9b732b6f5515f34c71ea65b3e366c5351841",
-      "log_sha256": "1ad8ae7f7a4d69c429d08f79bbcc818b77a2e01db54fb7c8205238b35e334d44",
-      "build_exit": 0,
-      "gate_exit": 1,
-      "diagnostic": "row=f2-a first_diff="
-    },
-    {
-      "name": "row-reinsertion",
-      "path": "erase/opaque.ml",
-      "before_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
-      "mutated_sha256": "0a9fa1690d532f18945ba6f142dbb931e60c58b5924ad85d3697f951d411f249",
-      "log_sha256": "1ad8ae7f7a4d69c429d08f79bbcc818b77a2e01db54fb7c8205238b35e334d44",
-      "build_exit": 0,
-      "gate_exit": 1,
-      "diagnostic": "row=f2-a first_diff="
-    },
-    {
-      "name": "inherited-scope",
-      "path": "erase/opaque.ml",
-      "before_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
-      "mutated_sha256": "e3e047810076625b295daf439a42d8aca7d808582a451989d2e5e9860cd4f697",
+      "before_sha256": "b7f0a147e459169364dfc1952be1704e282d6ec654c2273914dcece5789e3916",
+      "mutated_sha256": "f4e08d5890a41c00c12b47e858e9ce07cfbcccfdcc0872f96384629e1ace4884",
       "log_sha256": "e7a7104c3e5a82b3910ba5d6f0ed11d6a32e836983ebd17b8dc34ab40ed960f6",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "OPAQUE-ERASE exit=1"
+    },
+    {
+      "name": "row-reinsertion",
+      "path": "erase/opaque.ml",
+      "before_sha256": "b7f0a147e459169364dfc1952be1704e282d6ec654c2273914dcece5789e3916",
+      "mutated_sha256": "43d3bbb04b47fcc5d41a6c9996493dcd17aed09cb810eacf10991339891845d6",
+      "log_sha256": "e7a7104c3e5a82b3910ba5d6f0ed11d6a32e836983ebd17b8dc34ab40ed960f6",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "OPAQUE-ERASE exit=1"
+    },
+    {
+      "name": "inherited-scope",
+      "path": "erase/opaque.ml",
+      "before_sha256": "b7f0a147e459169364dfc1952be1704e282d6ec654c2273914dcece5789e3916",
+      "mutated_sha256": "f2b072de0a73608a4bc8463dd94f7b85636b3aac714b721dc9e7f10761875f74",
+      "log_sha256": "e7a7104c3e5a82b3910ba5d6f0ed11d6a32e836983ebd17b8dc34ab40ed960f6",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "OPAQUE-ERASE exit=1"
+    },
+    {
+      "name": "inline-walker",
+      "path": "erase/opaque.ml",
+      "before_sha256": "b7f0a147e459169364dfc1952be1704e282d6ec654c2273914dcece5789e3916",
+      "mutated_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
+      "log_sha256": "f0f2000f3b33d133ecaa5f8db63a89228ad851dbb14852d08a34bd66a47ec10b",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=let-body FAIL"
+    },
+    {
+      "name": "inline-name-collision",
+      "path": "erase/inline.ml",
+      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
+      "mutated_sha256": "7d913392c0a49cd234e65843a57fcb289fff0919cf28cc0b137eeaf27241f5c6",
+      "log_sha256": "9644c1bf20d4c978d0bf9e69325f56a6f614abeddfa72e6dbe6a74764c8f9707",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=name-collision FAIL"
+    },
+    {
+      "name": "inline-local-type",
+      "path": "erase/inline.ml",
+      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
+      "mutated_sha256": "c81cc8af49b899484a43235c0ffd04caec6938104fc67c2825e4fbbd55837e4f",
+      "log_sha256": "e4c53a8b503b300808a5384e4eba8116f9548781e7c725def093307bf551cd97",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-type FAIL"
+    },
+    {
+      "name": "inline-row-reinsertion",
+      "path": "erase/inline.ml",
+      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
+      "mutated_sha256": "42b119064c5857878f239adc652acde298be97be02841625b7d259a6b48a3fe5",
+      "log_sha256": "85b7b2157b8252092a13f032e76bebfecc544630d1c614315022c13673324aed",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=rows FAIL"
+    },
+    {
+      "name": "inline-leg-binders",
+      "path": "erase/inline.ml",
+      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
+      "mutated_sha256": "3f25696a4684d06ca453afc1fbb95f124cf2d3c60a19c5a487b7ec3c3aae7779",
+      "log_sha256": "386dd4cec7190a0254e3f3f4d614a7234f2e9529ed564f296ad5bc05d4123a2d",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=binders FAIL"
+    },
+    {
+      "name": "inline-motive-binders",
+      "path": "erase/inline.ml",
+      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
+      "mutated_sha256": "e5c1b6fda9cb1a663cad4c5ca1a3423b7f3837c7ff60649ffd2d5cf48bdfa696",
+      "log_sha256": "a3785e4c58ab7d19fa4a4133281017e61c6ddfe535294d2e9f412d4ba12cd432",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=motive FAIL"
+    },
+    {
+      "name": "inline-shape-payload",
+      "path": "erase/inline.ml",
+      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
+      "mutated_sha256": "96ca1e3a08b108943a001b82a03e7a1cffc4d3937895700062f72f8f7d8afe43",
+      "log_sha256": "61784811f6f7d7eb9ddcb1209bb48c5b7a1f3d4b6c99600e3b2486e9f3d21833",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=shape-payload FAIL"
     },
     {
       "name": "missing-twin",
@@ -57,7 +130,7 @@
       "path": "twin/F2.lean",
       "before_sha256": "d05c8f23eb9a9af2fc9ad1ea2499e035a8916fccec61ad25c93d14e5382dd4e8",
       "mutated_sha256": "2e8315d208ca32de07e73bb857cfd35f2de4c090f1f53e8823da6a248ca6e9c5",
-      "log_sha256": "cfd776ff25365b8edc367c6d8b681d8bb74dfc64e19c1b2bc3cbb2c84837874c",
+      "log_sha256": "7d61740cd21fc6d021d9c477c90b37f8aa853cca9ec4ddb2e52771c48fa554fa",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "LEAN-F2 exit=1 expected=0"

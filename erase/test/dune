@@ -9,12 +9,17 @@
  (alias runtest)
  (action (run %{exe:prop_index.exe})))
 
-(executable
- (name opaque_test)
- (modules opaque_test sys_io)
+(executables
+ (names opaque_test inline_test)
+ (modules opaque_test inline_test sys_io)
  (libraries kanon_kernel kanon_surface attest_erase))
 
 (rule
  (alias runtest)
  (deps (source_tree ../../fixtures/erasure))
  (action (chdir %{workspace_root} (run %{exe:opaque_test.exe}))))
+
+(rule
+ (alias runtest)
+ (deps (source_tree ../../fixtures/erasure))
+ (action (chdir %{workspace_root} (run %{exe:inline_test.exe}))))

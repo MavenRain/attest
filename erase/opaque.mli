@@ -1,5 +1,6 @@
 (** Erasure of checked programs. Classification uses the checked environment;
-    the erasure evaluator sees proof declarations only as typed postulates. *)
+    global proofs and classifiable closed inline proofs become typed
+    postulates before evaluation. Proofs depending on locals remain open. *)
 
 val prepare :
   ?budget:Kanon_kernel.Budget.t ->

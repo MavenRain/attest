@@ -1,5 +1,31 @@
 # M0 build log
 
+## 2026-09-23: Stage B closed inline proofs
+
+Added `erase/inline.ml` between global proof sealing and the carried eraser.
+It classifies closed proof terms in the original checked environment and
+replaces them with fresh typed postulates. The erasure environment and its
+declaration rows share the rewritten entries. Closedness accounts for type
+syntax, shape payloads, motive binders, and term binders. No carried kernel
+source or carry-manifest hash changes in this slice.
+
+The let-bound and direct-scrutinee frontiers now close, along with both pair
+projection positions. Six inline fixture pairs compare runtime output
+after dropping erased declaration notices. Every pair also reproduces the
+old runtime difference through `dev/erase_probe.exe`. Thirteen semantic tests
+cover poisoned proof bodies, inherited entries, both namespaces, runtime
+lets, type-only locals, declaration-row consistency, binder depth, motive
+and shape-payload closedness, redeclared globals, and payload postulates.
+
+Stage B stays open. `local-proof.att` pins the remaining local-index proof
+frontier; unannotated introductions without an inferable type and family
+metadata remain outside the pass. The two Acc refusals are unchanged.
+The erasure mutation battery now contains seventeen compiled mutations.
+Records are generated through `dev/erasure-gates.py --record` and
+`dev/erasure-mutations.py --record` from the attest checkout.
+
+
+
 ## 2026-09-23: Stage B erased Prop indices
 
 Adapted `lib/check.ml` to admit erased indices of Prop families independently

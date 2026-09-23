@@ -1,0 +1,4 @@
+mu Equal : (0 n : Nat) -> Prop with
+| refl : (0 n : Nat) -> Equal n
+
+def keep : (0 n : Nat) -> Nat -> Nat := fun (0 n : Nat) (x : Nat) => let p : (0 y : Equal n) -> Equal 0 := ((fun (0 y : Equal n) => refl 0) : (0 y : Equal n) -> Equal 0) in x

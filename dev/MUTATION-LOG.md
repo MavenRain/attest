@@ -1,5 +1,22 @@
 # Mutation log
 
+## 2026-09-23: Closed inline proof mutations
+
+Seven added compiled mutations disable the inline pass, allow a generated
+proof name to reference an existing global, ignore locals in annotation
+types, reinsert original declaration rows, and drop the binder depth of
+legs, motives, and shape payloads. Each must fail its named
+`INLINE-ERASE` semantic test. The harness retains that test output and any
+unexpected gate failure before rejecting a mutation run.
+
+The three earlier global-sealing mutations now fail the opacity unit suite,
+which runs before output comparisons. This pins the global and row
+invariants even where inline sealing also prevents a layout difference.
+The complete battery contains seventeen mutations. Its generated record
+also hashes the inline implementation, interface, and semantic tests.
+
+
+
 ## 2026-09-23: Erased Prop index mutations
 
 The erasure mutation battery adds five cases, for ten total. Each new

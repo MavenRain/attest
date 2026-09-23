@@ -39,7 +39,7 @@ let prepare ?(budget : Budget.t = Budget.unlimited) (globals : Global.t)
   let entries = Global.StringMap.mapi (seal names) globals.Global.entries in
   let opaque = { globals with Global.entries } in
   let rows = List.map (fun (name, entry) -> (name, seal names name entry)) rows in
-  Ok (opaque, rows)
+  Inline.prepare (Check.make globals budget) opaque rows
 
 let program ?(budget : Budget.t = Budget.unlimited) (globals : Global.t)
     (rows : (string * Global.entry) list) :

@@ -12,16 +12,39 @@ import tempfile
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE = "erase/opaque.ml"
 KERNEL = "lib/check.ml"
+INLINE = "erase/inline.ml"
 CASES = (
     ("proof-guard", SOURCE, "if List.mem name names then",
-     "if List.mem name names && false then", "row=f2-a first_diff="),
+     "if List.mem name names && false then", "OPAQUE-ERASE exit=1"),
     ("row-reinsertion", SOURCE,
      "let rows = List.map (fun (name, entry) -> (name, seal names name entry)) rows in",
-     "let rows = rows in", "row=f2-a first_diff="),
+     "let rows = rows in", "OPAQUE-ERASE exit=1"),
     ("inherited-scope", SOURCE,
      "Global.StringMap.mapi (seal names) globals.Global.entries",
      "Global.StringMap.mapi (fun name entry -> let _ = seal names name entry in entry) globals.Global.entries",
      "OPAQUE-ERASE exit=1"),
+    ("inline-walker", SOURCE,
+     "Inline.prepare (Check.make globals budget) opaque rows", "Ok (opaque, rows)",
+     "INLINE-ERASE row=let-body FAIL"),
+    ("inline-name-collision", INLINE,
+     "if Option.is_some (Global.find name state.globals)",
+     "if false && Option.is_some (Global.find name state.globals)",
+     "INLINE-ERASE row=name-collision FAIL"),
+    ("inline-local-type", INLINE,
+     "closed depth value && closed depth ty", "closed depth value && (closed depth ty || true)",
+     "INLINE-ERASE row=local-type FAIL"),
+    ("inline-row-reinsertion", INLINE,
+     "Result.map (fun entry -> (name, entry))", "Result.map (fun _entry -> (name, _original))",
+     "INLINE-ERASE row=rows FAIL"),
+    ("inline-leg-binders", INLINE,
+     "closed (depth + List.length leg.Term.l_binders) leg.Term.l_body",
+     "closed depth leg.Term.l_body", "INLINE-ERASE row=binders FAIL"),
+    ("inline-motive-binders", INLINE,
+     "closed (depth + List.length m.Term.m_idx + 1) m.Term.m_body",
+     "closed depth m.Term.m_body", "INLINE-ERASE row=motive FAIL"),
+    ("inline-shape-payload", INLINE,
+     "let shape s = List.for_all (closed depth) (Shape.payload s) in",
+     "let shape _s = true in", "INLINE-ERASE row=shape-payload FAIL"),
     # The gate tests the presence of every opaque twin before it reads it, so the
     # pin is the gate's named diagnostic and not a missing-file errno.
     ("missing-twin", "fixtures/erasure/f2-a-opaque.att", None, None,
@@ -94,10 +117,16 @@ def main():
                     raise ValueError(f"{name}: build failed, not a caught behavior mutation")
                 result = run(scratch, ["python3", "-P", "dev/erasure-gates.py"])
                 output = result.stdout + result.stderr
+                (logs / (name + ".log")).write_bytes(
+                    output.replace(str(scratch).encode(), b"<mutation-tree>"))
                 if diagnostic.startswith("PROP-INDEX row="):
                     if b"PROP-INDEX exit=1 expected=0" not in output:
                         raise ValueError(f"{name}: did not reach the Prop index regression")
                     output += (scratch / ".gatework/erasure/PROP-INDEX.log").read_bytes()
+                if diagnostic.startswith("INLINE-ERASE row="):
+                    if b"INLINE-ERASE exit=1 expected=0" not in output:
+                        raise ValueError(f"{name}: did not reach the inline proof regression")
+                    output += (scratch / ".gatework/erasure/INLINE-ERASE.log").read_bytes()
                 # A temporary checkout path is not part of a diagnostic's identity.
                 output = output.replace(str(scratch).encode(), b"<mutation-tree>")
                 (logs / (name + ".log")).write_bytes(output)
@@ -112,8 +141,10 @@ def main():
         if args.record:
             record = {"version": 1, "baseline_sha256": digest(baseline.stdout + baseline.stderr),
                       "implementation_sha256": {p: digest((ROOT / p).read_bytes()) for p in
-                        (SOURCE, KERNEL, "erase/test/prop_index.ml", "erase/test/dune",
-                         "erase/test/opaque_test.ml", "dev/erasure-mutations.py", "dev/erasure-gates.py")},
+                        (SOURCE, INLINE, "erase/inline.mli", KERNEL,
+                         "erase/test/prop_index.ml", "erase/test/dune",
+                         "erase/test/opaque_test.ml", "erase/test/inline_test.ml",
+                         "dev/erasure-mutations.py", "dev/erasure-gates.py")},
                       "mutations": records}
             (ROOT / "dev/validation/erasure-mutations.json").write_text(json.dumps(record, indent=2) + "\n")
         print(f"ERASURE-MUTATIONS caught={len(records)} total={len(CASES)} OK")

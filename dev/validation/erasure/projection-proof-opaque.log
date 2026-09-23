@@ -1,3 +1,4 @@
+erased proof
 erased Layout
 rec [any]
 fun keep (union any) : union any := KVar 0

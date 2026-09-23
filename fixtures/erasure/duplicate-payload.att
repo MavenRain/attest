@@ -1,0 +1,7 @@
+mu One : Prop with
+| tt : One
+
+mu Fam : (0 a : One) -> (0 b : One) -> Type 0 with
+| mk : (0 a : One) -> (0 b : One) -> Fam a b
+
+axiom use : (x : Fam (tt : One) (tt : One)) -> Nat

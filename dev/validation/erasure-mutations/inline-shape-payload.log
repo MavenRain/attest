@@ -1,0 +1,17 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
+INLINE-ERASE row=let-body OK
+INLINE-ERASE row=scrutinee-body OK
+INLINE-ERASE row=inherited OK
+INLINE-ERASE row=name-collision OK
+INLINE-ERASE row=family-collision OK
+INLINE-ERASE row=runtime OK
+INLINE-ERASE row=local-type OK
+INLINE-ERASE row=rows OK
+INLINE-ERASE row=binders OK
+INLINE-ERASE row=motive OK
+INLINE-ERASE row=redeclared OK
+INLINE-ERASE row=payload-postulates OK
+INLINE-ERASE pass=12 total=13 FAIL
+INLINE-ERASE row=shape-payload FAIL unbound: de Bruijn index 1 is outside the context

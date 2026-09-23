@@ -1,0 +1,17 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
+INLINE-ERASE row=runtime OK
+INLINE-ERASE row=local-type OK
+INLINE-ERASE row=rows OK
+INLINE-ERASE row=shape-payload OK
+INLINE-ERASE pass=4 total=13 FAIL
+INLINE-ERASE row=let-body FAIL unbound: missing_inline_body
+INLINE-ERASE row=scrutinee-body FAIL unbound: missing_inline_body
+INLINE-ERASE row=inherited FAIL inline proof selected a layout
+INLINE-ERASE row=name-collision FAIL inline proof selected a layout
+INLINE-ERASE row=family-collision FAIL fresh proof skipped the next name
+INLINE-ERASE row=binders FAIL inline proof selected a layout
+INLINE-ERASE row=motive FAIL motive-bearing proof was not replaced as a whole
+INLINE-ERASE row=redeclared FAIL row entry differs from its environment
+INLINE-ERASE row=payload-postulates FAIL equal payload proofs do not share one postulate
