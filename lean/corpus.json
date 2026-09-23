@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "rows": [
+    {
+      "id": "nat-literal",
+      "topic": "Natural literal",
+      "expected": "accept"
+    },
+    {
+      "id": "identity",
+      "topic": "Function identity",
+      "expected": "accept"
+    },
+    {
+      "id": "constant",
+      "topic": "Constant function",
+      "expected": "accept"
+    },
+    {
+      "id": "composition",
+      "topic": "Higher order application",
+      "expected": "accept"
+    },
+    {
+      "id": "nat-add",
+      "topic": "Natural addition",
+      "expected": "accept"
+    },
+    {
+      "id": "nat-mul",
+      "topic": "Natural multiplication",
+      "expected": "accept"
+    },
+    {
+      "id": "pair-first",
+      "topic": "Dependent pair first projection",
+      "expected": "accept"
+    },
+    {
+      "id": "pair-second",
+      "topic": "Dependent pair second projection",
+      "expected": "accept"
+    },
+    {
+      "id": "triple",
+      "topic": "Collection product projection",
+      "expected": "accept"
+    },
+    {
+      "id": "unit",
+      "topic": "Empty product introduction",
+      "expected": "accept"
+    },
+    {
+      "id": "empty-elim",
+      "topic": "Empty proposition elimination into Type",
+      "expected": "accept"
+    },
+    {
+      "id": "sum-left",
+      "topic": "Collection sum left introduction",
+      "expected": "accept"
+    },
+    {
+      "id": "sum-right",
+      "topic": "Collection sum right introduction",
+      "expected": "accept"
+    },
+    {
+      "id": "sum-case",
+      "topic": "Collection sum elimination",
+      "expected": "accept"
+    },
+    {
+      "id": "prop-universe",
+      "topic": "Proposition universe inhabits Type",
+      "expected": "accept"
+    },
+    {
+      "id": "type-universe",
+      "topic": "Type universe successor",
+      "expected": "accept"
+    },
+    {
+      "id": "polymorphic-id",
+      "topic": "Erased type parameter",
+      "expected": "accept"
+    },
+    {
+      "id": "let-binding",
+      "topic": "Annotated let binding",
+      "expected": "accept"
+    },
+    {
+      "id": "dependent-pair",
+      "topic": "Dependent pair with a type field",
+      "expected": "accept"
+    },
+    {
+      "id": "proof-id",
+      "topic": "Proposition parameter and proof",
+      "expected": "accept"
+    },
+    {
+      "id": "proof-irrelevance",
+      "topic": "Conversion ignores proof identity",
+      "expected": "accept"
+    },
+    {
+      "id": "impredicativity",
+      "topic": "Proposition arrow over a higher universe",
+      "expected": "accept"
+    },
+    {
+      "id": "recursive-family",
+      "topic": "Strictly positive recursive family",
+      "expected": "accept"
+    },
+    {
+      "id": "singleton-elim",
+      "topic": "Singleton proposition large elimination",
+      "expected": "accept"
+    },
+    {
+      "id": "universe-refuse",
+      "topic": "Universe cannot inhabit itself",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "the term has type Type 2 and the expected type is Type 1",
+      "lean_error": "expected to have type\n  Type\n"
+    },
+    {
+      "id": "argument-refuse",
+      "topic": "Function argument type mismatch",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "the term has type",
+      "lean_error": "Application type mismatch"
+    },
+    {
+      "id": "result-refuse",
+      "topic": "Function result type mismatch",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "the term has type",
+      "lean_error": "Type mismatch"
+    },
+    {
+      "id": "pair-first-refuse",
+      "topic": "Dependent pair first field mismatch",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "the term has type",
+      "lean_error": "Application type mismatch"
+    },
+    {
+      "id": "pair-second-refuse",
+      "topic": "Dependent pair second field mismatch",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "the term has type",
+      "lean_error": "Application type mismatch"
+    },
+    {
+      "id": "sum-payload-refuse",
+      "topic": "Sum payload type mismatch",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "the term has type",
+      "lean_error": "Application type mismatch"
+    },
+    {
+      "id": "case-refuse",
+      "topic": "Case branch result mismatch",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "the term has type",
+      "lean_error": "Type mismatch"
+    },
+    {
+      "id": "application-refuse",
+      "topic": "Natural used as a function",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "not a function",
+      "lean_error": "Function expected"
+    },
+    {
+      "id": "projection-refuse",
+      "topic": "Natural used as a dependent pair",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "projection",
+      "lean_error": "Invalid projection"
+    },
+    {
+      "id": "empty-elim-refuse",
+      "topic": "Empty eliminator requires a false proof",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "the scrutinee is not a left former",
+      "lean_error": "expected to have type\n  False"
+    },
+    {
+      "id": "positivity-refuse",
+      "topic": "Negative recursive occurrence",
+      "expected": "refuse",
+      "site": "Bad",
+      "attest_error": "positive",
+      "lean_error": "non positive"
+    },
+    {
+      "id": "large-elim-refuse",
+      "topic": "Two-constructor proposition cannot eliminate into Type",
+      "expected": "refuse",
+      "site": "rejected",
+      "attest_error": "elimination",
+      "lean_error": "expected to have type\n  Prop"
+    }
+  ]
+}

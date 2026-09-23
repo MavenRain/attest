@@ -66,7 +66,9 @@ twins `let-proof-opaque.att` and `scrutinee-proof-opaque.att`. The
 `lib/erase.ml` binds such proofs to a neutral.
 
 Stage B is open: `fixtures/erasure/acc.att` fails the inherited index universe
-check, the inline proof positions above are unsealed, and the full LEAN-TWIN corpus and Acc erasure/mutations are unfinished.
+check, the inline proof positions above are unsealed, and Acc
+erasure/mutations are unfinished. The separate LEAN-TWIN checking corpus
+passes 24 ACCEPT and 12 REFUSE pairs in the fragment shared by both kernels.
 No kernel rule or carry pin is changed by this increment.
 
 ## 2 Kernel
@@ -101,7 +103,8 @@ size is informational. Tests and the timing helper are outside the kernel.
 
 `dev/gates.sh` builds before running the carry, R0, house, driver, kernel,
 surface, axiom, budget, and timing checks. It then runs the erasure regression,
-CLI, and initial Lean checks. `STAGE-A` and `ERASURE` select either group;
+CLI, initial Lean checks, and the complete LEAN-TWIN checking corpus.
+`STAGE-A`, `ERASURE`, and `LEAN-TWIN` select each group;
 `TRACE-ERASURE` exits 1 while the Acc frontier is open. Gates stop on a failed
 command and keep leg output under `.gatework/stage-a/` and `.gatework/erasure/`.
 Kernel timing uses

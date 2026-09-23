@@ -1,0 +1,2 @@
+def checked : (0 A : Type 0) -> (x : A) -> A :=
+  fun (0 A : Type 0) (x : A) => x

@@ -1,0 +1,2 @@
+CHECK /Users/oobi/Documents/attest/fixtures/lean-twin/application-refuse.att FAIL mismatch: the head of an application is not a function
+attest: check: mismatch: the head of an application is not a function

@@ -1,0 +1,1 @@
+def checked : (0 A : Type 0) * A := (Nat, 7)

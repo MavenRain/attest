@@ -1,0 +1,1 @@
+nat-literal-lean exit=1 expected=0; log=/Users/oobi/Documents/attest/.gatework/lean-twin-mutations/lean-sorryax/mutant/nat-literal-lean.log

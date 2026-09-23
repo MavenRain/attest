@@ -1,0 +1,7 @@
+/Users/oobi/Documents/attest/.gatework/lean-twin-mutations/lean-prefix/mutant/universe-refuse-prefix-lean.lean:3:18: error: Type mismatch
+  PUnit.unit
+has type
+  PUnit
+but is expected to have type
+  Nat
+'seed' depends on axioms: [sorryAx]

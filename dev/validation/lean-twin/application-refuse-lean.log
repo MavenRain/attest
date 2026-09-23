@@ -1,0 +1,7 @@
+/Users/oobi/Documents/attest/lean/Corpus/application-refuse.lean:5:22: error: Function expected at
+  seed
+but this term has type
+  Nat
+
+Note: Expected a function because this term is being applied to the argument
+  1

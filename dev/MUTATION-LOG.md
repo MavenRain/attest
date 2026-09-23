@@ -1,5 +1,38 @@
 # Mutation log
 
+## 2026-09-22: Lean checking corpus mutations
+
+`python3 -P dev/lean-twin-mutations.py --record` runs thirteen mutations in
+isolated corpus copies. Each starts with a passing control. The checked
+driver and Lean library are reused because these mutations change only
+corpus data, never compiler or library sources.
+
+| mutation | expected failure |
+| --- | --- |
+| missing-row | Manifest no longer contains the required 36 rows. |
+| missing-source | A paired Lean source is absent. |
+| sorry | An ACCEPT source introduces an admitted term. |
+| axiom | An ACCEPT source introduces a postulate. |
+| refuse-accepted | The attest REFUSE declaration becomes well typed. |
+| attest-prefix | The attest prefix fails before the intended refusal. |
+| lean-prefix | The Lean prefix fails before the intended refusal. |
+| wrong-diagnostic | Lean refuses an unknown identifier instead of the intended universe mismatch. |
+| wrong-attest-diagnostic | The driver refuses a tuple without a right former instead of the intended universe mismatch. |
+| wrong-attest-universe | The driver refuses a universe against `Nat` instead of against `Type 1`. |
+| lean-axiom-reached | An ACCEPT source passes the token scan, and Lean reports a declaration that depends on axioms. |
+| lean-sorryax | An ACCEPT source passes the token scan, and Lean rejects the `sorryAx` term under `-DwarningAsError=true`. |
+| attest-refuses | An ACCEPT attest source passes the token scan, and the driver refuses it. |
+
+All thirteen are caught. Four mutants (missing-row, missing-source, sorry,
+axiom) die in the inventory check or the token scan before any compiler
+runs, so their evidence is the gate refusal log alone. The other nine
+reach Lean or the driver. `validation/lean-twin-mutations.json` records
+passing controls, mutation hashes, expected reasons, hashes of the refusal
+logs, and hashes of the actual compiler logs for the controls and for the
+nine compiler-reaching mutants. This battery validates the new corpus gate and does not
+claim to close the outstanding Acc or inline proof erasure mutations.
+
+
 ## 2026-09-22: Stage A
 
 A fresh positive gate run passed before all 13 scratch-copy probes. Each probe required both a nonzero exit and its expected diagnostic. The scratch trees were removed after the run. Scratch outputs are under `.gatework/mutations/` (not tracked). The kept probe logs are under [validation/mutations/](validation/mutations/); hashes and exact observed diagnostics are recorded in [validation/stage-a.json](validation/stage-a.json). Regenerate both with `MUTATIONS_RECORD=1 zsh -f dev/mutations.sh` from the repository root.

@@ -1,0 +1,2 @@
+def value : prod (Nat, Nat, Nat) := tuple (1, 2, 3)
+def checked : Nat := value.2

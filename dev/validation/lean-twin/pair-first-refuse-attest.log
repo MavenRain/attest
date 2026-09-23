@@ -1,0 +1,2 @@
+CHECK /Users/oobi/Documents/attest/fixtures/lean-twin/pair-first-refuse.att FAIL mismatch: the term has type Type 1 and the expected type is Nat
+attest: check: mismatch: the term has type Type 1 and the expected type is Nat

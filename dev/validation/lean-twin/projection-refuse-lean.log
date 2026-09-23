@@ -1,0 +1,3 @@
+/Users/oobi/Documents/attest/lean/Corpus/projection-refuse.lean:5:22: error: Invalid projection: Projections extract constructor fields for one-constructor inductive types. The expression
+  seed
+has type `Nat` which is not a one-constructor inductive type.

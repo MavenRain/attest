@@ -1,0 +1,4 @@
+def seed : Nat := 0
+-- REFUSE: Bad
+mu Bad : Type 0 with
+| mk : (f : Bad -> Nat) -> Bad

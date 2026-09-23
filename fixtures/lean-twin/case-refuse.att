@@ -1,0 +1,4 @@
+def seed : Nat := 0
+-- REFUSE: rejected
+def rejected : (v : sum (Nat, Nat)) -> Nat :=
+  fun (v : sum (Nat, Nat)) => case v with | 0 (x : Nat) => x | 1 (y : Nat) => Nat

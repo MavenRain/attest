@@ -1,0 +1,2 @@
+CHECK /Users/oobi/Documents/attest/fixtures/lean-twin/projection-refuse.att FAIL mismatch: a projection reads a pair or a tuple, and this scrutinee is neither
+attest: check: mismatch: a projection reads a pair or a tuple, and this scrutinee is neither

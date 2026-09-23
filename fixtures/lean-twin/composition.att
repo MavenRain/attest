@@ -1,0 +1,2 @@
+def checked : (f : Nat -> Nat) -> (g : Nat -> Nat) -> (x : Nat) -> Nat :=
+  fun (f : Nat -> Nat) (g : Nat -> Nat) (x : Nat) => f (g x)

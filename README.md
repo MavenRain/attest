@@ -3,7 +3,8 @@
 attest is a programming language with Kan extensions as its only type formers.  The compiler targets the RISC-V bytecode that Succinct SP1 proves.
 
 M0 includes the carried Kan kernel, parser, checker, axiom disclosure, and
-the first Stage B erasure increment. `attest build --erase` prints the
+the Stage B erasure increment and 24 ACCEPT / 12 REFUSE Lean twins.
+`attest build --erase` prints the
 erased term with proof globals opaque. RISC-V emission and SP1 execution
 follow in later stages of [the M0 plan](design/attest-m0/M0-PLAN.md).
 
@@ -19,6 +20,8 @@ _build/default/bin/attest.exe build --erase fixtures/erasure/f2-a.att
 zsh -f dev/gates.sh
 zsh -f dev/dunecho.sh test
 zsh -f dev/mutations.sh
+zsh -f dev/gates.sh LEAN-TWIN
+python3 -P dev/lean-twin-mutations.py
 ```
 
 The build wrapper uses `dunecho` when available and otherwise Dune. Set
@@ -27,19 +30,22 @@ The build wrapper uses `dunecho` when available and otherwise Dune. Set
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
 increment compares four proof-bodied/opaque pairs, reproduces the carried
-eraser's layout differences, and checks two Lean source files.
-`python3 -P dev/erasure-mutations.py` checks four isolated mutations.
+eraser's layout differences, and checks the initial F2 and Acc witnesses
+plus the F2 negative probe. `python3 -P dev/erasure-mutations.py` checks five
+isolated mutations. The default gates also run all 36 pairs in
+`lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
 Stage B remains open. The pinned kernel rejects the `Acc` fixture's `Nat`
-index in `Prop`, although its Lean twin elaborates. The full 24 ACCEPT and
-12 REFUSE Lean corpus is also outstanding. `zsh -f dev/gates.sh TRACE-ERASURE`
-reports that blocker and exits 1. See [the build log](dev/M0-BUILD-LOG.md).
+index in `Prop`, although its Lean twin elaborates. Inline proof erasure
+also remains open. `zsh -f dev/gates.sh TRACE-ERASURE` reports the Acc
+blocker and exits 1. See [the build log](dev/M0-BUILD-LOG.md).
 
 The Lean package is reusable with `require attestTwin from "../attest"` in
 a dependent project's `lakefile.lean`, followed by `import AttestTwin`.
 Its sources use term proofs; the `Acc` witness checks elimination in the
-kernel and is explicitly noncomputable. These are initial twins, not the
-complete LEAN-TWIN corpus.
+kernel and is explicitly noncomputable. The separate LEAN-TWIN corpus covers
+the shared checking fragment, with accepted declaration prefixes pinning
+every refusal site. See [the corpus guide](lean/README.md).
 
 See [SPEC.md](SPEC.md) for the current command contract and
 [CARRIED.md](CARRIED.md) for provenance and the documented carry adjustments.

@@ -1,0 +1,2 @@
+CHECK /tmp/claude-501/attest-twin-wrong-attest-universe-nq0oraty/fixtures/lean-twin/universe-refuse.att FAIL mismatch: the term has type Type 2 and the expected type is Nat
+attest: check: mismatch: the term has type Type 2 and the expected type is Nat

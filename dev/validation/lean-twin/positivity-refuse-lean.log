@@ -1,0 +1,1 @@
+/Users/oobi/Documents/attest/lean/Corpus/positivity-refuse.lean:5:0: error: (kernel) arg #1 of 'Bad.mk' has a non positive occurrence of the datatypes being declared

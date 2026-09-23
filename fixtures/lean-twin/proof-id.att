@@ -1,0 +1,2 @@
+def checked : (0 P : Prop) -> (p : P) -> P :=
+  fun (0 P : Prop) (p : P) => p

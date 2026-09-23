@@ -1,0 +1,1 @@
+def checked : (x : Nat) -> Nat := fun (x : Nat) => x

@@ -1,0 +1,1 @@
+nat-literal-lean unexpected Lean diagnostic or axiom: 'classical' depends on axioms: [propext, Classical.choice, Quot.sound]

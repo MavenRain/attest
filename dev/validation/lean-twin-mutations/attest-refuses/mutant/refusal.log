@@ -1,0 +1,1 @@
+nat-literal-attest exit=1 expected=0; log=/Users/oobi/Documents/attest/.gatework/lean-twin-mutations/attest-refuses/mutant/nat-literal-attest.log

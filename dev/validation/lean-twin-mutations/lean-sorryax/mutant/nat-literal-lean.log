@@ -1,0 +1,2 @@
+/Users/oobi/Documents/attest/.gatework/lean-twin-mutations/lean-sorryax/mutant/nat-literal-lean.lean:3:4: error: declaration uses `sorry`
+'checked' depends on axioms: [sorryAx]

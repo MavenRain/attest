@@ -1,0 +1,3 @@
+def seed : Nat := 0
+-- REFUSE: rejected
+def rejected : (x : Nat) -> Nat := fun (x : Nat) => Nat

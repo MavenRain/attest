@@ -1,0 +1,2 @@
+CHECK /Users/oobi/Documents/attest/.gatework/lean-twin-mutations/attest-prefix/mutant/universe-refuse-prefix.att FAIL mismatch: a tuple needs a right former as its expected type
+attest: check: mismatch: a tuple needs a right former as its expected type

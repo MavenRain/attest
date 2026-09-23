@@ -1,0 +1,8 @@
+/Users/oobi/Documents/attest/lean/Corpus/argument-refuse.lean:5:27: error: Application type mismatch: The argument
+  Nat
+has type
+  Type
+of sort `Type 1` but is expected to have type
+  Nat
+of sort `Type` in the application
+  keep Nat

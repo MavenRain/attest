@@ -1,0 +1,5 @@
+mu Unary : Type 0 with
+| zero : Unary
+| succ : (pred : Unary) -> Unary
+
+def checked : Unary := succ (succ zero)

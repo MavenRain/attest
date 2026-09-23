@@ -1,0 +1,2 @@
+CHECK /Users/oobi/Documents/attest/fixtures/lean-twin/empty-elim-refuse.att FAIL mismatch: the scrutinee is not a left former
+attest: check: mismatch: the scrutinee is not a left former

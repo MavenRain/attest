@@ -1,0 +1,7 @@
+/Users/oobi/Documents/attest/lean/Corpus/result-refuse.lean:5:33: error: Type mismatch
+  Nat
+has type
+  Type
+of sort `Type 1` but is expected to have type
+  Nat
+of sort `Type`

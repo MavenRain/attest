@@ -1,0 +1,7 @@
+/Users/oobi/Documents/attest/lean/Corpus/large-elim-refuse.lean:8:33: error: Type mismatch
+  Type
+has type
+  Type 1
+of sort `Type 2` but is expected to have type
+  Prop
+of sort `Type`

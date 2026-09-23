@@ -1,0 +1,8 @@
+mu Choice : Prop with
+| first : Choice
+| second : Choice
+-- REFUSE: rejected
+def rejected : (p : Choice) -> Type 0 :=
+  fun (p : Choice) => case p as q in Choice return Type 0 with
+  | first => prod ()
+  | second => prod ()

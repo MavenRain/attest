@@ -1,0 +1,2 @@
+def checked : (0 A : Type 0) -> (p : sum ()) -> A :=
+  fun (0 A : Type 0) (p : sum ()) => absurd p

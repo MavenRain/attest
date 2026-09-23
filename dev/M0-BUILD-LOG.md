@@ -1,5 +1,38 @@
 # M0 build log
 
+## 2026-09-22: Stage B Lean checking corpus
+
+Implemented the full LEAN-TWIN checking corpus: 24 ACCEPT and 12 REFUSE
+pairs, with individual attest and Lean sources and a strict manifest. The
+gate checks the pinned Lean version, complete source membership, term
+proofs, and empty axiom reports. Refusal prefixes must check successfully;
+the final declaration must fail for the expected reason in both languages,
+with Lean diagnostic locations inside that declaration.
+
+The default gate battery now includes LEAN-TWIN. Its standalone command is
+`zsh -f dev/gates.sh LEAN-TWIN`. The carried gate wrapper's exact adapted
+hash and CARRIED.md entry have been updated; no carried kernel or surface
+source changed.
+
+The corpus passes 24/24 ACCEPT and 12/12 REFUSE pairs. Thirteen mutation
+controls pass and all thirteen mutations are caught. The executable records
+are `validation/lean-twin.json` and `validation/lean-twin-mutations.json`,
+with per-command logs and source hashes. The release check record
+`dev/validation/lean-twin-checks.json` is written by
+`python3 -P dev/lean-twin-checks.py --record`: it runs the full gate battery,
+the forced dune tests, both record commands and the TRACE-ERASURE frontier,
+pins each exit code, timing and log hash, hashes both records above, and
+derives `record_hashes_verified` by rehashing the logs those records name.
+See `lean/README.md` for coverage, refusal-site checks, and reproduction
+commands.
+
+Stage B remains OPEN on Acc checking and inline proof erasure. This corpus
+covers the shared checking fragment and does not erase or conceal the
+known Acc divergence. The initial F2, F2Neg, and Acc probes still run in
+the separate ERASURE group. The earlier build-log entries and records
+remain historical evidence of their own implementation trees.
+
+
 ## 2026-09-22: Stage A implementation
 
 Carried 594 files from assay `eebe37e00ecb7fdce739c49f50a6dd49c45022b1`

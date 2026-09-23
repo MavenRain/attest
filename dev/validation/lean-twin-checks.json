@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "recorded_at": "2026-09-22T23:52:47.156276+00:00",
+  "root": "/Users/oobi/Documents/attest",
+  "summary": "LEAN-TWIN-CHECKS passed=5/5 records=2/2 OK",
+  "checks": [
+    {
+      "name": "gates",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "all"
+      ],
+      "exit_code": 0,
+      "expected": 0,
+      "seconds": 22.984,
+      "log_sha256": "232aef1faadb5ef11ee1bdaff5bedff682b511d83acca11211526b00ffe9c893"
+    },
+    {
+      "name": "dune-tests",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/dunecho.sh",
+        "test",
+        "--force"
+      ],
+      "exit_code": 0,
+      "expected": 0,
+      "seconds": 0.368,
+      "log_sha256": "a4a2fd4b2d68a49b0339595afad056fc46d3e7e90c7bd48e180f85d991af91f0",
+      "dunecho_bypassed": true
+    },
+    {
+      "name": "corpus-record",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/lean-twin.sh",
+        "--record"
+      ],
+      "exit_code": 0,
+      "expected": 0,
+      "seconds": 15.6,
+      "log_sha256": "8b944e5713c61c342a1d7bd55ff189c800a67540478144d2977d036282476ab0"
+    },
+    {
+      "name": "mutation-record",
+      "command": [
+        "python3",
+        "-P",
+        "dev/lean-twin-mutations.py",
+        "--record"
+      ],
+      "exit_code": 0,
+      "expected": 0,
+      "seconds": 9.279,
+      "log_sha256": "6e2d943d59878da5fb308f0a74235c0d6eaeb223fb187e9b5a5a44a73c99713f"
+    },
+    {
+      "name": "trace-frontier",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "exit_code": 1,
+      "expected": 1,
+      "seconds": 2.244,
+      "log_sha256": "9ba1b9fd51b0a09792036ec72740c431a58992248977d571e0fe4ee333b3863c"
+    }
+  ],
+  "log_sha256": {
+    "corpus-record.log": "8b944e5713c61c342a1d7bd55ff189c800a67540478144d2977d036282476ab0",
+    "dune-tests.log": "a4a2fd4b2d68a49b0339595afad056fc46d3e7e90c7bd48e180f85d991af91f0",
+    "gates.log": "232aef1faadb5ef11ee1bdaff5bedff682b511d83acca11211526b00ffe9c893",
+    "mutation-record.log": "6e2d943d59878da5fb308f0a74235c0d6eaeb223fb187e9b5a5a44a73c99713f",
+    "trace-frontier.log": "9ba1b9fd51b0a09792036ec72740c431a58992248977d571e0fe4ee333b3863c"
+  },
+  "record_sha256": {
+    "dev/validation/lean-twin.json": "66d7343f4847c8c7a1d3e7e703fda58daad6708e6eaa12f8f53b75ba4aebcd0f",
+    "dev/validation/lean-twin-mutations.json": "be5020213273977ff088e03fcdc1c1ef94b9678915d397ec0b8bcad8064667c3"
+  },
+  "record_hashes_verified": true
+}

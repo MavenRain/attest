@@ -1,0 +1,8 @@
+/Users/oobi/Documents/attest/lean/Corpus/empty-elim-refuse.lean:5:33: error: Application type mismatch: The argument
+  seed
+has type
+  Nat
+of sort `Type` but is expected to have type
+  False
+of sort `Prop` in the application
+  False.elim seed

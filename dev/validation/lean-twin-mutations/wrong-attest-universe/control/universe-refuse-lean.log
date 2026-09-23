@@ -1,0 +1,7 @@
+/tmp/claude-501/attest-twin-wrong-attest-universe-nq0oraty/lean/Corpus/universe-refuse.lean:5:23: error: Type mismatch
+  Type
+has type
+  Type 1
+of sort `Type 2` but is expected to have type
+  Type
+of sort `Type 1`

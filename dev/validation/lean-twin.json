@@ -1,0 +1,586 @@
+{
+  "version": 1,
+  "recorded_at": "2026-09-22T23:52:35.607062+00:00",
+  "root": "/Users/oobi/Documents/attest",
+  "summary": "LEAN-TWIN accept=24/24 refuse=12/12 axioms=0 OK",
+  "toolchain": "leanprover/lean4:v4.33.1",
+  "implementation_sha256": {
+    "dev/lean_twin.py": "2625caf34243378bd08738844557350e2ed5688f7cf41e228dc5e515e7822922",
+    "dev/lean-twin.sh": "ae574ba73ac2cceedf7706e72a4b69c005dd25d2f48e14071189f321edca087f",
+    "lean/corpus.json": "7c25bbb9e4719c1eff1f4965f207a7bba26675adba695d9d2b966b5484ebff05",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71",
+    "lakefile.toml": "36001354d6f1e3e50ec3d8ebd41f6336aa69fb709e2e2cadebb73752309a624a",
+    "lake-manifest.json": "8ec5affd4ce9f80296154aef979491445c98dec5ab6386415ab929f7f12c0615",
+    "AttestTwin.lean": "9fbf4d57c6c29fdf584946bd255b3ba2430e4599570e52154180f9a97ddba07b",
+    "AttestTwin/Core.lean": "0150416f62c7711d0ffeff61bb7b4c7eae843c7f4f118ac1f37ee9cc229e4b22",
+    "bin/attest.ml": "4aef150a547893292371a74d8a30cd5521c61f93740921fa4717af83c2c112c3"
+  },
+  "driver_sha256": "d6499683545ac0b1c788574aba1464413453bfa589038ee19af4f73edfe85259",
+  "rows": [
+    {
+      "row": "nat-literal",
+      "topic": "Natural literal",
+      "expected": "accept",
+      "attest_sha256": "97099e845e2123e11d144194d8b0d2d4664a499729ebcf79e9cc97d8105e01e8",
+      "lean_sha256": "3528cf9720650d3f13886f170ac0872b29169ebc8d8432256ab8d2d16d9e1da7",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "identity",
+      "topic": "Function identity",
+      "expected": "accept",
+      "attest_sha256": "b72dd31c0101be978f9f9a2afe4fad2cf07b459e2930d26c453d17aaab454cf6",
+      "lean_sha256": "1ee0c71734d14d5efbea5a64d048dbebc8aebadcb8f937b386953a0474e2f7e9",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "constant",
+      "topic": "Constant function",
+      "expected": "accept",
+      "attest_sha256": "cc51d2fb1f0a3ad41bac5085bd9820567dff59fd837f8d401e89304fc959ac1c",
+      "lean_sha256": "07a91f5ad7a5bc00a35fa15032886d5c3c01a8f92f8ef2feda226cc4b76d1072",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "composition",
+      "topic": "Higher order application",
+      "expected": "accept",
+      "attest_sha256": "a5f25bc2c66d728904ef9ff8701084582e511c34ad6a552e2f9a54d8dc7878fa",
+      "lean_sha256": "c602c73bead4b14de8c5d8a9fdbf09d71fc008ba04761960bd5314548df118db",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "nat-add",
+      "topic": "Natural addition",
+      "expected": "accept",
+      "attest_sha256": "03f8860b88bfa166e9a89a9b6fc68df7d8b9619b2a4e61f59c06480d5796bacb",
+      "lean_sha256": "87e859460516d2b0b9b490c651254f94cb50e459c7ed7eae82551e001496811d",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "nat-mul",
+      "topic": "Natural multiplication",
+      "expected": "accept",
+      "attest_sha256": "854246ea0ae0314e37d2f6a42e43d2c5f4346e9dc024c4e7977dc5f4adfa4e42",
+      "lean_sha256": "460bc120ba1e6a1040d3f0b3eb0cd22107ac52a9fac1c85a4b2f195ef7d590b7",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "pair-first",
+      "topic": "Dependent pair first projection",
+      "expected": "accept",
+      "attest_sha256": "17b1b0ba381ab18a9b6f4c3793247e89e70fb36ebc8f29c3b2cfdc65f04ec370",
+      "lean_sha256": "3517e5cc804b93f3e6c05b419adaddec99d90f3f1c7e032fa6bdb78c8b2e476e",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "pair-second",
+      "topic": "Dependent pair second projection",
+      "expected": "accept",
+      "attest_sha256": "ca14a4054c781ddfcc24f6a6da7997403b1a30e6afb1608e688f03fc88221e81",
+      "lean_sha256": "85ae8762422619eb6e3a31d937e4c3f741d6b89be7442dfe902425e32d5effdb",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "triple",
+      "topic": "Collection product projection",
+      "expected": "accept",
+      "attest_sha256": "bdf16fa04f33b9046948f8646bd293ea0796739e1e0e22ca3f39d2a7998c1163",
+      "lean_sha256": "734532924c6aea3d1e3be1fcfa45a8fc2c0e5499ff5b6748ce18152e7e40a3a8",
+      "declarations": [
+        "value",
+        "checked"
+      ],
+      "attest_declarations": [
+        "value",
+        "checked"
+      ]
+    },
+    {
+      "row": "unit",
+      "topic": "Empty product introduction",
+      "expected": "accept",
+      "attest_sha256": "aad7219779ed80a45d2eb26abc055039acc88e9c07ab742f929d396134516c25",
+      "lean_sha256": "420359ff6d958619df037166a9c546a4ea13c53ee22c7b883761289020c27ca4",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "empty-elim",
+      "topic": "Empty proposition elimination into Type",
+      "expected": "accept",
+      "attest_sha256": "bec6df3e03544114863a19e2302912b2af47b1ec1d6eb054f3333f3671b8205a",
+      "lean_sha256": "8f890d33b45f76ac493417a511c6ea7bb1ac59551743d9abc1064e07a531b345",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "sum-left",
+      "topic": "Collection sum left introduction",
+      "expected": "accept",
+      "attest_sha256": "3eb763dcda4f01a72cc5f2e927c1d87b347001ad82ffb1589287336d15d8ab33",
+      "lean_sha256": "618b2c97d5f94ce03673e90a665a80bc4535514a40413cb15f6a26d58e87f43e",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "sum-right",
+      "topic": "Collection sum right introduction",
+      "expected": "accept",
+      "attest_sha256": "c6b413e38f3563e67332b9f3c6905577cb2c310339fecb7f248b1488ae0fce3f",
+      "lean_sha256": "7cccde13b70c42be57d7cc5afdeca091e6654741cbbd17411a517214121319c6",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "sum-case",
+      "topic": "Collection sum elimination",
+      "expected": "accept",
+      "attest_sha256": "775ced120d5976e23252db43209f6dd3eb683b6b1f5c6d7f077ca56aef3eb460",
+      "lean_sha256": "7422030e89047c1449ed3cc5b9c5c4c9e61ac885ab2d8aa06acacd42cea423f8",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "prop-universe",
+      "topic": "Proposition universe inhabits Type",
+      "expected": "accept",
+      "attest_sha256": "3eff3fc16350f19f91e057ebfcbd2de5e68b9038fb8304e2e544b5f3bbfaf951",
+      "lean_sha256": "8859254fe0738c9ccb6437ff2327ce29a713de4334a6e797e876ece1060e71ef",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "type-universe",
+      "topic": "Type universe successor",
+      "expected": "accept",
+      "attest_sha256": "3278019ff17b9a0f2cd53818d9cb0ecddf6d3be038908f3e251fdd0d40e0d500",
+      "lean_sha256": "e94bbb0fa5133910e42654b247c4ab6c3afdae9829ed8c33d46dd40e608b240f",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "polymorphic-id",
+      "topic": "Erased type parameter",
+      "expected": "accept",
+      "attest_sha256": "0d96eb46f8b81a813a890a6c217596d296704646ea0eb9a084d55de5949e6c90",
+      "lean_sha256": "b38bd308301b21e8a5bead4bacc820a5e7b6579962f0aead8480dab600727ba2",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "let-binding",
+      "topic": "Annotated let binding",
+      "expected": "accept",
+      "attest_sha256": "33dc61be27c943706bca221976bb0da43b5df4624e37cf135cdfb8d23a5bd3b5",
+      "lean_sha256": "1e8ae969dc87acbd4e61a9a7c17ee5ca53fcd5e224fb5197ac7736224c5892ec",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "dependent-pair",
+      "topic": "Dependent pair with a type field",
+      "expected": "accept",
+      "attest_sha256": "bd9f6948409054ce3fefd3f10a1f831b2df1b18de4c10a53404cd7a6b7f68753",
+      "lean_sha256": "9aa9a558592013b2ed0724a489015b0db4bb94de1f7f6ccfd27656af40bf7f04",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "proof-id",
+      "topic": "Proposition parameter and proof",
+      "expected": "accept",
+      "attest_sha256": "2ce784f307b6805d47206a8d98e79c704c548d469b77ee0671621098e146d719",
+      "lean_sha256": "55f085e7ab6cc7498d114fdbdba1c75b4415ea28bee8813e30017fddc4dae6e9",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "proof-irrelevance",
+      "topic": "Conversion ignores proof identity",
+      "expected": "accept",
+      "attest_sha256": "740d50fc2ef68b0714e8d32916383f12c5ddeb2d52ef873dd913e549d97f7c33",
+      "lean_sha256": "321983bd9675cc9fd0ab56ceab318dd9e977a0a576616a17569d674dbc77b698",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "impredicativity",
+      "topic": "Proposition arrow over a higher universe",
+      "expected": "accept",
+      "attest_sha256": "b14e3e1369d3eaf4fd56ccfd9389c314be959fbf9f8d36b0f73e3cc9ff2a9d71",
+      "lean_sha256": "3713e9054fa397d06df8f40f34ddb25c14c9a35ac4c7aa34a4a88beeb6117adc",
+      "declarations": [
+        "checked"
+      ],
+      "attest_declarations": [
+        "checked"
+      ]
+    },
+    {
+      "row": "recursive-family",
+      "topic": "Strictly positive recursive family",
+      "expected": "accept",
+      "attest_sha256": "0c160190ca140cb7aeb256aa253e8f0541b7145ad8d51a85804bb99da41f7186",
+      "lean_sha256": "02b553cec510df3a9fda0afe23e7aa33ed5c13c36c95c0696bca447adb4de7a9",
+      "declarations": [
+        "Unary",
+        "checked"
+      ],
+      "attest_declarations": [
+        "Unary",
+        "checked"
+      ]
+    },
+    {
+      "row": "singleton-elim",
+      "topic": "Singleton proposition large elimination",
+      "expected": "accept",
+      "attest_sha256": "773dbbd02be83d84be9636acc5b38517bc5ddb7bd09e8f36124b1b222d16aef2",
+      "lean_sha256": "15d24130873d6157cf23e2b0070d6d92966f38dc49cc7f138f34da400bdc108f",
+      "declarations": [
+        "Equal",
+        "proof",
+        "checked"
+      ],
+      "attest_declarations": [
+        "Equal",
+        "proof",
+        "checked"
+      ]
+    },
+    {
+      "row": "universe-refuse",
+      "topic": "Universe cannot inhabit itself",
+      "expected": "refuse",
+      "attest_sha256": "1c76e8dc0faaa61b800c9add0ef484b04bee0527f721e9474047a244b83fcae7",
+      "lean_sha256": "5c2c2499b24282365e1123f68a45e3516d1d058722f221e39b0550112c28c702",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        5
+      ]
+    },
+    {
+      "row": "argument-refuse",
+      "topic": "Function argument type mismatch",
+      "expected": "refuse",
+      "attest_sha256": "e7c3ba3dadf18bdf6b95b9241a0403c46092b960bb1035cee2e51ee51bc53d3d",
+      "lean_sha256": "3146f1d28ef42add500eec8cad7cbeb3ff77027c231185fdbc0334c1c2b54b3b",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        5
+      ]
+    },
+    {
+      "row": "result-refuse",
+      "topic": "Function result type mismatch",
+      "expected": "refuse",
+      "attest_sha256": "a1059d77ae20681dd7d1bcd663ed2256cf1f4a78016baf52d9d6fb854af3b4a4",
+      "lean_sha256": "afeb17fb87dcfaa03a9fcc7ecb1e5fdd0aeaed994b31d2e06323b23f428a85cf",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        5
+      ]
+    },
+    {
+      "row": "pair-first-refuse",
+      "topic": "Dependent pair first field mismatch",
+      "expected": "refuse",
+      "attest_sha256": "8b7f54d25ad3483207051c2d064fc5b78718c6475a46cbab9a0d22b4e41e73ca",
+      "lean_sha256": "846f2357e537ea104aa4316ce0226017df01355824422db1a95c0f18185d36b5",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        5
+      ]
+    },
+    {
+      "row": "pair-second-refuse",
+      "topic": "Dependent pair second field mismatch",
+      "expected": "refuse",
+      "attest_sha256": "811aa8bf0a0fe13fe6acd5861c638c4077d1318aec1a9d2c14a74a5dca50a009",
+      "lean_sha256": "d399de458b5a42f9a3167a9481d11ff7f957f54e2b1178b70c1652a85fd5ab40",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        5
+      ]
+    },
+    {
+      "row": "sum-payload-refuse",
+      "topic": "Sum payload type mismatch",
+      "expected": "refuse",
+      "attest_sha256": "1e5407a0b576054f57098091063f10115cdab98cbc866c56448495e4009cf68e",
+      "lean_sha256": "7e55c22186efcc6264b02ff16e2ee1b7a75c57426452e3ea9293c17043fccafd",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        5
+      ]
+    },
+    {
+      "row": "case-refuse",
+      "topic": "Case branch result mismatch",
+      "expected": "refuse",
+      "attest_sha256": "66a8693c3fe0f5c51e70f2e0ad7e922596062419fac9b1102de82146868db2cf",
+      "lean_sha256": "ce71f49eb65ead51745ffe68be81138e2ad8da8b4718fad498987244202a11d4",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        6
+      ]
+    },
+    {
+      "row": "application-refuse",
+      "topic": "Natural used as a function",
+      "expected": "refuse",
+      "attest_sha256": "f8dd8fb5ab88011d59c3595b6aabee7741ba9669993d9c11f14544ff3c82909d",
+      "lean_sha256": "9f08f259e48ab95a3607096e1b9a4a2e9c4441b6391d6ff50b046a94d4b5c7f8",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        5
+      ]
+    },
+    {
+      "row": "projection-refuse",
+      "topic": "Natural used as a dependent pair",
+      "expected": "refuse",
+      "attest_sha256": "4b5e4e7f803b3008e9625231f6adce4bba513edff4be82ca738bbd3f835962c3",
+      "lean_sha256": "b61f525eedf6844a949d8dff4a831ab573477b9e7e477fb0e73b6974857f0e79",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        5
+      ]
+    },
+    {
+      "row": "empty-elim-refuse",
+      "topic": "Empty eliminator requires a false proof",
+      "expected": "refuse",
+      "attest_sha256": "4fcc10b2c595e11f1df6b2351506d7becfdaa4dfa66cf16ca7caa94b44075bee",
+      "lean_sha256": "8dfd1f73c95a2ae13ae56ce36d73c3172557c02d83b9496a8ab16466d8af100a",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        5
+      ]
+    },
+    {
+      "row": "positivity-refuse",
+      "topic": "Negative recursive occurrence",
+      "expected": "refuse",
+      "attest_sha256": "049a1798aebf7f7ec513eba5dabb52ab71ff188f7942fc4b454ad060e79f4721",
+      "lean_sha256": "e872fce99fc4d75f230056092f5c436bea40c6130d56459835089b9c72a4db7a",
+      "site": "Bad",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        5
+      ]
+    },
+    {
+      "row": "large-elim-refuse",
+      "topic": "Two-constructor proposition cannot eliminate into Type",
+      "expected": "refuse",
+      "attest_sha256": "feaeae0d1389ecff2d9ab30d36d40e1c32a9c92ac1763eb0f52349ad7e217362",
+      "lean_sha256": "57c951dda08acdbf664d9207d0d85d39d8c34686116e7ac8f8a2613ad74d529d",
+      "site": "rejected",
+      "prefix_accepted": true,
+      "lean_error_lines": [
+        8
+      ]
+    }
+  ],
+  "log_sha256": {
+    "BUILD.log": "9e007d7a4010fcc271a69a2546c4c166962b8c019f48235eca93e8512b6a997b",
+    "LEAN-BUILD.log": "06a5f9b063d5f0dabd935a0481efffb059865f90ae5d056892d81c49c814c963",
+    "LEAN-TOOLCHAIN.log": "4762d596346ad354e28668de62b7eeae7de5d531b9a7b1c182ca59cfacd81bdd",
+    "application-refuse-attest.log": "5e370a79297b36f38a1ae966dfc7568474ee8bb7fde415e8aad7ee96a1eaa6c7",
+    "application-refuse-lean.log": "49b31105d12ea21f8eab7c0d3b945f7b6e18860d82f981de5115ffad77947c82",
+    "application-refuse-prefix-attest.log": "8568abc610323d40da4d45ff514444b55a1baae7713742b53237d3e6a7c21964",
+    "application-refuse-prefix-lean.log": "0ecef04e6bc20c4540198b6f8e49a5babf08b15ec47efc733da17723a5a7a330",
+    "argument-refuse-attest.log": "b0cd45028887323a7728f9e0116b33f9d38675aaceb6697dd02075f91fc31431",
+    "argument-refuse-lean.log": "a9b02ae06881471aba93e0268b0ae917f96a1057ed84088605c22221051796c2",
+    "argument-refuse-prefix-attest.log": "8d0f5b1a5186b6430a00506c561fa0409739a591a555cc15c802fa34a4d62506",
+    "argument-refuse-prefix-lean.log": "d4b60aa84d7505b55ca951c76813c520562a88ec27945d3c4a478dadaac165bd",
+    "case-refuse-attest.log": "2a6ed1d32db536a84c750a11c4ddda558d9c6eacbc1bfa2e9cb0886c787ce9e2",
+    "case-refuse-lean.log": "5be07653bf40a3e726c7247bef440a425d57c8921f7cd48805761d0a5d3393c5",
+    "case-refuse-prefix-attest.log": "09e1ddd1159feb967d077d69356e0f61ed16b81e9174d1665005533e6a957852",
+    "case-refuse-prefix-lean.log": "0ecef04e6bc20c4540198b6f8e49a5babf08b15ec47efc733da17723a5a7a330",
+    "composition-attest.log": "f27e7166affe215b5d3f0d93df17d6217026d27bf633149020c9d7759791d83f",
+    "composition-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "constant-attest.log": "8f85e0459a5bfc54e9e6e29052db5f87e91fa1f3c7b5adab0adf28197f0d7ac8",
+    "constant-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "dependent-pair-attest.log": "a8d0eed1770e8ed33d7947cb70291aec70f1ae564de7318d3047b396bef4d104",
+    "dependent-pair-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "empty-elim-attest.log": "c2122f8c1d061ad6cff2fedca7179158ffc9704b402251fa404479f3f45dc764",
+    "empty-elim-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "empty-elim-refuse-attest.log": "0b4f0e95402c0f7b7632ed66d477eeb1a46ea623509859b7ee4ba1a6a824ff77",
+    "empty-elim-refuse-lean.log": "fe7e9dd05f55f6671e96e94d90ec1c20f957e49522cd55879b9945e97530f96f",
+    "empty-elim-refuse-prefix-attest.log": "30faabc8fccec9fbfec5656a9596cf584f96bc5b3400098f855e611071aa9164",
+    "empty-elim-refuse-prefix-lean.log": "0ecef04e6bc20c4540198b6f8e49a5babf08b15ec47efc733da17723a5a7a330",
+    "identity-attest.log": "0a9baee775080e156378a5c78353e33bd24a5e27ffba2a74f4d3c82feecd418e",
+    "identity-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "impredicativity-attest.log": "75096e9ce68a46e9ab91edf210c3452f27929bcaa3e99ef53120fd619b43d1d3",
+    "impredicativity-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "large-elim-refuse-attest.log": "97e5f5ca841f2f14e9b3dc0a4808ba514a7d6626211ca7ee0b07969287c96b1b",
+    "large-elim-refuse-lean.log": "982e25e15d8b043eaabd730ef80675deba58b1888451c09ab1a3ffcfa66083cb",
+    "large-elim-refuse-prefix-attest.log": "3427100dfb8c12ce1b1e234be461dcf16479253780a5601651dbc7ba46379168",
+    "large-elim-refuse-prefix-lean.log": "e21db26237f7c7dde9c943d99ff614a505ed775904125c0b0d2d761a1b4cab03",
+    "let-binding-attest.log": "19b8e256d53cd3a996d2b30802ff5c2d68394e6140531dcb4b96de90b79ee8ee",
+    "let-binding-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "nat-add-attest.log": "0494c6da0739c2985523a7864aa58af06b812b34ac23360acf2f37ee59e22487",
+    "nat-add-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "nat-literal-attest.log": "b4ccf09fb452804f8b9a1d037b17848cea5ef20b59bb0b0f785b0113215b3663",
+    "nat-literal-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "nat-mul-attest.log": "11691b04803077088fcd4f1729e268076c3a5ad9453bca04706bedcab03345d3",
+    "nat-mul-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "pair-first-attest.log": "620769f18e681dad7920f95a23bf9b098a1d29ea481e8a45a662840ddff17a52",
+    "pair-first-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "pair-first-refuse-attest.log": "512a1621f53ccf2e1ed7ca9965a52a6cde92c2b69209faf32eea3ef44a5bc38c",
+    "pair-first-refuse-lean.log": "f08ab30153eb7d59a4c6213df23acc7f90f0a13eba5790596a14ca5891a43e62",
+    "pair-first-refuse-prefix-attest.log": "0d8d7159448235c0c43dc51dc983f73d8a751b224196de95ce10a9e649efc859",
+    "pair-first-refuse-prefix-lean.log": "0ecef04e6bc20c4540198b6f8e49a5babf08b15ec47efc733da17723a5a7a330",
+    "pair-second-attest.log": "fe70a765066cc6e557252c1913c68cb324c0d5437b7338f4e7f413f49f108045",
+    "pair-second-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "pair-second-refuse-attest.log": "eddda372350282dd8026a03c1df95990963bcfd67103d1da11035b5482ca25e4",
+    "pair-second-refuse-lean.log": "4b0d49ab6f94cb3d7158234aae3459620d82e91fd6b865fd163b3f07537ac64a",
+    "pair-second-refuse-prefix-attest.log": "3ffc5c0b64ff1ee3aa7f447a93f885886bd3a8887770eed003ec19be2fff57fe",
+    "pair-second-refuse-prefix-lean.log": "0ecef04e6bc20c4540198b6f8e49a5babf08b15ec47efc733da17723a5a7a330",
+    "polymorphic-id-attest.log": "e47556f9c83139c677829f528c0b15ca720cbf51be98e0ac25d7f01c82ec4cbf",
+    "polymorphic-id-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "positivity-refuse-attest.log": "8b7313fbbf16db244b214e4de87a4fa20f4e14eaf111bc37fa2cba6008b05282",
+    "positivity-refuse-lean.log": "d50e750d143d9ffdd8ca9431a17f37c1d90cb50b845548070f3558911ce716a9",
+    "positivity-refuse-prefix-attest.log": "94e3e5664218e6c8e4c97cbe3b85086c4fef871530b92f150378b6d41f84bfd5",
+    "positivity-refuse-prefix-lean.log": "0ecef04e6bc20c4540198b6f8e49a5babf08b15ec47efc733da17723a5a7a330",
+    "projection-refuse-attest.log": "80e810edc4379b73abff2fe5dcabae11b73b77f1b5e3549f0b07716cb05835fe",
+    "projection-refuse-lean.log": "c372ee397199e4a7dcbed4acdcf0807a3f212c38cd8957799b4ae44c4e90902a",
+    "projection-refuse-prefix-attest.log": "180ba0d83fb4fbc3e03651c2c5cee5429eae7c1198321ac3054fd0da68e8ffa4",
+    "projection-refuse-prefix-lean.log": "0ecef04e6bc20c4540198b6f8e49a5babf08b15ec47efc733da17723a5a7a330",
+    "proof-id-attest.log": "e2e441c6ba74c860146af360e0ef3f5195159fe7280067da6a9a857070737fcc",
+    "proof-id-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "proof-irrelevance-attest.log": "aff4bde41fedca9841772145188d690a471796eabdab0200f560481950357588",
+    "proof-irrelevance-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "prop-universe-attest.log": "d600d85aec4c5ab31d16ee4bf0c76fc4748780d6b2570172eedc3dacd4f8df9a",
+    "prop-universe-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "recursive-family-attest.log": "5ae6ac3f92c8a92e236dbc1cd0bb97051ef1d6d3aed4d95465b491d5fcee8e03",
+    "recursive-family-lean.log": "3cfee5b8ee13eb47366539a35b4c54ea19f4f5ec793a198ef49a95335d01b96e",
+    "result-refuse-attest.log": "50cb69bb64ae9b790864cfbe7f86b1d6701d713a6d038cfdbb5e8955ce726229",
+    "result-refuse-lean.log": "7418911858768a1c1b2e97705e086b2fc6cbf95b5f8e880680527f0077914a87",
+    "result-refuse-prefix-attest.log": "4cb0069ec7c501b66611085117b4e7f5c242ebfca2d8d4d9ce459ee6c26ef07c",
+    "result-refuse-prefix-lean.log": "0ecef04e6bc20c4540198b6f8e49a5babf08b15ec47efc733da17723a5a7a330",
+    "singleton-elim-attest.log": "b878de7a16587faa96af747ddb98896746b3974fec3c34691d37e5a337d8a2df",
+    "singleton-elim-lean.log": "6d3eb17edb26d0cc7f2610a42f2a807510092b893d1ee3e0539cf02e72abac24",
+    "sum-case-attest.log": "3826e65773c283dbcad15de14b6d4811387c5f0404dbdfe3d518131afa7371d9",
+    "sum-case-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "sum-left-attest.log": "d97b652f95fa40d92273bd5b2174972d97fd45bcd6368840d8f556e48b73eed0",
+    "sum-left-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "sum-payload-refuse-attest.log": "1cba13565ad3223adfb00176abaeeb80c44fb5ceeb8013d95c88d99f7afc2c68",
+    "sum-payload-refuse-lean.log": "7246e7ff90ab0672b1d173fab0142094cd87a08158dd7596c3e16805cec12e7e",
+    "sum-payload-refuse-prefix-attest.log": "1674fe3eddcdb5ba6e288f4eef9f7b0a9963f771b05dde009913bf57fd8eaea2",
+    "sum-payload-refuse-prefix-lean.log": "0ecef04e6bc20c4540198b6f8e49a5babf08b15ec47efc733da17723a5a7a330",
+    "sum-right-attest.log": "34db0825d919902bcf059a4bcd5ead3d104971399ab91edf64f02de99015347f",
+    "sum-right-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "triple-attest.log": "b8b82e27336713e57dc76653e5d349f8f2090a5ef7a78e78a8cb58a18ceaea08",
+    "triple-lean.log": "c60069bfb0bf4e25b8cd45ece0d2f30005d613480702495af6b19eebb8917afb",
+    "type-universe-attest.log": "a579cf8f9e3c5807a002ce676a7cf340cfe12dfb2ef0aeb69ed6c497f83a9b8a",
+    "type-universe-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "unit-attest.log": "80b1b6ca8cc57038a7d801fbeac3fd4ced912335ec8f24271aa4f0222b2c17ed",
+    "unit-lean.log": "7aff12915a0948aac84784b960cf78d83ab437cf27f6cf38b7f90bc98f2bf1f6",
+    "universe-refuse-attest.log": "fa5effe2c2638106250989ffed76c1a7a5102e1e85a0ff2b956501bd56d91563",
+    "universe-refuse-lean.log": "aadb251d6bffd8cc20d9e732299ec2db92b30594a86e33502e4f9bf46177f44d",
+    "universe-refuse-prefix-attest.log": "d7195971f3243526ec7d751acea0238b341477231a2a3c7d6e4f945ffb8a378a",
+    "universe-refuse-prefix-lean.log": "0ecef04e6bc20c4540198b6f8e49a5babf08b15ec47efc733da17723a5a7a330"
+  }
+}

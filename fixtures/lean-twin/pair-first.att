@@ -1,0 +1,1 @@
+def checked : Nat := ((1, 2) : (x : Nat) * Nat).1

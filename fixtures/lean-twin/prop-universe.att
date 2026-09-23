@@ -1,0 +1,1 @@
+def checked : Type 0 := Prop
