@@ -1,2 +1,2 @@
-CHECK fixtures/erasure/acc.att FAIL index above universe: the index x of Acc lives at 1 and Acc is declared at 0
-attest: check: index above universe: the index x of Acc lives at 1 and Acc is declared at 0
+CHECK fixtures/erasure/acc.att FAIL quantity: the erased binder accessible is read in a runtime position
+attest: check: quantity: the erased binder accessible is read in a runtime position

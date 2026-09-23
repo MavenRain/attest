@@ -1,0 +1,8 @@
+axiom R : Nat -> Nat -> Prop
+
+mu Acc : (0 x : Nat) -> Prop with
+| intro : (0 x : Nat) -> (0 next : (0 y : Nat) -> R y x -> Acc y) -> Acc x
+
+def Acc_step : (0 x : Nat) -> (accessible : Acc x) -> Nat :=
+  fun (0 x : Nat) (accessible : Acc x) =>
+    case accessible as p in Acc y return Nat with | intro 0 y 0 next => 0

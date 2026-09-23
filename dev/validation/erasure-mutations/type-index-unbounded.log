@@ -1,0 +1,30 @@
+ERASURE-INCREMENT FAIL: PROP-INDEX exit=1 expected=0; log=.gatework/erasure/PROP-INDEX.log
+PROP-INDEX row=nat-index OK accepted
+PROP-INDEX row=high-universe-index OK accepted
+PROP-INDEX row=dependent-indices OK accepted
+PROP-INDEX row=reordered-indices OK accepted
+PROP-INDEX row=annotated-index OK accepted
+PROP-INDEX row=accessibility-family OK accepted
+PROP-INDEX row=indexed-singleton-elimination OK accepted
+PROP-INDEX row=erased-index-read OK quantity: the erased binder n is read in a runtime position
+PROP-INDEX row=annotated-index-type OK mismatch: the term has type Nat and the expected type is Type 1
+PROP-INDEX row=result-index-type OK mismatch: the term has type Nat and the expected type is Type 1
+PROP-INDEX row=runtime-index OK index not zero: the index n of At is at quantity w and every index binder is at 0
+PROP-INDEX row=type-index-bound FAIL unexpected acceptance
+PROP-INDEX row=type-field-bound OK universe: a field of box exceeds its family universe
+PROP-INDEX row=unindexed-proof-field OK universe: a field of box exceeds its family universe
+PROP-INDEX row=runtime-proof-field OK universe: a field of at exceeds its family universe
+PROP-INDEX row=constant-result-index OK universe: a field of at exceeds its family universe
+PROP-INDEX row=computed-result-index OK universe: a field of at exceeds its family universe
+PROP-INDEX row=unindexed-first-field OK universe: a field of at exceeds its family universe
+PROP-INDEX row=unindexed-last-field OK universe: a field of at exceeds its family universe
+PROP-INDEX row=ill-typed-index OK universe: a term used as a type is not a universe:  Nat
+PROP-INDEX row=index-twice OK accepted
+PROP-INDEX row=index-in-later-field OK accepted
+PROP-INDEX row=prop-typed-index OK accepted
+PROP-INDEX row=parameter-index OK accepted
+PROP-INDEX row=computed-application-index OK universe: a field of at exceeds its family universe
+PROP-INDEX row=type-1-index-bound FAIL mismatch: the term has type Type 1 and the expected type is Type 2
+PROP-INDEX row=parameter-hidden-field OK universe: a field of at exceeds its family universe
+PROP-INDEX row=recursive-big-later-field OK universe: a field of intro exceeds its family universe
+PROP-INDEX pass=26 total=28 FAIL

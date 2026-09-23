@@ -1,0 +1,30 @@
+ERASURE-INCREMENT FAIL: PROP-INDEX exit=1 expected=0; log=.gatework/erasure/PROP-INDEX.log
+PROP-INDEX row=nat-index FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=high-universe-index FAIL index above universe: the index A of At lives at 3 and At is declared at 0
+PROP-INDEX row=dependent-indices FAIL index above universe: the index A of At lives at 2 and At is declared at 0
+PROP-INDEX row=reordered-indices FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=annotated-index FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=accessibility-family FAIL index above universe: the index x of Acc lives at 1 and Acc is declared at 0
+PROP-INDEX row=indexed-singleton-elimination FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=erased-index-read FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=annotated-index-type FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=result-index-type FAIL index above universe: the index A of At lives at 2 and At is declared at 0
+PROP-INDEX row=runtime-index OK index not zero: the index n of At is at quantity w and every index binder is at 0
+PROP-INDEX row=type-index-bound OK index above universe: the index A of At lives at 2 and At is declared at 1
+PROP-INDEX row=type-field-bound OK universe: a field of box exceeds its family universe
+PROP-INDEX row=unindexed-proof-field OK universe: a field of box exceeds its family universe
+PROP-INDEX row=runtime-proof-field FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=constant-result-index FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=computed-result-index FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=unindexed-first-field FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=unindexed-last-field FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=ill-typed-index OK universe: a term used as a type is not a universe:  Nat
+PROP-INDEX row=index-twice FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=index-in-later-field FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=prop-typed-index OK accepted
+PROP-INDEX row=parameter-index FAIL index above universe: the index x of At lives at 1 and At is declared at 0
+PROP-INDEX row=computed-application-index FAIL index above universe: the index n of At lives at 1 and At is declared at 0
+PROP-INDEX row=type-1-index-bound OK index above universe: the index A of At lives at 3 and At is declared at 2
+PROP-INDEX row=parameter-hidden-field FAIL index above universe: the index x of At lives at 1 and At is declared at 0
+PROP-INDEX row=recursive-big-later-field FAIL index above universe: the index x of Acc lives at 1 and Acc is declared at 0
+PROP-INDEX pass=7 total=28 FAIL

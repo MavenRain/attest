@@ -22,6 +22,7 @@ Only the following carried files are adapted:
 | path | adaptation |
 | --- | --- |
 | `dune` | Treat the existing design corpus as data and retain fatal warnings. |
+| `lib/check.ml` | Allow erased Prop indices above the family universe and erased constructor fields directly determined by those indices. Retain Type bounds, quantity checks, positivity, and the recursive singleton restriction. |
 | `test/dune` | Build the kernel and surface runners, include their fixtures in runtest, and omit EVM executable stanzas. |
 | `dev/dunecho.sh` | Rename the optional switch selector to ATTEST_OPAM_SWITCH and explicitly select this tree as the build root, including nested scratch copies. |
 | `dev/gates.sh` | Select the attest Stage A, initial erasure, and full LEAN-TWIN gates; keep full TRACE-ERASURE open on Acc. |
@@ -35,8 +36,9 @@ Only the following carried files are adapted:
 | `dev/bench.sh` | Resolve Python through PATH instead of an absolute Homebrew path. |
 
 The internal libraries keep the upstream names `kanon_kernel` and
-`kanon_surface`. This preserves every OCaml source in the carry byte for byte,
-including module references. The package and public executable are `attest`.
+`kanon_surface`, preserving upstream module references. OCaml sources remain
+byte-identical except for the documented checker adaptation above.
+The package and public executable are `attest`.
 This is the naming adjustment to the illustrative layout in plan section 3.
 
 EVM and Wasm fixture records remain as historical, verbatim test data.

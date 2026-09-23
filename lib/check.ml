@@ -367,11 +367,9 @@ let check_telescope (c : ctx) (tele : Positivity.telescope) : (ctx, Error.t) res
       Ok (bind x q tyv c'))
     (Ok c) tele
 
-(** The two index rules of brief 3.4.  An index binder is at
-    [Quantity.Zero], refused as [Index_not_zero] (pin check.ml:1819, A2),
-    which makes the Stage J erasure sound;  an index type is at or below
-    the declared level by [Level.le], refused as [Index_above_universe]
-    (pin check.ml:1820-1823, A5).  SG-M4 removes the first refusal. *)
+(** Index binders remain at [Quantity.Zero]. A Type family's indices
+    obey the declared predicative bound. A Prop family may instead be
+    indexed by a type in any universe, since its indices are erased. *)
 let index_rules (c : ctx) (name : string) (level : Level.t)
     ((q, x, ty) : Quantity.t * string * Term.t) : (unit, Error.t) result =
   let* () =
@@ -384,7 +382,7 @@ let index_rules (c : ctx) (name : string) (level : Level.t)
               (Quantity.to_string q)))
   in
   let* l = infer_univ c ty in
-  if Level.le l level then Ok ()
+  if Level.equal level Level.zero || Level.le l level then Ok ()
   else
     Error
       (Error.Index_above_universe
@@ -438,26 +436,34 @@ let rec parameter_at (index : int) (tm : Term.t) : bool =
   | Term.Elim _ | Term.Sec (_, _) | Term.Out (_, _, _) | Term.Let (_, _, _, _)
   | Term.Global _ | Term.Lit _ | Term.Auto -> false
 
-(** Constructor fields obey the declared predicative bound.  The result
-    preserves the parameter variables and its indices check against the
-    family telescope under all fields. *)
+(** Constructor fields obey the declared predicative bound. In Prop, an
+    erased field may exceed it when a result index is exactly that field
+    (possibly annotated). Such a field is determined by the family index;
+    an arbitrary erased witness still cannot exceed the bound. The result
+    preserves parameters and all its indices are checked under the fields. *)
 let check_ctor (c : ctx) (fam : Positivity.family) (group : string list)
     (cd : ctor_decl) : (Positivity.ctor, Error.t) result =
+  let depth = List.length cd.ct_args in
+  let fields = List.mapi (fun i field -> (depth - i - 1, field)) cd.ct_args in
   let* actx =
     List.fold_left
-      (fun (acc : (ctx, Error.t) result) ((q, x, ty) : Quantity.t * string * Term.t) ->
+      (fun (acc : (ctx, Error.t) result)
+           ((index, (q, x, ty)) : int * (Quantity.t * string * Term.t)) ->
         let* c' = acc in
         let* l = infer_univ c' ty in
         let* () =
-          if Level.le l fam.Positivity.f_level then Ok ()
+          if Level.le l fam.Positivity.f_level
+             || (Level.equal fam.Positivity.f_level Level.zero
+                 && Quantity.equal q Quantity.Zero
+                 && List.exists (parameter_at index) cd.ct_res_idx)
+          then Ok ()
           else Error (Error.Universe ("a field of " ^ cd.ct_name ^ " exceeds its family universe"))
         in
         check_telescope c' [ (q, x, ty) ])
-      (Ok c) cd.ct_args
+      (Ok c) fields
   in
   let* () = Positivity.ctor_fields group cd.ct_args in
   let np = List.length fam.Positivity.f_params in
-  let depth = List.length cd.ct_args in
   let* () =
     if Int.equal (List.length cd.ct_res_params) np
        && List.for_all Fun.id

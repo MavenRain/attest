@@ -17,7 +17,7 @@ attest/
   dune-project             (lang dune 3.24) (name attest)
   LICENSE-MIT LICENSE-APACHE README.md SPEC.md CARRIED.md
   dev/PIN                  eebe37e
-  lib/                     library attest_lib, carried verbatim at eebe37e
+  lib/                     library attest_lib, carried at eebe37e, adaptations listed in CARRIED.md
   surface/                 library attest_surface, carried verbatim at eebe37e
   test/                    the kernel suite, carried verbatim at eebe37e, SUITE-KERNEL
   erase/                   library attest_erase, the opaque-proof evaluator, Stage B

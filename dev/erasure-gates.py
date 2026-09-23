@@ -46,6 +46,16 @@ def opaque_source(source, names):
 
 def regression(logs):
     execute(logs, "BUILD", ["zsh", "-f", "dev/dunecho.sh", "build"])
+    indices = execute(logs, "PROP-INDEX", ["_build/default/erase/test/prop_index.exe"])
+    if indices.stderr:
+        raise ValueError(f"PROP-INDEX unexpected diagnostics: {indices.stderr[:200]!r}")
+    last = indices.stdout.rstrip(b"\n").rsplit(b"\n", 1)[-1]
+    summary = re.fullmatch(rb"PROP-INDEX pass=(\d+) total=(\d+) OK", last)
+    rows = indices.stdout.count(b"PROP-INDEX row=")
+    if (summary is None or int(summary[1]) != int(summary[2]) or int(summary[2]) <= 0
+            or int(summary[2]) != rows):
+        raise ValueError(f"PROP-INDEX summary mismatch rows={rows} last={last!r}")
+    print(last.decode())
     records = []
     for name, proofs in ROWS.items():
         body = Path("fixtures/erasure") / (name + ".att")
@@ -242,12 +252,19 @@ def twins(logs):
         if diagnostic not in refused.stdout:
             raise ValueError(f"LEAN-{name} was refused for a different reason")
     axioms(logs)
+    execute(logs, "ACC-FAMILY", [DRIVER, "check", "fixtures/erasure/acc-family.att"])
     acc = execute(logs, "ACC-ATTEST", [DRIVER, "check", "fixtures/erasure/acc.att"], 1)
-    if b"index above universe: the index x of Acc lives at 1 and Acc is declared at 0" not in acc.stderr:
+    if b"quantity: the erased binder accessible is read in a runtime position" not in acc.stderr:
         raise ValueError("Acc frontier changed; update the Stage B gate and corpus")
+    recursive = execute(logs, "ACC-RECURSIVE",
+                        [DRIVER, "check", "fixtures/erasure/acc-runtime-proof.att"], 1)
+    if b"universe: a large elimination out of a proposition needs a subsingleton family at Acc" not in recursive.stderr:
+        raise ValueError("Acc recursive elimination frontier changed")
     print(f"LEAN-ERASURE sources={len(TWINS) + len(NEGATIVE_TWINS)} "
           f"accepted={len(TWINS)} refused={len(NEGATIVE_TWINS)} OK")
-    print("ACC-FRONTIER lean=accepted attest=refused reason=index-universe OPEN")
+    print("ACC-FAMILY accepted OK")
+    print("ACC-FRONTIER lean=accepted attest=refused reason=proof-quantity OPEN")
+    print("ACC-RECURSIVE attest=refused reason=recursive-singleton OPEN")
 
 
 def record(logs, rows):
@@ -255,11 +272,12 @@ def record(logs, rows):
     for folder in ("lib", "surface", "bin", "erase", "fixtures/erasure", "AttestTwin", "twin"):
         paths.extend(p for p in (ROOT / folder).rglob("*") if p.is_file())
     paths.extend(ROOT / p for p in ("dev/erasure-gates.py", "dev/erase_probe.ml", "dev/dune",
-        "dev/gates.sh", "dev/dunecho.sh", "test/sys_io.ml", "dune-project", "AttestTwin.lean",
+        "dev/gates.sh", "dev/dunecho.sh", "test/sys_io.ml",
+        "dune-project", "AttestTwin.lean",
         "lakefile.toml", "lean-toolchain", "lake-manifest.json", "dev/carry-manifest.json"))
     data = {"version": 1, "scope": "Stage B erasure increment", "stage_b": "OPEN",
-            "rows": rows, "open": ["Acc index universe and recursive proof elimination",
-            "LEAN-TWIN accept=24/24 refuse=12/12", "full TRACE-ERASURE including Acc",
+            "rows": rows, "open": ["Acc erased proof binder and recursive proof elimination",
+            "full TRACE-ERASURE including Acc",
             "inline let-bound and case-scrutinee proofs keep their bodies (rows let-proof, scrutinee-proof)"],
             "implementation_sha256": {str(p.relative_to(ROOT)): digest(p.read_bytes())
                                       for p in sorted(set(paths))},

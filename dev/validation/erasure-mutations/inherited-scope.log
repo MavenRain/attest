@@ -1,1 +1,2 @@
+PROP-INDEX pass=28 total=28 OK
 ERASURE-INCREMENT FAIL: OPAQUE-ERASE exit=1 expected=0; log=.gatework/erasure/OPAQUE-ERASE.log

@@ -31,14 +31,17 @@ The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
 increment compares four proof-bodied/opaque pairs, reproduces the carried
 eraser's layout differences, and checks the initial F2 and Acc witnesses
-plus the F2 negative probe. `python3 -P dev/erasure-mutations.py` checks five
+plus the F2 negative probe. `python3 -P dev/erasure-mutations.py` checks ten
 isolated mutations. The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
-Stage B remains open. The pinned kernel rejects the `Acc` fixture's `Nat`
-index in `Prop`, although its Lean twin elaborates. Inline proof erasure
-also remains open. `zsh -f dev/gates.sh TRACE-ERASURE` reports the Acc
-blocker and exits 1. See [the build log](dev/M0-BUILD-LOG.md).
+The checker now admits erased indices of `Prop` families, including the
+`Acc` declaration and constructor in `fixtures/erasure/acc-family.att`.
+Twenty-eight regression cases cover their universe and quantity boundaries.
+Stage B remains open: `Acc` runtime elimination still hits the erased-binder
+and recursive-singleton restrictions, and inline proof erasure is unfinished.
+`zsh -f dev/gates.sh TRACE-ERASURE` reports these frontiers and exits 1.
+See [the build log](dev/M0-BUILD-LOG.md).
 
 The Lean package is reusable with `require attestTwin from "../attest"` in
 a dependent project's `lakefile.lean`, followed by `import AttestTwin`.

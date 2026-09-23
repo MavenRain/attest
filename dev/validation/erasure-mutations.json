@@ -1,11 +1,14 @@
 {
   "version": 1,
-  "baseline_sha256": "df00eb6c78825a85fdaee073bdb37966cfbfce003b755dea7fae9e197cef8d52",
+  "baseline_sha256": "77606fa1d15a3eaaf2f5811428c5972dbee3153030bdfd33c6a2f88243f3d87a",
   "implementation_sha256": {
     "erase/opaque.ml": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
+    "lib/check.ml": "7e7ad934440f0664208c0aaa1ee47c678e61fc121d8e5abb1d85852eeecd8d75",
+    "erase/test/prop_index.ml": "f91dad5b39128c9135e44584bd19aee10a2e10a94f245fd5b8bba2400fbb3401",
+    "erase/test/dune": "d310a83e1dbbdfcdc02d3d2829556e8b6c7f65f342f8d53a96b0096d53f10df3",
     "erase/test/opaque_test.ml": "90d3fa103c77f1e175857be0b2e73576bee80f975a6ca3c908d6e5f9d5e9c4d0",
-    "dev/erasure-mutations.py": "a1e0dd8d61613c3bfcb01aedb14e2baa372c2f0fd8f4bc32aef17866852a19f3",
-    "dev/erasure-gates.py": "781482fb2440dc9b8ce0667eb298e78b9dce3963a47baf5dd7b24000826af943"
+    "dev/erasure-mutations.py": "977a48e1eae86bab132c922a09921126cce77106ea7c519f99ce223c4dafaaf4",
+    "dev/erasure-gates.py": "b6c94dd59c3fa7e2bac5718e884fb7395356bce90e2dc51a5e06b200e4cd1c9d"
   },
   "mutations": [
     {
@@ -13,7 +16,7 @@
       "path": "erase/opaque.ml",
       "before_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
       "mutated_sha256": "455d164e9231f95266a09f85479d9b732b6f5515f34c71ea65b3e366c5351841",
-      "log_sha256": "3f6f1c5f3ec493e276b299d34c74d22b57c2f758f0060f4917e84c84c1c29c67",
+      "log_sha256": "1ad8ae7f7a4d69c429d08f79bbcc818b77a2e01db54fb7c8205238b35e334d44",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "row=f2-a first_diff="
@@ -23,7 +26,7 @@
       "path": "erase/opaque.ml",
       "before_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
       "mutated_sha256": "0a9fa1690d532f18945ba6f142dbb931e60c58b5924ad85d3697f951d411f249",
-      "log_sha256": "3f6f1c5f3ec493e276b299d34c74d22b57c2f758f0060f4917e84c84c1c29c67",
+      "log_sha256": "1ad8ae7f7a4d69c429d08f79bbcc818b77a2e01db54fb7c8205238b35e334d44",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "row=f2-a first_diff="
@@ -33,7 +36,7 @@
       "path": "erase/opaque.ml",
       "before_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
       "mutated_sha256": "e3e047810076625b295daf439a42d8aca7d808582a451989d2e5e9860cd4f697",
-      "log_sha256": "ab4912ac392ccb303cc47e666e7787bb8f8c67b1d9c7327eaa8d1526ab8070b0",
+      "log_sha256": "e7a7104c3e5a82b3910ba5d6f0ed11d6a32e836983ebd17b8dc34ab40ed960f6",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "OPAQUE-ERASE exit=1"
@@ -43,7 +46,7 @@
       "path": "fixtures/erasure/f2-a-opaque.att",
       "before_sha256": "839c51c805c2d39d58c3b4b984d236a132405d7c1471b28775e478ed362f5eb6",
       "mutated_sha256": null,
-      "log_sha256": "771ff0d62bc69926d008aa6967465568b3265398ad0fa4f979e233e5345b8129",
+      "log_sha256": "4c117b1d84b09cb5a9743b164e03fbc13c5fe0b7ea1e374f678e9f2a6e8dad8a",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "row=f2-a opaque twin missing",
@@ -54,10 +57,60 @@
       "path": "twin/F2.lean",
       "before_sha256": "d05c8f23eb9a9af2fc9ad1ea2499e035a8916fccec61ad25c93d14e5382dd4e8",
       "mutated_sha256": "2e8315d208ca32de07e73bb857cfd35f2de4c090f1f53e8823da6a248ca6e9c5",
-      "log_sha256": "20fba5f95b19535f2813fdc1467e7574c7b5d2e11a15f6c28fcaf2cd62be06b7",
+      "log_sha256": "cfd776ff25365b8edc367c6d8b681d8bb74dfc64e19c1b2bc3cbb2c84837874c",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "LEAN-F2 exit=1 expected=0"
+    },
+    {
+      "name": "prop-index-withdrawn",
+      "path": "lib/check.ml",
+      "before_sha256": "7e7ad934440f0664208c0aaa1ee47c678e61fc121d8e5abb1d85852eeecd8d75",
+      "mutated_sha256": "fe5d30fe7633c6f58626b121b2c1a9a866f045c6241a54e69c1da5c666154ef1",
+      "log_sha256": "4f4e4abbd85dd4351f94f64dd006c8eda172d3b4454c0855ecfa677571ceb3ea",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "PROP-INDEX row=nat-index FAIL"
+    },
+    {
+      "name": "type-index-unbounded",
+      "path": "lib/check.ml",
+      "before_sha256": "7e7ad934440f0664208c0aaa1ee47c678e61fc121d8e5abb1d85852eeecd8d75",
+      "mutated_sha256": "dc078e21b02b052c85bf9081ca39b1bcfba71b80d387cafabd7f3a37cbed7a29",
+      "log_sha256": "826adda044808b11e6ba2cd2733ced6b4ecc8731ad1cec037295dc5aabd6bde6",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "PROP-INDEX row=type-index-bound FAIL"
+    },
+    {
+      "name": "prop-field-quantity",
+      "path": "lib/check.ml",
+      "before_sha256": "7e7ad934440f0664208c0aaa1ee47c678e61fc121d8e5abb1d85852eeecd8d75",
+      "mutated_sha256": "9eb4cac43740e808adab818ff25aa993cafb40fdef8ae9ab00b66f62baa5437f",
+      "log_sha256": "c9e79af7a98894dc9cb8243ece1c558adf59b9708a81a1d683cb5489c87e72a6",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "PROP-INDEX row=runtime-proof-field FAIL"
+    },
+    {
+      "name": "prop-field-unindexed",
+      "path": "lib/check.ml",
+      "before_sha256": "7e7ad934440f0664208c0aaa1ee47c678e61fc121d8e5abb1d85852eeecd8d75",
+      "mutated_sha256": "e844728428fd7e2f7c3a7f5c169ecd233f8aaeeb7845b3a9cb811bfd175ce649",
+      "log_sha256": "b9c9a647373d70728c42c486cb5d74f72bd9cc7f7b21dfc90081d1e103df210f",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "PROP-INDEX row=unindexed-proof-field FAIL"
+    },
+    {
+      "name": "prop-field-depth",
+      "path": "lib/check.ml",
+      "before_sha256": "7e7ad934440f0664208c0aaa1ee47c678e61fc121d8e5abb1d85852eeecd8d75",
+      "mutated_sha256": "9aff4723dc080dce02f5a9bbd25f4cf0687659994a7b97323c429f91d1253ef8",
+      "log_sha256": "d7b25e1a4075682aca56c209dd6f81ae7e4e2db9e9296338105dd4586298a621",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "PROP-INDEX row=accessibility-family FAIL"
     }
   ]
 }

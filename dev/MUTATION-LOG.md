@@ -1,5 +1,24 @@
 # Mutation log
 
+## 2026-09-23: Erased Prop index mutations
+
+The erasure mutation battery adds five cases, for ten total. Each new
+mutant must compile and reach a named failing `PROP-INDEX` regression row;
+its log includes the regression output from the isolated checkout.
+
+| mutation | change | required failing row |
+| --- | --- | --- |
+| prop-index-withdrawn | Restore the predicative index bound for Prop. | nat-index |
+| type-index-unbounded | Remove the retained Type-family index bound. | type-index-bound |
+| prop-field-quantity | Allow nonzero indexed fields above Prop. | runtime-proof-field |
+| prop-field-unindexed | Allow fields without a direct result index. | unindexed-proof-field |
+| prop-field-depth | Use the forward field position as its de Bruijn index. | accessibility-family |
+
+Producer: `python3 -P dev/erasure-mutations.py --record`. The record pins
+the checker, regression source and Dune stanza alongside the existing
+erasure implementation, and stores before/after hashes and diagnostics for
+every mutant.
+
 ## 2026-09-22: Lean checking corpus mutations
 
 `python3 -P dev/lean-twin-mutations.py --record` runs thirteen mutations in

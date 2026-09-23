@@ -1,6 +1,15 @@
 (copy_files ../../test/sys_io.ml)
 
 (executable
+ (name prop_index)
+ (modules prop_index)
+ (libraries kanon_kernel kanon_surface))
+
+(rule
+ (alias runtest)
+ (action (run %{exe:prop_index.exe})))
+
+(executable
  (name opaque_test)
  (modules opaque_test sys_io)
  (libraries kanon_kernel kanon_surface attest_erase))

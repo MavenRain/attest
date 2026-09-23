@@ -65,11 +65,15 @@ twins `let-proof-opaque.att` and `scrutinee-proof-opaque.att`. The
 `ERASURE-OPEN` rows of `dev/erasure-gates.py` pin this difference until
 `lib/erase.ml` binds such proofs to a neutral.
 
-Stage B is open: `fixtures/erasure/acc.att` fails the inherited index universe
-check, the inline proof positions above are unsealed, and Acc
-erasure/mutations are unfinished. The separate LEAN-TWIN checking corpus
+Stage B is open: `fixtures/erasure/acc.att` fails the erased-binder runtime
+read check. Its family and constructor now check in `acc-family.att`.
+The `acc-runtime-proof.att` variant with a nonzero proof binder reaches the
+existing refusal of large elimination for a recursive Prop family.
+The inline proof positions above are unsealed, and Acc erasure remains
+unfinished. The separate LEAN-TWIN checking corpus
 passes 24 ACCEPT and 12 REFUSE pairs in the fragment shared by both kernels.
-No kernel rule or carry pin is changed by this increment.
+The checker adaptation below is recorded in the carry manifest; the carry
+pins and the term, shape, and count definitions are unchanged.
 
 ## 2 Kernel
 
@@ -77,6 +81,21 @@ No kernel rule or carry pin is changed by this increment.
 and literals remain the inherited ambient framework. No host effect is a
 former or a shape. `lib/term.ml`, `lib/shape.ml`, and `lib/spec_count.ml`
 are byte-identical to kanon `2c2e6e6831a0b2cf3107fa4aad392606109a2bcf`.
+
+`lib/check.ml` permits a Prop family's erased indices to live in any universe.
+An index type must still be well formed and its binder must have quantity
+zero. Constructor fields retain the family universe bound, with one exception
+in Prop: an erased field may exceed it when a result index is exactly that
+field variable, optionally annotated. The check uses the variable's index
+under the complete field telescope. Constant or computed result indices do
+not qualify. Result indices still undergo their ordinary type checks.
+Type families retain both universe bounds. Positivity and the existing
+singleton elimination criterion are unchanged.
+
+`erase/test/prop_index.ml` covers eleven accepted and seventeen refused programs,
+including dependent and reordered indices, high universes, ill-formed
+indices, hidden fields, result-index type checking, and singleton elimination.
+It runs in `runtest` and the erasure gate.
 
 ### 2.1 Shapes, lib/shape.ml
 
@@ -91,7 +110,9 @@ are byte-identical to kanon `2c2e6e6831a0b2cf3107fa4aad392606109a2bcf`.
 The milestone column uses attest's schedule. The carried refusal diagnostics
 retain their upstream milestone wording. `R0-AUDIT` checks every declared
 shape against this table and requires a concrete refusing module for each
-deferred shape. The kernel and parser source remain unchanged.
+deferred shape. The parser source and the term, shape and count definitions
+remain unchanged; lib/check.ml carries the section 2 checker adaptation,
+pinned by adapted_sha256 in dev/carry-manifest.json.
 
 ## 3 Trusted code and validation
 

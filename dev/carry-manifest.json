@@ -114,7 +114,8 @@
       "path": "lib/check.ml",
       "origin": "assay",
       "source": "lib/check.ml",
-      "source_sha256": "cdc3712bf5ed0fa49d8dae34ea946d85a195ea94b25235c821b155570010e335"
+      "source_sha256": "cdc3712bf5ed0fa49d8dae34ea946d85a195ea94b25235c821b155570010e335",
+      "adapted_sha256": "7e7ad934440f0664208c0aaa1ee47c678e61fc121d8e5abb1d85852eeecd8d75"
     },
     {
       "path": "lib/conv.ml",
