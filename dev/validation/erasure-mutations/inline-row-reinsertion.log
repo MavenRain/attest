@@ -11,7 +11,25 @@ INLINE-ERASE row=local-type OK
 INLINE-ERASE row=motive OK
 INLINE-ERASE row=shape-payload OK
 INLINE-ERASE row=payload-postulates OK
-INLINE-ERASE pass=10 total=13 FAIL
+INLINE-ERASE row=local-inherited OK
+INLINE-ERASE row=local-poison OK
+INLINE-ERASE row=local-universe OK
+INLINE-ERASE row=local-proof-let OK
+INLINE-ERASE row=local-payload OK
+INLINE-ERASE row=local-hypothesis OK
+INLINE-ERASE row=branch-scope OK
+INLINE-ERASE pass=17 total=31 FAIL
 INLINE-ERASE row=rows FAIL stale declaration reinserted
 INLINE-ERASE row=binders FAIL lambda-proof runtime differs from its sealed twin
 INLINE-ERASE row=redeclared FAIL row entry differs from its environment
+INLINE-ERASE row=local-index FAIL local declaration rows differ
+INLINE-ERASE row=local-dependent FAIL local declaration rows differ
+INLINE-ERASE row=local-let FAIL local declaration rows differ
+INLINE-ERASE row=local-let-alias FAIL local declaration rows differ
+INLINE-ERASE row=local-diagram FAIL local declaration rows differ
+INLINE-ERASE row=local-proof-let-value FAIL local declaration rows differ
+INLINE-ERASE row=local-proof-let-type FAIL local declaration rows differ
+INLINE-ERASE row=local-proof-let-alias FAIL local declaration rows differ
+INLINE-ERASE row=local-proof-let-family FAIL local declaration rows differ
+INLINE-ERASE row=local-proof-let-universe FAIL local declaration rows differ
+INLINE-ERASE row=local-runtime-call FAIL local declaration rows differ

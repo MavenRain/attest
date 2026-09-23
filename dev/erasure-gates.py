@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Validate the erasure increment; the full Stage B gate remains explicit."""
 from functools import reduce
+from itertools import accumulate
 from pathlib import Path
 import argparse
 import hashlib
@@ -15,13 +16,22 @@ DRIVER = "_build/default/bin/attest.exe"
 ROWS = {"f2-a": ("proof",), "f2-b": ("proof",),
         "proof-alias": ("proof", "alias"), "proof-function": ("proof",)}
 INLINE_ROWS = ("let-proof", "scrutinee-proof", "projection-proof", "projection-second-proof",
-               "lambda-proof", "binder-proof")
+               "lambda-proof", "binder-proof", "local-proof", "local-dependent",
+               "local-let", "local-let-alias", "local-diagram", "local-runtime-call",
+               "local-proof-let-value", "local-proof-let-type",
+               "local-proof-let-alias", "local-proof-let-family", "local-proof-let-universe")
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
                                "family-collision", "runtime", "local-type", "rows", "binders",
-                               "motive", "shape-payload", "redeclared", "payload-postulates"))
-# Proofs depending on local binders still select layouts (SPEC.md 1.1).
-OPEN_ROWS = {"local-proof": "proof depending on a local index"}
+                               "motive", "shape-payload", "redeclared", "payload-postulates",
+                               "local-index", "local-dependent", "local-let", "local-diagram",
+                               "local-inherited", "local-poison", "local-universe", "local-payload",
+                               "branch-scope", "local-runtime-call", "local-let-alias",
+                               "local-hypothesis", "local-proof-let",
+                               "local-proof-let-value", "local-proof-let-type",
+               "local-proof-let-alias", "local-proof-let-family", "local-proof-let-universe"))
+# Constructor branch binders still lack a local telescope (SPEC.md 1.1).
+OPEN_ROWS = {"branch-local-proof": "proof depending on a constructor branch index"}
 
 
 def digest(data):
@@ -95,6 +105,58 @@ def regression(logs):
     return records
 
 
+TWIN_TOKEN = re.compile(r"[\w']+|[^\s\w']")
+
+
+def proof_span(postulate, before, after):
+    """Compare the changed line token by token. Only one span may differ: the
+    source span is one parenthesized proof, with optional projections, and the
+    twin span applies the postulate to names from it, or the source span is
+    one let of the postulate name that the twin drops, and nothing more."""
+    a, b = TWIN_TOKEN.findall(before), TWIN_TOKEN.findall(after)
+    head = next((i for i, (x, y) in enumerate(zip(a, b)) if x != y), min(len(a), len(b)))
+    tail = next((i for i, (x, y) in enumerate(zip(reversed(a[head:]), reversed(b[head:])))
+                 if x != y), min(len(a), len(b)) - head)
+    proof, use = a[head:len(a) - tail], b[head:len(b) - tail]
+    depths = list(accumulate({"(": 1, ")": -1}.get(token, 0) for token in proof))
+    close = next((i for i, depth in enumerate(depths) if depth == 0), None)
+    projections = proof[close + 1:] if close is not None else []
+    group = (bool(proof) and proof[0] == "(" and close is not None
+             and len(projections) % 2 == 0
+             and all(projections[i] == "." and projections[i + 1].isdigit()
+                     for i in range(0, len(projections), 2)))
+    applied = (group and bool(use) and use[0] == postulate
+               and all(re.fullmatch(r"[\w']+", token) and token in proof for token in use[1:]))
+    # A dropped span is exactly one let of the postulate name: one let token
+    # and one in token, so a twin cannot drop an adjacent let with it.
+    dropped = (not use and len(proof) > 3 and proof[0] == "let" and proof[1] == postulate
+               and proof[-1] == "in" and proof.count("let") == 1 and proof.count("in") == 1)
+    return applied or dropped
+
+
+def twin_structure(name, body, opaque):
+    """An inline twin adds one axiom line and changes exactly one other line,
+    the line that holds the proof, and on that line only the proof span."""
+    if not (ROOT / opaque).exists():
+        raise ValueError(f"row={name} opaque twin missing")
+    source = (ROOT / body).read_text().splitlines()
+    twin = (ROOT / opaque).read_text().splitlines()
+    axiom = re.compile(r"axiom (\S+) : .+")
+
+    def fits(index):
+        # Without the added axiom line, the twin must match the body except
+        # for one line, and that line must name the added axiom.
+        postulate = axiom.fullmatch(twin[index])[1]
+        rest = twin[:index] + twin[index + 1:]
+        changed = [(a, b) for a, b in zip(source, rest) if a != b]
+        return (len(rest) == len(source) and len(changed) == 1
+                and proof_span(postulate, *changed[0]))
+
+    added = [i for i, line in enumerate(twin) if axiom.fullmatch(line) and line not in source]
+    if sum(1 for index in added if fits(index)) != 1:
+        raise ValueError(f"row={name} opaque twin changes more than its proof")
+
+
 def runtime_output(output):
     return b"\n".join(line for line in output.splitlines() if not line.startswith(b"erased "))
 
@@ -116,6 +178,7 @@ def inline_rows(logs):
     for name in INLINE_ROWS:
         body = Path("fixtures/erasure") / (name + ".att")
         opaque = body.with_name(name + "-opaque.att")
+        twin_structure(name, body, opaque)
         a = runtime_output(execute(logs, name + "-body",
                            [DRIVER, "build", "--erase", str(body)]).stdout)
         b = runtime_output(execute(logs, name + "-opaque",
@@ -328,7 +391,10 @@ def record(logs, rows):
     data = {"version": 1, "scope": "Stage B erasure increment", "stage_b": "OPEN",
             "rows": rows, "open": ["Acc erased proof binder and recursive proof elimination",
             "full TRACE-ERASURE including Acc",
-            "proofs depending on local binders keep their bodies (row local-proof)",
+            "proofs depending on constructor branch binders keep their bodies (row branch-local-proof)",
+            "proofs depending on motive binders keep their bodies (no pinned row)",
+            "lambda scopes without a syntactic expected function type",
+            "local proofs without source type syntax",
             "unannotated proof introductions without an expected type and family metadata"],
             "implementation_sha256": {str(p.relative_to(ROOT)): digest(p.read_bytes())
                                       for p in sorted(set(paths))},

@@ -1,0 +1,3 @@
+axiom Function : func fn<0>
+rec [nat]
+fun keep (union nat) : union nat := KVar 0

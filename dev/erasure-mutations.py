@@ -43,8 +43,69 @@ CASES = (
      "closed (depth + List.length m.Term.m_idx + 1) m.Term.m_body",
      "closed depth m.Term.m_body", "INLINE-ERASE row=motive FAIL"),
     ("inline-shape-payload", INLINE,
-     "let shape s = List.for_all (closed depth) (Shape.payload s) in",
-     "let shape _s = true in", "INLINE-ERASE row=shape-payload FAIL"),
+      "let shape s = List.for_all (closed depth) (Shape.payload s) in",
+      "let shape _s = true in", "INLINE-ERASE row=shape-payload FAIL"),
+    ("local-context", INLINE,
+     "let* context = bind_domain context name q domain in",
+     "let* context = bind_domain context name q domain |> Result.map root in",
+     "INLINE-ERASE row=local-index FAIL"),
+    ("local-domain-order", INLINE, "ty context.domains", "ty (List.rev context.domains)",
+     "INLINE-ERASE row=local-dependent FAIL"),
+    ("local-argument-depth", INLINE,
+     "Term.APt (Quantity.Zero, Term.Var ix)", "Term.APt (Quantity.Zero, Term.Var 0)",
+     "INLINE-ERASE row=local-dependent FAIL"),
+    ("local-argument-quantity", INLINE,
+     "Rules.arrow Quantity.Zero name domain body", "Rules.arrow Quantity.One name domain body",
+     "INLINE-ERASE row=local-dependent FAIL"),
+    ("local-codomain-universe", INLINE,
+     "Ok (Some (context, codomain))",
+     "let* value = Eval.eval context.checker.Check.globals context.checker.Check.env codomain in\n"
+     "                 let* codomain = Eval.quote context.checker.Check.globals context.checker.Check.size value in\n"
+     "                 Ok (Some (context, codomain))",
+     "INLINE-ERASE row=local-universe FAIL"),
+    ("local-domain-universe", INLINE,
+     "Rules.arrow Quantity.Zero name domain body",
+     "Rules.arrow Quantity.Zero name (let _ = domain in Rules.unit_ty Level.zero) body",
+     "INLINE-ERASE row=local-universe FAIL"),
+    ("local-branch-scope", INLINE,
+     "let checker = if leg.Term.l_binders = [] then checker else root checker in",
+     "let checker = checker in", "INLINE-ERASE row=branch-scope FAIL"),
+    ("local-inferred-universe", INLINE,
+     "if not (closed 0 term) then Ok None", "if not (closed checker.Check.size term) then Ok None",
+     "INLINE-ERASE row=local-runtime-call FAIL"),
+    ("local-proof-let", INLINE,
+     "if not (closed checker.Check.size domain && typed 0 body) then Ok false",
+     "if not (closed checker.Check.size domain && typed 0 body && false) then Ok false",
+     "INLINE-ERASE row=local-proof-let FAIL"),
+    ("local-proof-let-value", INLINE,
+     "if proof then Ok (value, state) else term context state (Some domain) value in",
+     "term context state (Some domain) value in",
+     "INLINE-ERASE row=local-proof-let-value FAIL"),
+    ("local-proof-let-type", INLINE,
+     "occurs target ty || occurs target value",
+     "occurs target ty || (occurs target value && false)",
+     "INLINE-ERASE row=local-proof-let-type FAIL"),
+    # A syntactic universe test on the let type seals a proof let that only
+    # a later proof let alias reads.
+    ("local-proof-let-alias", INLINE,
+     "occurs target ty || occurs target value",
+     "occurs target ty || ((match ty with Term.Univ _ -> true | Term.Var _ | Term.Global _ | Term.Lit _ | Term.Auto | Term.Lan _ | Term.Ran _ | Term.In _ | Term.Out _ | Term.Sec _ | Term.Elim _ | Term.Let _ | Term.Ann _ -> false) && occurs target value)",
+     "INLINE-ERASE row=local-proof-let-alias FAIL"),
+    # A twin edit outside the proof line keeps the runtime output, so only the
+    # twin structure check can refuse it.
+    ("inline-twin-extra-edit", "fixtures/erasure/local-let-opaque.att",
+     "| refl : (0 n : Nat) -> Equal n", "| refl : (0 m : Nat) -> Equal m",
+     "row=local-let opaque twin changes more than its proof"),
+    # A twin edit on the proof line but outside the proof span keeps the
+    # runtime output, so only the token comparison can refuse it.
+    ("inline-twin-same-line-edit", "fixtures/erasure/local-let-opaque.att",
+     "case proof n as p in Equal k", "case proof n as r in Equal k",
+     "row=local-let opaque twin changes more than its proof"),
+    # A source let next to the dropped proof let makes the twin drop both.
+    # The runtime output is kept, so only the token comparison can refuse it.
+    ("inline-twin-adjacent-let-drop", "fixtures/erasure/let-proof.att",
+     ":= refl in case p", ":= refl in let u : Type 0 := Nat in case p",
+     "row=let-proof opaque twin changes more than its proof"),
     # The gate tests the presence of every opaque twin before it reads it, so the
     # pin is the gate's named diagnostic and not a missing-file errno.
     ("missing-twin", "fixtures/erasure/f2-a-opaque.att", None, None,
@@ -124,9 +185,17 @@ def main():
                         raise ValueError(f"{name}: did not reach the Prop index regression")
                     output += (scratch / ".gatework/erasure/PROP-INDEX.log").read_bytes()
                 if diagnostic.startswith("INLINE-ERASE row="):
-                    if b"INLINE-ERASE exit=1 expected=0" not in output:
-                        raise ValueError(f"{name}: did not reach the inline proof regression")
-                    output += (scratch / ".gatework/erasure/INLINE-ERASE.log").read_bytes()
+                    if b"INLINE-ERASE exit=1 expected=0" in output:
+                        output += (scratch / ".gatework/erasure/INLINE-ERASE.log").read_bytes()
+                    else:
+                        # An earlier gate can fail on the same fault. Also require
+                        # the named semantic regression in the compiled mutant.
+                        unit = run(scratch, ["_build/default/erase/test/inline_test.exe"])
+                        output += b"\nINLINE-ERASE direct regression:\n" + unit.stdout + unit.stderr
+                        (logs / (name + ".log")).write_bytes(
+                            output.replace(str(scratch).encode(), b"<mutation-tree>"))
+                        if unit.returncode != 1:
+                            raise ValueError(f"{name}: inline proof regression exit={unit.returncode}")
                 # A temporary checkout path is not part of a diagnostic's identity.
                 output = output.replace(str(scratch).encode(), b"<mutation-tree>")
                 (logs / (name + ".log")).write_bytes(output)

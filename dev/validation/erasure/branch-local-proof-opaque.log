@@ -1,0 +1,5 @@
+erased proof
+rec [mu<Box>; any]
+fun Layout (union mu<Box>) : union any := KErased
+rec [any]
+fun keep (union any) : union any := KVar 0

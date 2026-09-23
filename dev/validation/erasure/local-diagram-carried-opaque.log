@@ -1,0 +1,4 @@
+erased proof
+axiom Function : func fn<1>
+rec [nat]
+fun keep (union nat) : union nat := KVar 0

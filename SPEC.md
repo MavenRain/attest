@@ -40,10 +40,15 @@ then supplies their types without their bodies to the carried eraser.
 Classification uses the original checked environment. The API takes the
 final globals and declaration rows returned together by `Elab.check_in`.
 
-`erase/inline.ml` also seals closed inline proofs in ordinary entries when
-their type is available from a closed annotation or let type, or can be
-inferred independently. Closedness includes type syntax, shape payloads,
-and motives. Fresh typed postulates replace these proof terms before the
+`erase/inline.ml` also seals inline proofs in ordinary entries when their
+type is available from an annotation, let type, or syntactic expected function
+type, or inferred independently for a closed term. It tracks the types of function, let,
+and type-former binders. Each local proof becomes a closed postulate whose
+parameters are all erased, applied to the locals in their original order.
+Original domain and codomain syntax preserves declared universes; normalized
+empty products alone cannot distinguish runtime types from propositions.
+Scope checks include type syntax, shape payloads, and motives.
+Fresh typed postulates replace these proof terms before the
 erasure evaluator runs. Their names avoid existing globals and families;
 they are internal to erasure and add no source declarations or axiom
 disclosures. Declaration rows use the rewritten environment, including
@@ -52,13 +57,26 @@ preserved. Runtime computations remain executable.
 
 The four global F2 pairs cover a runtime function, a pair constructor,
 proof aliases, and proof-valued functions. They produce byte-identical
-erased terms. Six inline pairs cover let-bound proofs, direct case
+erased terms. Seventeen inline pairs cover let-bound proofs, direct case
 scrutinees, both pair projections, a lambda-bound proof, and a proof under
-let and case binders. Their runtime output is identical
+let and case binders, local Nat indices, dependent local types, local lets, let-bound type aliases,
+type-former diagrams, runtime calls returning proof-computed types, and
+proof lets whose value a local proof type reduces, directly or through
+the value of any later let: a proof let alias chain, a type family, or a
+let typed by a universe alias.
+A proof let keeps its value only when its variable occurs in its body in an
+annotation, a let type, the value of a later let, a motive, a shape payload
+or a type former. A proof let that a dependent large elimination reads only
+as its scrutinee is still sealed, and erasure then refuses the program
+(`build --erase` exits 2). The same limit is at commit `c26c41a`.
+The runtime output of each inline pair is identical
 after removing `erased NAME` declaration notices. The gate reproduces a
-runtime difference with the carried eraser for every pair. Thirteen semantic
+runtime difference with the carried eraser for every pair. Thirty-one semantic
 tests cover poisoned proof bodies at known types, inherited entries, name
-collisions, runtime lets, local type annotations, and rewritten rows.
+collisions, runtime lets, local type annotations, and rewritten rows. They also
+check closed postulate types, dependent argument order, original universes,
+inherited local proofs, local hypotheses, proof lets needed by a local proof
+type, and scope isolation at unknown branch binders.
 This is regression evidence; a general erasure theorem and ELF comparisons
 remain later work.
 
@@ -67,8 +85,12 @@ Opaque, proof-computed types can still cause a named erasure refusal.
 tuple's type no longer reduces to a right former. No partial erased program
 is printed on that failure.
 
-Proofs depending on local binders remain open. The `local-proof.att` pair
-pins a runtime difference for an inline proof indexed by a local Nat.
+Proofs depending on constructor branch or motive binders remain open.
+The `branch-local-proof.att` pair pins a runtime difference for a proof indexed
+by a constructor field. No row pins the motive binder case. Lambda bodies without a syntactic expected function
+type also remain conservative; closed subterms can still be sealed. Local
+proofs without source type syntax are left intact because inferred readback
+can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and
 inline proofs in family metadata are also outside this increment.
 

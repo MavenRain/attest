@@ -1,17 +1,17 @@
 {
   "version": 1,
-  "baseline_sha256": "b9e7bff1127bc44dddf0ba77f00e6c44cb04feb674e2f380e5b7d07610596d94",
+  "baseline_sha256": "1c38229031e98055153eba3ba5a2599c3f04f965b9de778b8edc8cf24002cbad",
   "implementation_sha256": {
     "erase/opaque.ml": "b7f0a147e459169364dfc1952be1704e282d6ec654c2273914dcece5789e3916",
-    "erase/inline.ml": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
-    "erase/inline.mli": "63767da20e36d5af471503c36969e06a248548e0c259a074342170103673fdea",
+    "erase/inline.ml": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+    "erase/inline.mli": "16999cf358e391e0965ce60b05e6e23680a87fc61f9ae2ec3917640366629f9f",
     "lib/check.ml": "7e7ad934440f0664208c0aaa1ee47c678e61fc121d8e5abb1d85852eeecd8d75",
     "erase/test/prop_index.ml": "f91dad5b39128c9135e44584bd19aee10a2e10a94f245fd5b8bba2400fbb3401",
     "erase/test/dune": "662b48a1f8b4c8dcf180d8bdb2c94eba6cf9bb86dc1a54125d2d0357343a021a",
     "erase/test/opaque_test.ml": "90d3fa103c77f1e175857be0b2e73576bee80f975a6ca3c908d6e5f9d5e9c4d0",
-    "erase/test/inline_test.ml": "59730b79391efd5d5c219688f636d18e396ce018e9b08a73aaa264e2bb96c2d1",
-    "dev/erasure-mutations.py": "79fddf00584f8b4c019de17adcf073a65acbb922195046aa8083a4c9a17973fd",
-    "dev/erasure-gates.py": "23dd061e0eaab036b8fa19fa0b00fbc7de8ee767191f3811aa5d6ddfe4550e5c"
+    "erase/test/inline_test.ml": "e584d1463149ef1287ac9bab9fb3d253f0ae9b4b00581d099be5669117b785c2",
+    "dev/erasure-mutations.py": "c3982ca160e0c3046039959bf3b21b11ae22d8c778242d6b1a34cc54c0bbd371",
+    "dev/erasure-gates.py": "2350166ce8e3173211c0522849e64d22fb04bdec46a8d1a14a5ac63575ba86ca"
   },
   "mutations": [
     {
@@ -49,7 +49,7 @@
       "path": "erase/opaque.ml",
       "before_sha256": "b7f0a147e459169364dfc1952be1704e282d6ec654c2273914dcece5789e3916",
       "mutated_sha256": "74d1d2794da7952020049aae1829a4ef0b207bebc09701d70d9e97ae4a399af9",
-      "log_sha256": "f0f2000f3b33d133ecaa5f8db63a89228ad851dbb14852d08a34bd66a47ec10b",
+      "log_sha256": "7b154bce33cb55b3745f835713abb129cad31646349d4295d4f0bacebb19182b",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=let-body FAIL"
@@ -57,9 +57,9 @@
     {
       "name": "inline-name-collision",
       "path": "erase/inline.ml",
-      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
-      "mutated_sha256": "7d913392c0a49cd234e65843a57fcb289fff0919cf28cc0b137eeaf27241f5c6",
-      "log_sha256": "9644c1bf20d4c978d0bf9e69325f56a6f614abeddfa72e6dbe6a74764c8f9707",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "7b73acf8ca17cb445ef5a0c2934fa480841dcd7ea8194e7807a007177b4d6a5d",
+      "log_sha256": "3f5ff17477b02351932bc29de106df0675c46a7d15789c42b7e523a2f1be3277",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=name-collision FAIL"
@@ -67,9 +67,9 @@
     {
       "name": "inline-local-type",
       "path": "erase/inline.ml",
-      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
-      "mutated_sha256": "c81cc8af49b899484a43235c0ffd04caec6938104fc67c2825e4fbbd55837e4f",
-      "log_sha256": "e4c53a8b503b300808a5384e4eba8116f9548781e7c725def093307bf551cd97",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "fbbc56b6c5c987706997ab7aeb79d38b02a9f5fab0fb46b11e9add3da7c66437",
+      "log_sha256": "4035fbbc01d3dedc2c0150eb54a8afad802112ee640f9390a5a1b94047b432de",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=local-type FAIL"
@@ -77,9 +77,9 @@
     {
       "name": "inline-row-reinsertion",
       "path": "erase/inline.ml",
-      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
-      "mutated_sha256": "42b119064c5857878f239adc652acde298be97be02841625b7d259a6b48a3fe5",
-      "log_sha256": "85b7b2157b8252092a13f032e76bebfecc544630d1c614315022c13673324aed",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "93873ccb7889985ddde26273db22f3e8a2f7fc812e91c129f75e9a750172669f",
+      "log_sha256": "f0970545655775768adb2863c47eb9fd60e2cde67e54efa5d106b80d00b9cce1",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=rows FAIL"
@@ -87,9 +87,9 @@
     {
       "name": "inline-leg-binders",
       "path": "erase/inline.ml",
-      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
-      "mutated_sha256": "3f25696a4684d06ca453afc1fbb95f124cf2d3c60a19c5a487b7ec3c3aae7779",
-      "log_sha256": "386dd4cec7190a0254e3f3f4d614a7234f2e9529ed564f296ad5bc05d4123a2d",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "48626c8ff4728a0978463e079be538a50bc2a38cfedd264e6db8fee8c3916ac6",
+      "log_sha256": "8d695f8847f211d3e63156141a88a62d8f09af3ce2acabcbe1b5cd679e4930c5",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=binders FAIL"
@@ -97,9 +97,9 @@
     {
       "name": "inline-motive-binders",
       "path": "erase/inline.ml",
-      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
-      "mutated_sha256": "e5c1b6fda9cb1a663cad4c5ca1a3423b7f3837c7ff60649ffd2d5cf48bdfa696",
-      "log_sha256": "a3785e4c58ab7d19fa4a4133281017e61c6ddfe535294d2e9f412d4ba12cd432",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "e77a50fee08088eae5d7dce90c21518f84c589fd050f17eb97ef06ef52f9b9e2",
+      "log_sha256": "309b2fc7cc28f8512717f1ea903609f22e6743d944efcc39860c7e25d3c9c64d",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=motive FAIL"
@@ -107,12 +107,162 @@
     {
       "name": "inline-shape-payload",
       "path": "erase/inline.ml",
-      "before_sha256": "371a33c1e1a8a37c24e183e3046a97e267c9a85242e7dd68179efa098a10d480",
-      "mutated_sha256": "96ca1e3a08b108943a001b82a03e7a1cffc4d3937895700062f72f8f7d8afe43",
-      "log_sha256": "61784811f6f7d7eb9ddcb1209bb48c5b7a1f3d4b6c99600e3b2486e9f3d21833",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "378d0bc223d89f116a217b9dcc8f685559891b94222d6265a7a4f833fb3a377f",
+      "log_sha256": "b451f5f0bbbe3abb3464d730ba6dd7c2287f9471d6030ab2a39ad34597486ac6",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=shape-payload FAIL"
+    },
+    {
+      "name": "local-context",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "c9d2a0e338b3a82f5a57e07ceb12b5a4a528de503da57e67f4df933eb5bc1c16",
+      "log_sha256": "23eead5a0d526da194314bd50a94fd1c6eaead418b4776d615490715e4b8d8c3",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-index FAIL"
+    },
+    {
+      "name": "local-domain-order",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "a1e924bc18bf4c7efb0d2b8d0b0eab1269b746b2adf06d8e0ede35bdb3f637fd",
+      "log_sha256": "c58742ca5acb347d396cedd48786c1b1138c884df01292756d49bd383c4aa45e",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-dependent FAIL"
+    },
+    {
+      "name": "local-argument-depth",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "8534a58b39959b9f6b485f35340850b8493258d48ef26e679e4df0f1c785a2bd",
+      "log_sha256": "b63c1a31f52f9ebcfd1a99ec9079fef78fea0e00294a09cb98ebecec6b6e725c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-dependent FAIL"
+    },
+    {
+      "name": "local-argument-quantity",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "31af002c833869da6d38db888153572b53c22c626323a2a3ebfb6dd2c1776a9f",
+      "log_sha256": "ee371198b25f1a9ce20c6b3d02ee448287d55754b52a7171569e7acc603ba7b2",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-dependent FAIL"
+    },
+    {
+      "name": "local-codomain-universe",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "6e8e654947180a0b704838d2885fd514b203a60b96213887d9170e5e7068281d",
+      "log_sha256": "8494fa91329843344f385bf1c281ff7cfc5dee558ab77ae4ef86fb65c1fd1165",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-universe FAIL"
+    },
+    {
+      "name": "local-domain-universe",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "5a9c02855ded9b2e953ff0aa6f350fc651eb63f5e5de524215ad6e7e609eb7d9",
+      "log_sha256": "7919cd0872fe88c1e9a69626f66520b11a778b9aa7665f236421f55d699b6358",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-universe FAIL"
+    },
+    {
+      "name": "local-branch-scope",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "52f86b571f8f78fc82d357714d6cae478cf69bb615419816eb895d2646c6a3b7",
+      "log_sha256": "d75a0d49e1184e39e7de0b8162af12ef98adb4d816a8d11cae552b4b6c024d6c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=branch-scope FAIL"
+    },
+    {
+      "name": "local-inferred-universe",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "24b091b6a61de534c1c59b50796fec7a8f449a0ee232f10687938c0d8ae0cf3a",
+      "log_sha256": "4a6a4370e490116a31e81ed7f62fc9ae921d6efa0ca0bb54e4bb36e97be4845a",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-runtime-call FAIL"
+    },
+    {
+      "name": "local-proof-let",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "b81628f2f57f2009b3609358920f1e5c15a6b692a4a5463a09cb5480d1c2176e",
+      "log_sha256": "6c3287986389e1a52e238b6affd6a763f69b554c9fa988824a30f6ba9b633451",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-proof-let FAIL"
+    },
+    {
+      "name": "local-proof-let-value",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "5f273cd8541bc4a098be1bea08befe7e1bad084a4ba3325726071f0a1ed653b8",
+      "log_sha256": "60b637bfacc3075168cc3763d1fb242879ff1bc4ee3c1ce1bc4f3548c37a4e6d",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-proof-let-value FAIL"
+    },
+    {
+      "name": "local-proof-let-type",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "344960f01466709f5b9d655a57d5cf9cfe3c7d488e98696b0d0bc3107c9a162a",
+      "log_sha256": "58b1d3506771e191f4be6f81777ec3743e54676e7c2d3e20e42a61a61d7ebb6e",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-proof-let-type FAIL"
+    },
+    {
+      "name": "local-proof-let-alias",
+      "path": "erase/inline.ml",
+      "before_sha256": "47bd57b5bdcb53f9b40b62c3e9cd78a59467e337c5f8bb9ba9749e5107c4ab68",
+      "mutated_sha256": "76d5fe864e3235be96e4c8953adbc59fbd5c35ae1ab9f78cc995cc58f6671ee7",
+      "log_sha256": "23fdcd408ef06088c4ddb5cae9e6415a9fbdf111f3b74b80268f3346061f4e3c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-proof-let-alias FAIL"
+    },
+    {
+      "name": "inline-twin-extra-edit",
+      "path": "fixtures/erasure/local-let-opaque.att",
+      "before_sha256": "5edcc9f421fa75c49f5c1004a2fef0c6d0f2b25f91c03eca290db2a46efbbc5e",
+      "mutated_sha256": "e42c6c1de3742501a6e878665789e726568f48e08180ca1ad268fd74c5450ffb",
+      "log_sha256": "60d09406ad8a2e453741bda2d25855a91606b7d6695c652094c74b57587ca54c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=local-let opaque twin changes more than its proof"
+    },
+    {
+      "name": "inline-twin-same-line-edit",
+      "path": "fixtures/erasure/local-let-opaque.att",
+      "before_sha256": "5edcc9f421fa75c49f5c1004a2fef0c6d0f2b25f91c03eca290db2a46efbbc5e",
+      "mutated_sha256": "79de42b1fd4f860ef93b7e99cfdd9e2ffa959f8b1de5b99ffb2519ae72d23835",
+      "log_sha256": "60d09406ad8a2e453741bda2d25855a91606b7d6695c652094c74b57587ca54c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=local-let opaque twin changes more than its proof"
+    },
+    {
+      "name": "inline-twin-adjacent-let-drop",
+      "path": "fixtures/erasure/let-proof.att",
+      "before_sha256": "e5b3b74ef4e86f1d6a5e8a5b3e204dd85f579f2e249ee54323edd4001f6377a3",
+      "mutated_sha256": "d20504c7c5a40378306323cf34af93e04d4f37c542a14979ae83b8467796c09c",
+      "log_sha256": "1e93e331a6411555a38c0e12944efedb41124a7be953ec4fd975a7c326c8b93e",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=let-proof opaque twin changes more than its proof"
     },
     {
       "name": "missing-twin",
@@ -130,7 +280,7 @@
       "path": "twin/F2.lean",
       "before_sha256": "d05c8f23eb9a9af2fc9ad1ea2499e035a8916fccec61ad25c93d14e5382dd4e8",
       "mutated_sha256": "2e8315d208ca32de07e73bb857cfd35f2de4c090f1f53e8823da6a248ca6e9c5",
-      "log_sha256": "7d61740cd21fc6d021d9c477c90b37f8aa853cca9ec4ddb2e52771c48fa554fa",
+      "log_sha256": "26bd34da6fd1832a573a38cae921d21f861607fe879b33fa0c652a91b5511e72",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "LEAN-F2 exit=1 expected=0"

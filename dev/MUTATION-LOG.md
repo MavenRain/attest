@@ -1,5 +1,28 @@
 # Mutation log
 
+## 2026-09-23: Local inline proof mutations
+
+Twelve compiled mutations remove the typed local context, reverse the domain
+telescope, use the wrong local argument index, retain a runtime parameter,
+normalize away codomain universes, corrupt domain universes, confuse a
+constructor branch binder with an outer local, classify a local runtime
+call from inferred readback, seal a proof let whose variable occurs in a
+type annotation in its body, seal the value of such a let in a postulate type, and seal a proof let
+that only the value of a type let reads, and restore the syntactic universe
+test on the let type, which seals a proof let that only a later alias reads. Each must fail its named `INLINE-ERASE` semantic row. Three more
+mutations edit an inline twin: one outside its proof line, one on the
+proof line outside the proof span, and one that adds a source let next to
+a dropped proof let, so the twin drops both. Each must fail the twin structure check.
+The complete battery contains thirty-two cases. When an earlier gate
+fails first, the harness also runs the compiled inline suite directly and
+retains both failures before checking the named row.
+
+The closed-proof binder row also requires whole-proof sealing. Its original
+mutation remains observable even when local sealing can preserve runtime
+output. The type-only and shape-payload scope controls use indirectly typed
+lambdas, which remain outside the local telescope pass.
+
+
 ## 2026-09-23: Closed inline proof mutations
 
 Seven added compiled mutations disable the inline pass, allow a generated

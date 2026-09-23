@@ -1,0 +1,35 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
+INLINE-ERASE row=let-body OK
+INLINE-ERASE row=scrutinee-body OK
+INLINE-ERASE row=inherited OK
+INLINE-ERASE row=name-collision OK
+INLINE-ERASE row=family-collision OK
+INLINE-ERASE row=runtime OK
+INLINE-ERASE row=local-type OK
+INLINE-ERASE row=rows OK
+INLINE-ERASE row=binders OK
+INLINE-ERASE row=motive OK
+INLINE-ERASE row=shape-payload OK
+INLINE-ERASE row=redeclared OK
+INLINE-ERASE row=payload-postulates OK
+INLINE-ERASE row=local-index OK
+INLINE-ERASE row=local-dependent OK
+INLINE-ERASE row=local-let OK
+INLINE-ERASE row=local-let-alias OK
+INLINE-ERASE row=local-diagram OK
+INLINE-ERASE row=local-inherited OK
+INLINE-ERASE row=local-poison OK
+INLINE-ERASE row=local-universe OK
+INLINE-ERASE row=local-proof-let OK
+INLINE-ERASE row=local-proof-let-value OK
+INLINE-ERASE row=local-proof-let-type OK
+INLINE-ERASE row=local-payload OK
+INLINE-ERASE row=local-runtime-call OK
+INLINE-ERASE row=local-hypothesis OK
+INLINE-ERASE row=branch-scope OK
+INLINE-ERASE pass=28 total=31 FAIL
+INLINE-ERASE row=local-proof-let-alias FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] p as q return Type 1 with | (ACtor refl) C z => Nat)
+INLINE-ERASE row=local-proof-let-family FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] p as q return Type 1 with | (ACtor refl) C z => Nat)
+INLINE-ERASE row=local-proof-let-universe FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] p as q return Type 1 with | (ACtor refl) C z => Nat)

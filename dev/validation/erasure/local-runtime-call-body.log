@@ -1,0 +1,3 @@
+erased Layout
+rec [fn<1>; pair<union nat,union any>]
+fun keep (func fn<1>) : struct pair<union nat,union any> := KStruct pair<union nat,union any> [KLit 7; KApp (KVar 0) [KLit 0]]

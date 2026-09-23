@@ -1,0 +1,5 @@
+mu Equal : (0 A : Type 0) -> (0 x : A) -> Prop with
+| refl : (0 A : Type 0) -> (0 x : A) -> Equal A x
+
+def Layout : (0 A : Type 0) -> (0 x : A) -> Type 0 := fun (0 A : Type 0) (0 x : A) => case (refl A x : Equal A x) as p in Equal B y return Type 0 with | refl 0 C 0 z => prod ()
+def keep : (x : Layout Nat 0) -> Layout Nat 0 := fun (x : Layout Nat 0) => x

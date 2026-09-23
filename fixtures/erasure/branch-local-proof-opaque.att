@@ -1,0 +1,8 @@
+mu Equal : (0 n : Nat) -> Prop with
+| refl : (0 n : Nat) -> Equal n
+mu Box : Type 0 with
+| box : (0 n : Nat) -> Box
+
+axiom proof : (0 n : Nat) -> Equal n
+def Layout : (b : Box) -> Type 0 := fun (b : Box) => case b as value in Box return Type 0 with | box 0 n => case proof n as p in Equal k return Type 0 with | refl 0 j => prod ()
+def keep : (x : Layout (box 0)) -> Layout (box 0) := fun (x : Layout (box 0)) => x

@@ -11,4 +11,22 @@ INLINE-ERASE row=motive OK
 INLINE-ERASE row=shape-payload OK
 INLINE-ERASE row=redeclared OK
 INLINE-ERASE row=payload-postulates OK
-INLINE-ERASE pass=13 total=13 OK
+INLINE-ERASE row=local-index OK
+INLINE-ERASE row=local-dependent OK
+INLINE-ERASE row=local-let OK
+INLINE-ERASE row=local-let-alias OK
+INLINE-ERASE row=local-diagram OK
+INLINE-ERASE row=local-inherited OK
+INLINE-ERASE row=local-poison OK
+INLINE-ERASE row=local-universe OK
+INLINE-ERASE row=local-proof-let OK
+INLINE-ERASE row=local-proof-let-value OK
+INLINE-ERASE row=local-proof-let-type OK
+INLINE-ERASE row=local-proof-let-alias OK
+INLINE-ERASE row=local-proof-let-family OK
+INLINE-ERASE row=local-proof-let-universe OK
+INLINE-ERASE row=local-payload OK
+INLINE-ERASE row=local-runtime-call OK
+INLINE-ERASE row=local-hypothesis OK
+INLINE-ERASE row=branch-scope OK
+INLINE-ERASE pass=31 total=31 OK
