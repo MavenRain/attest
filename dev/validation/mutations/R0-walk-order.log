@@ -1,3 +1,1 @@
-R0-DIFF FAIL row=shape.ml
-R0-DIFF vs=2c2e6e6 rows=3 diff=1 FAIL
-R0-DIFF reference=kanon:git
+R0-DIFF FAIL: unreviewed Bend source change: lib/foundation.bend

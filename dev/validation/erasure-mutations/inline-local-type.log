@@ -33,3 +33,4 @@ INLINE-ERASE row=local-hypothesis OK
 INLINE-ERASE row=branch-scope OK
 INLINE-ERASE pass=30 total=31 FAIL
 INLINE-ERASE row=local-type FAIL unbound: de Bruijn index 1 is outside the context
+

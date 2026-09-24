@@ -24,7 +24,7 @@ def script(name, path):
     return run(name, ["zsh", "-f", "dev/" + path + ".sh"])
 
 try:
-    run("BUILD", ["zsh", "-f", "dev/dunecho.sh", "build"])
+    run("BUILD", ["python3", "-P", "dev/build.py"])
     print("BUILD OK")
     for name, path in (("CARRY", "carry-check"), ("R0-COUNT", "r0-count"),
                        ("R0-AUDIT", "r0-audit"), ("R0-DIFF", "r0-diff"),

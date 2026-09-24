@@ -22,16 +22,11 @@ import subprocess
 import sys
 import tempfile
 
-unknown_arguments = [arg for arg in sys.argv[1:] if arg != "--record"]
-if unknown_arguments:
-    print(f"MUTATIONS FAIL: unknown argument {unknown_arguments[0]!r}; only --record is accepted")
-    sys.exit(2)
-
 root = Path(__file__).resolve().parent.parent
 logs = root / ".gatework/mutations"
 logs.mkdir(parents=True, exist_ok=True)
 validation = root / "dev/validation"
-build = ["zsh", "-f", "dev/dunecho.sh", "build"]
+build = ["python3", "-P", "dev/build.py", "--backend", "js", "attest", "suite-probe"]
 # dev/mutations.sh sets MUTATIONS_VIA_WRAPPER=1 so mutation_command names the
 # invocation that really ran: wrapper or direct, env flag or --record.
 via_wrapper = os.environ.get("MUTATIONS_VIA_WRAPPER") == "1"
@@ -47,18 +42,17 @@ mutation_command = "".join((
 # Stage A implementation surface pinned by dev/validation/stage-a.json: the
 # kernel driver, the gate scripts and their probes, the build files and the
 # fixtures the gates read. Hashed from the live tree at record time.
-implementation = (
-    "bin/attest.ml", "corpus/id.att",
-    "dev/axioms-empty.py", "dev/axioms-empty.sh", "dev/bench.sh",
-    "dev/carry-check.py", "dev/carry-check.sh", "dev/carry-manifest.json",
-    "dev/driver-exit.py", "dev/driver-exit.sh", "dev/dunecho.sh", "dev/gates.sh",
-    "dev/house-catchalls.py", "dev/house.sh", "dev/mutations.py", "dev/mutations.sh",
-    "dev/pass_bench.ml", "dev/r0-audit.py", "dev/r0-audit.sh", "dev/r0-count.py",
-    "dev/r0-count.sh", "dev/r0-diff.py", "dev/r0-diff.sh", "dev/r0-diff/shape.ml",
-    "dev/r0-diff/spec_count.ml", "dev/r0-diff/term.ml", "dev/ratio.py", "dev/ratio.sh",
-    "dev/stage-a-gates.py", "dev/trusted-lines.py", "dev/trusted-lines.sh",
-    "dune", "dune-project", "fixtures/axiom.att", "fixtures/ill-typed.att", "test/dune",
-)
+# Pin the complete active implementation; historical hashes live in the migration record.
+implementation = tuple(sorted({
+    "corpus/id.att", "dev/PIN", "dev/carry-manifest.json", "dev/bend-migration.json",
+    "dev/bend-toolchain.json", "Makefile", "SPEC.md", "dev/r0-diff/SHA256",
+    "fixtures/axiom.att", "fixtures/ill-typed.att",
+    *(str(path.relative_to(root)) for folder in ("lib", "surface", "bin", "erase", "test", "dev")
+      for path in (root / folder).rglob("*.bend")),
+    *(str(path.relative_to(root)) for path in (root / "dev").glob("*.py")),
+    *(str(path.relative_to(root)) for path in (root / "dev").glob("*.sh")),
+}))
+
 
 def script(name):
     return ["zsh", "-f", "dev/" + name + ".sh"]
@@ -68,7 +62,9 @@ def sha256(text):
 
 def run(command, cwd):
     """Run a gate with UTF-8 decoding so the hashed logs do not depend on the locale."""
-    return subprocess.run(command, cwd=cwd, capture_output=True, text=True,
+    environment = dict(os.environ)
+    environment.setdefault("ATTEST_BEND_ROOT", str(root / "_tools/bend"))
+    return subprocess.run(command, cwd=cwd, env=environment, capture_output=True, text=True,
                           encoding="utf-8", errors="replace")
 
 def replace_once(text, before, after):
@@ -106,90 +102,126 @@ def write_record(baseline_output, records):
     target.write_text(json.dumps(envelope, indent=2) + "\n", encoding="utf-8")
     print(f"MUTATIONS RECORD {target.relative_to(root)} logs={len(records)}")
 
+def corrupt_reference(text):
+    record = json.loads(text)
+    row = next(entry for entry in record["removed"] if entry["path"] == "dev/r0-diff/term.ml")
+    row["sha256"] = ("0" if row["sha256"][0] != "0" else "1") + row["sha256"][1:]
+    return json.dumps(record, indent=2) + "\n"
+
+
+def kernel_growth(text):
+    files = [root / "lib/foundation.bend", *sorted((root / "lib").glob("kernel*.bend"))]
+    count = sum(len(path.read_bytes().splitlines()) for path in files
+                if path.name not in {"kernel_pp.bend", "kernel_metadata.bend"})
+    return text + "\n" + "# kernel budget mutant\n" * max(1, 6001 - count)
+
+
+# The BUILD mutant replaces OCaml unused-variable warnings with Bend's affine
+# binder discipline. Both require the compiler to reject an invalid source edit.
+# R0-walk-order still mutates traversal order; the migration fingerprint now
+# supplies the rejection instead of claiming byte equality across languages.
 # name, source path, mutation, gate command, required diagnostic, build first
 cases = [
     ("PIN", "dev/PIN", lambda s: s[:-2] + ("0" if s[-2] != "0" else "1") + "\n",
      script("carry-check"), r"PIN .* FAIL expected=", False),
-    ("CARRY", "lib/quantity.ml", lambda s: s + "(* unlisted source edit *)\n",
-     script("carry-check"), r"CARRY FAIL path=lib/quantity.ml", False),
-    ("CARRY-unlisted", "lib/unlisted.ml", lambda s: "let marker = ()\n",
-     script("carry-check"), r"unlisted=1", False),
+    ("CARRY", "lib/foundation.bend", lambda s: s + "# unreviewed source edit\n",
+     script("carry-check"), r"CARRY FAIL: unreviewed Bend source change: lib/foundation.bend", False),
+    ("CARRY-unlisted", "lib/unlisted.bend", lambda s: "import Base\ndef marker() -> Unit: Unit{}\n",
+     script("carry-check"), r"unlisted or missing Bend sources:.*lib/unlisted.bend", False),
     ("CARRY-origin", "dev/carry-manifest.json",
      lambda s: s.replace('"origin": "assay"', '"origin": "unknown"', 1),
      script("carry-check"), r"unknown carry origin", False),
-    ("BUILD", "lib/quantity.ml",
-     lambda s: s + "\nlet mutant () = let unused = () in ()\n",
-     build, r"unused-var|unused variable unused", False),
+    ("BUILD", "lib/foundation.bend",
+     lambda s: s + "\ndef mutant_affinity(x: Unit) -> Pair2<Unit, Unit>:\n  Pair2{x, x}\n",
+     build, r"consumed|usage|multiplicity|more than once", False),
     ("SUITE-KERNEL", "test/golden/a01-fun-app.checked",
      lambda s: s + "invalid expected checked form\n",
      ["_build/default/test/main.exe", "test"], r"SUITE-KERNEL FAIL", True),
-    ("R0-former-count", "lib/term.ml",
-     lambda s: replace_once(s, '[ "Lan"; "Ran" ]', '[ "Lan"; "Ran"; "KHost" ]'),
+    ("R0-former-count", "lib/foundation.bend",
+     lambda s: replace_once(s, '["Lan", "Ran"]', '["Lan", "Ran", "KHost"]'),
      script("r0-count"), r"R0-COUNT FAIL", True),
-    ("R0-third-constructor", "lib/term.ml",
-     lambda s: replace_once(s, "  | Lan of t Shape.t * t",
-                           "  | KHost of t Shape.t * t\n  | Lan of t Shape.t * t"),
+    ("R0-third-constructor", "lib/foundation.bend",
+     lambda s: replace_once(s, "  Term.Lan{x0: Shape.t<Term.t>, x1: Term.t}",
+                           "  Term.KHost{x0: Shape.t<Term.t>, x1: Term.t}\n  Term.Lan{x0: Shape.t<Term.t>, x1: Term.t}"),
      build, r"KHost", False),
-    ("R0-shape", "lib/shape.ml",
-     lambda s: replace_once(s, "  | SNu of string * 'a list",
-                           "  | SNu of string * 'a list\n  | KHost of 'a"),
+    ("R0-shape", "lib/foundation.bend",
+     lambda s: replace_once(s, "  Shape.SNu{x0: String, x1: List<&2, A>}",
+                           "  Shape.SNu{x0: String, x1: List<&2, A>}\n  Shape.KHost{x0: A}"),
      script("r0-audit"), r"KHost.*no refusal row", False),
-    ("R0-walk-order", "lib/shape.ml",
-     lambda s: replace_once(s, "| SPar (a, b) -> [ a; b ]",
-                           "| SPar (a, b) -> [ b; a ]"),
-     script("r0-diff"), r"R0-DIFF FAIL row=shape.ml", False),
-    ("R0-reference", "dev/r0-diff/term.ml", lambda s: s + "(* corrupt snapshot *)\n",
-     script("r0-diff"), r"reference checksum", False),
+    ("R0-walk-order", "lib/foundation.bend",
+     lambda s: replace_once(s, "case Shape.SPar{x0, x1}:\n      [x0, x1]",
+                           "case Shape.SPar{x0, x1}:\n      [x1, x0]"),
+     script("r0-diff"), r"R0-DIFF FAIL: unreviewed Bend source change: lib/foundation.bend", False),
+    ("R0-reference", "dev/bend-migration.json", corrupt_reference,
+     script("r0-diff"), r"R0-DIFF FAIL row=term.ml: historical reference checksum", False),
     ("AXIOMS", "corpus/id.att", lambda s: s + "\naxiom smuggled : Type 0\n",
      script("axioms-empty"), r"AXIOM smuggled", True),
-    ("kernel-growth", "lib/check.ml", lambda s: s + "(* budget mutant *)\n" * 200,
-     script("trusted-lines"), r"kernel=4197/4100.*FAIL", False),
+    ("kernel-growth", "lib/kernel_check.bend", kernel_growth,
+     script("trusted-lines"), r"kernel=[0-9]+/6000.*FAIL", False),
 ]
 
-records = []
-try:
-    baseline = run(script("gates"), root)
-    baseline_output = baseline.stdout + baseline.stderr
-    (logs / "baseline.log").write_text(baseline_output, encoding="utf-8")
-    if baseline.returncode:
-        raise ValueError("unmutated Stage A gates failed; see baseline.log")
-    for name, relative, mutate, command, diagnostic, needs_build in cases:
-        with tempfile.TemporaryDirectory(prefix="mutation-", dir=logs) as temporary:
-            scratch = Path(temporary) / "tree"
-            shutil.copytree(root, scratch, ignore=shutil.ignore_patterns(
-                ".git", "_build", ".gatework", ".kanon-*", "__pycache__"))
-            source = scratch / relative
-            original = source.read_text(encoding="utf-8") if source.exists() else ""
-            changed = mutate(original)
-            if changed == original:
-                raise ValueError(f"{name}: mutation made no change")
-            source.write_text(changed, encoding="utf-8")
-            if needs_build:
-                built = run(build, scratch)
-                (logs / (name + "-build.log")).write_text(built.stdout + built.stderr,
-                                                          encoding="utf-8")
-                if built.returncode:
-                    raise ValueError(f"{name}: prerequisite build failed; see build log")
-            result = run(command, scratch)
-            output = result.stdout + result.stderr
-            log = logs / (name + ".log")
-            log.write_text(output, encoding="utf-8")
-            caught = result.returncode != 0 and re.search(diagnostic, output) is not None
-            records.append({"name": name, "path": relative, "gate": command,
-                            "before_sha256": sha256(original),
-                            "after_sha256": sha256(changed),
-                            "exit": result.returncode, "caught": caught,
-                            "diagnostic": diagnostic, "log": str(log.relative_to(root)),
-                            "observed": first_match(diagnostic, output),
-                            "log_sha256": sha256(output)})
-            print(f"MUTATION {name} " + ("CAUGHT" if caught else "MISSED"), flush=True)
-            if not caught:
-                raise ValueError(f"{name}: expected a nonzero exit and {diagnostic!r}; see {log}")
-    print(f"MUTATIONS caught={len(records)} total={len(cases)} OK")
-    if record:
-        write_record(baseline_output, records)
-except (OSError, ValueError, subprocess.SubprocessError) as error:
-    print(f"MUTATIONS FAIL: {error}")
-    sys.exit(1)
-finally:
-    (logs / "results.json").write_text(json.dumps(records, indent=2) + "\n", encoding="utf-8")
+
+def main():
+    unknown = [arg for arg in sys.argv[1:] if arg != "--record"]
+    if unknown:
+        print(f"MUTATIONS FAIL: unknown argument {unknown[0]!r}; only --record is accepted")
+        return 2
+    records = []
+    try:
+        baseline = run(script("gates"), root)
+        baseline_output = baseline.stdout + baseline.stderr
+        (logs / "baseline.log").write_text(baseline_output, encoding="utf-8")
+        if baseline.returncode:
+            raise ValueError("unmutated Stage A gates failed; see baseline.log")
+        for name, relative, mutate, command, diagnostic, needs_build in cases:
+            with tempfile.TemporaryDirectory(prefix="mutation-", dir=logs) as temporary:
+                scratch = Path(temporary) / "tree"
+                shutil.copytree(root, scratch, ignore=shutil.ignore_patterns(
+                    ".git", "_build", "_tools", ".lake", ".gatework", ".kanon-*", "__pycache__"))
+                cached = root / "_build/js"
+                if cached.is_dir():
+                    shutil.copytree(cached, scratch / "_build/js")
+                source = scratch / relative
+                original = source.read_text(encoding="utf-8") if source.exists() else ""
+                changed = mutate(original)
+                if changed == original:
+                    raise ValueError(f"{name}: mutation made no change")
+                source.write_text(changed, encoding="utf-8")
+                if name == "CARRY-origin":
+                    migration_path = scratch / "dev/bend-migration.json"
+                    migration = json.loads(migration_path.read_text())
+                    migration["carry_manifest_sha256"] = sha256(changed)
+                    migration_path.write_text(json.dumps(migration, indent=2) + "\n")
+                if needs_build:
+                    built = run(build, scratch)
+                    (logs / (name + "-build.log")).write_text(built.stdout + built.stderr,
+                                                              encoding="utf-8")
+                    if built.returncode:
+                        raise ValueError(f"{name}: prerequisite build failed; see build log")
+                result = run(command, scratch)
+                output = result.stdout + result.stderr
+                log = logs / (name + ".log")
+                log.write_text(output, encoding="utf-8")
+                caught = result.returncode != 0 and re.search(diagnostic, output) is not None
+                records.append({"name": name, "path": relative, "gate": command,
+                                "before_sha256": sha256(original),
+                                "after_sha256": sha256(changed),
+                                "exit": result.returncode, "caught": caught,
+                                "diagnostic": diagnostic, "log": str(log.relative_to(root)),
+                                "observed": first_match(diagnostic, output),
+                                "log_sha256": sha256(output)})
+                print(f"MUTATION {name} " + ("CAUGHT" if caught else "MISSED"), flush=True)
+                if not caught:
+                    raise ValueError(f"{name}: expected a nonzero exit and {diagnostic!r}; see {log}")
+        print(f"MUTATIONS caught={len(records)} total={len(cases)} OK")
+        if record:
+            write_record(baseline_output, records)
+    except (OSError, ValueError, subprocess.SubprocessError) as error:
+        print(f"MUTATIONS FAIL: {error}")
+        sys.exit(1)
+    finally:
+        (logs / "results.json").write_text(json.dumps(records, indent=2) + "\n", encoding="utf-8")
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -97,7 +97,8 @@ def inventory(root):
 
 
 def execute(root, logs, name, command, expected=0):
-    result = subprocess.run(command, cwd=root, capture_output=True, timeout=60)
+    result = subprocess.run(command, cwd=root, capture_output=True,
+                            timeout=900 if name == "BUILD" else 120)
     (logs / (name + ".log")).write_bytes(result.stdout + result.stderr)
     if result.returncode != expected:
         raise ValueError(f"{name} exit={result.returncode} expected={expected}; log={logs / (name + '.log')}")
@@ -212,7 +213,7 @@ def run(root, record=False):
     if logs.exists():
         shutil.rmtree(logs)
     logs.mkdir(parents=True)
-    execute(root, logs, "BUILD", ["zsh", "-f", "dev/dunecho.sh", "build"])
+    execute(root, logs, "BUILD", ["python3", "-P", "dev/build.py", "--backend", "js", "attest"])
     builder = ["leancho", "AttestTwin"] if shutil.which("leancho") else ["lake", "build", "AttestTwin"]
     execute(root, logs, "LEAN-BUILD", builder)
     version = execute(root, logs, "LEAN-TOOLCHAIN", ["lake", "env", "lean", "--version"]).stdout.decode()
@@ -235,7 +236,10 @@ def run(root, record=False):
             hashes[path.name] = digest(path.read_bytes())
         sources = ["dev/lean_twin.py", "dev/lean-twin.sh", "lean/corpus.json",
                    "lean-toolchain", "lakefile.toml", "lake-manifest.json",
-                   "AttestTwin.lean", "AttestTwin/Core.lean", "bin/attest.ml"]
+                   "AttestTwin.lean", "AttestTwin/Core.lean", "dev/build.py",
+                   "dev/bend-toolchain.json", "dev/setup-bend.sh", "dev/cc.py", "Makefile"]
+        sources.extend(str(path.relative_to(root)) for folder in ("lib", "surface", "erase", "bin")
+                       for path in sorted((root / folder).rglob("*.bend")))
         payload = {"version": 1, "recorded_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                    "root": str(root), "summary": summary, "toolchain": pinned,
                    "implementation_sha256": {p: digest((root / p).read_bytes()) for p in sources},

@@ -8,24 +8,29 @@ the Stage B erasure increment and 24 ACCEPT / 12 REFUSE Lean twins.
 erased term with proof globals opaque. RISC-V emission and SP1 execution
 follow in later stages of [the M0 plan](design/attest-m0/M0-PLAN.md).
 
-With OCaml 5.2 or newer, Dune 3.24, Zarith 1.14, Python 3, ripgrep, and zsh
-already available:
+The compiler, kernel, frontend and erasure passes are implemented in Bend 2.
+With Bun (tested with 1.3.11), Git, Python 3, ripgrep and zsh available:
 
 ```sh
-zsh -f dev/dunecho.sh build
+sh dev/setup-bend.sh
+make build
 _build/default/bin/attest.exe check corpus/id.att
 _build/default/bin/attest.exe check --axioms corpus/id.att
 _build/default/bin/attest.exe spec-count
 _build/default/bin/attest.exe build --erase fixtures/erasure/f2-a.att
 zsh -f dev/gates.sh
-zsh -f dev/dunecho.sh test
+make test
 zsh -f dev/mutations.sh
 zsh -f dev/gates.sh LEAN-TWIN
 python3 -P dev/lean-twin-mutations.py
 ```
 
-The build wrapper uses `dunecho` when available and otherwise Dune. Set
-`ATTEST_OPAM_SWITCH` to select an installed switch. The tools install nothing.
+The setup command checks out the pinned Bend 2.0.25 compiler under `_tools/bend`.
+Set `ATTEST_BEND_ROOT` to use an existing checkout at the same revision.
+JavaScript is the default backend; the executable launchers under
+`_build/default` run Bun. The `.exe` paths preserve the existing CLI and gate
+interfaces. Native compilation is optional and experimental. See the
+[migration and build notes](dev/BEND-MIGRATION.md) for its current limitations.
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
@@ -69,12 +74,12 @@ See [SPEC.md](SPEC.md) for the current command contract and
 [CARRIED.md](CARRIED.md) for provenance and the documented carry adjustments.
 The package is licensed under MIT OR Apache-2.0.
 
-The optional [Bend 2 evaluator pilot](pilot/bend2/README.md) tests stronger
-scope guarantees and native build speed against OCaml. The guarantees pass;
-native builds and rebuilds are slower on the pinned toolchain, so the pilot
-does not recommend migrating the production evaluator.
+The earlier [evaluator pilot](pilot/bend2/README.md) is historical. The production
+port includes the complete checking, elaboration and erasure paths, with a
+captured OCaml reference corpus for exact behavioral comparisons.
 
 The design corpus is under design/:
+
 - kan-sp1-lang-design-brief.md: the design brief and the ratified rulings (section 10).
 - kan-sp1-lang-dossier-kernels.md, kan-sp1-lang-dossier-toolchain.md, kan-sp1-lang-dossier-priorart.md: the three scout dossiers.
 - kan-sp1-lang-proposal-1.md to -3.md and kan-sp1-lang-attack-1.md to -3.md: the three proposals and the three attacks of the design panel.

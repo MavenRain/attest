@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "status": "passed",
+  "reviewer": "/root/bend_shared_verify",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "dispatch_packet": "11a23f49071ababe8b853bc1",
+  "scope": "Migration retry, evidence finalization, and original-checkout application guards",
+  "validation_kind": "isolated guard checks plus inspection of retained build and test execution evidence",
+  "compiler_tests_executed_by_this_review": false,
+  "fixed_findings": [
+    "Require one successful retry for each distinct initial failure, with reference and previous-result bindings.",
+    "Require successful captured commands, exact logs, all 20 build target markers, and the complete 16-program test summary.",
+    "Bind the applied source and build inventories, file modes, compiler bytes, validation index, checkout revisions, and toolchain cleanliness; reject symlinks."
+  ],
+  "guard_exit_code": 0,
+  "outstanding_medium_or_higher_findings": 0,
+  "reviewed_sha256": {
+    "snapshots/retry-differential.py.snapshot": "1d1a2e4bcfa031f046674d75f295006cea031b2f3c4e300e33308086a61095f2",
+    "snapshots/finalize-validation.py.snapshot": "3f6230b97d21c7b51fc43c281bccbae90bb929d97c234762d736f2722441b012",
+    "snapshots/apply-migration.py.snapshot": "bab63070cf974c6d6eeba0de0a9fa7bcb2501f9bfaf9ee1f446ff23cfa79e165",
+    "snapshots/guard-witness.py.snapshot": "b8828d706111061e396caed7d26c1b4e4be628b8d00f6bb8c2fb43b56ca1dcdd",
+    "closing-guards.log": "f5dc7aca5bb376409f99d60cc6249c92d2712e12fca5467d4638ae6ac080e28f"
+  }
+}

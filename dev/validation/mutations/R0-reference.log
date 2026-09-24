@@ -1,4 +1,4 @@
-R0-DIFF FAIL row=term.ml: reference checksum
-R0-DIFF FAIL row=term.ml
-R0-DIFF vs=2c2e6e6 rows=3 diff=2 FAIL
+R0-DIFF FAIL row=term.ml: historical reference checksum
+R0-DIFF vs=2c2e6e6 rows=3 diff=1 FAIL
 R0-DIFF reference=kanon:git
+R0-DIFF mode=Bend-provenance semantic-checks=R0-COUNT,R0-AUDIT,differential

@@ -30,6 +30,35 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "local-hypothesis", "local-proof-let",
                                "local-proof-let-value", "local-proof-let-type",
                "local-proof-let-alias", "local-proof-let-family", "local-proof-let-universe"))
+# Original Prop-index cases are required individually, including all refusal rows.
+PROP_SUITE_ROWS = frozenset(('nat-index',
+ 'high-universe-index',
+ 'dependent-indices',
+ 'reordered-indices',
+ 'annotated-index',
+ 'accessibility-family',
+ 'indexed-singleton-elimination',
+ 'erased-index-read',
+ 'annotated-index-type',
+ 'result-index-type',
+ 'runtime-index',
+ 'type-index-bound',
+ 'type-field-bound',
+ 'unindexed-proof-field',
+ 'runtime-proof-field',
+ 'constant-result-index',
+ 'computed-result-index',
+ 'unindexed-first-field',
+ 'unindexed-last-field',
+ 'ill-typed-index',
+ 'index-twice',
+ 'index-in-later-field',
+ 'prop-typed-index',
+ 'parameter-index',
+ 'computed-application-index',
+ 'type-1-index-bound',
+ 'parameter-hidden-field',
+ 'recursive-big-later-field'))
 # Constructor branch binders still lack a local telescope (SPEC.md 1.1).
 OPEN_ROWS = {"branch-local-proof": "proof depending on a constructor branch index"}
 
@@ -39,7 +68,8 @@ def digest(data):
 
 
 def execute(logs, name, command, expected=0):
-    result = subprocess.run(command, cwd=ROOT, capture_output=True, timeout=60)
+    result = subprocess.run(command, cwd=ROOT, capture_output=True,
+                            timeout=900 if name == "BUILD" else 120)
     (logs / (name + ".log")).write_bytes(result.stdout + result.stderr)
     if result.returncode != expected:
         raise ValueError(f"{name} exit={result.returncode} expected={expected}; "
@@ -57,19 +87,23 @@ def opaque_source(source, names):
 
 
 def regression(logs):
-    execute(logs, "BUILD", ["zsh", "-f", "dev/dunecho.sh", "build"])
+    execute(logs, "BUILD", ["python3", "-P", "dev/build.py", "--backend", "js",
+                            "attest", "erase-probe", "prop-index", "opaque", "inline"])
     indices = execute(logs, "PROP-INDEX", ["_build/default/erase/test/prop_index.exe"])
     if indices.stderr:
         raise ValueError(f"PROP-INDEX unexpected diagnostics: {indices.stderr[:200]!r}")
     last = indices.stdout.rstrip(b"\n").rsplit(b"\n", 1)[-1]
     summary = re.fullmatch(rb"PROP-INDEX pass=(\d+) total=(\d+) OK", last)
-    rows = indices.stdout.count(b"PROP-INDEX row=")
-    if (summary is None or int(summary[1]) != int(summary[2]) or int(summary[2]) <= 0
-            or int(summary[2]) != rows):
+    labels = [match[1].decode() for line in indices.stdout.splitlines()[:-1]
+              if (match := re.fullmatch(rb"PROP-INDEX row=(\S+) OK .+", line))]
+    rows = len(indices.stdout.splitlines()) - 1
+    if (summary is None or int(summary[1]) != int(summary[2])
+            or int(summary[2]) != rows or len(labels) != rows
+            or len(set(labels)) != rows or set(labels) != PROP_SUITE_ROWS):
         raise ValueError(f"PROP-INDEX summary mismatch rows={rows} last={last!r}")
     print(last.decode())
     unit = execute(logs, "OPAQUE-ERASE", ["_build/default/erase/test/opaque_test.exe"])
-    if unit.stdout != b"OPAQUE-ERASE pass=6 fail=0\n":
+    if unit.stderr or unit.stdout != b"OPAQUE-ERASE pass=6 fail=0\n":
         raise ValueError("incomplete opaque evaluator tests")
     records = []
     for name, proofs in ROWS.items():
@@ -168,7 +202,8 @@ def inline_rows(logs):
     names = [row[1].decode() for row in rows if row is not None]
     summary = re.fullmatch(rb"INLINE-ERASE pass=(\d+) total=(\d+) OK", lines[-1])
     if (unit.stderr or summary is None or not names or len(names) != len(rows)
-            or int(summary[1]) != int(summary[2]) or int(summary[2]) != len(names)):
+            or int(summary[1]) != int(summary[2]) or int(summary[2]) != len(names)
+            or len(set(names)) != len(names)):
         raise ValueError(f"INLINE-ERASE summary mismatch rows={len(names)} last={lines[-1]!r}")
     missing = sorted(INLINE_SUITE_ROWS - set(names))
     if missing:
@@ -382,12 +417,14 @@ def twins(logs):
 
 def record(logs, rows):
     paths = []
-    for folder in ("lib", "surface", "bin", "erase", "fixtures/erasure", "AttestTwin", "twin"):
+    for folder in ("lib", "surface", "bin", "erase"):
+        paths.extend((ROOT / folder).rglob("*.bend"))
+    for folder in ("fixtures/erasure", "AttestTwin", "twin"):
         paths.extend(p for p in (ROOT / folder).rglob("*") if p.is_file())
-    paths.extend(ROOT / p for p in ("dev/erasure-gates.py", "dev/erase_probe.ml", "dev/dune",
-        "dev/gates.sh", "dev/dunecho.sh", "test/sys_io.ml",
-        "dune-project", "AttestTwin.lean",
-        "lakefile.toml", "lean-toolchain", "lake-manifest.json", "dev/carry-manifest.json"))
+    paths.extend(ROOT / p for p in ("dev/erasure-gates.py", "dev/erase_probe.bend", "dev/build.py",
+        "dev/gates.sh", "dev/cc.py", "dev/bend-toolchain.json", "dev/setup-bend.sh", "Makefile", "AttestTwin.lean",
+        "lakefile.toml", "lean-toolchain", "lake-manifest.json", "dev/carry-manifest.json",
+        "dev/bend-migration.json"))
     data = {"version": 1, "scope": "Stage B erasure increment", "stage_b": "OPEN",
             "rows": rows, "open": ["Acc erased proof binder and recursive proof elimination",
             "full TRACE-ERASURE including Acc",

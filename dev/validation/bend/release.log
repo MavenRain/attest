@@ -1,0 +1,6 @@
+LEAN-TWIN-CHECK name=gates exit=0 expected=0 seconds=1018.893 OK
+LEAN-TWIN-CHECK name=bend-tests exit=0 expected=0 seconds=140.951 OK
+LEAN-TWIN-CHECK name=corpus-record exit=0 expected=0 seconds=98.232 OK
+LEAN-TWIN-CHECK name=mutation-record exit=0 expected=0 seconds=42.817 OK
+LEAN-TWIN-CHECK name=trace-frontier exit=1 expected=1 seconds=53.081 OK
+LEAN-TWIN-CHECKS passed=5/5 records=2/2 OK

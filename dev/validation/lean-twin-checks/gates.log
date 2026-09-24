@@ -1,64 +1,69 @@
-OK build: 0 errors, 0 warnings
+BUILD attest js cached
+BUILD foundation js cached
+BUILD global-map js cached
+BUILD order js cached
+BUILD kernel js cached
+BUILD surface js cached
+BUILD ir js cached
+BUILD repr js cached
+BUILD inline-scan js cached
+BUILD inline-sealing js cached
+BUILD opaque-core js cached
+BUILD erasure-budget js cached
+BUILD erasure-refusal js cached
+BUILD inline js cached
+BUILD opaque js cached
+BUILD prop-index js cached
+BUILD parse-probe js cached
+BUILD erase-probe js cached
+BUILD pass-bench js cached
+BUILD suite-probe js cached
 BUILD OK
 CARRY files=594 diff=0 unlisted=0
 PIN eebe37e
 CARRY reference=assay:git,mechanism:git
+CARRY migration=Bend mapped=66 sources=55
 R0-COUNT formers=2 schema=4 shapes=5 admitted=3 OK
 R0-AUDIT OK
 R0-DIFF vs=2c2e6e6 rows=3 diff=0 OK
 R0-DIFF reference=kanon:git
+R0-DIFF mode=Bend-provenance semantic-checks=R0-COUNT,R0-AUDIT,differential
 HOUSE no-exception OK
 HOUSE no-mutable-state OK
 HOUSE no-mutable-state roots=lib erase
-HOUSE one-catch-site OK
-test/sys_io.ml:19:  try Ok (thunk ()) with Sys_error m -> Error m
-HOUSE no-bool-match OK
+HOUSE result-io-boundary OK
+HOUSE exhaustive-types OK
 HOUSE no-em-dash OK
 HOUSE no-loop-keyword OK
-HOUSE no-bare-division OK
+HOUSE nonzero-division OK
 HOUSE OK
 DRIVER-EXIT pass=13 fail=0 stage=A OK
-BENCH SUITE-KERNEL median_ms=196.377 min_ms=190.839 max_ms=207.810 runs=7
-SUITE-KERNEL pass=337 fail=0 median_ms=196.377 OK
-SL-SURFACE constructor-sugar OK
-SL-SURFACE mutual-sugar OK
-SL-SURFACE match-elaboration OK
-SL-SURFACE mu-roundtrip OK
-SL-SURFACE legacy-mu-roundtrip OK
-SL-SURFACE mutual-roundtrip OK
-SL-SURFACE legacy-mutual-roundtrip OK
-SL-SURFACE match-roundtrip OK
-SL-SURFACE case-roundtrip OK
-SL-SURFACE mixed-fields-roundtrip OK
-SL-SURFACE nested-match-roundtrip OK
-SL-SURFACE empty-match-roundtrip OK
-SL-SURFACE case-numeric-roundtrip OK
-SL-SURFACE match-numeric-refusal OK
-SL-SURFACE mutual-empty-refusal OK
-SL-SURFACE mutual-singleton-refusal OK
-SL-SURFACE mutual-unclosed-refusal OK
-SL-SURFACE mutual-and-refusal OK
-SL-SURFACE nu-term-refusal OK
-SL-SURFACE nu-declaration-refusal OK
-SL-SURFACE-OK 20/20
-SL-SURFACE OK
+BENCH SUITE-KERNEL median_ms=15314.768 min_ms=13994.782 max_ms=16435.716 runs=7
+SUITE-KERNEL pass=337 fail=0 median_ms=15314.768 OK
+surface: 20 lexer, 28 parser, match elaboration, 13 recursive values, axiom reporting, budget and extreme index checks passed
 AXIOMS corpus/id.att count=0
 AXIOMS-empty rows=1 OK
-TRUSTED-LINES kernel=3997/4100 lower=0/1100 encoder=0/800 harness=0/100 OK
-TRUSTED-LINES whole_lib=6193/6193 INFO
-M0-RATIO rung=1 pass=parse ms=0.011921 runs=7 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
-M0-RATIO rung=1 pass=elaborate-check ms=0.021935 runs=7 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+TRUSTED-LINES kernel=5938/6000 lower=0/1100 encoder=0/800 harness=0/100 OK
+TRUSTED-LINES whole_lib=7983 language=Bend INFO
+M0-RATIO rung=1 pass=parse ms=0.430000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=elaborate-check ms=0.310000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
 M0-RATIO rung=2 OPEN reason=denominators-not-frozen
 M0-RATIO rung=3 OPEN reason=denominators-not-frozen
 STAGE-A OK
+PROP-INDEX pass=28 total=28 OK
 ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
-ERASURE-OPEN rows=2 different=2 OPEN
+INLINE-ERASE pass=31 total=31 OK
+ERASURE-INLINE rows=17 identical=17 carried_diff=17 OK
+ERASURE-OPEN rows=1 different=1 OPEN
 ERASURE-CLI pass=6 fail=0 OK
 LEAN-TOOLCHAIN pinned=leanprover/lean4:v4.33.1 ran=4.33.1 OK
 LEAN-AXIOMS declarations=8 axioms=['AccFixture.R', 'F2Fixture.opaqueProof'] extra=0 OK
 LEAN-ERASURE sources=3 accepted=2 refused=1 OK
-ACC-FRONTIER lean=accepted attest=refused reason=index-universe OPEN
+ACC-FAMILY accepted OK
+ACC-FRONTIER lean=accepted attest=refused reason=proof-quantity OPEN
+ACC-RECURSIVE attest=refused reason=recursive-singleton OPEN
 ERASURE-INCREMENT OK; Stage B remains OPEN
+LEAN-TWIN-ROOTS records=2/3 root=/Users/oobi/Documents/attest OK
 LEAN-TWIN row=nat-literal ACCEPT OK
 LEAN-TWIN row=identity ACCEPT OK
 LEAN-TWIN row=constant ACCEPT OK

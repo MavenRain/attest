@@ -1,0 +1,158 @@
+"""Isolated guard tests only. No compiler, release finalization, or apply is run."""
+from pathlib import Path
+from contextlib import redirect_stdout
+from types import SimpleNamespace
+from unittest.mock import patch
+import ast
+import copy
+import hashlib
+import io
+import json
+import subprocess
+import tempfile
+
+HERE = Path(__file__).resolve().parent
+TOOLS = Path('/Users/oobi/Documents/gpt4/attest-port-tools')
+def load(path):
+    data = path.read_bytes()
+    ns = {'__name__': 'guard_unit_only', '__file__': str(path)}
+    exec(compile(data, str(path), 'exec'), ns)
+    return ns, ast.parse(data), hashlib.sha256(data).hexdigest()
+def main_body(tree):
+    return next(node.body for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'main')
+def assigns(node, name):
+    return isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == name for t in node.targets)
+def run_slice(tree, start, stop, namespace):
+    nodes = main_body(tree)
+    first = next(i for i,n in enumerate(nodes) if assigns(n, start))
+    last = next(i for i,n in enumerate(nodes[first+1:], first+1) if assigns(n, stop))
+    exec(compile(ast.Module(body=nodes[first:last], type_ignores=[]), 'guard-slice', 'exec'), namespace)
+def rejects(call):
+    try:
+        call()
+    except (AssertionError, ValueError, subprocess.CalledProcessError):
+        return True
+    raise AssertionError('bad guard input accepted')
+
+old_final, old_tree, old_final_sha = load(HERE / 'finalize-validation.py.before')
+new_final, new_tree, final_sha = load(TOOLS / 'finalize-validation.py')
+old_apply, _, old_apply_sha = load(HERE / 'apply-migration.py.before')
+new_apply, _, apply_sha = load(TOOLS / 'apply-migration.py')
+checks = {}
+with tempfile.TemporaryDirectory(dir=HERE, prefix='unit-guards-') as directory:
+    base = Path(directory)
+    output = base / 'retry'
+    output.mkdir()
+    expected = [{'args': ['check', str(i)], 'exit': 0} for i in range(941)]
+    failures = [{'expected': row, 'actual': {'args': row['args'], 'timeout': 900}} for row in expected[:2]]
+    initial = {'total': 941, 'passed': 939, 'failures': failures, 'driver_sha256': 'driver-pin', 'reference_manifest_sha256': 'reference-pin'}
+    initial_path = output / 'differential-initial.json'
+    initial_path.write_text(json.dumps(initial))
+    retry_rows = [{'expected': f['expected'], 'previous_actual': f['actual'], 'actual': f['expected'], 'passed': True} for f in failures]
+    retry = {'status': 'complete', 'initial_report_sha256': hashlib.sha256(initial_path.read_bytes()).hexdigest(), 'initial_passed': 939, 'total': 941, 'passed': 941, 'failures': [], 'driver_sha256': 'driver-pin', 'reference_manifest_sha256': 'reference-pin', 'retries': retry_rows}
+    def retry_guard(module, tree, record):
+        scope = dict(module)
+        scope.update(OUTPUT=output, args=SimpleNamespace(retry=True), read=lambda p: {'cases': expected} if p.endswith('ocaml-reference.json') else record)
+        run_slice(tree, 'initial_path', 'driver', scope)
+    duplicate = {**retry, 'retries': [retry_rows[0], retry_rows[0]]}
+    retry_guard(old_final, old_tree, duplicate)
+    checks['old_duplicate_retry_accepted'] = True
+    checks['fixed_duplicate_retry_rejected'] = rejects(lambda: retry_guard(new_final, new_tree, duplicate))
+    retry_guard(new_final, new_tree, retry)
+    for field, value in [('previous_actual', {'args': ['wrong'], 'timeout': 900}), ('passed', False), ('expected', expected[2])]:
+        bad = copy.deepcopy(retry)
+        bad['retries'][0][field] = value
+        rejects(lambda: retry_guard(new_final, new_tree, bad))
+    bad = {**retry, 'driver_sha256': 'different-driver'}
+    rejects(lambda: retry_guard(new_final, new_tree, bad))
+    checks['fixed_retry_identity_previous_result_and_driver_rejected'] = True
+
+    prefix = base / 'prefix'
+    prefix.mkdir()
+    (prefix / 'tests.log').write_bytes(b'unit original suite only\n')
+    (prefix / 'original-suite.log').write_bytes(b'unit original suite only\n')
+    run_slice(old_tree, 'tests', 'tracked', {**old_final, 'OUTPUT': prefix})
+    checks['old_incomplete_test_log_accepted'] = True
+    (prefix / 'tests-capture.json').write_bytes((new_final['OUTPUT'] / 'tests-capture.json').read_bytes())
+    previous_output = new_final['OUTPUT']
+    new_final['OUTPUT'] = prefix
+    checks['fixed_incomplete_test_log_rejected'] = rejects(lambda: new_final['check_capture']('tests', 'run-kUB9d4', '3fd49e967afc9c4da9597994fa3952f7aaecd076f4da38a6849fabc3fb1ce0c7', '32fd1cfa1ab71d9b652ec5bb8d568d8e3e30861a100f868421da59c2446e54cb', ['python3', '-P', 'dev/test-all.py']))
+    new_final['OUTPUT'] = previous_output
+    run_slice(new_tree, 'build_text', 'tracked', new_final)
+    checks['real_retained_capture_and_coverage_guards_pass'] = True
+
+    work, target, compiler = base / 'work', base / 'target', base / 'compiler'
+    for root in (work, target, compiler):
+        root.mkdir()
+    source, payload, binary = work / 'source.bend', work / '_build/app.js', compiler / 'bin/bend'
+    for path in (source, payload, binary):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b'unit bytes')
+    index_path = work / 'dev/validation/bend/index.json'
+    index_path.parent.mkdir(parents=True)
+    index_path.write_text(json.dumps({'status': 'failed'}))
+    tracked = ['source.bend', 'dev/validation/bend/index.json']
+    git_state = {'work': new_apply['BASE'], 'tools': new_apply['PIN'], 'dirty': None}
+    def fake_git(root, *arguments):
+        if arguments == ('rev-parse', 'HEAD'):
+            return (git_state['tools'] if root == compiler else git_state['work']).encode()
+        if arguments == ('ls-files', '-z'):
+            return ('\0'.join(tracked) + '\0').encode()
+        if arguments == ('diff', 'HEAD', '--binary'):
+            return b'unit synthetic patch only\n'
+        return b''
+    replacements = dict(WORK=work, TARGET=target, TOOLS=compiler, PATCH=base/'unit.patch', BACKUP=base/'backup', INDEX=index_path, git=fake_git)
+    old_apply.update(replacements)
+    new_apply.update(replacements)
+    diff_calls = []
+    def fake_diff(command, check):
+        assert command[:4] == ['git', '-C', str(compiler), 'diff'] and command[-1] == '--quiet' and check
+        staged = '--cached' in command
+        diff_calls.append(staged)
+        if git_state['dirty'] == ('staged' if staged else 'unstaged'):
+            raise subprocess.CalledProcessError(1, command)
+        return subprocess.CompletedProcess(command, 0)
+    new_apply['subprocess'] = SimpleNamespace(run=fake_diff)
+    with patch.object(subprocess, 'run', return_value=subprocess.CompletedProcess([], 0)), redirect_stdout(io.StringIO()):
+        old_apply['prepare']()
+    checks['old_failed_validation_accepted'] = True
+    sha_index = lambda: hashlib.sha256(index_path.read_bytes()).hexdigest()
+    checks['fixed_failed_validation_rejected'] = rejects(lambda: new_apply['validate_evidence'](sha_index()))
+    valid = {'status': 'passed', 'reference_revision': new_apply['BASE'], 'bend_revision': new_apply['PIN'], 'worktree_files': new_apply['bind_files']([source], work), 'build_files': new_apply['bind_files']([payload], work/'_build'), 'compiler_file': new_apply['bind_files']([binary], compiler)['bin/bend']}
+    index_path.write_text(json.dumps(valid))
+    pinned_index = sha_index()
+    new_apply['validate_evidence'](pinned_index)
+    for path in (source, payload, binary):
+        prior = path.read_bytes()
+        path.write_bytes(b'changed after validation')
+        rejects(lambda: new_apply['validate_evidence'](pinned_index))
+        path.write_bytes(prior)
+    prior_mode = source.stat().st_mode & 0o7777
+    source.chmod(prior_mode ^ 0o100)
+    rejects(lambda: new_apply['validate_evidence'](pinned_index))
+    source.chmod(prior_mode)
+    extra = work/'_build/extra.js'
+    extra.write_text('unexpected')
+    rejects(lambda: new_apply['validate_evidence'](pinned_index))
+    extra.unlink()
+    extra.symlink_to(payload)
+    rejects(lambda: new_apply['validate_evidence'](pinned_index))
+    extra.unlink()
+    rejects(lambda: new_apply['validate_evidence']('wrong index hash'))
+    checks['fixed_source_payload_compiler_mode_inventory_symlink_index_guards'] = True
+    for name in ('work', 'tools'):
+        prior = git_state[name]
+        git_state[name] = 'changed revision'
+        rejects(lambda: new_apply['validate_evidence'](pinned_index))
+        git_state[name] = prior
+    for dirty in ('staged', 'unstaged'):
+        git_state['dirty'] = dirty
+        rejects(lambda: new_apply['validate_evidence'](pinned_index))
+    git_state['dirty'] = None
+    new_apply['validate_evidence'](pinned_index)
+    assert set(diff_calls) == {True, False}
+    checks['fixed_clone_pin_and_staged_unstaged_cleanliness_guards'] = True
+
+assert hashlib.sha256((TOOLS/'finalize-validation.py').read_bytes()).hexdigest() == final_sha
+assert hashlib.sha256((TOOLS/'apply-migration.py').read_bytes()).hexdigest() == apply_sha
+print(json.dumps({'evidence_kind': 'isolated guard witnesses, not compiler validation', 'checks': checks, 'source_sha256': {'old_finalizer': old_final_sha, 'finalizer': final_sha, 'old_apply': old_apply_sha, 'apply': apply_sha}}, sort_keys=True))

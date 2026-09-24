@@ -3,17 +3,19 @@
 from pathlib import Path
 import sys
 
-KERNEL = "shape term rules check value eval conv totality positivity global order bignum".split()
-BUCKETS = (("lower", 1100, "lower", {".ml", ".mli"}),
-           ("encoder", 800, "elf", {".ml", ".mli"}),
+BUCKETS = (("lower", 1100, "lower", {".bend"}),
+           ("encoder", 800, "elf", {".bend"}),
            ("harness", 100, "harness", {".rs"}))
 
 def lines(path):
     return len(path.read_bytes().splitlines())
 
 def check(root):
-    counts = [("kernel", sum(lines(root / "lib" / (name + ".ml"))
-                             for name in KERNEL), 4100)]
+    kernel = [root / "lib/foundation.bend", *sorted((root / "lib").glob("kernel*.bend"))]
+    kernel = [path for path in kernel if path.name not in {"kernel_pp.bend", "kernel_metadata.bend"}]
+    # Includes shared types, explicit continuations and arbitrary-precision arithmetic.
+    # The migration records the old 4100-line OCaml bound separately.
+    counts = [("kernel", sum(lines(path) for path in kernel), 6000)]
     for name, bound, folder, suffixes in BUCKETS:
         total = sum(lines(path) for path in (root / folder).rglob("*")
                     if path.is_file() and path.suffix in suffixes)
@@ -21,8 +23,8 @@ def check(root):
     good = all(count <= bound for _name, count, bound in counts)
     print("TRUSTED-LINES " + " ".join(f"{name}={count}/{bound}"
           for name, count, bound in counts) + (" OK" if good else " FAIL"))
-    whole = sum(lines(path) for path in (root / "lib").glob("*.ml"))
-    print(f"TRUSTED-LINES whole_lib={whole}/6193 INFO")
+    whole = sum(lines(path) for path in (root / "lib").glob("*.bend"))
+    print(f"TRUSTED-LINES whole_lib={whole} language=Bend INFO")
     return int(not good)
 
 if __name__ == "__main__":

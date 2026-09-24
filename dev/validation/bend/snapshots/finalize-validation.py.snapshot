@@ -1,0 +1,199 @@
+#!/usr/bin/env python3
+"""Validate retained migration evidence before writing its final index."""
+import argparse
+import ast
+import datetime
+import hashlib
+import json
+from pathlib import Path
+import re
+import stat
+import subprocess
+
+ROOT = Path('/Users/oobi/Documents/gpt4/attest-bend2')
+TOOLS = Path('/Users/oobi/Documents/gpt4/attest-bend-toolchain')
+OUTPUT = ROOT / 'dev/validation/bend'
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def read(path):
+    return json.loads((ROOT / path).read_text())
+
+
+def bind_files(paths, base):
+    bound = {}
+    for path in sorted(paths):
+        relative = path.relative_to(base)
+        cursor = path
+        while cursor != base:
+            assert not cursor.is_symlink(), f'symlink cannot be bound: {cursor}'
+            cursor = cursor.parent
+        metadata = path.stat()
+        assert stat.S_ISREG(metadata.st_mode), f'nonregular file: {path}'
+        bound[str(relative)] = {'type': 'file', 'mode': stat.S_IMODE(metadata.st_mode),
+                                'sha256': sha(path)}
+    return bound
+
+
+def assignment(path, name):
+    values = []
+    for node in ast.parse(path.read_text()).body:
+        if isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id == name for target in node.targets):
+            values.append(node.value)
+        elif isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name) and node.target.id == name:
+            values.append(node.value)
+    assert len(values) == 1, f'expected one {name} declaration'
+    return values[0]
+
+
+def check_capture(name, capture_name, manifest_sha, log_sha, argv):
+    manifest_path = OUTPUT / f'{name}-capture.json'
+    assert sha(manifest_path) == manifest_sha
+    capture = json.loads(manifest_path.read_text())
+    assert capture['status'] == 'complete' and capture['exitCode'] == 0
+    assert len(capture['commands']) == 1
+    command = capture['commands'][0]
+    assert command['argv'] == argv and command['cwd'] == str(ROOT)
+    assert command['exitCode'] == 0 and command['timedOut'] is False
+    assert command['signal'] == 0 and command['spawnError'] == ''
+    log = OUTPUT / f'{name}.log'
+    assert sha(log) == log_sha
+    data = log.read_bytes()
+    capture_root = ROOT / '.kanon-exec' / capture_name
+    assert (capture_root / command['stdout']['path']).read_bytes() == data
+    assert command['stdout']['bytes'] == len(data)
+    assert command['stdout']['lines'] == len(data.splitlines())
+    assert (capture_root / command['stderr']['path']).read_bytes() == b''
+    assert command['stderr']['bytes'] == command['stderr']['lines'] == 0
+    return data.decode()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--retry', action='store_true')
+    args = parser.parse_args()
+    subprocess.run(['python3', '-P', str(Path(__file__).with_name('audit-validation-inputs.py'))], check=True)
+    initial_path = OUTPUT / 'differential-initial.json'
+    initial = json.loads(initial_path.read_text())
+    reference = read('dev/validation/ocaml-reference.json')
+    expected_by_args = {tuple(row['args']): row for row in reference['cases']}
+    assert len(expected_by_args) == len(reference['cases']) == initial['total']
+    initial_failures = {tuple(row['expected']['args']): row for row in initial['failures']}
+    assert len(initial_failures) == len(initial['failures'])
+    assert initial['passed'] + len(initial_failures) == initial['total']
+    for command, row in initial_failures.items():
+        assert row['expected'] == expected_by_args[command]
+        assert row['actual']['args'] == row['expected']['args'] and 'timeout' in row['actual']
+    differential = initial
+    if args.retry:
+        differential = read('dev/validation/bend/differential-retry.json')
+        assert differential['status'] == 'complete'
+        assert differential['initial_report_sha256'] == sha(initial_path)
+        retries = {tuple(row['expected']['args']): row for row in differential['retries']}
+        assert len(retries) == len(differential['retries'])
+        assert set(retries) == set(initial_failures)
+        assert differential['initial_passed'] == initial['passed']
+        for command, row in retries.items():
+            assert row['expected'] == expected_by_args[command]
+            assert row['previous_actual'] == initial_failures[command]['actual']
+            assert row['actual'] == row['expected'] and row['passed'] is True
+        assert differential['passed'] == initial['passed'] + len(retries)
+        for key in ('total', 'driver_sha256', 'reference_manifest_sha256'):
+            assert differential[key] == initial[key]
+    assert differential['passed'] == differential['total'] == 941
+    assert not differential['failures']
+    driver = ROOT / '_build/default/bin/attest.exe'
+    payload = ROOT / '_build/js/bin/attest.js'
+    assert initial['driver_sha256'] == sha(driver)
+    assert initial['reference_manifest_sha256'] == sha(ROOT / 'dev/validation/ocaml-reference.json')
+    binding = re.search(r'^# Bend js sha256:([0-9a-f]{64})$', driver.read_text(), re.M)
+    assert binding and binding[1] == sha(payload)
+    if args.retry:
+        assert differential['payload_sha256'] == sha(payload)
+    assert len(reference['cases']) == 941 and len(reference['sources']) == 234
+    assert all(sha(ROOT / path) == digest for path, digest in reference['sources'].items())
+    assert all('timeout' not in row for row in reference['cases'])
+    stage = read('dev/validation/stage-a.json')
+    assert sha(ROOT / 'dev/validation/stage-a.json') == 'a258ad021d94884cc6614ef1760a7a07a1880538a4a44b5a6a41920cc108974a'
+    assert stage['baseline_exit'] == stage['mutation_exit'] == 0
+    assert len(stage['mutations']) == 13
+    erasure = read('dev/validation/erasure-mutations.json')
+    assert sha(ROOT / 'dev/validation/erasure-mutations.json') == 'f87e63db6f15114e34b7b0875b4c81a6f0bd024b7883c71eff14dfb02d9aea70'
+    assert len(erasure['mutations']) == 32
+    assert all(row['build_exit'] == 0 and row['gate_exit'] == 1 for row in erasure['mutations'])
+    release = read('dev/validation/lean-twin-checks.json')
+    assert sha(ROOT / 'dev/validation/lean-twin-checks.json') == '9e33cab48f86337926f3943226a290bb21f37e4ae16d59d108d32cddf2e1342f'
+    assert release['timeout_seconds'] == 3600 and release['record_hashes_verified']
+    assert len(release['checks']) == 5
+    assert [row['expected'] for row in release['checks']] == [0, 0, 0, 0, 1]
+    assert all(row['exit_code'] == row['expected'] for row in release['checks'])
+    for name, digest in release['log_sha256'].items():
+        assert sha(ROOT / 'dev/validation/lean-twin-checks' / name) == digest
+    for name, digest in release['record_sha256'].items():
+        assert sha(ROOT / name) == digest
+    gate_log = (ROOT / 'dev/validation/lean-twin-checks/gates.log').read_text()
+    assert 'TRUSTED-LINES kernel=5874/6000' in gate_log
+    assert 'STAGE-A OK' in gate_log
+    tests = (OUTPUT / 'tests.log').read_bytes()
+    original = (OUTPUT / 'original-suite.log').read_bytes()
+    assert tests.startswith(original), 'original suite output changed'
+    build_text = check_capture('build', 'run-doz1B4',
+        'dc9d80358ea49349cd54f01eba5e5c33d5b460a08dc0352e9eea517e808a8875',
+        '8f8636c554d18fb09ec09a1c730c393064acff5222b2260f37b0f319a3fcefbe',
+        ['python3', '-P', 'dev/build.py'])
+    test_text = check_capture('tests', 'run-kUB9d4',
+        '3fd49e967afc9c4da9597994fa3952f7aaecd076f4da38a6849fabc3fb1ce0c7',
+        '32fd1cfa1ab71d9b652ec5bb8d568d8e3e30861a100f868421da59c2446e54cb',
+        ['python3', '-P', 'dev/test-all.py'])
+    target_declaration = assignment(ROOT / 'dev/build.py', 'TARGETS')
+    assert isinstance(target_declaration, ast.Dict)
+    targets = [ast.literal_eval(key) for key in target_declaration.keys]
+    assert len(targets) == len(set(targets)) == 20
+    assert re.findall(r'^BUILD (\S+) js OK$', build_text, re.M) == targets
+    programs = assignment(ROOT / 'dev/test-all.py', 'PROGRAMS')
+    assert isinstance(programs, (ast.List, ast.Tuple)) and len(programs.elts) == 16
+    assert test_text.splitlines()[-1] == 'TESTS programs=16 OK'
+    assert test_text.splitlines().count('TESTS programs=16 OK') == 1
+    tracked = subprocess.check_output(['git', '-C', str(ROOT), 'ls-files', '-z']).decode().split('\0')
+    tracked = [path for path in tracked if path]
+    bend_sources = {path: sha(ROOT / path) for path in tracked if path.endswith('.bend')}
+    registered_sources = read('dev/bend-migration.json')['bend_sources']
+    assert len(registered_sources) == 55
+    assert all(bend_sources.get(path) == digest for path, digest in registered_sources.items())
+    assert not any(path.endswith(('.ml', '.mli', '.opam')) or Path(path).name in {'dune', 'dune-project'} for path in tracked)
+    revision = subprocess.check_output(['git', '-C', str(TOOLS), 'rev-parse', 'HEAD']).decode().strip()
+    assert revision == 'ff7a40cc9070a34c78399ecd2bbe46a044ad9b4b'
+    index_relative = 'dev/validation/bend/index.json'
+    worktree_files = bind_files([ROOT / path for path in tracked if path != index_relative], ROOT)
+    build_entries = list((ROOT / '_build').rglob('*'))
+    assert not any(path.is_symlink() for path in build_entries), 'build contains symlinks'
+    build_files = bind_files([path for path in build_entries if path.is_file()], ROOT / '_build')
+    compiler = bind_files([TOOLS / 'bin/bend'], TOOLS)['bin/bend']
+    evidence = list(OUTPUT.rglob('*')) + [ROOT / 'dev/validation' / name for name in (
+        'stage-a.json', 'erasure-mutations.json', 'lean-twin-checks.json', 'ocaml-reference.json')]
+    hashes = {str(path.relative_to(ROOT)): sha(path) for path in sorted(evidence)
+              if path.is_file() and path.name != 'index.json'}
+    index = {
+        'version': 1, 'recorded_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        'status': 'passed', 'reference_revision': reference['reference_revision'],
+        'bend_revision': revision, 'default_backend': 'javascript', 'runtime': 'Bun',
+        'driver_sha256': sha(driver), 'payload_sha256': sha(payload),
+        'worktree_files': worktree_files, 'build_files': build_files,
+        'compiler_file': compiler,
+        'checks': {'cli_cases': 941, 'original_fixture_files': 234, 'test_programs': 16,
+                   'build_targets': 20, 'stage_a_mutations': 13, 'erasure_mutations': 32,
+                   'release_checks': 5, 'trusted_lines': 5874, 'trusted_line_limit': 6000,
+                   'migrated_bend_sources': len(registered_sources), 'all_bend_sources': len(bend_sources)},
+        'bend_source_sha256': bend_sources, 'evidence_sha256': hashes,
+        'limitations': ['Full native compiler generation remains experimental.',
+                        'The preexisting Acc frontier and Stage B trace restriction remain.'],
+        'historical_input_note': 'The Stage A run predates only the release timeout option; its exact helper snapshot is retained in input-audit.json.'}
+    (OUTPUT / 'index.json').write_text(json.dumps(index, indent=2) + '\n')
+    print(f"VALIDATION INDEX PASS cases=941 programs=16 mutations=13+32 release=5 sources={len(bend_sources)} sha256={sha(OUTPUT / 'index.json')}")
+
+
+if __name__ == '__main__':
+    main()

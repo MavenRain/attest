@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+"""Retry only timed-out migration comparisons and retain the original report."""
+import argparse
+from concurrent.futures import ThreadPoolExecutor
+import hashlib
+import json
+from pathlib import Path
+import re
+import runpy
+import time
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--root', type=Path, required=True)
+    parser.add_argument('--initial', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--timeout', type=int, default=3600)
+    parser.add_argument('--jobs', type=int, default=2)
+    args = parser.parse_args()
+    if args.timeout < 1 or args.jobs not in (1, 2):
+        parser.error('timeout must be positive and jobs must be 1 or 2')
+    if args.output.exists():
+        parser.error('refusing to overwrite a retry record')
+    root = args.root.resolve()
+    driver = root / '_build/default/bin/attest.exe'
+    payload = root / '_build/js/bin/attest.js'
+    reference_path = root / 'dev/validation/ocaml-reference.json'
+    script = root / 'dev/migration-differential.py'
+    reference = json.loads(reference_path.read_text())
+    initial = json.loads(args.initial.read_text())
+    expected_by_args = {tuple(row['args']): row for row in reference['cases']}
+    failures = initial['failures']
+    assert len(expected_by_args) == len(reference['cases']) == initial['total']
+    assert initial['passed'] + len(failures) == initial['total']
+    assert initial['reference_manifest_sha256'] == sha(reference_path)
+    assert initial['driver_sha256'] == sha(driver)
+    assert all('timeout' not in row for row in reference['cases'])
+    commands = [tuple(row['expected']['args']) for row in failures]
+    assert len(commands) == len(set(commands))
+    for row in failures:
+        assert row['expected'] == expected_by_args[tuple(row['expected']['args'])]
+        assert row['actual']['args'] == row['expected']['args']
+        assert 'timeout' in row['actual'], 'non-timeout discrepancy needs review'
+    binding = re.search(r'^# Bend js sha256:([0-9a-f]{64})$', driver.read_text(), re.M)
+    assert binding and binding[1] == sha(payload), 'launcher payload changed'
+    protected = {reference_path: sha(reference_path), driver: sha(driver),
+                 payload: sha(payload), script: sha(script), args.initial: sha(args.initial)}
+    protected.update({root / path: digest for path, digest in reference['sources'].items()})
+
+    def unchanged():
+        drift = [str(path) for path, digest in protected.items() if sha(path) != digest]
+        assert not drift, f'validation input changed: {drift}'
+
+    unchanged()
+    execute = runpy.run_path(str(script))['execute']
+    report = {'version': 1, 'status': 'running', 'total': initial['total'],
+              'initial_passed': initial['passed'], 'initial_report_sha256': sha(args.initial),
+              'reference_manifest_sha256': sha(reference_path),
+              'driver_sha256': sha(driver), 'payload_sha256': sha(payload),
+              'timeout_seconds': args.timeout, 'jobs': args.jobs, 'retries': []}
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+
+    def save():
+        args.output.write_text(json.dumps(report, indent=2) + '\n')
+
+    def retry(row):
+        started = time.monotonic()
+        actual = execute(driver, root, row['expected']['args'], args.timeout)
+        return {'expected': row['expected'], 'previous_actual': row['actual'],
+                'actual': actual, 'passed': actual == row['expected'],
+                'elapsed_seconds': round(time.monotonic() - started, 3)}
+
+    save()
+    with ThreadPoolExecutor(max_workers=args.jobs) as pool:
+        for row in pool.map(retry, failures):
+            unchanged()
+            report['retries'].append(row)
+            save()
+            print(('PASS ' if row['passed'] else 'FAIL ') + json.dumps(row['expected']['args']), flush=True)
+    unchanged()
+    report['status'] = 'complete'
+    report['passed'] = initial['passed'] + sum(row['passed'] for row in report['retries'])
+    report['failures'] = [row for row in report['retries'] if not row['passed']]
+    save()
+    print(f"DIFFERENTIAL combined_pass={report['passed']} total={report['total']} failures={len(report['failures'])}")
+    return 1 if report['failures'] else 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

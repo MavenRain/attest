@@ -1,8 +1,9 @@
 {
   "version": 1,
-  "recorded_at": "2026-09-22T23:52:47.156276+00:00",
+  "recorded_at": "2026-09-24T12:22:16.981267+00:00",
   "root": "/Users/oobi/Documents/attest",
   "summary": "LEAN-TWIN-CHECKS passed=5/5 records=2/2 OK",
+  "timeout_seconds": 900,
   "checks": [
     {
       "name": "gates",
@@ -14,23 +15,21 @@
       ],
       "exit_code": 0,
       "expected": 0,
-      "seconds": 22.984,
-      "log_sha256": "232aef1faadb5ef11ee1bdaff5bedff682b511d83acca11211526b00ffe9c893"
+      "seconds": 175.579,
+      "timeout_seconds": 900,
+      "log_sha256": "ed1df80e6159ee89ce4588c86151701c4197507a000626beb8c0e9a44ea562f0"
     },
     {
-      "name": "dune-tests",
+      "name": "bend-tests",
       "command": [
-        "zsh",
-        "-f",
-        "dev/dunecho.sh",
-        "test",
-        "--force"
+        "make",
+        "test"
       ],
       "exit_code": 0,
       "expected": 0,
-      "seconds": 0.368,
-      "log_sha256": "a4a2fd4b2d68a49b0339595afad056fc46d3e7e90c7bd48e180f85d991af91f0",
-      "dunecho_bypassed": true
+      "seconds": 21.095,
+      "timeout_seconds": 900,
+      "log_sha256": "c898b0913d79923d1a05ca6698f2d4ee4170445a6f2feb0c08997c1b83399b13"
     },
     {
       "name": "corpus-record",
@@ -42,7 +41,8 @@
       ],
       "exit_code": 0,
       "expected": 0,
-      "seconds": 15.6,
+      "seconds": 17.679,
+      "timeout_seconds": 900,
       "log_sha256": "8b944e5713c61c342a1d7bd55ff189c800a67540478144d2977d036282476ab0"
     },
     {
@@ -55,7 +55,8 @@
       ],
       "exit_code": 0,
       "expected": 0,
-      "seconds": 9.279,
+      "seconds": 11.188,
+      "timeout_seconds": 900,
       "log_sha256": "6e2d943d59878da5fb308f0a74235c0d6eaeb223fb187e9b5a5a44a73c99713f"
     },
     {
@@ -68,20 +69,21 @@
       ],
       "exit_code": 1,
       "expected": 1,
-      "seconds": 2.244,
-      "log_sha256": "9ba1b9fd51b0a09792036ec72740c431a58992248977d571e0fe4ee333b3863c"
+      "seconds": 10.999,
+      "timeout_seconds": 900,
+      "log_sha256": "c740b0d8a5c89665b487f9cb0d02ec42c7f5c5cf7280ae9dd37bf3edc644fa93"
     }
   ],
   "log_sha256": {
+    "bend-tests.log": "c898b0913d79923d1a05ca6698f2d4ee4170445a6f2feb0c08997c1b83399b13",
     "corpus-record.log": "8b944e5713c61c342a1d7bd55ff189c800a67540478144d2977d036282476ab0",
-    "dune-tests.log": "a4a2fd4b2d68a49b0339595afad056fc46d3e7e90c7bd48e180f85d991af91f0",
-    "gates.log": "232aef1faadb5ef11ee1bdaff5bedff682b511d83acca11211526b00ffe9c893",
+    "gates.log": "ed1df80e6159ee89ce4588c86151701c4197507a000626beb8c0e9a44ea562f0",
     "mutation-record.log": "6e2d943d59878da5fb308f0a74235c0d6eaeb223fb187e9b5a5a44a73c99713f",
-    "trace-frontier.log": "9ba1b9fd51b0a09792036ec72740c431a58992248977d571e0fe4ee333b3863c"
+    "trace-frontier.log": "c740b0d8a5c89665b487f9cb0d02ec42c7f5c5cf7280ae9dd37bf3edc644fa93"
   },
   "record_sha256": {
-    "dev/validation/lean-twin.json": "66d7343f4847c8c7a1d3e7e703fda58daad6708e6eaa12f8f53b75ba4aebcd0f",
-    "dev/validation/lean-twin-mutations.json": "be5020213273977ff088e03fcdc1c1ef94b9678915d397ec0b8bcad8064667c3"
+    "dev/validation/lean-twin.json": "8968c82baf5fff5dc7bf2da60ef22207af420311c7158ed651f9de286ad50012",
+    "dev/validation/lean-twin-mutations.json": "4acf39f5ad8c565372c92e3b9d0588989f15b4317d3b4c86244b2828aca4525c"
   },
   "record_hashes_verified": true
 }

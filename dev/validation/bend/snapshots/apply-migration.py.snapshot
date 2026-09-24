@@ -1,0 +1,104 @@
+#!/usr/bin/env python3
+"""Apply the validated attest migration, retaining the original build for recovery."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import stat
+import subprocess
+
+WORK = Path('/Users/oobi/Documents/gpt4/attest-bend2')
+TARGET = Path('/Users/oobi/Documents/attest')
+TOOLS = Path('/Users/oobi/Documents/gpt4/attest-bend-toolchain')
+ARTIFACTS = Path('/Users/oobi/Documents/gpt4/attest-port-tools')
+BASE = 'ba7a65416e7786031b64dc997e9300d2741ce889'
+PIN = 'ff7a40cc9070a34c78399ecd2bbe46a044ad9b4b'
+PATCH = ARTIFACTS / 'attest-bend-final.patch'
+BACKUP = ARTIFACTS / 'attest-ocaml-build-backup'
+INDEX = WORK / 'dev/validation/bend/index.json'
+
+def git(root, *arguments):
+    return subprocess.check_output(['git', '-C', str(root), *arguments])
+
+def clean(root):
+    return not git(root, 'status', '--porcelain=v1', '--untracked-files=all')
+
+def bind_files(paths, base):
+    bound = {}
+    for path in sorted(paths):
+        relative = path.relative_to(base)
+        cursor = path
+        while cursor != base:
+            if cursor.is_symlink():
+                raise ValueError(f'symlink cannot be bound: {cursor}')
+            cursor = cursor.parent
+        metadata = path.stat()
+        if not stat.S_ISREG(metadata.st_mode):
+            raise ValueError(f'nonregular file: {path}')
+        bound[str(relative)] = {'type': 'file', 'mode': stat.S_IMODE(metadata.st_mode),
+                                'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
+    return bound
+
+def validate_evidence(expected_sha):
+    if git(WORK, 'rev-parse', 'HEAD').decode().strip() != BASE:
+        raise ValueError('migration base changed')
+    if git(TOOLS, 'rev-parse', 'HEAD').decode().strip() != PIN:
+        raise ValueError('Bend toolchain pin changed')
+    for flag in ((), ('--cached',)):
+        subprocess.run(['git', '-C', str(TOOLS), 'diff', *flag, '--quiet'], check=True)
+    if hashlib.sha256(INDEX.read_bytes()).hexdigest() != expected_sha:
+        raise ValueError('validation index changed')
+    index = json.loads(INDEX.read_text())
+    if index['status'] != 'passed' or index['reference_revision'] != BASE or index['bend_revision'] != PIN:
+        raise ValueError('validation status or revision mismatch')
+    tracked = [path for path in git(WORK, 'ls-files', '-z').decode().split('\0')
+               if path and path != 'dev/validation/bend/index.json']
+    if bind_files([WORK / path for path in tracked], WORK) != index['worktree_files']:
+        raise ValueError('source or evidence changed since validation')
+    entries = list((WORK / '_build').rglob('*'))
+    if any(path.is_symlink() for path in entries):
+        raise ValueError('build contains symlinks')
+    if bind_files([path for path in entries if path.is_file()], WORK / '_build') != index['build_files']:
+        raise ValueError('build changed since validation')
+    if bind_files([TOOLS / 'bin/bend'], TOOLS)['bin/bend'] != index['compiler_file']:
+        raise ValueError('Bend compiler changed since validation')
+
+def prepare(expected_sha):
+    if git(TARGET, 'rev-parse', 'HEAD').decode().strip() != BASE or not clean(TARGET):
+        raise ValueError('original checkout changed; review it before applying')
+    if git(WORK, 'ls-files', '--others', '--exclude-standard'):
+        raise ValueError('unstaged new files remain; review and stage them first')
+    validate_evidence(expected_sha)
+    patch = git(WORK, 'diff', 'HEAD', '--binary')
+    if not patch:
+        raise ValueError('migration diff is empty')
+    PATCH.write_bytes(patch)
+    subprocess.run(['git', '-C', str(TARGET), 'apply', '--check', str(PATCH)], check=True)
+    if BACKUP.exists() or (TARGET / '_tools/bend').exists():
+        raise ValueError('backup or destination toolchain exists; review before applying')
+    print(f'READY patch_bytes={len(patch)} sha256={hashlib.sha256(patch).hexdigest()}')
+    return patch
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--apply', action='store_true')
+    parser.add_argument('--validation-sha256', required=True)
+    arguments = parser.parse_args()
+    patch = prepare(arguments.validation_sha256)
+    if not arguments.apply:
+        return
+    if (git(WORK, 'diff', 'HEAD', '--binary') != patch or not clean(TARGET)
+            or git(TARGET, 'rev-parse', 'HEAD').decode().strip() != BASE):
+        raise ValueError('source or target changed during preparation')
+    validate_evidence(arguments.validation_sha256)
+    subprocess.run(['git', '-C', str(TARGET), 'apply', str(PATCH)], check=True)
+    if (TARGET / '_build').exists():
+        shutil.move(str(TARGET / '_build'), str(BACKUP))
+    shutil.copytree(WORK / '_build', TARGET / '_build', symlinks=True)
+    (TARGET / '_tools').mkdir(exist_ok=True)
+    shutil.copytree(TOOLS, TARGET / '_tools/bend', symlinks=True)
+    print(f'APPLIED checkout={TARGET} build_backup={BACKUP}')
+
+if __name__ == '__main__':
+    main()

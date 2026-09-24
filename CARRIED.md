@@ -1,13 +1,14 @@
 # Carried source
 
-Stage A carries all tracked files in `lib/`, `surface/`, and `test/`, the
+The original Stage A carried all tracked files in `lib/`, `surface/`, and `test/`, the
 licenses, root Dune configuration, and selected development gates from assay
 `eebe37e00ecb7fdce739c49f50a6dd49c45022b1`. The wrapper comes from the mechanism
 pin recorded in `dev/carry-manifest.json`. No pin is written or built.
 
 The kernel inside assay is kanon
 `2c2e6e6831a0b2cf3107fa4aad392606109a2bcf`. Its term, shape, and count sources
-are separately retained under `dev/r0-diff/` with SHA-256 checksums.
+have retained SHA-256 checksums under `dev/r0-diff/`. Their source is now
+implemented in Bend; the original byte identities remain in the migration record.
 
 `dev/carry-manifest.json` records every carried path, origin, original hash,
 and exact adapted hash where applicable. `dev/carry-check.sh` verifies those
@@ -17,7 +18,10 @@ originals against pinned Git blobs when the local pins are available.
 An explicitly configured missing pin fails. Without local pins, the gate
 reports manifest verification, so the source of its evidence stays visible.
 
-Only the following carried files are adapted:
+The following table records the adaptations at the OCaml reference revision.
+The Bend migration is recorded separately in `dev/bend-migration.json`, including
+removed source dispositions, current Bend hashes and changed development gates.
+See [the migration notes](dev/BEND-MIGRATION.md) for the current build and checks.
 
 | path | adaptation |
 | --- | --- |
@@ -35,10 +39,9 @@ Only the following carried files are adapted:
 | `dev/house-allow.txt` | Identify the exact argument-rejection arm in attest's string-list parser. |
 | `dev/bench.sh` | Resolve Python through PATH instead of an absolute Homebrew path. |
 
-The internal libraries keep the upstream names `kanon_kernel` and
-`kanon_surface`, preserving upstream module references. OCaml sources remain
-byte-identical except for the documented checker adaptation above.
-The package and public executable are `attest`.
+The original OCaml libraries used the names `kanon_kernel` and `kanon_surface`.
+The Bend modules now live in `lib/`, `surface/`, and `erase/`; the historical
+source hashes remain available for provenance. The public executable is `attest`.
 This is the naming adjustment to the illustrative layout in plan section 3.
 
 EVM and Wasm fixture records remain as historical, verbatim test data.

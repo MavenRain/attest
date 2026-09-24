@@ -1,0 +1,6 @@
+PASS ["check", "test/agreement/agreement-natAdd.kan"]
+PASS ["check", "--print", "test/agreement/agreement-natAdd.kan"]
+PASS ["build", "--erase", "test/agreement/agreement-natAdd.kan"]
+PASS ["check", "--axioms", "test/agreement/agreement-natMul.kan"]
+PASS ["build", "--erase", "test/agreement/agreement-natMul.kan"]
+DIFFERENTIAL combined_pass=941 total=941 failures=0

@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
-"""Check both the integrity of the canonical snapshots and the live R0 files.
+"""Check historical R0 provenance and the pinned Bend replacement sources.
 
 The reference table dev/r0-diff/SHA256 is tied to three sources: the assay
-carry hashes in dev/carry-manifest.json, the snapshot bytes under dev/r0-diff/,
+carry hashes in dev/carry-manifest.json, the removed-source migration record,
 and the kanon blobs at the manifest's kanon pin. The kanon comparison reads the
 checkout named by ATTEST_KANON_PIN (default DEFAULT_KANON_PIN); when the default
 checkout is absent the record falls back to the manifest hashes and says so.
+Semantic checks run separately through R0-COUNT, R0-AUDIT, and the differential corpus.
 """
 from functools import reduce
 from pathlib import Path
 import hashlib
 import json
 import os
+import runpy
 import subprocess
 import sys
 
@@ -68,20 +70,22 @@ try:
         pinned = {}
         source_of_truth = "kanon:manifest"
     bad = []
+    migration = runpy.run_path(str(root / "dev/bend-migration.py"))["validate"](root)
+    removed = {entry["path"]: entry for entry in migration["removed"]}
     for expected, name in rows:
         if expected != originals["lib/" + name]:
             raise ValueError(f"{name}: reference hash differs from the pinned carry")
         if name in pinned and pinned[name] != expected:
             bad.append(name + ": kanon blob")
-        source = (reference / name).read_bytes()
-        if digest(source) != expected:
-            bad.append(name + ": reference checksum")
-        if source != (root / "lib" / name).read_bytes():
-            bad.append(name)
+        if removed["dev/r0-diff/" + name]["sha256"] != expected:
+            bad.append(name + ": historical reference checksum")
+        if removed["lib/" + name]["sha256"] != expected:
+            bad.append(name + ": migration source checksum")
     for name in bad:
         print(f"R0-DIFF FAIL row={name}")
     print(f"R0-DIFF vs={revision[:7]} rows=3 diff={len(bad)}" + (" FAIL" if bad else " OK"))
     print(f"R0-DIFF reference={source_of_truth}")
+    print("R0-DIFF mode=Bend-provenance semantic-checks=R0-COUNT,R0-AUDIT,differential")
     sys.exit(int(bool(bad)))
 except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as error:
     print(f"R0-DIFF FAIL: {error}")

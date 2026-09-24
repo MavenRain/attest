@@ -23,10 +23,8 @@ reinserted while walking the file. It writes no ELF or output file.
 
 Exit 0 means success, 1 means a parse, elaboration, type, or R0-count failure,
 2 means an erasure refusal, and 64 means invalid arguments or an unreadable
-input. The shared `Sys_io`
-module converts standard-library file errors into results. There is one
-source catch site, inherited in `test/sys_io.ml` and reused by the driver
-through a Dune copy rule.
+input. `surface/io.bend` converts file-operation failures into explicit results
+and closes each opened input before returning.
 
 ELF production, execution, external-host disclosure, and compiler-walk
 disclosure arrive in subsequent stages. Their commands are not advertised
@@ -34,13 +32,13 @@ by the executable.
 
 ### 1.1 Proof opacity and the current frontier
 
-The carried global record has no quantity field. `erase/opaque.ml` classifies
+The carried global record has no quantity field. `erase/opaque.bend` classifies
 definitions whose declared type lives in `Prop` at the checking boundary,
 then supplies their types without their bodies to the carried eraser.
 Classification uses the original checked environment. The API takes the
 final globals and declaration rows returned together by `Elab.check_in`.
 
-`erase/inline.ml` also seals inline proofs in ordinary entries when their
+`erase/inline.bend` also seals inline proofs in ordinary entries when their
 type is available from an annotation, let type, or syntactic expected function
 type, or inferred independently for a closed term. It tracks the types of function, let,
 and type-former binders. Each local proof becomes a closed postulate whose
@@ -105,10 +103,11 @@ changes no checker rule, carry pin, term constructor, shape, or count.
 
 `Lan` and `Ran` are the only type formers. Universes, variables, substitution,
 and literals remain the inherited ambient framework. No host effect is a
-former or a shape. `lib/term.ml`, `lib/shape.ml`, and `lib/spec_count.ml`
-are byte-identical to kanon `2c2e6e6831a0b2cf3107fa4aad392606109a2bcf`.
+former or a shape. The original term, shape, and count definitions came from
+kanon `2c2e6e6831a0b2cf3107fa4aad392606109a2bcf`. Their historical checksums
+and Bend replacements are recorded in `dev/bend-migration.json`.
 
-`lib/check.ml` permits a Prop family's erased indices to live in any universe.
+`lib/kernel_declarations.bend` permits a Prop family's erased indices to live in any universe.
 An index type must still be well formed and its binder must have quantity
 zero. Constructor fields retain the family universe bound, with one exception
 in Prop: an erased field may exceed it when a result index is exactly that
@@ -118,35 +117,38 @@ not qualify. Result indices still undergo their ordinary type checks.
 Type families retain both universe bounds. Positivity and the existing
 singleton elimination criterion are unchanged.
 
-`erase/test/prop_index.ml` covers eleven accepted and seventeen refused programs,
+`erase/test/prop_index.bend` covers eleven accepted and seventeen refused programs,
 including dependent and reordered indices, high universes, ill-formed
 indices, hidden fields, result-index type checking, and singleton elimination.
-It runs in `runtest` and the erasure gate.
+It runs in `make test` and the erasure gate.
 
-### 2.1 Shapes, lib/shape.ml
+### 2.1 Shapes, lib/foundation.bend
 
 | constructor | milestone | refused by |
 | --- | --- | --- |
-| `SPi of Quantity.t * string * 'a` | M0 | admitted |
-| `SColl of int` | M0 | admitted |
-| `SPar of 'a * 'a` | M2 | rules.ml |
-| `SMu of string * 'a list` | M0 | admitted |
-| `SNu of string * 'a list` | M3 | rules.ml |
+| `SPi { Quantity.t, String, A }` | M0 | admitted |
+| `SColl { Nat }` | M0 | admitted |
+| `SPar { A, A }` | M2 | kernel_rules.bend |
+| `SMu { String, List<A> }` | M0 | admitted |
+| `SNu { String, List<A> }` | M3 | kernel_rules.bend |
 
 The milestone column uses attest's schedule. The carried refusal diagnostics
 retain their upstream milestone wording. `R0-AUDIT` checks every declared
 shape against this table and requires a concrete refusing module for each
-deferred shape. The parser source and the term, shape and count definitions
-remain unchanged; lib/check.ml carries the section 2 checker adaptation,
-pinned by adapted_sha256 in dev/carry-manifest.json.
+deferred shape. The Bend migration preserves these declarations and the section 2
+checker adaptation. `dev/carry-manifest.json` pins the historical OCaml sources;
+`dev/bend-migration.json` records their disposition and pins the Bend sources.
 
 ## 3 Trusted code and validation
 
-`TRUSTED-LINES` counts physical source lines in the 12 kernel files specified
-by plan section 4.3, bounded by 4,100. It counts every OCaml source/interface
-under `lower/` against 1,100 and `elf/` against 800, and every Rust source under
-`harness/` against 100. Absent later-stage directories print zero. Whole-lib
-size is informational. Tests and the timing helper are outside the kernel.
+`TRUSTED-LINES` counts `lib/foundation.bend` and every `lib/kernel_*.bend` file
+except printing and metadata, bounded by 6,000 physical lines. This replaces
+the historical 4,100-line budget for twelve OCaml files; it changes both the
+language and the counted set. The migration does not establish an equivalent
+complexity bound. Every Bend source under `lower/` is bounded by 1,100 and
+`elf/` by 800; every Rust source under `harness/` is bounded by 100. Absent
+later-stage directories print zero. Whole-lib size is informational. Tests
+and the timing helper are outside the kernel.
 
 `dev/gates.sh` builds before running the carry, R0, house, driver, kernel,
 surface, axiom, budget, and timing checks. It then runs the erasure regression,
@@ -155,7 +157,8 @@ CLI, initial Lean checks, and the complete LEAN-TWIN checking corpus.
 `TRACE-ERASURE` exits 1 while the Acc frontier is open. Gates stop on a failed
 command and keep leg output under `.gatework/stage-a/` and `.gatework/erasure/`.
 Kernel timing uses
-one warm-up and seven measured runs. Rung 1 reports parse and combined
+one warm-up and seven measured runs, each batching 100 operations with a
+millisecond clock. Rung 1 reports per-operation parse and combined
 elaboration/check timings for the named, hashed Stage A example. The inherited
 frontend couples elaboration and checking, so they are reported together.
 Rungs 2 and 3 remain open until the Stage 0 denominator freeze.
@@ -164,10 +167,10 @@ The R0 counts block below is inherited verbatim from the assay pin.
 
 ## R0 counts
 
-Inherited unchanged from kanon `2c2e6e6`.  Assay M0 adds no kernel former,
-shape, rule or trusted kernel line.
+The counts are inherited unchanged from kanon `2c2e6e6`. The historical
+Assay M0 stage added no kernel former, shape, rule, or trusted kernel line.
 
-`assay spec-count` prints this block.  dev/r0-count.sh diffs the two.  A
+`attest spec-count` prints this block. `dev/r0-count.sh` diffs the two. A
 count that grows fails the R0-COUNT gate leg.
 
 ```
@@ -182,6 +185,6 @@ no eta 3: Lan-SColl Ran-SMu Lan-SMu
 ```
 
 Every number in the block is the length of the list printed after it.
-lib/spec_count.ml reads the shape lists from Shape and the former and
-schema lists from Term.
+`lib/kernel_metadata.bend` reads the shape, former, and schema lists from
+`lib/foundation.bend`.
 <!-- inherited-r0-counts -->

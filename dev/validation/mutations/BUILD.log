@@ -1,2 +1,9 @@
-E lib/quantity.ml:160:20  unused-var  unused variable unused.
-FAIL build: 1 error, 0 warnings
+BUILD attest js compile
+Error:
+- expected : x
+- observed : x (consumed more than once)
+Location: ../lib/foundation.mutant_affinity
+1666 | 
+1667>| def mutant_affinity(x: Unit) -> Pair2<Unit, Unit>:
+1668 |   Pair2{x, x}
+BUILD FAIL: attest js exit=1; log=.gatework/build/attest-js.log

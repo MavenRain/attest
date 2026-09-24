@@ -1,2 +1,11 @@
-E lib/term.ml:102:4  partial-match  this pattern-matching is not exhaustive. Here is an example of a case that is not matched: KHost (_, _)
-FAIL build: 1 error, 0 warnings
+BUILD attest js compile
+Error:
+- expected : cases for ../lib/foundation.Term.KHost
+- observed : \{}
+Context:
+- env : List<&2, ../lib/foundation.Value.t>
+Location: ../lib/kernel_eval.Eval.task
+525 |         case Eval.Evaluate{+env, term}:
+526>|           match term:
+527 |             case F.Term.Var{+index}:
+BUILD FAIL: attest js exit=1; log=.gatework/build/attest-js.log

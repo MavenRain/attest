@@ -1,8 +1,0 @@
-; The retained design corpus is documentation, outside the build.
-(data_only_dirs design)
-
-; SA-D6.  Every warning is an error, in every directory of this repository.
-(env
- (_
-  (flags
-   (:standard -warn-error +a))))

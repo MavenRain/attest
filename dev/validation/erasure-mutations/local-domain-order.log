@@ -33,3 +33,4 @@ INLINE-ERASE row=local-proof-let-type FAIL unbound: de Bruijn index 0 is outside
 INLINE-ERASE row=local-proof-let-alias FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=local-proof-let-family FAIL mismatch: an elimination met a value it cannot eliminate
 INLINE-ERASE row=local-proof-let-universe FAIL unbound: de Bruijn index 0 is outside the environment
+

@@ -1,2 +1,2 @@
-TRUSTED-LINES kernel=4197/4100 lower=0/1100 encoder=0/800 harness=0/100 FAIL
-TRUSTED-LINES whole_lib=6393/6193 INFO
+TRUSTED-LINES kernel=6002/6000 lower=0/1100 encoder=0/800 harness=0/100 FAIL
+TRUSTED-LINES whole_lib=8047 language=Bend INFO

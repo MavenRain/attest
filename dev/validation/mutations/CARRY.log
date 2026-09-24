@@ -1,4 +1,1 @@
-CARRY FAIL path=lib/quantity.ml
-CARRY files=594 diff=1 unlisted=0 FAIL
-PIN eebe37e
-CARRY reference=assay:git,mechanism:git
+CARRY FAIL: unreviewed Bend source change: lib/foundation.bend

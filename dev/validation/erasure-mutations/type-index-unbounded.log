@@ -28,3 +28,4 @@ PROP-INDEX row=type-1-index-bound FAIL mismatch: the term has type Type 1 and th
 PROP-INDEX row=parameter-hidden-field OK universe: a field of at exceeds its family universe
 PROP-INDEX row=recursive-big-later-field OK universe: a field of intro exceeds its family universe
 PROP-INDEX pass=26 total=28 FAIL
+

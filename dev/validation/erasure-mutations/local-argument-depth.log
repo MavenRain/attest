@@ -33,3 +33,4 @@ INLINE-ERASE row=local-inherited FAIL mismatch: the term has type A and the expe
 INLINE-ERASE row=local-poison FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=local-proof-let-value FAIL mismatch: the term has type (Lan SMu Equal [Nat; m] (Sec SColl 0 [])) and the expected type is Nat
 INLINE-ERASE row=local-payload FAIL mismatch: the term has type (Ran SPi 0 y (Lan SMu Equal [x] (Sec SColl 0 [])) (Lan SMu Equal [0] (Sec SColl 0 []))) and the expected type is (Ran SPi 0 y (Lan SMu Equal [n] (Sec SColl 0 [])) (Lan SMu Equal [0] (Sec SColl 0 [])))
+

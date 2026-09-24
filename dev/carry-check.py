@@ -4,6 +4,7 @@ from pathlib import Path, PurePosixPath
 import hashlib
 import json
 import os
+import runpy
 import subprocess
 import sys
 
@@ -25,6 +26,8 @@ def check(root):
         print(f"PIN {pin} FAIL expected={PIN}")
         return 1
     entries = manifest["files"]
+    migration = runpy.run_path(str(root / "dev/bend-migration.py"))["validate"](root)
+    removed = {entry["path"]: entry for entry in migration["removed"]}
     paths = [entry["path"] for entry in entries]
     if len(paths) != len(set(paths)):
         raise ValueError("duplicate carry paths")
@@ -35,7 +38,7 @@ def check(root):
             path = PurePosixPath(entry[key])
             if path.is_absolute() or ".." in path.parts or str(path) != entry[key]:
                 raise ValueError(f"invalid carry path: {entry[key]}")
-    expected = set(paths)
+    expected = (set(paths) - set(removed)) | set(migration["bend_sources"])
     actual = {str(path.relative_to(root))
               for folder in ("lib", "surface", "test")
               for path in (root / folder).rglob("*") if path.is_file() or path.is_symlink()}
@@ -46,6 +49,15 @@ def check(root):
     for entry in entries:
         path = root / entry["path"]
         wanted = entry.get("adapted_sha256", entry["source_sha256"])
+        if entry["path"] in removed:
+            if removed[entry["path"]]["sha256"] != wanted:
+                bad.append(entry["path"] + ": migration origin differs from carried bytes")
+            continue
+        if entry["path"] in migration["adapted"]:
+            adaptation = migration["adapted"][entry["path"]]
+            if adaptation["original_sha256"] != wanted:
+                bad.append(entry["path"] + ": migration adaptation has a different origin")
+            wanted = adaptation["sha256"]
         if path.is_symlink() or not path.is_file() or digest(path.read_bytes()) != wanted:
             bad.append(entry["path"])
         if "adapted_sha256" in entry and f'| `{entry["path"]}` |' not in docs:
@@ -94,6 +106,7 @@ def check(root):
           + (" FAIL" if failed else ""))
     print(f"PIN {PIN[:7]}")
     print("CARRY reference=" + ",".join(references))
+    print(f"CARRY migration=Bend mapped={len(removed)} sources={len(migration['bend_sources'])}")
     return int(failed)
 
 if __name__ == "__main__":

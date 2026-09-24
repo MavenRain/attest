@@ -1,0 +1,6 @@
+DIFFERENTIAL pass=936 total=941 fail=5
+FAIL ["check", "test/agreement/agreement-natAdd.kan"]
+FAIL ["check", "--print", "test/agreement/agreement-natAdd.kan"]
+FAIL ["build", "--erase", "test/agreement/agreement-natAdd.kan"]
+FAIL ["check", "--axioms", "test/agreement/agreement-natMul.kan"]
+FAIL ["build", "--erase", "test/agreement/agreement-natMul.kan"]

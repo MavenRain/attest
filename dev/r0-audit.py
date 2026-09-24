@@ -11,17 +11,12 @@ ROW = re.compile(r"^\|\s*`(" + SHAPES + r")\b[^`]*`\s*\|\s*([^|]*?)\s*\|\s*([^|]
 
 
 def declared_shapes(root):
-    """The constructor names of the carried shape sum, in declaration order.
-
-    Only the constructor rows of a `type ... =` declaration count: a match arm
-    or-pattern that spans lines (`| SColl _` on its own row) is no declaration.
-    """
-    text = (root / "lib/shape.ml").read_text()
-    rows = "".join(re.findall(
-        r"^type\b[^\n]*=[ \t]*\n((?:[ \t]*\|[^\n]*\n)+)", text, re.M))
-    return list(dict.fromkeys(
-        match.group(1) for match in
-        re.finditer(r"^\s*\|\s*([A-Z][A-Za-z0-9_]*)(?:\s+of\b|\s*$)", rows, re.M)))
+    """Read constructors only from the Bend shape type declaration."""
+    text = (root / "lib/foundation.bend").read_text()
+    block = re.search(r"^type Shape\.t[^\n]*:\n((?:  [^\n]*\n)+)", text, re.M)
+    if block is None:
+        raise ValueError("missing Shape.t declaration")
+    return re.findall(r"^  Shape\.([A-Z][A-Za-z0-9_]*)\{", block.group(1), re.M)
 
 
 def table_rows(spec):
@@ -62,10 +57,10 @@ def audit_spec(root):
             bad.append(f"SPEC.md:{number}: {name} has more than one refusal row")
     for name in declared_shapes(root):
         if name not in named:
-            bad.append(f"SPEC.md: {name} of lib/shape.ml has no refusal row")
+            bad.append(f"SPEC.md: {name} of lib/foundation.bend has no refusal row")
     for name in named:
         if name not in declared_shapes(root):
-            bad.append(f"SPEC.md: {name} is named with no constructor in lib/shape.ml")
+            bad.append(f"SPEC.md: {name} is named with no constructor in lib/foundation.bend")
     admitted = [name for _number, name, _milestone, refuser in rows
                 if refuser == "admitted"]
     if listed(spec, "shapes declared") != named:
@@ -79,12 +74,13 @@ def check(root):
     if not (root / "lib").is_dir():
         print("R0-AUDIT FAIL: missing lib")
         return 1
-    allowed = {"lib/shape.ml", "lib/rules.ml", "lib/pp.ml", "lib/erase.ml",
-               "emit/emit.ml", "emit/recognize.ml"}
+    allowed = {"lib/foundation.bend", "lib/kernel_rules.bend", "lib/kernel_pp.bend", "lib/erasure.bend"}
     bad = []
     for folder in ("lib", "erase", "lower", "elf", "emu", "host", "bin"):
-        for path in (root / folder).rglob("*.ml*"):
+        for path in (root / folder).rglob("*.bend"):
             relative = str(path.relative_to(root))
+            if "test" in path.relative_to(root).parts:
+                continue
             if relative not in allowed:
                 for number, line in enumerate(path.read_text().splitlines(), 1):
                     if re.search(SHAPES, line):
@@ -99,6 +95,6 @@ def check(root):
 if __name__ == "__main__":
     try:
         sys.exit(check(Path(sys.argv[1]).resolve()))
-    except OSError as error:
+    except (OSError, ValueError) as error:
         print(f"R0-AUDIT FAIL: {error}")
         sys.exit(1)

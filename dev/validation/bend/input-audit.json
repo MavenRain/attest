@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "explanation": "The completed mutation records retain their original input hashes. Only the separate Lean release timeout helper changed later; the provenance bytes are unchanged. All other recorded inputs still match the current tree. The final Lean release checks and current provenance checks run after this update.",
+  "migration_metadata_changes": [],
+  "records": [
+    {
+      "record": "dev/validation/stage-a.json",
+      "sha256": "a258ad021d94884cc6614ef1760a7a07a1880538a4a44b5a6a41920cc108974a",
+      "current_inputs": 103,
+      "archived_inputs": [
+        {
+          "input_path": "dev/lean-twin-checks.py",
+          "recorded_sha256": "02e8bf3c28324ea0cdc463312ee6d482819cdb59530d391da276b0bcb69b77d2",
+          "snapshot": "dev/validation/bend/snapshots/lean-twin-checks-before-timeout.py.snapshot",
+          "current_sha256": "f9e3becc343d21c4c70761be94f1e74f5c7cac2a2daba5ceb17f69f1b423d5e1"
+        }
+      ]
+    },
+    {
+      "record": "dev/validation/erasure-mutations.json",
+      "sha256": "f87e63db6f15114e34b7b0875b4c81a6f0bd024b7883c71eff14dfb02d9aea70",
+      "current_inputs": 54,
+      "archived_inputs": []
+    }
+  ]
+}

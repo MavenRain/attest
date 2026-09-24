@@ -28,3 +28,4 @@ PROP-INDEX row=type-1-index-bound OK index above universe: the index A of At liv
 PROP-INDEX row=parameter-hidden-field FAIL index above universe: the index x of At lives at 1 and At is declared at 0
 PROP-INDEX row=recursive-big-later-field FAIL index above universe: the index x of Acc lives at 1 and Acc is declared at 0
 PROP-INDEX pass=7 total=28 FAIL
+

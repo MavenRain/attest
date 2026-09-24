@@ -21,6 +21,7 @@ try:
                 samples[name].append(float(elapsed))
     for name, values in samples.items():
         print(f"M0-RATIO rung=1 pass={name} ms={statistics.median(values):.6f} runs=7"
+              " batch=100 clock_resolution_ms=1"
               f" corpus=corpus/id.att sha={hashlib.sha256(source).hexdigest()}")
     print("M0-RATIO rung=2 OPEN reason=denominators-not-frozen")
     print("M0-RATIO rung=3 OPEN reason=denominators-not-frozen")

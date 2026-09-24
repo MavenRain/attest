@@ -28,8 +28,9 @@ INLINE-ERASE row=local-dependent FAIL mismatch: the term has type ((Ran SColl 0 
 INLINE-ERASE row=local-diagram FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Nat
 INLINE-ERASE row=local-inherited FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Type 1
 INLINE-ERASE row=local-poison FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Type 1
-INLINE-ERASE row=local-universe FAIL local domain lost its declared universe
+INLINE-ERASE row=local-universe FAIL mismatch: local domain lost its declared universe
 INLINE-ERASE row=local-proof-let FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Nat
 INLINE-ERASE row=local-proof-let-value FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Nat
 INLINE-ERASE row=local-payload FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Nat
-INLINE-ERASE row=local-hypothesis FAIL local hypothesis left the postulate type: mismatch: the term has type (Ran SPi 0 h (Lan SMu Same [0; 1] (Sec SColl 0 [])) (Lan SMu Same [0; 1] (Sec SColl 0 []))) and the expected type is (Ran SPi 0 h ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) (Lan SMu Same [0; 1] (Sec SColl 0 [])))
+INLINE-ERASE row=local-hypothesis FAIL mismatch: the term has type (Ran SPi 0 h (Lan SMu Same [0; 1] (Sec SColl 0 [])) (Lan SMu Same [0; 1] (Sec SColl 0 []))) and the expected type is (Ran SPi 0 h ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) (Lan SMu Same [0; 1] (Sec SColl 0 [])))
+

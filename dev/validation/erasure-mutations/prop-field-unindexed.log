@@ -28,3 +28,4 @@ PROP-INDEX row=type-1-index-bound OK index above universe: the index A of At liv
 PROP-INDEX row=parameter-hidden-field FAIL unexpected acceptance
 PROP-INDEX row=recursive-big-later-field FAIL unexpected acceptance
 PROP-INDEX pass=20 total=28 FAIL
+

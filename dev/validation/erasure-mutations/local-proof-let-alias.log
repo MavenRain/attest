@@ -33,3 +33,4 @@ INLINE-ERASE pass=28 total=31 FAIL
 INLINE-ERASE row=local-proof-let-alias FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] p as q return Type 1 with | (ACtor refl) C z => Nat)
 INLINE-ERASE row=local-proof-let-family FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] p as q return Type 1 with | (ACtor refl) C z => Nat)
 INLINE-ERASE row=local-proof-let-universe FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] p as q return Type 1 with | (ACtor refl) C z => Nat)
+

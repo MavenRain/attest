@@ -1,9 +1,11 @@
 # Bend 2 evaluator pilot
 
-The pilot tests the proposed migration's two benefits together: stronger
-implementation guarantees and shorter builds. The recorded result supports
-the scope guarantees and fails the native build speed requirement. Keep
-the production evaluator in OCaml with this toolchain.
+This historical pilot tested stronger implementation guarantees and shorter
+native builds. It supported the scope guarantees and failed the native build
+speed requirement. The later full migration uses JavaScript by default, with
+native compilation optional; see [the migration notes](../../dev/BEND-MIGRATION.md).
+The OCaml pilot and its runner have been retired. The evidence below remains
+an account of the experiment, not instructions for the current compiler.
 
 The final seven paired samples on 2026-09-22 gave these medians:
 
@@ -54,9 +56,9 @@ checker and code generators remain trusted.
 
 The differential corpus contains 128 deterministic closed programs,
 including nested bindings, shadowing, annotations, and U32 boundaries.
-`oracle.ml` first checks each program with attest's actual elaborator,
-then evaluates and quotes it with the existing kernel. Bend native,
-Bend JavaScript, and the OCaml model must all produce the same answers.
+The historical `oracle.ml` checked each program with attest's elaborator,
+then evaluated and quoted it with the kernel. Bend native,
+Bend JavaScript, and the OCaml model produced the same answers.
 This subset does not cover universes, Kan constructs, global unfolding,
 erasure, or the full attest acceptance/refusal corpus.
 
@@ -85,13 +87,15 @@ measure the JavaScript development build loop. Upstream documents
 [one C file per program and no incremental native builds](https://github.com/bendlang/bend/blob/ff7a40cc9070a34c78399ecd2bbe46a044ad9b4b/README.md#limitations).
 That limitation is consistent with the measured edit cost.
 
-## Reproduce
+## Historical reproduction environment
 
-Use a 64-bit OCaml installation and the normal attest build dependencies,
-plus Bun, Node, and Clang. The recorded versions were OCaml 5.2.1,
+The experiment used a 64-bit OCaml installation, Bun, Node, and Clang.
+The recorded versions were OCaml 5.2.1,
 Dune 3.24.2, Bun 1.3.11, Node 23.10.0, and Apple Clang 21.0.0 on arm64.
 The toolchain pin is Bend 2.0.25 at
 `ff7a40cc9070a34c78399ecd2bbe46a044ad9b4b`.
+To reproduce the retired experiment, use attest revision
+`ba7a65416e7786031b64dc997e9300d2741ce889` before running these historical commands.
 
 ```sh
 git clone --filter=blob:none https://github.com/bendlang/bend /tmp/attest-bend-toolchain
@@ -100,14 +104,14 @@ git -C /tmp/attest-bend-toolchain checkout --detach ff7a40cc9070a34c78399ecd2bbe
 python3 -P pilot/bend2/run.py --bend-root /tmp/attest-bend-toolchain
 ```
 
-The runner checks the checkout, source cleanliness, and CLI version. It
+The historical runner checks the checkout, source cleanliness, and CLI version. It
 disables Bend telemetry and uses a local package directory. No package
 download or global installation is needed by the pilot itself. Ordinary
 runs write under `.gatework/bend-pilot/`; `--record` replaces the checked-in
 evidence. Exit zero means the experiment completed, including all
 correctness checks. The JSON verdict separately reports whether both
-migration benefits passed. A failed benefit must not be treated as
-permission to replace the production evaluator.
+migration benefits passed. The later full migration was separately authorized
+with JavaScript as the default backend.
 
 For an individual checker invocation:
 

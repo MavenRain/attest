@@ -1,0 +1,1953 @@
+{
+  "version": 1,
+  "scope": "Bend implementation and tests; file input has an explicit Result boundary.",
+  "unsafe_meaning": "These scoped functions bypass Bend termination checking for unbounded interpreters and semantic recursion. Type, affine-use and exhaustiveness checks remain required.",
+  "catchall_meaning": "These named sites implement scalar dispatch, parser fallback or explicit refusal. New sites require a reviewed registry change.",
+  "catchalls": [
+    {
+      "path": "bin/attest.bend",
+      "function": "Cli.parse_three",
+      "pattern": "True{} _ True{} _ _"
+    },
+    {
+      "path": "bin/attest.bend",
+      "function": "Cli.parse_three",
+      "pattern": "True{} _ _ True{} _"
+    },
+    {
+      "path": "bin/attest.bend",
+      "function": "Cli.parse_three",
+      "pattern": "_ True{} _ _ True{}"
+    },
+    {
+      "path": "bin/attest.bend",
+      "function": "Cli.parse_three",
+      "pattern": "_ _ _ _ _"
+    },
+    {
+      "path": "bin/attest.bend",
+      "function": "Cli.parse",
+      "pattern": "_"
+    },
+    {
+      "path": "bin/attest.bend",
+      "function": "Cli.valid_extension",
+      "pattern": "SCon{head, tail}"
+    },
+    {
+      "path": "bin/attest.bend",
+      "function": "Cli.definitions",
+      "pattern": "Con{head, tail}"
+    },
+    {
+      "path": "dev/erase_probe.bend",
+      "function": "Probe.run",
+      "pattern": "other"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.is_neutral",
+      "pattern": "_"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.neutral_leg",
+      "pattern": "_"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.neutral_body",
+      "pattern": "_"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.opaque",
+      "pattern": "Some{entry}"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.guarded_result",
+      "pattern": "Done{Some{position}}"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.mode_of",
+      "pattern": "True{} _ _ _ _"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.mode_of",
+      "pattern": "_ True{} _ _ _"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.mode_of",
+      "pattern": "_ _ True{} _ _"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.mode_of",
+      "pattern": "_ _ _ True{} _"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.mode_of",
+      "pattern": "_ _ _ _ True{}"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.mode_of",
+      "pattern": "_ _ _ _ _"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.direct",
+      "pattern": "True{} _ _"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.direct",
+      "pattern": "_ True{} _"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.direct",
+      "pattern": "_ _ True{}"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.direct",
+      "pattern": "_ _ _"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.args",
+      "pattern": "_"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.scan",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.proof_error_state",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.infer_source_state",
+      "pattern": "+other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.strings_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.binders_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.address_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.address_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.address_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.legs_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.branches_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.term_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.equal_task",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.entry_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.entry_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.entry_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.lambda_point_state",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.lambda_context_state",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.leg_scope",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/budget_test.bend",
+      "function": "BudgetTest.exhausted",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/budget_test.bend",
+      "function": "BudgetTest.exact",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/budget_test.bend",
+      "function": "BudgetTest.classifier_result",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_sealing.bend",
+      "function": "univ",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_sealing.bend",
+      "function": "infer",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_sealing.bend",
+      "function": "sealed_type",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_sealing.bend",
+      "function": "mismatch",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_sealing.bend",
+      "function": "redeclared",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.name_here",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.names_equal",
+      "pattern": "other otherwise"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.runtime_rows",
+      "pattern": "row <> rest"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.check_generated_entry",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.poison_scrut",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.poison",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.lambda_sealed",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.motive_term",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/ir_test.bend",
+      "function": "check_lookup",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/ir_test.bend",
+      "function": "check_dropped",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/ir_test.bend",
+      "function": "check_out",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/opaque_core.bend",
+      "function": "classify",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/opaque_core.bend",
+      "function": "sealed",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/opaque_core.bend",
+      "function": "retained",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/opaque_core.bend",
+      "function": "rows_check",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/opaque_core.bend",
+      "function": "failed",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/opaque_core.bend",
+      "function": "inherited_rows",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/opaque_core.bend",
+      "function": "inherited",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/repr_test.bend",
+      "function": "universe",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/support.bend",
+      "function": "Test.neutral",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/support.bend",
+      "function": "Test.neutral_global",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.runtime_vars_tasks",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.free_vars_tasks",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.tids_here",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.shape_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.shape_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.shape_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.shape_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.shape_shell_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.one",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.width_zero",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.width_zero",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.width_zero",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.runtime_normal_state",
+      "pattern": "+other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.coll_section_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.arity_normal_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.arity_normal_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.neutral_repr",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.neutral_repr",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.repr_task_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.repr_task_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.repr_task_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.mu_family_status_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.signature_normal_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.signature_normal_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.as_lam",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.as_lam",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.spine",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.spine",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.spine",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.function_parts_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.function_parts_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.function_normal",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.bare_application_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.mu_binders_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.mu_binders_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.address_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.address_equal",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.refusal",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.pair_binders_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.point_arg_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.leg_address_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.ctor_address_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.mu_shape_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/foundation.bend",
+      "function": "Shape.same_fold",
+      "pattern": "_ _"
+    },
+    {
+      "path": "lib/foundation.bend",
+      "function": "Global.balance_pick",
+      "pattern": "True{} other"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.addr",
+      "pattern": "_ _"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.legs",
+      "pattern": "_ _"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.branch_addr",
+      "pattern": "_ _"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.branches",
+      "pattern": "_ _"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.motives",
+      "pattern": "_ _"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.spine_point_addr",
+      "pattern": "_"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.spine_collection_addr",
+      "pattern": "_"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.spine_former",
+      "pattern": "_"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.spines",
+      "pattern": "_ _"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.structural_values",
+      "pattern": "_ _"
+    },
+    {
+      "path": "lib/kernel_conv.bend",
+      "function": "Conv.by_type",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab.bend",
+      "function": "Elab.one_entry",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab.bend",
+      "function": "Elab.program_decl",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab.bend",
+      "function": "Elab.axiom_names",
+      "pattern": "Con{head, tail}"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.bind_indices",
+      "pattern": "_ _"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.bind_fields",
+      "pattern": "_ _"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.single_binder",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.case_type",
+      "pattern": "F.Value.VLan{F.Shape.SMu{name, indices}, closure, universe} _"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.case_type",
+      "pattern": "_ True{}"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.case_type",
+      "pattern": "F.Value.VLan{shape, closure, universe} False{}"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.case_type",
+      "pattern": "_ False{}"
+    },
+    {
+      "path": "surface/elab_common.bend",
+      "function": "Elab.spine",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_common.bend",
+      "function": "Elab.point",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_common.bend",
+      "function": "Elab.collection",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_common.bend",
+      "function": "Elab.coll_legs_value",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.cod_value",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.expect_value",
+      "pattern": "_ _"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.items",
+      "pattern": "_ _"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.projection_which",
+      "pattern": "True{} _"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.projection_which",
+      "pattern": "_ True{}"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.projection_which",
+      "pattern": "_ _"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.projection_type",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_headers.bend",
+      "function": "Elab.chain",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_headers.bend",
+      "function": "Elab.universe_term",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_headers.bend",
+      "function": "Elab.mu_params",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_headers.bend",
+      "function": "Elab.mu_result",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/elab_refs.bend",
+      "function": "Elab.app_spine",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.escape",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.char_text",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.cont8",
+      "pattern": "True{} _ _"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.cont8",
+      "pattern": "_ True{} _"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.cont8",
+      "pattern": "_ _ True{}"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.cont8",
+      "pattern": "_ _ _"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch3",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch3",
+      "pattern": "_ _"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch3",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch5",
+      "pattern": "True{} _"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch5",
+      "pattern": "_ True{}"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch5",
+      "pattern": "_ _"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch5",
+      "pattern": "True{} _"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch5",
+      "pattern": "_ True{}"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch5",
+      "pattern": "_ _"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch5",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.expected",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.starts_atom",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.mark_compare",
+      "pattern": "True{} _"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.mark_compare",
+      "pattern": "_ True{}"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.mark_compare",
+      "pattern": "_ _"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.mark",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.build_items_kind",
+      "pattern": "True{} _"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.build_items_kind",
+      "pattern": "_ True{}"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.build_items_kind",
+      "pattern": "_ _"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.names",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont5",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.index_clause",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont23",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont49",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont13",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch1",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch1",
+      "pattern": "Con{T.Token.Token{T.Token.Dot{},+loc},+rest}"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch1",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont17",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont19",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont34",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont34",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont38",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont41",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont42",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont43",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont44",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont47",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont47",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont48",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont48",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont53",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont54",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont57",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont60",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "Con{T.Token.Token{T.Token.KType{},+loc},+rest}"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "Con{T.Token.Token{T.Token.Pipe{},+loc},+rest}"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "Con{T.Token.Token{T.Token.KAs{},+loc},+rest}"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont24",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont24",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont25",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont26",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont27",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont58",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont59",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch3",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch3",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch3",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch3",
+      "pattern": "Con{T.Token.Token{T.Token.Pipe{},+loc},+rest}"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch3",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont51",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont51",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont32",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont32",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.fam",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch4",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch4",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch4",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont50",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont28",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.cont28",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.rec_member",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch5",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch5",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch6",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch6",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.decl",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch7",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch7",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.declarations",
+      "pattern": "_"
+    },
+    {
+      "path": "surface/syntax.bend",
+      "function": "Syntax.level_of",
+      "pattern": "_"
+    },
+    {
+      "path": "test/global_map.bend",
+      "function": "equal_rows",
+      "pattern": "other other2"
+    },
+    {
+      "path": "test/global_map.bend",
+      "function": "equal_value",
+      "pattern": "other other2"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.kind",
+      "pattern": "_"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.result",
+      "pattern": "_"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.same_result",
+      "pattern": "Fail{error} _"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.same_result",
+      "pattern": "_ Fail{error}"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.same_checked",
+      "pattern": "Fail{error} _"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.same_checked",
+      "pattern": "_ Fail{error}"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.neutral",
+      "pattern": "Done{value}"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.neutral_body",
+      "pattern": "Done{value}"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.opaque",
+      "pattern": "_"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.axiom_names",
+      "pattern": "_"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.budget_empty",
+      "pattern": "_"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.budget_parse",
+      "pattern": "_"
+    },
+    {
+      "path": "test/surface.bend",
+      "function": "SurfaceTest.budget_spent",
+      "pattern": "_"
+    }
+  ],
+  "unsafe": [
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.computations"
+    },
+    {
+      "path": "dev/suite_probe.bend",
+      "function": "Suite.neutrals"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.scan"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.typed_tasks"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.fresh_step"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.equal_task"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.run_state"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.names"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Eterm.print_task"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.runtime_vars_tasks"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.reindex_task"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.free_vars_tasks"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.tids_tasks"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.arity_normal_state"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.repr_task_state"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.signature_normal_state"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.spine"
+    },
+    {
+      "path": "lib/erasure.bend",
+      "function": "Erase.run_state"
+    },
+    {
+      "path": "lib/foundation.bend",
+      "function": "Bignum.nat_limbs"
+    },
+    {
+      "path": "lib/foundation.bend",
+      "function": "Bignum.show_loop"
+    },
+    {
+      "path": "lib/kernel.bend",
+      "function": "Kernel.run"
+    },
+    {
+      "path": "lib/kernel_eval.bend",
+      "function": "Eval.task"
+    },
+    {
+      "path": "lib/kernel_eval.bend",
+      "function": "Eval.quote_task"
+    },
+    {
+      "path": "lib/kernel_order.bend",
+      "function": "Term.search"
+    },
+    {
+      "path": "lib/kernel_order.bend",
+      "function": "Positivity.run"
+    },
+    {
+      "path": "lib/kernel_order.bend",
+      "function": "Totality.spend_loop"
+    },
+    {
+      "path": "lib/kernel_order.bend",
+      "function": "Order.unwrap_loop"
+    },
+    {
+      "path": "lib/kernel_order.bend",
+      "function": "Order.run"
+    },
+    {
+      "path": "lib/kernel_order.bend",
+      "function": "Order.first_fit"
+    },
+    {
+      "path": "lib/kernel_pp.bend",
+      "function": "Pp.render"
+    },
+    {
+      "path": "lib/kernel_program.bend",
+      "function": "Kernel.Program.bind"
+    },
+    {
+      "path": "surface/elab.bend",
+      "function": "Elab.declare_families"
+    },
+    {
+      "path": "surface/elab.bend",
+      "function": "Elab.define_families"
+    },
+    {
+      "path": "surface/elab.bend",
+      "function": "Elab.member_types"
+    },
+    {
+      "path": "surface/elab.bend",
+      "function": "Elab.member_bodies"
+    },
+    {
+      "path": "surface/elab.bend",
+      "function": "Elab.guarded"
+    },
+    {
+      "path": "surface/elab.bend",
+      "function": "Elab.program"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.bind_indices"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.bind_fields"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.coll_branches"
+    },
+    {
+      "path": "surface/elab_cases.bend",
+      "function": "Elab.mu_branches"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.function"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.expected_legs"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.unknowns_loop"
+    },
+    {
+      "path": "surface/elab_forms.bend",
+      "function": "Elab.items"
+    },
+    {
+      "path": "surface/elab_headers.bend",
+      "function": "Elab.telescope"
+    },
+    {
+      "path": "surface/elab_headers.bend",
+      "function": "Elab.chain"
+    },
+    {
+      "path": "surface/elab_headers.bend",
+      "function": "Elab.constructors"
+    },
+    {
+      "path": "surface/elab_refs.bend",
+      "function": "Elab.eval_under"
+    },
+    {
+      "path": "surface/elab_requests.bend",
+      "function": "Elab.Program.bind"
+    },
+    {
+      "path": "surface/elab_requests.bend",
+      "function": "Elab.map"
+    },
+    {
+      "path": "surface/elab_runner.bend",
+      "function": "Elab.run"
+    },
+    {
+      "path": "surface/io.bend",
+      "function": "Sys_io.read_loop"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch1"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch2"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch3"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch4"
+    },
+    {
+      "path": "surface/lexer.bend",
+      "function": "Lexer.dispatch5"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch1"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch2"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch3"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch4"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch5"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch6"
+    },
+    {
+      "path": "surface/parser.bend",
+      "function": "Parser.dispatch7"
+    },
+    {
+      "path": "surface/syntax.bend",
+      "function": "Syntax.render"
+    },
+    {
+      "path": "surface/syntax.bend",
+      "function": "Syntax.encode"
+    }
+  ]
+}

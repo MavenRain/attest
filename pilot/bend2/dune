@@ -1,6 +1,0 @@
-(copy_files ../../test/sys_io.ml)
-
-(executable
- (name oracle)
- (modules oracle sys_io)
- (libraries kanon_kernel kanon_surface))

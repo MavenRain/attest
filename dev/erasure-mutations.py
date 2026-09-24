@@ -1,137 +1,221 @@
 #!/usr/bin/env python3
 """Mutate isolated copies of the erasure increment and require named failures."""
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
 import argparse
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE = "erase/opaque.ml"
-KERNEL = "lib/check.ml"
-INLINE = "erase/inline.ml"
-CASES = (
-    ("proof-guard", SOURCE, "if List.mem name names then",
-     "if List.mem name names && false then", "OPAQUE-ERASE exit=1"),
-    ("row-reinsertion", SOURCE,
-     "let rows = List.map (fun (name, entry) -> (name, seal names name entry)) rows in",
-     "let rows = rows in", "OPAQUE-ERASE exit=1"),
-    ("inherited-scope", SOURCE,
-     "Global.StringMap.mapi (seal names) globals.Global.entries",
-     "Global.StringMap.mapi (fun name entry -> let _ = seal names name entry in entry) globals.Global.entries",
-     "OPAQUE-ERASE exit=1"),
-    ("inline-walker", SOURCE,
-     "Inline.prepare (Check.make globals budget) opaque rows", "Ok (opaque, rows)",
-     "INLINE-ERASE row=let-body FAIL"),
-    ("inline-name-collision", INLINE,
-     "if Option.is_some (Global.find name state.globals)",
-     "if false && Option.is_some (Global.find name state.globals)",
-     "INLINE-ERASE row=name-collision FAIL"),
-    ("inline-local-type", INLINE,
-     "closed depth value && closed depth ty", "closed depth value && (closed depth ty || true)",
-     "INLINE-ERASE row=local-type FAIL"),
-    ("inline-row-reinsertion", INLINE,
-     "Result.map (fun entry -> (name, entry))", "Result.map (fun _entry -> (name, _original))",
-     "INLINE-ERASE row=rows FAIL"),
-    ("inline-leg-binders", INLINE,
-     "closed (depth + List.length leg.Term.l_binders) leg.Term.l_body",
-     "closed depth leg.Term.l_body", "INLINE-ERASE row=binders FAIL"),
-    ("inline-motive-binders", INLINE,
-     "closed (depth + List.length m.Term.m_idx + 1) m.Term.m_body",
-     "closed depth m.Term.m_body", "INLINE-ERASE row=motive FAIL"),
-    ("inline-shape-payload", INLINE,
-      "let shape s = List.for_all (closed depth) (Shape.payload s) in",
-      "let shape _s = true in", "INLINE-ERASE row=shape-payload FAIL"),
-    ("local-context", INLINE,
-     "let* context = bind_domain context name q domain in",
-     "let* context = bind_domain context name q domain |> Result.map root in",
-     "INLINE-ERASE row=local-index FAIL"),
-    ("local-domain-order", INLINE, "ty context.domains", "ty (List.rev context.domains)",
-     "INLINE-ERASE row=local-dependent FAIL"),
-    ("local-argument-depth", INLINE,
-     "Term.APt (Quantity.Zero, Term.Var ix)", "Term.APt (Quantity.Zero, Term.Var 0)",
-     "INLINE-ERASE row=local-dependent FAIL"),
-    ("local-argument-quantity", INLINE,
-     "Rules.arrow Quantity.Zero name domain body", "Rules.arrow Quantity.One name domain body",
-     "INLINE-ERASE row=local-dependent FAIL"),
-    ("local-codomain-universe", INLINE,
-     "Ok (Some (context, codomain))",
-     "let* value = Eval.eval context.checker.Check.globals context.checker.Check.env codomain in\n"
-     "                 let* codomain = Eval.quote context.checker.Check.globals context.checker.Check.size value in\n"
-     "                 Ok (Some (context, codomain))",
-     "INLINE-ERASE row=local-universe FAIL"),
-    ("local-domain-universe", INLINE,
-     "Rules.arrow Quantity.Zero name domain body",
-     "Rules.arrow Quantity.Zero name (let _ = domain in Rules.unit_ty Level.zero) body",
-     "INLINE-ERASE row=local-universe FAIL"),
-    ("local-branch-scope", INLINE,
-     "let checker = if leg.Term.l_binders = [] then checker else root checker in",
-     "let checker = checker in", "INLINE-ERASE row=branch-scope FAIL"),
-    ("local-inferred-universe", INLINE,
-     "if not (closed 0 term) then Ok None", "if not (closed checker.Check.size term) then Ok None",
-     "INLINE-ERASE row=local-runtime-call FAIL"),
-    ("local-proof-let", INLINE,
-     "if not (closed checker.Check.size domain && typed 0 body) then Ok false",
-     "if not (closed checker.Check.size domain && typed 0 body && false) then Ok false",
-     "INLINE-ERASE row=local-proof-let FAIL"),
-    ("local-proof-let-value", INLINE,
-     "if proof then Ok (value, state) else term context state (Some domain) value in",
-     "term context state (Some domain) value in",
-     "INLINE-ERASE row=local-proof-let-value FAIL"),
-    ("local-proof-let-type", INLINE,
-     "occurs target ty || occurs target value",
-     "occurs target ty || (occurs target value && false)",
-     "INLINE-ERASE row=local-proof-let-type FAIL"),
-    # A syntactic universe test on the let type seals a proof let that only
-    # a later proof let alias reads.
-    ("local-proof-let-alias", INLINE,
-     "occurs target ty || occurs target value",
-     "occurs target ty || ((match ty with Term.Univ _ -> true | Term.Var _ | Term.Global _ | Term.Lit _ | Term.Auto | Term.Lan _ | Term.Ran _ | Term.In _ | Term.Out _ | Term.Sec _ | Term.Elim _ | Term.Let _ | Term.Ann _ -> false) && occurs target value)",
-     "INLINE-ERASE row=local-proof-let-alias FAIL"),
-    # A twin edit outside the proof line keeps the runtime output, so only the
-    # twin structure check can refuse it.
-    ("inline-twin-extra-edit", "fixtures/erasure/local-let-opaque.att",
-     "| refl : (0 n : Nat) -> Equal n", "| refl : (0 m : Nat) -> Equal m",
-     "row=local-let opaque twin changes more than its proof"),
-    # A twin edit on the proof line but outside the proof span keeps the
-    # runtime output, so only the token comparison can refuse it.
-    ("inline-twin-same-line-edit", "fixtures/erasure/local-let-opaque.att",
-     "case proof n as p in Equal k", "case proof n as r in Equal k",
-     "row=local-let opaque twin changes more than its proof"),
-    # A source let next to the dropped proof let makes the twin drop both.
-    # The runtime output is kept, so only the token comparison can refuse it.
-    ("inline-twin-adjacent-let-drop", "fixtures/erasure/let-proof.att",
-     ":= refl in case p", ":= refl in let u : Type 0 := Nat in case p",
-     "row=let-proof opaque twin changes more than its proof"),
-    # The gate tests the presence of every opaque twin before it reads it, so the
-    # pin is the gate's named diagnostic and not a missing-file errno.
-    ("missing-twin", "fixtures/erasure/f2-a-opaque.att", None, None,
-     "row=f2-a opaque twin missing"),
-    # The twin gate runs lean with -DwarningAsError=true, so a sorry ends the
-    # LEAN-F2 leg on exit 1 before the empty-log and axiom checks run.
-    ("lean-sorry", "twin/F2.lean", "def proof : AttestTwin.Equal := .refl trivial",
-     "def proof : AttestTwin.Equal := sorry", "LEAN-F2 exit=1 expected=0"),
-    ("prop-index-withdrawn", KERNEL,
-     "if Level.equal level Level.zero || Level.le l level then Ok ()",
-     "if Level.le l level then Ok ()", "PROP-INDEX row=nat-index FAIL"),
-    ("type-index-unbounded", KERNEL,
-     "if Level.equal level Level.zero || Level.le l level then Ok ()",
-     "if Level.le l l then Ok ()", "PROP-INDEX row=type-index-bound FAIL"),
-    ("prop-field-quantity", KERNEL,
-     "&& Quantity.equal q Quantity.Zero",
-     "&& (Quantity.equal q Quantity.Zero || true)",
-     "PROP-INDEX row=runtime-proof-field FAIL"),
-    ("prop-field-unindexed", KERNEL,
-     "&& List.exists (parameter_at index) cd.ct_res_idx",
-     "&& (List.exists (parameter_at index) cd.ct_res_idx || true)",
-     "PROP-INDEX row=unindexed-proof-field FAIL"),
-    ("prop-field-depth", KERNEL,
-     "(depth - i - 1, field)", "(i, field)",
-     "PROP-INDEX row=accessibility-family FAIL"),
-)
+SOURCE = "erase/opaque.bend"
+KERNEL = "lib/kernel_declarations.bend"
+INLINE = "erase/inline.bend"
+CASES = (('proof-guard',
+  'erase/opaque.bend',
+  'Opaque.seal_definition(Opaque.contains(names, name), definition)',
+  'Opaque.seal_definition(Bool.and(Opaque.contains(names, name), False{}), definition)',
+  'OPAQUE-ERASE exit=1'),
+ ('row-reinsertion',
+  'erase/opaque.bend',
+  'I.Inline.prepare_state(~ops, checker, F.Global.with_entries(Opaque.seal_rows(entries, names), globals), '
+  'Opaque.seal_rows(rows, names))',
+  'I.Inline.prepare_state(~ops, checker, F.Global.with_entries(Opaque.seal_rows(entries, names), globals), rows)',
+  'OPAQUE-ERASE exit=1'),
+ ('inherited-scope',
+  'erase/opaque.bend',
+  'I.Inline.prepare_state(~ops, checker, F.Global.with_entries(Opaque.seal_rows(entries, names), globals), '
+  'Opaque.seal_rows(rows, names))',
+  'I.Inline.prepare_state(~ops, checker, F.Global.with_entries(entries, globals), Opaque.seal_rows(rows, names))',
+  'OPAQUE-ERASE exit=1'),
+ ('inline-walker',
+  'erase/opaque.bend',
+  'I.Inline.prepare_state(~ops, checker, F.Global.with_entries(Opaque.seal_rows(entries, names), globals), '
+  'Opaque.seal_rows(rows, names))',
+  'R.Erase.Return{F.Pair2{F.Global.with_entries(Opaque.seal_rows(entries, names), globals), '
+  'Opaque.seal_rows(rows, names)}}',
+  'INLINE-ERASE row=let-body FAIL'),
+ ('inline-name-collision',
+  'erase/inline.bend',
+  'Bool.or(Inline.present(F.Global.entry, F.Global.find(name, globals)), Inline.present(F.Positivity.family, '
+  'F.Global.find_family(name, globals)))',
+  'Bool.or(Bool.and(False{}, Inline.present(F.Global.entry, F.Global.find(name, globals))), '
+  'Inline.present(F.Positivity.family, F.Global.find_family(name, globals)))',
+  'INLINE-ERASE row=name-collision FAIL'),
+ ('inline-local-type',
+  'erase/inline.bend',
+  'case F.Term.Ann{value, ty}: [F.Pair2{0n, value}, F.Pair2{0n, ty}]',
+  'case F.Term.Ann{value, ty}: [F.Pair2{0n, value}]',
+  'INLINE-ERASE row=local-type FAIL'),
+ ('inline-row-reinsertion',
+  'erase/inline.bend',
+  'R.Erase.Return{here <> more}',
+  'R.Erase.Return{F.Pair2{name, original} <> more}',
+  'INLINE-ERASE row=rows FAIL'),
+ ('inline-leg-binders',
+  'erase/inline.bend',
+  'F.Pair2{Inline.length(F.Pair2<F.Quantity.t, String>, binders), body}',
+  'F.Pair2{0n, body}',
+  'INLINE-ERASE row=binders FAIL'),
+ ('inline-motive-binders',
+  'erase/inline.bend',
+  '[F.Pair2{1n+Inline.length(String, idx), body}]',
+  '[F.Pair2{0n, body}]',
+  'INLINE-ERASE row=motive FAIL'),
+ ('inline-shape-payload',
+  'erase/inline.bend',
+  'Inline.here(F.Shape.payload(F.Term.t, s))',
+  'Nil{}',
+  'INLINE-ERASE row=shape-payload FAIL'),
+ ('local-context',
+  'erase/inline.bend',
+  'next => R.Erase.Return{Some{F.Pair2{next, codomain}}}',
+  'next => R.Erase.Return{Some{F.Pair2{Inline.root(next), codomain}}}',
+  'INLINE-ERASE row=local-index FAIL'),
+ ('local-domain-order',
+  'erase/inline.bend',
+  'Inline.abstract(walked, body)',
+  'Inline.abstract(Inline.reverse(Inline.local, walked, Nil{}), body)',
+  'INLINE-ERASE row=local-dependent FAIL'),
+ ('local-argument-depth',
+  'erase/inline.bend',
+  'F.Term.APt{F.Quantity.Zero{}, F.Term.Var{ix}}',
+  'F.Term.APt{F.Quantity.Zero{}, F.Term.Var{0n}}',
+  'INLINE-ERASE row=local-dependent FAIL'),
+ ('local-argument-quantity',
+  'erase/inline.bend',
+  'P.Rules.arrow(F.Quantity.Zero{}, name, domain, body)',
+  'P.Rules.arrow(F.Quantity.One{}, name, domain, body)',
+  'INLINE-ERASE row=local-dependent FAIL'),
+ ('local-codomain-universe',
+  'erase/inline.bend',
+  'next => R.Erase.Return{Some{F.Pair2{next, codomain}}}',
+  'next => Inline.mutant_codomain_state(next, codomain)',
+  'INLINE-ERASE row=local-universe FAIL'),
+ ('local-domain-universe',
+  'erase/inline.bend',
+  'P.Rules.arrow(F.Quantity.Zero{}, name, domain, body)',
+  'P.Rules.arrow(F.Quantity.Zero{}, name, P.Rules.unit_ty(F.Level.zero), body)',
+  'INLINE-ERASE row=local-universe FAIL'),
+ ('local-branch-scope',
+  'erase/inline.bend',
+  'case other: Inline.root(context)\n\ndef Inline.replacement_choice',
+  'case other: context\n\ndef Inline.replacement_choice',
+  'INLINE-ERASE row=branch-scope FAIL'),
+ ('local-inferred-universe',
+  'erase/inline.bend',
+  'Inline.infer_closed_state(~ops, Inline.closed(0n, other), checker, other)',
+  'Inline.infer_closed_state(~ops, Inline.closed(C.Check.size(checker), other), checker, other)',
+  'INLINE-ERASE row=local-runtime-call FAIL'),
+ ('local-proof-let',
+  'erase/inline.bend',
+  'Bool.and(Inline.closed(C.Check.size(checker), domain), Inline.typed(0n, body))',
+  'Bool.and(Bool.and(Inline.closed(C.Check.size(checker), domain), Inline.typed(0n, body)), False{})',
+  'INLINE-ERASE row=local-proof-let FAIL'),
+ ('local-proof-let-value',
+  'erase/inline.bend',
+  '        case True{}:\n'
+  '          Inline.run_state(~ops, Inline.Walk{context, state, None{}, domain, rewritten => next =>\n'
+  '            Inline.bind_state(Inline.context, F.Pair2<F.Term.t, Inline.state>, '
+  'Inline.define_let_state(context, name, domain, value), scope =>\n'
+  '              Inline.run_state(~ops, Inline.Domains{locals, scope, next, Inline.Local{name, rewritten, '
+  'value} <> walked, ty, done}))})\n',
+  '        case True{}:\n'
+  '          Inline.run_state(~ops, Inline.Walk{context, state, Some{domain}, value, sealed => next =>\n'
+  '            Inline.run_state(~ops, Inline.Walk{context, next, None{}, domain, rewritten => after =>\n'
+  '              Inline.bind_state(Inline.context, F.Pair2<F.Term.t, Inline.state>, '
+  'Inline.define_let_state(context, name, domain, value), scope =>\n'
+  '                Inline.run_state(~ops, Inline.Domains{locals, scope, after, Inline.Local{name, rewritten, '
+  'sealed} <> walked, ty, done}))})})\n',
+  'INLINE-ERASE row=local-proof-let-value FAIL'),
+ ('local-proof-let-type',
+  'erase/inline.bend',
+  'case F.Term.Let{name, ty, value, body}: Bool.or(Inline.occurs(target, ty), Inline.occurs(target, value))',
+  'case F.Term.Let{name, ty, value, body}: Bool.or(Inline.occurs(target, ty), Bool.and(Inline.occurs(target, '
+  'value), False{}))',
+  'INLINE-ERASE row=local-proof-let-type FAIL'),
+ ('local-proof-let-alias',
+  'erase/inline.bend',
+  'case F.Term.Let{name, ty, value, body}: Bool.or(Inline.occurs(target, ty), Inline.occurs(target, value))',
+  'case F.Term.Let{name, +ty, value, body}: Bool.or(Inline.occurs(target, ty), '
+  'Bool.and(Inline.mutant_universe(ty), Inline.occurs(target, value)))',
+  'INLINE-ERASE row=local-proof-let-alias FAIL'),
+ ('inline-twin-extra-edit',
+  'fixtures/erasure/local-let-opaque.att',
+  '| refl : (0 n : Nat) -> Equal n',
+  '| refl : (0 m : Nat) -> Equal m',
+  'row=local-let opaque twin changes more than its proof'),
+ ('inline-twin-same-line-edit',
+  'fixtures/erasure/local-let-opaque.att',
+  'case proof n as p in Equal k',
+  'case proof n as r in Equal k',
+  'row=local-let opaque twin changes more than its proof'),
+ ('inline-twin-adjacent-let-drop',
+  'fixtures/erasure/let-proof.att',
+  ':= refl in case p',
+  ':= refl in let u : Type 0 := Nat in case p',
+  'row=let-proof opaque twin changes more than its proof'),
+ ('missing-twin', 'fixtures/erasure/f2-a-opaque.att', None, None, 'row=f2-a opaque twin missing'),
+ ('lean-sorry',
+  'twin/F2.lean',
+  'def proof : AttestTwin.Equal := .refl trivial',
+  'def proof : AttestTwin.Equal := sorry',
+  'LEAN-F2 exit=1 expected=0'),
+ ('prop-index-withdrawn',
+  'lib/kernel_declarations.bend',
+  'Bool.or(F.Level.equal(level, F.Level.zero), F.Level.le(inferred, level))',
+  'F.Level.le(inferred, level)',
+  'PROP-INDEX row=nat-index FAIL'),
+ ('type-index-unbounded',
+  'lib/kernel_declarations.bend',
+  'Bool.or(F.Level.equal(level, F.Level.zero), F.Level.le(inferred, level))',
+  'F.Level.le(inferred, inferred)',
+  'PROP-INDEX row=type-index-bound FAIL'),
+ ('prop-field-quantity',
+  'lib/kernel_declarations.bend',
+  'Bool.and(F.Quantity.equal(q, F.Quantity.Zero{}), Check.any_parameter(Nat.sub(depth, 1n), indices))',
+  'Bool.and(Bool.or(F.Quantity.equal(q, F.Quantity.Zero{}), True{}), Check.any_parameter(Nat.sub(depth, 1n), '
+  'indices))',
+  'PROP-INDEX row=runtime-proof-field FAIL'),
+ ('prop-field-unindexed',
+  'lib/kernel_declarations.bend',
+  'Check.any_parameter(Nat.sub(depth, 1n), indices)',
+  'Bool.or(Check.any_parameter(Nat.sub(depth, 1n), indices), True{})',
+  'PROP-INDEX row=unindexed-proof-field FAIL'),
+ ('prop-field-depth',
+  'lib/kernel_declarations.bend',
+  ('+depth: Nat) -> S.Kernel.Program<C.Check.ctx>:',
+   'Check.any_parameter(Nat.sub(depth, 1n), indices)',
+   'Check.check_fields(rest, next, level, name, indices, Nat.sub(depth, 1n))',
+   'Check.check_fields(args, ctx, level, name, result_indices, depth)'),
+  ('+depth: Nat, +index: Nat) -> S.Kernel.Program<C.Check.ctx>:',
+   'Check.any_parameter(index, indices)',
+   'Check.check_fields(rest, next, level, name, indices, Nat.sub(depth, 1n), Nat.add(index, 1n))',
+   'Check.check_fields(args, ctx, level, name, result_indices, depth, 0n)'),
+  'PROP-INDEX row=accessibility-family FAIL'))
+
+
+CODOMAIN_MUTANT = '\n\ndef Inline.mutant_codomain_state(+context: Inline.context, codomain: F.Term.t) -> R.Erase.State<Maybe<&2, F.Pair2<Inline.context, F.Term.t>>>:\n  Inline.Context{+checker, domains} = context\n  do R.Erase.State<Maybe<&2, F.Pair2<Inline.context, F.Term.t>>>:\n    value: F.Value.t <- R.Erase.State.lift(F.Value.t, E.Eval.eval(C.Check.global(checker), C.Check.environment(checker), codomain))\n    quoted: F.Term.t <- R.Erase.State.lift(F.Term.t, E.Eval.quote(C.Check.global(checker), C.Check.size(checker), value))\n    R.Erase.Return{Some{F.Pair2{context, quoted}}}\n'
+
+def mutate_source(name, source, before, after):
+    edits = zip(before, after) if isinstance(before, tuple) else [(before, after)]
+    for old, new in edits:
+        if source.count(old) != 1:
+            raise ValueError(f"{name}: mutation anchor is not unique: {old!r}")
+        source = source.replace(old, new, 1)
+    if name == "local-codomain-universe":
+        source = source.replace("def Inline.lambda_bind_state(", CODOMAIN_MUTANT + "\ndef Inline.lambda_bind_state(", 1)
+    if name == "local-inferred-universe":
+        source = source.replace("def Inline.infer_source_state(~ops: Inline.Semantics, term: F.Term.t, checker:",
+                                "def Inline.infer_source_state(~ops: Inline.Semantics, term: F.Term.t, +checker:", 1)
+    if name == "local-proof-let-alias":
+        helper = "def Inline.mutant_universe(term: F.Term.t) -> Bool:\n  match term:\n    case F.Term.Univ{level}: True{}\n    case other: False{}\n\n"
+        source = source.replace("def Inline.typed_here(", helper + "def Inline.typed_here(", 1)
+    return source
 
 
 def digest(data):
@@ -139,84 +223,153 @@ def digest(data):
 
 
 def run(root, command):
-    return subprocess.run(command, cwd=root, capture_output=True, timeout=90)
+    environment = dict(os.environ)
+    environment.setdefault("ATTEST_BEND_ROOT", str(ROOT / "_tools/bend"))
+    return subprocess.run(command, cwd=root, env=environment, capture_output=True, timeout=900)
+
+
+def run_case(case, logs, scratch_root, snapshot):
+    name, relative, before, after, diagnostic = case
+    with tempfile.TemporaryDirectory(dir=scratch_root, prefix=name + "-") as directory:
+        scratch = Path(directory) / "tree"
+        shutil.copytree(snapshot, scratch, ignore=shutil.ignore_patterns(
+            ".git", "_build", "_tools", ".lake", ".gatework", ".kanon-*", "__pycache__"))
+        # Copy only JS artifacts; build.py verifies source and output hashes
+        # before reuse and recompiles every affected dependency graph.
+        cached = snapshot / "_build/js"
+        if cached.is_dir():
+            shutil.copytree(cached, scratch / "_build/js")
+        path = scratch / relative
+        original = path.read_bytes()
+        if before is None:
+            path.unlink()
+            changed = None
+        else:
+            source = original.decode()
+            changed = mutate_source(name, source, before, after).encode()
+            path.write_bytes(changed)
+        build_command = ["python3", "-P", "dev/build.py", "--backend", "js",
+                         "attest", "erase-probe", "prop-index", "opaque", "inline"]
+        build = run(scratch, build_command)
+        (logs / (name + "-build.log")).write_bytes(build.stdout + build.stderr)
+        if build.returncode:
+            raise ValueError(f"{name}: build failed, not a caught behavior mutation")
+        gate_command = ["python3", "-P", "dev/erasure-gates.py"]
+        result = run(scratch, gate_command)
+        output = result.stdout + result.stderr
+        (logs / (name + ".log")).write_bytes(
+            output.replace(str(scratch).encode(), b"<mutation-tree>"))
+        if diagnostic.startswith("PROP-INDEX row="):
+            if b"PROP-INDEX exit=1 expected=0" not in output:
+                raise ValueError(f"{name}: did not reach the Prop index regression")
+            output += (scratch / ".gatework/erasure/PROP-INDEX.log").read_bytes()
+        if diagnostic.startswith("INLINE-ERASE row="):
+            if b"INLINE-ERASE exit=1 expected=0" in output:
+                output += (scratch / ".gatework/erasure/INLINE-ERASE.log").read_bytes()
+            else:
+                # An earlier gate can fail on the same fault. Also require
+                # the named semantic regression in the compiled mutant.
+                unit = run(scratch, ["_build/default/erase/test/inline_test.exe"])
+                output += b"\nINLINE-ERASE direct regression:\n" + unit.stdout + unit.stderr
+                (logs / (name + ".log")).write_bytes(
+                    output.replace(str(scratch).encode(), b"<mutation-tree>"))
+                if unit.returncode != 1:
+                    raise ValueError(f"{name}: inline proof regression exit={unit.returncode}")
+        # A temporary checkout path is not part of a diagnostic's identity.
+        output = output.replace(str(scratch).encode(), b"<mutation-tree>")
+        (logs / (name + ".log")).write_bytes(output)
+        if result.returncode != 1 or diagnostic.encode() not in output:
+            raise ValueError(f"{name}: expected named gate failure {diagnostic!r}")
+        return {"name": name, "path": relative, "before_sha256": digest(original),
+            "mutated_sha256": None if changed is None else digest(changed),
+            "log_sha256": digest(output),
+            "build_exit": build.returncode, "gate_exit": result.returncode,
+            "diagnostic": diagnostic, "build_command": build_command, "gate_command": gate_command,
+            **({"deleted": True} if changed is None else {})}
+
+
+def run_cases(cases, logs, scratch_root, snapshot, jobs):
+    # Each worker owns its checkout and case-named logs. Only the immutable
+    # source snapshot and pinned toolchain are shared. Collect in catalog order.
+    if jobs not in (1, 2):
+        raise ValueError("mutation concurrency must be 1 or 2")
+    if len({case[0] for case in cases}) != len(cases):
+        raise ValueError("mutation case names must be unique for isolated logs")
+    pool = ThreadPoolExecutor(max_workers=jobs)
+    try:
+        futures = [pool.submit(run_case, case, logs, scratch_root, snapshot) for case in cases]
+        records = []
+        for future in futures:
+            record = future.result()
+            records.append(record)
+            print(f"ERASURE-MUTATION {record['name']} caught", flush=True)
+        return records
+    finally:
+        # A failed case remains a failed battery. Cancel queued work and wait
+        # for at most the other running worker to finish its isolated cleanup.
+        pool.shutdown(wait=True, cancel_futures=True)
+
+
+def implementation_hashes(root):
+    sources = {"dev/erasure-mutations.py", "dev/erasure-gates.py", "dev/build.py",
+               "dev/bend-toolchain.json", "dev/bend-migration.json", "dev/cc.py",
+               "dev/erase_probe.bend", "Makefile"}
+    sources.update(str(path.relative_to(root)) for folder in ("lib", "surface", "erase", "bin")
+                   for path in (root / folder).rglob("*.bend"))
+    return {path: digest((root / path).read_bytes()) for path in sorted(sources)}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--record", action="store_true")
+    parser.add_argument("--jobs", type=int, choices=(1, 2), default=1,
+                        help="independent isolated cases to run concurrently (maximum 2)")
+    parser.add_argument("--case", action="append", choices=[case[0] for case in CASES],
+                        help="run named cases; partial runs cannot produce release records")
+    parser.add_argument("--check-anchors", action="store_true",
+                        help="validate all source anchors without building or running gates")
     args = parser.parse_args()
+    if args.record and (args.case or args.check_anchors):
+        parser.error("--record requires the complete mutation battery")
     logs = ROOT / ("dev/validation/erasure-mutations" if args.record else ".gatework/erasure-mutations")
     logs.mkdir(parents=True, exist_ok=True)
     scratch_root = ROOT / ".gatework/erasure-copies"
     scratch_root.mkdir(parents=True, exist_ok=True)
     try:
+        if args.check_anchors:
+            for name, relative, before, after, diagnostic in CASES:
+                source = (ROOT / relative).read_text()
+                if before is not None and mutate_source(name, source, before, after) == source:
+                    raise ValueError(f"{name}: mutation made no change")
+            print(f"ERASURE-MUTATION-ANCHORS checked={len(CASES)} OK")
+            return 0
+        inputs = implementation_hashes(ROOT)
         baseline = run(ROOT, ["python3", "-P", "dev/erasure-gates.py"])
         (logs / "baseline.log").write_bytes(baseline.stdout + baseline.stderr)
         if baseline.returncode != 0:
             raise ValueError("unmutated erasure gate failed")
         records = []
-        for name, relative, before, after, diagnostic in CASES:
-            with tempfile.TemporaryDirectory(dir=scratch_root, prefix=name + "-") as directory:
-                scratch = Path(directory) / "tree"
-                shutil.copytree(ROOT, scratch, ignore=shutil.ignore_patterns(
-                    ".git", "_build", ".lake", ".gatework", ".kanon-*", "__pycache__"))
-                path = scratch / relative
-                original = path.read_bytes()
-                if before is None:
-                    path.unlink()
-                    changed = None
-                else:
-                    source = original.decode()
-                    if source.count(before) != 1:
-                        raise ValueError(f"{name}: mutation anchor is not unique")
-                    changed = source.replace(before, after, 1).encode()
-                    path.write_bytes(changed)
-                build = run(scratch, ["zsh", "-f", "dev/dunecho.sh", "build"])
-                (logs / (name + "-build.log")).write_bytes(build.stdout + build.stderr)
-                if build.returncode:
-                    raise ValueError(f"{name}: build failed, not a caught behavior mutation")
-                result = run(scratch, ["python3", "-P", "dev/erasure-gates.py"])
-                output = result.stdout + result.stderr
-                (logs / (name + ".log")).write_bytes(
-                    output.replace(str(scratch).encode(), b"<mutation-tree>"))
-                if diagnostic.startswith("PROP-INDEX row="):
-                    if b"PROP-INDEX exit=1 expected=0" not in output:
-                        raise ValueError(f"{name}: did not reach the Prop index regression")
-                    output += (scratch / ".gatework/erasure/PROP-INDEX.log").read_bytes()
-                if diagnostic.startswith("INLINE-ERASE row="):
-                    if b"INLINE-ERASE exit=1 expected=0" in output:
-                        output += (scratch / ".gatework/erasure/INLINE-ERASE.log").read_bytes()
-                    else:
-                        # An earlier gate can fail on the same fault. Also require
-                        # the named semantic regression in the compiled mutant.
-                        unit = run(scratch, ["_build/default/erase/test/inline_test.exe"])
-                        output += b"\nINLINE-ERASE direct regression:\n" + unit.stdout + unit.stderr
-                        (logs / (name + ".log")).write_bytes(
-                            output.replace(str(scratch).encode(), b"<mutation-tree>"))
-                        if unit.returncode != 1:
-                            raise ValueError(f"{name}: inline proof regression exit={unit.returncode}")
-                # A temporary checkout path is not part of a diagnostic's identity.
-                output = output.replace(str(scratch).encode(), b"<mutation-tree>")
-                (logs / (name + ".log")).write_bytes(output)
-                if result.returncode != 1 or diagnostic.encode() not in output:
-                    raise ValueError(f"{name}: expected named gate failure {diagnostic!r}")
-                records.append({"name": name, "path": relative, "before_sha256": digest(original),
-                    "mutated_sha256": None if changed is None else digest(changed),
-                    "log_sha256": digest(output),
-                    "build_exit": build.returncode, "gate_exit": result.returncode,
-                    "diagnostic": diagnostic, **({"deleted": True} if changed is None else {})})
-                print(f"ERASURE-MUTATION {name} caught")
+        selected = [case for case in CASES if args.case is None or case[0] in args.case]
+        with tempfile.TemporaryDirectory(dir=ROOT / ".gatework", prefix="erasure-input-") as directory:
+            snapshot = Path(directory) / "tree"
+            # Freeze inputs before launching workers so no worker copies another
+            # worker's changing logs or artifacts from the shared checkout.
+            shutil.copytree(ROOT, snapshot, ignore=shutil.ignore_patterns(
+                ".git", "_build", "_tools", ".lake", ".gatework", ".kanon-*", "__pycache__"))
+            if (ROOT / "_build/js").is_dir():
+                shutil.copytree(ROOT / "_build/js", snapshot / "_build/js")
+            if implementation_hashes(snapshot) != inputs:
+                raise ValueError("implementation changed during the baseline or input snapshot")
+            records = run_cases(selected, logs, scratch_root, snapshot, args.jobs)
+        if implementation_hashes(ROOT) != inputs:
+            raise ValueError("implementation changed during the mutation battery")
         if args.record:
-            record = {"version": 1, "baseline_sha256": digest(baseline.stdout + baseline.stderr),
-                      "implementation_sha256": {p: digest((ROOT / p).read_bytes()) for p in
-                        (SOURCE, INLINE, "erase/inline.mli", KERNEL,
-                         "erase/test/prop_index.ml", "erase/test/dune",
-                         "erase/test/opaque_test.ml", "erase/test/inline_test.ml",
-                         "dev/erasure-mutations.py", "dev/erasure-gates.py")},
+            record = {"version": 1, "jobs": args.jobs, "baseline_sha256": digest(baseline.stdout + baseline.stderr),
+                      "implementation_sha256": inputs,
                       "mutations": records}
             (ROOT / "dev/validation/erasure-mutations.json").write_text(json.dumps(record, indent=2) + "\n")
-        print(f"ERASURE-MUTATIONS caught={len(records)} total={len(CASES)} OK")
+        suffix = " OK" if len(selected) == len(CASES) else " PARTIAL"
+        print(f"ERASURE-MUTATIONS caught={len(records)} total={len(CASES)}" + suffix)
         return 0
     except (OSError, ValueError, subprocess.TimeoutExpired) as error:
         print(f"ERASURE-MUTATIONS FAIL: {error}")

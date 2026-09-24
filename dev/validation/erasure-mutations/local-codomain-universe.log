@@ -21,16 +21,17 @@ INLINE-ERASE row=local-payload OK
 INLINE-ERASE row=local-runtime-call OK
 INLINE-ERASE row=local-hypothesis OK
 INLINE-ERASE pass=18 total=31 FAIL
-INLINE-ERASE row=binders FAIL lambda-proof runtime differs from its sealed twin
+INLINE-ERASE row=binders FAIL mismatch: runtime differs from its sealed twin
 INLINE-ERASE row=local-index FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0] (Out SPi 0 n Nat (APt 0 0) __attest_inline_proof_0) as p return Type 1 with | (ACtor refl) j => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-dependent FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 x Nat (APt 0 0) (Out SPi 0 A Type 1 (APt 0 Nat) __attest_inline_proof_0)) as p return Type 1 with | (ACtor refl) C z => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-let FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0] __attest_inline_proof_0 as p return Type 1 with | (ACtor refl) j => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-let-alias FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] __attest_inline_proof_0 as p return Type 1 with | (ACtor refl) C z => (Ran SColl 0 (Sec SColl 0 [])))
-INLINE-ERASE row=local-universe FAIL local postulate does not state the local proof
+INLINE-ERASE row=local-universe FAIL mismatch: local postulate does not state the local proof
 INLINE-ERASE row=local-proof-let FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 m Nat (APt 0 0) __attest_inline_proof_0) as r return Type 1 with | (ACtor refl) F u => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-proof-let-value FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 m Nat (APt 0 0) __attest_inline_proof_0) as r return Type 1 with | (ACtor refl) F u => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-proof-let-type FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] __attest_inline_proof_0 as r return Type 1 with | (ACtor refl) F u => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-proof-let-alias FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] __attest_inline_proof_0 as r return Type 1 with | (ACtor refl) F u => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-proof-let-family FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] __attest_inline_proof_0 as r return Type 1 with | (ACtor refl) F u => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-proof-let-universe FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] __attest_inline_proof_0 as r return Type 1 with | (ACtor refl) F u => (Ran SColl 0 (Sec SColl 0 [])))
-INLINE-ERASE row=branch-scope FAIL no postulate leaked
+INLINE-ERASE row=branch-scope FAIL mismatch: no postulate leaked
+

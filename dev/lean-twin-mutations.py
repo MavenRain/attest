@@ -48,7 +48,17 @@ def check(root, logs, row_id):
         GATE["check_row"](root, logs, row)
 
 
+def check_root():
+    record = ROOT / "dev/validation/lean-twin-mutations.json"
+    recorded = json.loads(record.read_text()).get("root")
+    if recorded != str(ROOT):
+        raise ValueError(f"{record.relative_to(ROOT)} root={recorded!r} differs from repository root "
+                         f"{str(ROOT)!r}; record it again from this repository")
+
+
 def run(record):
+    if not record:
+        check_root()
     if not (ROOT / "_build/default/bin/attest.exe").is_file() or not (ROOT / ".lake/build/lib/lean/AttestTwin.olean").is_file():
         raise ValueError("run dev/lean-twin.sh before the mutation checks")
     logs = ROOT / ".gatework/lean-twin-mutations"

@@ -32,4 +32,5 @@ INLINE-ERASE row=local-poison FAIL quantity: the erased binder A is read in a ru
 INLINE-ERASE row=local-proof-let FAIL quantity: the erased binder m is read in a runtime position
 INLINE-ERASE row=local-proof-let-value FAIL quantity: the erased binder m is read in a runtime position
 INLINE-ERASE row=local-payload FAIL quantity: the erased binder n is read in a runtime position
-INLINE-ERASE row=local-hypothesis FAIL local hypothesis left the postulate type: mismatch: the term has type (Ran SPi 0 h (Lan SMu Same [0; 1] (Sec SColl 0 [])) (Lan SMu Same [0; 1] (Sec SColl 0 []))) and the expected type is (Ran SPi 1 h (Lan SMu Same [0; 1] (Sec SColl 0 [])) (Lan SMu Same [0; 1] (Sec SColl 0 [])))
+INLINE-ERASE row=local-hypothesis FAIL mismatch: the term has type (Ran SPi 0 h (Lan SMu Same [0; 1] (Sec SColl 0 [])) (Lan SMu Same [0; 1] (Sec SColl 0 []))) and the expected type is (Ran SPi 1 h (Lan SMu Same [0; 1] (Sec SColl 0 [])) (Lan SMu Same [0; 1] (Sec SColl 0 [])))
+
