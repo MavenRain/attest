@@ -1,2 +1,2 @@
-CHECK /tmp/claude-501/attest-twin-attest-refuses-_z0tq289/fixtures/lean-twin/nat-literal.att FAIL mismatch: a tuple needs a right former as its expected type
+CHECK /tmp/claude-501/attest-twin-attest-refuses-99poblom/fixtures/lean-twin/nat-literal.att FAIL mismatch: a tuple needs a right former as its expected type
 attest: check: mismatch: a tuple needs a right former as its expected type

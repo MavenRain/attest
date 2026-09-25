@@ -1,4 +1,46 @@
 # M0 build log
+## 2026-09-24: Stage B constructor branch proofs
+
+The Bend inline eraser now recovers constructor field contexts from the
+checked family metadata. Families without parameters supply their original
+field types, quantities and dependent field order. The traversal retains the
+outer local telescope across nested branches. It rejects mismatched binder
+counts or quantities and field types that refer beyond earlier fields.
+Missing metadata and parameterized families keep the conservative fallback.
+No kernel rules or semantic recursion exemptions changed.
+
+The existing `branch-local-proof.att` frontier pair now joins the passing
+inline regression set. New dependent-field and nested-branch pairs cover
+proof hypotheses and references to both outer and branch-local variables.
+A multi-constructor pair requires the fields of the named constructor.
+The semantic suite passes 37 cases, including closed generated postulate types,
+rechecking rewritten definitions, metadata guards, fallback behavior and the
+root scope of an alias-typed lambda leg.
+`dev/validation/erasure.json` records 4 global proof pairs and 21 inline
+pairs. Each inline pair is identical to its opaque twin and different with
+the carried eraser, and the semantic suite log records 37 of 37 cases.
+`dev/validation/erasure-mutations.json` records 41 of 41 mutants caught.
+`dev/validation/stage-a.json` pins the sources of this slice. In that
+record, Stage A passes its 337 kernel cases and benchmark, and the 13
+Stage A mutations are caught. `dev/validation/lean-twin.json` pins the
+sources of this slice. In that record, the Lean twins pass 24 accepted and
+12 refused cases. `make test` passes all 16 programs.
+
+The migration differential now allows exactly one named divergence from the
+frozen OCaml reference: `build --erase fixtures/erasure/branch-local-proof.att`.
+The Bend eraser keeps `keep` as the runtime identity, which is identical to
+its opaque twin. The OCaml reference erases `keep`.
+`dev/validation/differential-divergences.json` pins the digest of the frozen
+reference row and the replacement output. The differential fails if the
+reference row changes or if the Bend output equals the reference row again.
+`dev/validation/ocaml-reference.json` does not change.
+
+Stage B remains open. Motive binders, parameterized constructor branches,
+indirectly typed lambda scopes, source-free local proof types and family
+metadata rewriting remain outside this slice. The Acc restrictions and the
+nonzero TRACE-ERASURE result are unchanged.
+
+
 
 ## 2026-09-23: Stage B local inline proofs
 

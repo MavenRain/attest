@@ -1,3 +1,4 @@
 rec [mu<Box>; any]
 fun Layout (union mu<Box>) : union any := KErased
-erased keep
+rec [any]
+fun keep (union any) : union any := KVar 0

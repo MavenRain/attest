@@ -10,6 +10,7 @@ import ../opaque.bend as O
 import ../inline.bend as I
 import ./support.bend as T
 import ./fixtures.bend as X
+import ./branch_fixtures.bend as B
 
 def Suite.postulate(index:Nat) -> String:
   "__attest_inline_proof_" ++ F.Text.nat(index)
@@ -154,6 +155,17 @@ def Suite.local_runtime(source:String,twin:String,host:Maybe<&2,F.Pair2<Bool,Str
     before:List<&2,F.Pair2<String,R.Erase.entry>> <- Suite.erase(original)
     after:List<&2,F.Pair2<String,R.Erase.entry>> <- Suite.erase(sealed)
     T.Test.require(String.eq(R.Erase.print(Suite.runtime_rows(before)),R.Erase.print(Suite.runtime_rows(after))),"runtime differs from its sealed twin")
+
+def Suite.sealed_count(prepared:E.Elab.checked,expected:Nat) -> Result<&2,&2,F.Error.t,Unit>:
+  F.Pair2{+globals,rows} = prepared
+  R.Erase.bind(Nat,Unit,Suite.generated(F.Global.entries(globals),globals),count => T.Test.require(Nat.is_eq(count,expected),"a branch local proof fell back"))
+
+def Suite.local_sealed(+source:String,twin:String,host:Maybe<&2,F.Pair2<Bool,String>>,expected:Nat) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    unit:Unit <- Suite.local_runtime(source,twin,host)
+    original:E.Elab.checked <- E.Elab.check_in(G.Global.initial,source)
+    prepared:E.Elab.checked <- T.Test.prepare(original)
+    Suite.sealed_count(prepared,expected)
 
 def Suite.inherited_finish(local:Bool,+globals:F.Global.t) -> Result<&2,&2,F.Error.t,Unit>:
   match local:
@@ -426,6 +438,30 @@ def Suite.length(rows:List<Suite.case>,n:Nat) -> Nat:
     case Nil{}: n
     case Suite.Case{name,run} <> rest: Suite.length(rest,(n + 1n : Nat))
 
+def Suite.branch_absent(state:R.Erase.State<Maybe<&2,I.Inline.context>>) -> Result<&2,&2,F.Error.t,Unit>:
+  match state:
+    case R.Erase.Return{None{}}: Done{Unit{}}
+    case other: Fail{F.Error.Mismatch{"unsupported branch acquired a context"}}
+
+def Suite.branch_fallback() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
+  params:F.Positivity.telescope = [F.Triple3{F.Quantity.Zero{},"n",F.Term.Global{"Nat"}}]
+  family:F.Positivity.family = F.Positivity.Family{"Box",params,Nil{},F.Level.zero,F.Positivity.Complete{["box"]},[F.Positivity.Ctor{"box",Nil{},Nil{},0n,False{}}],True{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.branch_absent(I.Inline.branch_context_state(F.Shape.make_inductive(F.Term.t,"Missing",Nil{}),F.Term.ACtor{"box"},Nil{},context))
+    Suite.branch_absent(I.Inline.branch_family_state(Some{family},"box",Nil{},context))
+
+def Suite.branch_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +fields:F.Positivity.telescope = [F.Triple3{F.Quantity.Zero{}, "n", F.Term.Global{"Nat"}}]
+  do Result<&2,&2,F.Error.t,Unit>:
+    quantity: Unit <- T.Test.require(Bool.not(I.Inline.branch_fields_valid(fields, [F.Pair2{F.Quantity.One{}, "n"}], 0n)), "branch accepted a quantity mismatch")
+    missing: Unit <- T.Test.require(Bool.not(I.Inline.branch_fields_valid(fields, Nil{}, 0n)), "branch accepted a missing binder")
+    extra: Unit <- T.Test.require(Bool.not(I.Inline.branch_fields_valid(Nil{}, [F.Pair2{F.Quantity.Zero{}, "n"}], 0n)), "branch accepted an extra binder")
+    outer: Unit <- T.Test.require(Bool.not(I.Inline.branch_fields_valid([F.Triple3{F.Quantity.Zero{}, "n", F.Term.Var{0n}}], [F.Pair2{F.Quantity.Zero{}, "n"}], 0n)), "branch metadata captured an outer variable")
+    +pair:List<&2, F.Pair2<F.Quantity.t, String>> = [F.Pair2{F.Quantity.Zero{}, "n"}, F.Pair2{F.Quantity.Zero{}, "p"}]
+    later: Unit <- T.Test.require(Bool.not(I.Inline.branch_fields_valid([F.Triple3{F.Quantity.Zero{}, "n", F.Term.Global{"Nat"}}, F.Triple3{F.Quantity.Zero{}, "p", F.Term.Var{1n}}], pair, 0n)), "second branch field captured an outer variable")
+    T.Test.require(I.Inline.branch_fields_valid([F.Triple3{F.Quantity.Zero{}, "n", F.Term.Global{"Nat"}}, F.Triple3{F.Quantity.Zero{}, "p", F.Term.Var{0n}}], pair, 0n), "second branch field lost its earlier field")
+
 def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
   [
       Suite.Case{"let-body",unit => Suite.poisoned(X.Fixture.let_proof,False{})},
@@ -458,7 +494,13 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"local-payload",unit => R.Erase.bind(E.Elab.checked,Unit,T.Test.prepared(X.Fixture.source_local_payload),prepared => Suite.local_prepared(prepared,None{}))},
       Suite.Case{"local-runtime-call",unit => Suite.local_runtime(X.Fixture.local_runtime_call,X.Fixture.local_runtime_call_opaque,layout)},
       Suite.Case{"local-hypothesis",unit => R.Erase.bind(E.Elab.checked,Unit,T.Test.prepared(X.Fixture.source_local_hypothesis),prepared => Suite.hypothesis(prepared))},
-      Suite.Case{"branch-scope",unit => Suite.stays_inline(X.Fixture.branch_local_proof,"branch local was confused with an outer binder")} ]
+      Suite.Case{"branch-scope",unit => Suite.local_runtime(X.Fixture.branch_local_proof,X.Fixture.branch_local_proof_opaque,layout)},
+      Suite.Case{"branch-dependent",unit => Suite.local_runtime(B.Fixture.branch_dependent,B.Fixture.branch_dependent_opaque,layout)},
+      Suite.Case{"branch-nested",unit => Suite.local_runtime(B.Fixture.branch_nested,B.Fixture.branch_nested_opaque,layout)},
+      Suite.Case{"branch-multi-ctor",unit => Suite.local_sealed(B.Fixture.branch_multi_ctor,B.Fixture.branch_multi_ctor_opaque,layout,2n)},
+      Suite.Case{"alias-leg-scope",unit => Suite.stays_inline(X.Fixture.alias_leg_scope,"unknown binder was confused with an outer binder")},
+      Suite.Case{"branch-metadata",unit => Suite.branch_guards},
+      Suite.Case{"branch-fallback",unit => Suite.branch_fallback} ]
 
 def main() -> IO(Unit):
   +layout:Maybe<&2,F.Pair2<Bool,String>> = Some{F.Pair2{False{},"Layout"}}

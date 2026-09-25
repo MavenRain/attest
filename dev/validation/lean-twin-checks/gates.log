@@ -22,7 +22,7 @@ BUILD OK
 CARRY files=594 diff=0 unlisted=0
 PIN eebe37e
 CARRY reference=assay:git,mechanism:git
-CARRY migration=Bend mapped=66 sources=55
+CARRY migration=Bend mapped=66 sources=56
 R0-COUNT formers=2 schema=4 shapes=5 admitted=3 OK
 R0-AUDIT OK
 R0-DIFF vs=2c2e6e6 rows=3 diff=0 OK
@@ -38,23 +38,23 @@ HOUSE no-loop-keyword OK
 HOUSE nonzero-division OK
 HOUSE OK
 DRIVER-EXIT pass=13 fail=0 stage=A OK
-BENCH SUITE-KERNEL median_ms=15314.768 min_ms=13994.782 max_ms=16435.716 runs=7
-SUITE-KERNEL pass=337 fail=0 median_ms=15314.768 OK
+BENCH SUITE-KERNEL median_ms=31307.366 min_ms=22317.134 max_ms=33006.404 runs=7
+SUITE-KERNEL pass=337 fail=0 median_ms=31307.366 OK
 surface: 20 lexer, 28 parser, match elaboration, 13 recursive values, axiom reporting, budget and extreme index checks passed
 AXIOMS corpus/id.att count=0
 AXIOMS-empty rows=1 OK
 TRUSTED-LINES kernel=5938/6000 lower=0/1100 encoder=0/800 harness=0/100 OK
 TRUSTED-LINES whole_lib=7983 language=Bend INFO
-M0-RATIO rung=1 pass=parse ms=0.430000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
-M0-RATIO rung=1 pass=elaborate-check ms=0.310000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=parse ms=0.750000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=elaborate-check ms=0.720000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
 M0-RATIO rung=2 OPEN reason=denominators-not-frozen
 M0-RATIO rung=3 OPEN reason=denominators-not-frozen
 STAGE-A OK
 PROP-INDEX pass=28 total=28 OK
 ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
-INLINE-ERASE pass=31 total=31 OK
-ERASURE-INLINE rows=17 identical=17 carried_diff=17 OK
-ERASURE-OPEN rows=1 different=1 OPEN
+INLINE-ERASE pass=37 total=37 OK
+ERASURE-INLINE rows=21 identical=21 carried_diff=21 OK
+ERASURE-OPEN rows=0 different=0 OPEN
 ERASURE-CLI pass=6 fail=0 OK
 LEAN-TOOLCHAIN pinned=leanprover/lean4:v4.33.1 ran=4.33.1 OK
 LEAN-AXIOMS declarations=8 axioms=['AccFixture.R', 'F2Fixture.opaqueProof'] extra=0 OK

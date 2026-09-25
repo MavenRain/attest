@@ -1,0 +1,7 @@
+mu Equal : (0 n : Nat) -> Prop with
+| refl : (0 n : Nat) -> Equal n
+mu Pack : Type 0 with
+| pack : (0 n : Nat) -> (h : Equal n) -> Pack
+
+def Layout : (b : Pack) -> Type 0 := fun (b : Pack) => case b as value in Pack return Type 0 with | pack 0 n h => case (h : Equal n) as p in Equal k return Type 0 with | refl 0 j => prod ()
+def keep : (x : Layout (pack 0 (refl 0))) -> Layout (pack 0 (refl 0)) := fun (x : Layout (pack 0 (refl 0))) => x

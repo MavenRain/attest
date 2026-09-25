@@ -24,6 +24,37 @@ def execute(executable, root, args, timeout=180):
     except subprocess.TimeoutExpired:
         return {"args": args, "timeout": timeout}
 
+def canonical_digest(row):
+    return digest(json.dumps(row, sort_keys=True, separators=(",", ":")).encode())
+
+def divergence_errors(entry, matches, cases, manifest_sha):
+    """Return the reasons why one divergence entry does not pin exactly one frozen reference row."""
+    return ([f"matches {len(matches)} reference cases"] if len(matches) != 1 else
+            ["reference manifest digest changed"] if entry["reference_manifest_sha256"] != manifest_sha else
+            ["reference row digest changed"] if canonical_digest(cases[matches[0]]) != entry["reference_sha256"] else
+            ["replacement args differ"] if entry["expected"]["args"] != entry["args"] else
+            ["replacement equals the reference row"] if entry["expected"] == cases[matches[0]] else [])
+
+def apply_divergences(cases, path, manifest_sha):
+    """Replace each named frozen reference row with its pinned replacement row.
+
+    Each entry must match exactly one reference case, and the digest of that case must be the
+    pinned digest. The frozen reference file is not changed."""
+    if not path.is_file():
+        return cases, [], [], None
+    data = json.loads(path.read_text())
+    entries = [{**entry, "reference_manifest_sha256": data["reference_manifest_sha256"]}
+               for entry in data["divergences"]]
+    matches = [[index for index, row in enumerate(cases) if row["args"] == entry["args"]] for entry in entries]
+    duplicates = len({json.dumps(entry["args"]) for entry in entries}) != len(entries)
+    errors = [f"DIFFERENTIAL divergence {json.dumps(entry['args'])}: {problem}"
+              for entry, found in zip(entries, matches)
+              for problem in divergence_errors(entry, found, cases, manifest_sha)]
+    errors = errors + (["DIFFERENTIAL divergence file repeats a case"] if duplicates else [])
+    replaced = {found[0]: entry["expected"] for entry, found in zip(entries, matches) if len(found) == 1}
+    originals = [(index, cases[index]) for index in sorted(replaced)]
+    return [replaced.get(index, row) for index, row in enumerate(cases)], errors, originals, digest(path.read_bytes())
+
 def source_files(root):
     tracked = subprocess.run(["git", "-C", str(root), "ls-files", "-z"], capture_output=True, check=True).stdout
     return sorted(path for path in tracked.decode().split("\0")
@@ -38,6 +69,8 @@ def main():
     parser.add_argument("--report", type=Path)
     parser.add_argument("--jobs", type=int, default=4)
     parser.add_argument("--timeout", type=int, default=180)
+    parser.add_argument("--divergences", type=Path,
+                        help="named divergences from the reference (default: dev/validation/differential-divergences.json)")
     args = parser.parse_args()
     if args.jobs < 1 or args.timeout < 1:
         parser.error("jobs and timeout must be positive")
@@ -80,21 +113,35 @@ def main():
     if any("timeout" in row for row in reference["cases"]):
         print("DIFFERENTIAL reference includes unresolved timeouts")
         return 1
+    manifest_sha = digest(args.manifest.read_bytes())
+    divergence_path = args.divergences or root / "dev/validation/differential-divergences.json"
+    cases, divergence_problems, originals, divergence_sha = apply_divergences(
+        reference["cases"], divergence_path, manifest_sha)
+    if divergence_problems:
+        print("\n".join(divergence_problems))
+        return 1
     with ThreadPoolExecutor(max_workers=args.jobs) as pool:
-        actual = list(pool.map(lambda row: execute(driver, root, row["args"], args.timeout), reference["cases"]))
+        actual = list(pool.map(lambda row: execute(driver, root, row["args"], args.timeout), cases))
     failures = [{"expected": want, "actual": got}
-                for want, got in zip(reference["cases"], actual) if want != got]
+                for want, got in zip(cases, actual) if want != got]
+    # A divergence that the driver no longer needs is stale and fails the run.
+    stale = [row["args"] for index, row in originals if actual[index] == row]
     report = {"passed": len(actual)-len(failures), "total": len(actual), "failures": failures,
               "driver_sha256": digest(driver.read_bytes()),
               "jobs": args.jobs, "timeout_seconds": args.timeout,
-              "reference_manifest_sha256": digest(args.manifest.read_bytes())}
+              "reference_manifest_sha256": manifest_sha,
+              "divergences": len(originals), "divergences_sha256": divergence_sha,
+              "stale_divergences": stale}
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(json.dumps(report, indent=2) + "\n")
-    print(f"DIFFERENTIAL pass={report['passed']} total={report['total']} fail={len(failures)}")
+    print(f"DIFFERENTIAL pass={report['passed']} total={report['total']} fail={len(failures)} "
+          f"divergences={len(originals)} stale={len(stale)}")
     for row in failures[:8]:
         print("FAIL", json.dumps(row["expected"]["args"]))
-    return 1 if failures else 0
+    for row in stale:
+        print("STALE-DIVERGENCE", json.dumps(row))
+    return 1 if failures or stale else 0
 
 if __name__ == "__main__":
     sys.exit(main())

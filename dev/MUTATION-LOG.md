@@ -1,4 +1,34 @@
 # Mutation log
+## 2026-09-24: Constructor branch proof mutations
+
+The complete erasure battery contains 41 cases. The `local-branch-scope`
+mutation now discards the recovered constructor field context and must fail
+the passing `branch-scope` semantic row. Two new mutations,
+`branch-field-quantity` and `branch-field-depth`, remove the field
+quantity check or increase the permitted metadata variable depth. Both must
+fail `branch-metadata`, which also checks missing and extra binders.
+`branch-field-depth-step` increases the depth step between fields and must
+fail the two-field `branch-metadata` probe. `branch-ctor-name` takes the
+first constructor of the family instead of the named one, and
+`branch-ctor-last` takes the last one. Each branch of the multi-constructor
+pair holds a local proof over its own fields, so both must fail
+`branch-multi-ctor`, which requires two sealed postulates. `branch-param-fallback` sends parameterized families
+through the field check, and `branch-missing-family` accepts a branch whose
+family metadata is missing. Both must fail `branch-fallback`.
+`leg-scope-root` keeps the outer scope for a lambda leg without a known
+domain and must fail `alias-leg-scope`.
+The former open branch fixture now participates in the same opaque-twin and
+carried-erasure comparisons as every other passing inline pair.
+`inline-twin-repeated-arg` applies the `branch-nested` postulate to one
+name twice and must fail the twin structure check. The nested pair gives
+its outer binder and its two branch fields distinct types, so a permuted
+application does not type-check.
+
+The complete `--record --jobs 2` run caught all 41 variants. The resulting
+record was checked against the current sources, reconstructed mutations,
+stored logs and expected diagnostics before staging.
+
+
 
 ## 2026-09-23: Local inline proof mutations
 

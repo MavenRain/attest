@@ -276,6 +276,11 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.branch_view_state",
+      "pattern": "other address"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.run_state",
       "pattern": "other"
     },
@@ -362,6 +367,11 @@
     {
       "path": "erase/test/inline_test.bend",
       "function": "Suite.motive_term",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.branch_absent",
       "pattern": "other"
     },
     {

@@ -19,14 +19,18 @@ INLINE_ROWS = ("let-proof", "scrutinee-proof", "projection-proof", "projection-s
                "lambda-proof", "binder-proof", "local-proof", "local-dependent",
                "local-let", "local-let-alias", "local-diagram", "local-runtime-call",
                "local-proof-let-value", "local-proof-let-type",
-               "local-proof-let-alias", "local-proof-let-family", "local-proof-let-universe")
+               "local-proof-let-alias", "local-proof-let-family", "local-proof-let-universe",
+               "branch-local-proof", "branch-dependent", "branch-nested",
+               "branch-multi-ctor")
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
                                "family-collision", "runtime", "local-type", "rows", "binders",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",
-                               "branch-scope", "local-runtime-call", "local-let-alias",
+                               "branch-scope", "branch-dependent", "branch-nested", "branch-metadata", "branch-fallback",
+                               "branch-multi-ctor", "alias-leg-scope",
+                               "local-runtime-call", "local-let-alias",
                                "local-hypothesis", "local-proof-let",
                                "local-proof-let-value", "local-proof-let-type",
                "local-proof-let-alias", "local-proof-let-family", "local-proof-let-universe"))
@@ -59,8 +63,8 @@ PROP_SUITE_ROWS = frozenset(('nat-index',
  'type-1-index-bound',
  'parameter-hidden-field',
  'recursive-big-later-field'))
-# Constructor branch binders still lack a local telescope (SPEC.md 1.1).
-OPEN_ROWS = {"branch-local-proof": "proof depending on a constructor branch index"}
+# New frontier rows must reproduce a difference before they are added here.
+OPEN_ROWS = {}
 
 
 def digest(data):
@@ -159,8 +163,15 @@ def proof_span(postulate, before, after):
              and len(projections) % 2 == 0
              and all(projections[i] == "." and projections[i + 1].isdigit()
                      for i in range(0, len(projections), 2)))
+    # Each argument is a distinct name from the proof span. Argument order
+    # is not compared here: a dependent twin such as `proof n h` for
+    # `(h : Equal n)` names the index before the proof that it indexes. The
+    # branch-nested pair gives its binders distinct types, so a permuted
+    # application fails the check instead.
+    args = use[1:]
     applied = (group and bool(use) and use[0] == postulate
-               and all(re.fullmatch(r"[\w']+", token) and token in proof for token in use[1:]))
+               and len(set(args)) == len(args)
+               and all(re.fullmatch(r"[\w']+", token) and token in proof for token in args))
     # A dropped span is exactly one let of the postulate name: one let token
     # and one in token, so a twin cannot drop an adjacent let with it.
     dropped = (not use and len(proof) > 3 and proof[0] == "let" and proof[1] == postulate
@@ -428,7 +439,7 @@ def record(logs, rows):
     data = {"version": 1, "scope": "Stage B erasure increment", "stage_b": "OPEN",
             "rows": rows, "open": ["Acc erased proof binder and recursive proof elimination",
             "full TRACE-ERASURE including Acc",
-            "proofs depending on constructor branch binders keep their bodies (row branch-local-proof)",
+            "constructor branches of parameter-free families seal local proofs; motive binders remain open",
             "proofs depending on motive binders keep their bodies (no pinned row)",
             "lambda scopes without a syntactic expected function type",
             "local proofs without source type syntax",

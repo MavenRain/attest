@@ -1,0 +1,5 @@
+erased proof
+rec [mu<Tag>; any]
+fun Layout (union mu<Tag>) : union any := KErased
+rec [any]
+fun keep (union any) : union any := KVar 0

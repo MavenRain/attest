@@ -1,39 +1,28 @@
-BUILD attest js compile
-BUILD attest js OK
+BUILD attest js cached
 BUILD foundation js cached
 BUILD global-map js cached
 BUILD order js cached
 BUILD kernel js cached
-BUILD surface js compile
-BUILD surface js OK
+BUILD surface js cached
 BUILD ir js cached
 BUILD repr js cached
 BUILD inline-scan js cached
 BUILD inline-sealing js cached
 BUILD opaque-core js cached
-BUILD erasure-budget js compile
-BUILD erasure-budget js OK
-BUILD erasure-refusal js compile
-BUILD erasure-refusal js OK
-BUILD inline js compile
-BUILD inline js OK
-BUILD opaque js compile
-BUILD opaque js OK
-BUILD prop-index js compile
-BUILD prop-index js OK
-BUILD parse-probe js compile
-BUILD parse-probe js OK
-BUILD erase-probe js compile
-BUILD erase-probe js OK
-BUILD pass-bench js compile
-BUILD pass-bench js OK
-BUILD suite-probe js compile
-BUILD suite-probe js OK
+BUILD erasure-budget js cached
+BUILD erasure-refusal js cached
+BUILD inline js cached
+BUILD opaque js cached
+BUILD prop-index js cached
+BUILD parse-probe js cached
+BUILD erase-probe js cached
+BUILD pass-bench js cached
+BUILD suite-probe js cached
 BUILD OK
 CARRY files=594 diff=0 unlisted=0
 PIN eebe37e
 CARRY reference=assay:git,mechanism:git
-CARRY migration=Bend mapped=66 sources=55
+CARRY migration=Bend mapped=66 sources=56
 R0-COUNT formers=2 schema=4 shapes=5 admitted=3 OK
 R0-AUDIT OK
 R0-DIFF vs=2c2e6e6 rows=3 diff=0 OK
@@ -49,23 +38,23 @@ HOUSE no-loop-keyword OK
 HOUSE nonzero-division OK
 HOUSE OK
 DRIVER-EXIT pass=13 fail=0 stage=A OK
-BENCH SUITE-KERNEL median_ms=27972.081 min_ms=25886.547 max_ms=31892.450 runs=7
-SUITE-KERNEL pass=337 fail=0 median_ms=27972.081 OK
+BENCH SUITE-KERNEL median_ms=21696.902 min_ms=20152.760 max_ms=24006.697 runs=7
+SUITE-KERNEL pass=337 fail=0 median_ms=21696.902 OK
 surface: 20 lexer, 28 parser, match elaboration, 13 recursive values, axiom reporting, budget and extreme index checks passed
 AXIOMS corpus/id.att count=0
 AXIOMS-empty rows=1 OK
 TRUSTED-LINES kernel=5938/6000 lower=0/1100 encoder=0/800 harness=0/100 OK
 TRUSTED-LINES whole_lib=7983 language=Bend INFO
-M0-RATIO rung=1 pass=parse ms=0.590000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
-M0-RATIO rung=1 pass=elaborate-check ms=0.500000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=parse ms=0.480000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=elaborate-check ms=0.380000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
 M0-RATIO rung=2 OPEN reason=denominators-not-frozen
 M0-RATIO rung=3 OPEN reason=denominators-not-frozen
 STAGE-A OK
 PROP-INDEX pass=28 total=28 OK
 ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
-INLINE-ERASE pass=31 total=31 OK
-ERASURE-INLINE rows=17 identical=17 carried_diff=17 OK
-ERASURE-OPEN rows=1 different=1 OPEN
+INLINE-ERASE pass=37 total=37 OK
+ERASURE-INLINE rows=21 identical=21 carried_diff=21 OK
+ERASURE-OPEN rows=0 different=0 OPEN
 ERASURE-CLI pass=6 fail=0 OK
 LEAN-TOOLCHAIN pinned=leanprover/lean4:v4.33.1 ran=4.33.1 OK
 LEAN-AXIOMS declarations=8 axioms=['AccFixture.R', 'F2Fixture.opaqueProof'] extra=0 OK

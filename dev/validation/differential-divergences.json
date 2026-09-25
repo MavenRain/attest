@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "reference_manifest": "dev/validation/ocaml-reference.json",
+  "reference_manifest_sha256": "f8098ae048a89fdbca83730bcf283689eba3fefff3ef0df810bdbb7f6f5cf5b5",
+  "divergences": [
+    {
+      "args": [
+        "build",
+        "--erase",
+        "fixtures/erasure/branch-local-proof.att"
+      ],
+      "reference_sha256": "7c8cd0574418b47db1dd4ec2680f1e77002c8e3362f230ddb5dceaeb019aebcc",
+      "expected": {
+        "args": [
+          "build",
+          "--erase",
+          "fixtures/erasure/branch-local-proof.att"
+        ],
+        "exit": 0,
+        "stdout": "cmVjIFttdTxCb3g+OyBhbnldCmZ1biBMYXlvdXQgKHVuaW9uIG11PEJveD4pIDogdW5pb24gYW55IDo9IEtFcmFzZWQKcmVjIFthbnldCmZ1biBrZWVwICh1bmlvbiBhbnkpIDogdW5pb24gYW55IDo9IEtWYXIgMAo=",
+        "stderr": ""
+      },
+      "reason": "The Bend inline eraser recovers the constructor field context of Box in Layout. It keeps keep as the runtime identity. The dev/validation/erasure.json row branch-local-proof records this output as runtime-identical to its opaque twin and different from the carried eraser. The frozen OCaml reference erases keep."
+    }
+  ]
+}

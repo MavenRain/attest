@@ -1,6 +1,7 @@
 import Base
 import ../lib/foundation.bend as F
 import ../lib/kernel_context.bend as C
+import ../lib/kernel_mu.bend as M
 import ../lib/kernel_eval.bend as E
 import ../lib/kernel_primitives.bend as P
 import ../lib/erasure.bend as R
@@ -631,6 +632,55 @@ def Inline.leg_scope(binders: List<&2, F.Pair2<F.Quantity.t, String>>, context: 
     case Nil{}: context
     case other: Inline.root(context)
 
+# Constructor types are closed over earlier fields. Keep their source syntax
+# when extending an outer scope so universe distinctions survive sealing.
+def Inline.branch_fields_valid(fields: F.Positivity.telescope, binders: List<&2, F.Pair2<F.Quantity.t, String>>, +depth: Nat) -> Bool:
+  match fields binders:
+    case Nil{} Nil{}: True{}
+    case Con{F.Triple3{quantity, ignored, domain}, rest} Con{F.Pair2{binder_quantity, name}, more}:
+      Bool.and(Bool.and(F.Quantity.equal(quantity, binder_quantity), Inline.closed(depth, domain)), Inline.branch_fields_valid(rest, more, (depth + 1n : Nat)))
+    case Nil{} Con{binder, more}: False{}
+    case Con{field, rest} Nil{}: False{}
+
+def Inline.branch_fields_state(fields: F.Positivity.telescope, binders: List<&2, F.Pair2<F.Quantity.t, String>>, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match fields binders:
+    case Nil{} Nil{}: R.Erase.Return{Some{context}}
+    case Con{F.Triple3{quantity, ignored, domain}, rest} Con{F.Pair2{binder_quantity, name}, more}:
+      Inline.bind_state(Inline.context, Maybe<&2, Inline.context>, Inline.bind_domain_state(context, name, quantity, domain), scope =>
+        Inline.branch_fields_state(rest, more, scope))
+    case Nil{} Con{binder, more}: R.Erase.Return{None{}}
+    case Con{field, rest} Nil{}: R.Erase.Return{None{}}
+
+def Inline.branch_valid_state(valid: Bool, fields: F.Positivity.telescope, binders: List<&2, F.Pair2<F.Quantity.t, String>>, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match valid:
+    case False{}: R.Erase.Return{None{}}
+    case True{}: Inline.branch_fields_state(fields, binders, context)
+
+def Inline.branch_ctor_state(ctor: Maybe<&2, F.Positivity.ctor>, +binders: List<&2, F.Pair2<F.Quantity.t, String>>, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match ctor:
+    case None{}: R.Erase.Return{None{}}
+    case Some{F.Positivity.Ctor{name, +fields, indices, arity, recursive}}:
+      Inline.branch_valid_state(Inline.branch_fields_valid(fields, binders, 0n), fields, binders, context)
+
+def Inline.branch_family_state(family: Maybe<&2, F.Positivity.family>, name: String, binders: List<&2, F.Pair2<F.Quantity.t, String>>, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match family:
+    case None{}: R.Erase.Return{None{}}
+    case Some{+value}:
+      F.Positivity.Family{family_name, params, indices, level, status, ctors, positive} = value
+      match params:
+        case Nil{}: Inline.branch_ctor_state(M.Mu.ctor_of(name, value), binders, context)
+        case Con{param, rest}: R.Erase.Return{None{}}
+
+def Inline.branch_view_state(view: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, address: F.Term.addr, binders: List<&2, F.Pair2<F.Quantity.t, String>>, +context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match view address:
+    case Some{F.Pair2{family, indices}} F.Term.ACtor{name}:
+      Inline.Context{checker, domains} = context
+      Inline.branch_family_state(F.Global.find_family(family, C.Check.global(checker)), name, binders, context)
+    case other address: R.Erase.Return{None{}}
+
+def Inline.branch_context_state(shape: F.Shape.t<F.Term.t>, address: F.Term.addr, binders: List<&2, F.Pair2<F.Quantity.t, String>>, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  Inline.branch_view_state(F.Shape.inductive(F.Term.t, shape), address, binders, context)
+
 def Inline.replacement_choice(equal: Bool, rewritten: F.Term.t, other: Maybe<&2, F.Term.t>) -> Maybe<&2, F.Term.t>:
   match equal:
     case True{}: Some{rewritten}
@@ -675,7 +725,8 @@ type Inline.Task is Type:
   Inline.LegContext{scope: Maybe<&2, F.Pair2<Inline.context, F.Term.t>>, context: Inline.context, state: Inline.state, leg: F.Term.leg, done: F.Term.leg -> Inline.state -> Inline.walk_result_state}
   Inline.Legs{context: Inline.context, state: Inline.state, expected: Maybe<&2, F.Term.t>, legs: List<&2, F.Term.leg>, done: List<&2, F.Term.leg> -> Inline.state -> Inline.walk_result_state}
   Inline.Motive{context: Inline.context, state: Inline.state, motive: Maybe<&2, F.Term.motive>, done: Maybe<&2, F.Term.motive> -> Inline.state -> Inline.walk_result_state}
-  Inline.Branches{context: Inline.context, state: Inline.state, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, done: List<&2, F.Pair2<F.Term.addr, F.Term.leg>> -> Inline.state -> Inline.walk_result_state}
+  Inline.Branch{scope: Maybe<&2, Inline.context>, context: Inline.context, state: Inline.state, leg: F.Term.leg, done: F.Term.leg -> Inline.state -> Inline.walk_result_state}
+  Inline.Branches{shape: F.Shape.t<F.Term.t>, context: Inline.context, state: Inline.state, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, done: List<&2, F.Pair2<F.Term.addr, F.Term.leg>> -> Inline.state -> Inline.walk_result_state}
   Inline.Let{needed: Bool, context: Inline.context, state: Inline.state, name: String, ty: F.Term.t, value: F.Term.t, body: F.Term.t, done: F.Term.t -> Inline.state -> Inline.walk_result_state}
 
 def Inline.install_postulate_state(~ops: Inline.Semantics, fresh: F.Pair2<String, Inline.state>, scope: Inline.context, +ty: F.Term.t, done: F.Term.t -> Inline.state -> Inline.walk_result_state) -> Inline.walk_result_state:
@@ -778,13 +829,21 @@ def Inline.run_state(~ops: Inline.Semantics, task: Inline.Task) -> Inline.walk_r
         case None{}: done(None{}, state)
         case Some{F.Term.Motive{ind, idx, self, body}}:
           Inline.run_state(~ops, Inline.Walk{Inline.root(context), state, None{}, body, rewritten => next => done(Some{F.Term.Motive{ind, idx, self, rewritten}}, next)})
-    case Inline.Branches{+context, state, branches, done}:
+    case Inline.Branch{scope, context, state, leg, done}:
+      match scope:
+        case None{}: Inline.run_state(~ops, Inline.Leg{context, state, None{}, leg, done})
+        case Some{next_context}:
+          F.Term.Leg{binders, body} = leg
+          Inline.run_state(~ops, Inline.Walk{next_context, state, None{}, body, rewritten => next => done(F.Term.Leg{binders, rewritten}, next)})
+    case Inline.Branches{+shape, +context, state, branches, done}:
       match branches:
         case Nil{}: done(Nil{}, state)
-        case F.Pair2{address, leg} <> rest:
-          Inline.run_state(~ops, Inline.Address{context, state, address, new_address => next =>
-            Inline.run_state(~ops, Inline.Leg{context, next, None{}, leg, new_leg => after_leg =>
-              Inline.run_state(~ops, Inline.Branches{context, after_leg, rest, more => after => done(F.Pair2{new_address, new_leg} <> more, after)})})})
+        case F.Pair2{+address, +leg} <> rest:
+          F.Term.Leg{binders, body} = leg
+          Inline.bind_state(Maybe<&2, Inline.context>, F.Pair2<F.Term.t, Inline.state>, Inline.branch_context_state(shape, address, binders, context), scope =>
+            Inline.run_state(~ops, Inline.Address{context, state, address, new_address => next =>
+              Inline.run_state(~ops, Inline.Branch{scope, context, next, leg, new_leg => after_leg =>
+                Inline.run_state(~ops, Inline.Branches{shape, context, after_leg, rest, more => after => done(F.Pair2{new_address, new_leg} <> more, after)})})}))
     case Inline.Let{needed, +context, state, +name, +ty, +value, body, done}:
       match needed:
         case True{}:
@@ -823,11 +882,11 @@ def Inline.run_state(~ops: Inline.Semantics, task: Inline.Task) -> Inline.walk_r
         case F.Term.Ann{value, +ty}:
           Inline.run_state(~ops, Inline.Walk{context, state, Some{ty}, value, new_value => next =>
             Inline.run_state(~ops, Inline.Walk{context, next, None{}, ty, new_ty => after => done(F.Term.Ann{new_value, new_ty}, after)})})
-        case F.Term.Elim{F.Term.Elimination{shape, scrut, quantity, motive, branches}}:
+        case F.Term.Elim{F.Term.Elimination{+shape, scrut, quantity, motive, branches}}:
           Inline.run_state(~ops, Inline.Shape{context, state, shape, s => next =>
             Inline.run_state(~ops, Inline.Walk{context, next, None{}, scrut, sc => after_scrut =>
               Inline.run_state(~ops, Inline.Motive{context, after_scrut, motive, mo => after_motive =>
-                Inline.run_state(~ops, Inline.Branches{context, after_motive, branches, bs => after => done(F.Term.Elim{F.Term.Elimination{s, sc, quantity, mo, bs}}, after)})})})})
+                Inline.run_state(~ops, Inline.Branches{shape, context, after_motive, branches, bs => after => done(F.Term.Elim{F.Term.Elimination{s, sc, quantity, mo, bs}}, after)})})})})
         case other: done(other, state)
 
 def Inline.term_state(~ops: Inline.Semantics, context: Inline.context, state: Inline.state, expected: Maybe<&2, F.Term.t>, term: F.Term.t) -> Inline.walk_result_state:

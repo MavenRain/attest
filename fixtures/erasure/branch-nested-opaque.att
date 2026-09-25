@@ -1,0 +1,14 @@
+mu Tone : Type 0 with
+| tone : Tone
+mu Mark : Type 0 with
+| mark : Mark
+mu Equal : (0 a : Nat) -> (0 b : Tone) -> (0 c : Mark) -> Prop with
+| refl : (0 a : Nat) -> (0 b : Tone) -> (0 c : Mark) -> Equal a b c
+mu Box : Type 0 with
+| box : (0 n : Tone) -> Box
+mu Cell : Type 0 with
+| cell : (0 m : Mark) -> Cell
+
+axiom proof : (0 a : Nat) -> (0 b : Tone) -> (0 c : Mark) -> Equal a b c
+def Layout : (0 outer : Nat) -> (a : Box) -> (b : Cell) -> Type 0 := fun (0 outer : Nat) (a : Box) (b : Cell) => case a as first in Box return Type 0 with | box 0 n => case b as second in Cell return Type 0 with | cell 0 m => case proof outer n m as p in Equal i j k return Type 0 with | refl 0 i 0 j 0 k => prod ()
+def keep : (x : Layout 7 (box tone) (cell mark)) -> Layout 7 (box tone) (cell mark) := fun (x : Layout 7 (box tone) (cell mark)) => x

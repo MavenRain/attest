@@ -55,13 +55,15 @@ preserved. Runtime computations remain executable.
 
 The four global F2 pairs cover a runtime function, a pair constructor,
 proof aliases, and proof-valued functions. They produce byte-identical
-erased terms. Seventeen inline pairs cover let-bound proofs, direct case
+erased terms. Twenty-one inline pairs cover let-bound proofs, direct case
 scrutinees, both pair projections, a lambda-bound proof, and a proof under
 let and case binders, local Nat indices, dependent local types, local lets, let-bound type aliases,
 type-former diagrams, runtime calls returning proof-computed types, and
 proof lets whose value a local proof type reduces, directly or through
 the value of any later let: a proof let alias chain, a type family, or a
-let typed by a universe alias.
+let typed by a universe alias. They also cover proofs that depend on
+constructor fields, including dependent fields, nested branches and
+several constructors.
 A proof let keeps its value only when its variable occurs in its body in an
 annotation, a let type, the value of a later let, a motive, a shape payload
 or a type former. A proof let that a dependent large elimination reads only
@@ -69,12 +71,19 @@ as its scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
 The runtime output of each inline pair is identical
 after removing `erased NAME` declaration notices. The gate reproduces a
-runtime difference with the carried eraser for every pair. Thirty-one semantic
+runtime difference with the carried eraser for every pair. Thirty-seven semantic
 tests cover poisoned proof bodies at known types, inherited entries, name
 collisions, runtime lets, local type annotations, and rewritten rows. They also
 check closed postulate types, dependent argument order, original universes,
 inherited local proofs, local hypotheses, proof lets needed by a local proof
-type, and scope isolation at unknown branch binders.
+type, dependent constructor fields, nested branch scopes, and conservative
+fallback for missing or parameterized family metadata. They also check that a
+branch takes the fields of its own constructor, not the first constructor of
+its family, and that an alias-typed lambda leg under an outer binder starts
+from the root scope. Branch contexts require
+the exact constructor binder count and quantities, and field types closed over
+earlier fields. Field types retain their original syntax when added to the
+outer local telescope.
 This is regression evidence; a general erasure theorem and ELF comparisons
 remain later work.
 
@@ -83,9 +92,13 @@ Opaque, proof-computed types can still cause a named erasure refusal.
 tuple's type no longer reduces to a right former. No partial erased program
 is printed on that failure.
 
-Proofs depending on constructor branch or motive binders remain open.
-The `branch-local-proof.att` pair pins a runtime difference for a proof indexed
-by a constructor field. No row pins the motive binder case. Lambda bodies without a syntactic expected function
+The `branch-local-proof.att`, `branch-dependent.att`, `branch-nested.att`, and
+`branch-multi-ctor.att` pairs cover proofs depending on fields of constructors without family
+parameters. For `branch-local-proof.att`, `build --erase` keeps `keep` as the
+runtime identity, and the frozen OCaml reference erases `keep`. The migration
+differential allows only this named divergence, which
+`dev/validation/differential-divergences.json` pins. Motive binders and parameterized constructor branches remain open.
+No row pins the motive binder case. Lambda bodies without a syntactic expected function
 type also remain conservative; closed subterms can still be sealed. Local
 proofs without source type syntax are left intact because inferred readback
 can lose the universe of a runtime result type.

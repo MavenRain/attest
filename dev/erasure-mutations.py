@@ -103,9 +103,49 @@ CASES = (('proof-guard',
   'INLINE-ERASE row=local-universe FAIL'),
  ('local-branch-scope',
   'erase/inline.bend',
-  'case other: Inline.root(context)\n\ndef Inline.replacement_choice',
-  'case other: context\n\ndef Inline.replacement_choice',
+  'Inline.Walk{next_context, state, None{}, body, rewritten => next => done(F.Term.Leg{binders, rewritten}, next)}',
+  'Inline.Walk{Inline.root(next_context), state, None{}, body, rewritten => next => done(F.Term.Leg{binders, rewritten}, next)}',
   'INLINE-ERASE row=branch-scope FAIL'),
+ ('branch-field-quantity',
+  'erase/inline.bend',
+  'Bool.and(F.Quantity.equal(quantity, binder_quantity), Inline.closed(depth, domain))',
+  'Bool.and(True{}, Inline.closed(depth, domain))',
+  'INLINE-ERASE row=branch-metadata FAIL'),
+ ('branch-field-depth',
+  'erase/inline.bend',
+  'Bool.and(F.Quantity.equal(quantity, binder_quantity), Inline.closed(depth, domain))',
+  'Bool.and(F.Quantity.equal(quantity, binder_quantity), Inline.closed((depth + 1n : Nat), domain))',
+  'INLINE-ERASE row=branch-metadata FAIL'),
+ ('branch-field-depth-step',
+  'erase/inline.bend',
+  'Inline.branch_fields_valid(rest, more, (depth + 1n : Nat))',
+  'Inline.branch_fields_valid(rest, more, (depth + 2n : Nat))',
+  'INLINE-ERASE row=branch-metadata FAIL'),
+ ('branch-ctor-name',
+  'erase/inline.bend',
+  'M.Mu.ctor_of(name, value)',
+  'Inline.mutant_head_ctor(ctors)',
+  'INLINE-ERASE row=branch-multi-ctor FAIL'),
+ ('branch-ctor-last',
+  'erase/inline.bend',
+  'M.Mu.ctor_of(name, value)',
+  'Inline.mutant_last_ctor(ctors)',
+  'INLINE-ERASE row=branch-multi-ctor FAIL'),
+ ('branch-param-fallback',
+  'erase/inline.bend',
+  '        case Con{param, rest}: R.Erase.Return{None{}}',
+  '        case Con{param, rest}: Inline.branch_ctor_state(M.Mu.ctor_of(name, value), binders, context)',
+  'INLINE-ERASE row=branch-fallback FAIL'),
+ ('branch-missing-family',
+  'erase/inline.bend',
+  '    case None{}: R.Erase.Return{None{}}\n    case Some{+value}:\n      F.Positivity.Family{family_name',
+  '    case None{}: R.Erase.Return{Some{context}}\n    case Some{+value}:\n      F.Positivity.Family{family_name',
+  'INLINE-ERASE row=branch-fallback FAIL'),
+ ('leg-scope-root',
+  'erase/inline.bend',
+  '    case other: Inline.root(context)\n\n# Constructor types',
+  '    case other: context\n\n# Constructor types',
+  'INLINE-ERASE row=alias-leg-scope FAIL'),
  ('local-inferred-universe',
   'erase/inline.bend',
   'Inline.infer_closed_state(~ops, Inline.closed(0n, other), checker, other)',
@@ -159,6 +199,11 @@ CASES = (('proof-guard',
   ':= refl in case p',
   ':= refl in let u : Type 0 := Nat in case p',
   'row=let-proof opaque twin changes more than its proof'),
+ ('inline-twin-repeated-arg',
+  'fixtures/erasure/branch-nested-opaque.att',
+  'case proof outer n m as p',
+  'case proof outer outer n as p',
+  'row=branch-nested opaque twin changes more than its proof'),
  ('missing-twin', 'fixtures/erasure/f2-a-opaque.att', None, None, 'row=f2-a opaque twin missing'),
  ('lean-sorry',
   'twin/F2.lean',
@@ -215,6 +260,15 @@ def mutate_source(name, source, before, after):
     if name == "local-proof-let-alias":
         helper = "def Inline.mutant_universe(term: F.Term.t) -> Bool:\n  match term:\n    case F.Term.Univ{level}: True{}\n    case other: False{}\n\n"
         source = source.replace("def Inline.typed_here(", helper + "def Inline.typed_here(", 1)
+    if name == "branch-ctor-name":
+        helper = ("def Inline.mutant_head_ctor(ctors: List<&2, F.Positivity.ctor>) -> Maybe<&2, F.Positivity.ctor>:\n"
+                  "  match ctors:\n    case Nil{}: None{}\n    case Con{ctor, rest}: Some{ctor}\n\n")
+        source = source.replace("def Inline.branch_family_state(", helper + "def Inline.branch_family_state(", 1)
+    if name == "branch-ctor-last":
+        helper = ("def Inline.mutant_last_ctor(ctors: List<&2, F.Positivity.ctor>) -> Maybe<&2, F.Positivity.ctor>:\n"
+                  "  match ctors:\n    case Nil{}: None{}\n    case Con{ctor, more}:\n"
+                  "      match more:\n        case Nil{}: Some{ctor}\n        case Con{next, tail}: Inline.mutant_last_ctor(more)\n\n")
+        source = source.replace("def Inline.branch_family_state(", helper + "def Inline.branch_family_state(", 1)
     return source
 
 

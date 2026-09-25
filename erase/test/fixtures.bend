@@ -119,3 +119,8 @@ def Fixture.source_local_payload() -> String:
 
 def Fixture.source_local_hypothesis() -> String:
   "mu Same : (0 a : Nat) -> (0 b : Nat) -> Prop with | same : (0 a : Nat) -> Same a a\naxiom expected : (0 h : Same 0 1) -> Same 0 1\ndef drop : (0 e : Same 0 1) -> Nat := fun (0 e : Same 0 1) => 0\ndef g : (0 h : Same 0 1) -> Nat := fun (0 h : Same 0 1) => drop (h : Same 0 1)"
+
+# A lambda leg whose expected type is an alias takes the root fallback
+# scope under an outer binder.
+def Fixture.alias_leg_scope() -> String:
+  "mu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\ndef Function : Type 1 := (0 n : Nat) -> Type 0\ndef Layout : (b : Nat) -> Function := fun (b : Nat) => (fun (0 n : Nat) => case (refl n : Equal n) as p in Equal k return Type 0 with | refl 0 j => prod ())\ndef keep : (x : Layout 0 0) -> Layout 0 0 := fun (x : Layout 0 0) => x\n"

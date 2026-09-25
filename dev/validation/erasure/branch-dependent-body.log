@@ -1,0 +1,4 @@
+rec [mu<Pack>; any]
+fun Layout (union mu<Pack>) : union any := KErased
+rec [any]
+fun keep (union any) : union any := KVar 0
