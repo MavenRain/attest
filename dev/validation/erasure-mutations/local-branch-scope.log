@@ -31,12 +31,21 @@ INLINE-ERASE row=local-proof-let-universe OK
 INLINE-ERASE row=local-payload OK
 INLINE-ERASE row=local-runtime-call OK
 INLINE-ERASE row=local-hypothesis OK
+INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=33 total=37 FAIL
+INLINE-ERASE pass=34 total=46 FAIL
 INLINE-ERASE row=branch-scope FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-nested FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-multi-ctor FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-dependent FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-function FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-annotated FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-let FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-global FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-ctor FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-universe FAIL mismatch: local proof has no postulate
 

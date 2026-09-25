@@ -1,7 +1,7 @@
 PROP-INDEX pass=28 total=28 OK
 ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
-INLINE-ERASE pass=37 total=37 OK
-ERASURE-INLINE rows=21 identical=21 carried_diff=21 OK
+INLINE-ERASE pass=46 total=46 OK
+ERASURE-INLINE rows=29 identical=29 carried_diff=21 parameter_pairs=8 not_discriminating=8 suite_fixtures=16 OK
 ERASURE-OPEN rows=0 different=0 OPEN
 ERASURE-CLI pass=6 fail=0 OK
 LEAN-TOOLCHAIN pinned=leanprover/lean4:v4.33.1 ran=4.33.1 OK

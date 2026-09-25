@@ -11,6 +11,8 @@ import ../inline.bend as I
 import ./support.bend as T
 import ./fixtures.bend as X
 import ./branch_fixtures.bend as B
+import ./parameter_fixtures.bend as PF
+import ../../lib/kernel_pp.bend as P
 
 def Suite.postulate(index:Nat) -> String:
   "__attest_inline_proof_" ++ F.Text.nat(index)
@@ -166,6 +168,33 @@ def Suite.local_sealed(+source:String,twin:String,host:Maybe<&2,F.Pair2<Bool,Str
     original:E.Elab.checked <- E.Elab.check_in(G.Global.initial,source)
     prepared:E.Elab.checked <- T.Test.prepare(original)
     Suite.sealed_count(prepared,expected)
+
+# Two constructors have the same field shape and different proof types.
+# The proof is in the first constructor, then in the last constructor.
+def Suite.parameter_ctors(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    first:Unit <- Suite.local_sealed(PF.Fixture.branch_parameter_ctor,PF.Fixture.branch_parameter_ctor_opaque,layout,1n)
+    Suite.local_sealed(PF.Fixture.branch_parameter_ctor_last,PF.Fixture.branch_parameter_ctor_last_opaque,layout,1n)
+
+def Suite.axiom_term(axiom:F.Global.axiom_entry) -> Result<&2,&2,F.Error.t,F.Term.t>:
+  F.Global.AxiomEntry{ty} = axiom
+  Done{ty}
+
+def Suite.axiom_type(prepared:E.Elab.checked,+name:String) -> Result<&2,&2,F.Error.t,F.Term.t>:
+  F.Pair2{globals,rows} = prepared
+  R.Erase.bind(F.Global.axiom_entry,F.Term.t,R.Erase.require(F.Global.axiom_entry,F.Global.find_axiom(name,globals),F.Error.Mismatch{"missing " ++ name}),axiom => Suite.axiom_term(axiom))
+
+# The sealed postulate type must keep the source syntax of the specialized
+# field: universes and annotations must match the twin axiom exactly.
+def Suite.sealed_syntax(+source:String,+twin:String,host:Maybe<&2,F.Pair2<Bool,String>>) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    unit:Unit <- Suite.local_sealed(source,twin,host,1n)
+    original:E.Elab.checked <- E.Elab.check_in(G.Global.initial,source)
+    prepared:E.Elab.checked <- T.Test.prepare(original)
+    sealed:E.Elab.checked <- E.Elab.check_in(G.Global.initial,twin)
+    +generated:F.Term.t <- Suite.axiom_type(prepared,Suite.postulate(0n))
+    +expected:F.Term.t <- Suite.axiom_type(sealed,"proof")
+    T.Test.require(I.Inline.term_equal(generated,expected),"sealed postulate type lost its source syntax: " ++ P.Pp.term(Nil{},generated) ++ " is not " ++ P.Pp.term(Nil{},expected))
 
 def Suite.inherited_finish(local:Bool,+globals:F.Global.t) -> Result<&2,&2,F.Error.t,Unit>:
   match local:
@@ -451,6 +480,24 @@ def Suite.branch_fallback() -> Result<&2,&2,F.Error.t,Unit>:
     missing:Unit <- Suite.branch_absent(I.Inline.branch_context_state(F.Shape.make_inductive(F.Term.t,"Missing",Nil{}),F.Term.ACtor{"box"},Nil{},context))
     Suite.branch_absent(I.Inline.branch_family_state(Some{family},"box",Nil{},context))
 
+def Suite.parameter_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
+  +params:F.Positivity.telescope = [F.Triple3{F.Quantity.Zero{},"n",F.Term.Global{"Nat"}}]
+  +ctor:Maybe<&2,F.Positivity.ctor> = Some{F.Positivity.Ctor{"box",Nil{},Nil{},0n,False{}}}
+  +args:List<&2,F.Term.t> = [F.Term.Global{"Nat"}]
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Box",Nil{})
+  +diagram:F.Term.t = F.Term.Sec{F.Shape.make_collection(F.Term.t,1n),[F.Term.Leg{Nil{},F.Term.Global{"Nat"}}]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    absent:Unit <- Suite.branch_absent(I.Inline.parameterized_ctor_state(ctor,params,None{},Nil{},context))
+    missing:Unit <- Suite.branch_absent(I.Inline.parameterized_ctor_state(ctor,params,Some{Nil{}},Nil{},context))
+    extra:Unit <- Suite.branch_absent(I.Inline.parameterized_ctor_state(ctor,params,Some{[F.Term.Global{"Nat"},F.Term.Global{"Nat"}]},Nil{},context))
+    free:Unit <- Suite.branch_absent(I.Inline.parameterized_ctor_state(ctor,params,Some{[F.Term.Var{0n}]},Nil{},context))
+    field:Unit <- Suite.branch_absent(I.Inline.parameterized_ctor_state(Some{F.Positivity.Ctor{"box",[F.Triple3{F.Quantity.Zero{},"x",F.Term.Var{1n}}],Nil{},1n,False{}}},params,Some{args},[F.Pair2{F.Quantity.Zero{},"x"}],context))
+    family:Unit <- Suite.branch_absent(I.Inline.parameterized_ctor_state(ctor,params,I.Inline.branch_arguments(Some{F.Term.Lan{F.Shape.make_inductive(F.Term.t,"Other",Nil{}),diagram}},shape),Nil{},context))
+    indices:Unit <- Suite.branch_absent(I.Inline.parameterized_ctor_state(ctor,params,I.Inline.branch_arguments(Some{F.Term.Lan{F.Shape.make_inductive(F.Term.t,"Box",[F.Term.Global{"Nat"}]),diagram}},shape),Nil{},context))
+    width:Unit <- Suite.branch_absent(I.Inline.parameterized_ctor_state(ctor,params,I.Inline.parameter_diagram(F.Term.Sec{F.Shape.make_collection(F.Term.t,0n),[F.Term.Leg{Nil{},F.Term.Global{"Nat"}}]}),Nil{},context))
+    Suite.branch_absent(I.Inline.parameterized_ctor_state(ctor,params,I.Inline.parameter_diagram(F.Term.Sec{F.Shape.make_collection(F.Term.t,1n),[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"x"}],F.Term.Var{0n}}]}),Nil{},context))
+
 def Suite.branch_guards() -> Result<&2,&2,F.Error.t,Unit>:
   +fields:F.Positivity.telescope = [F.Triple3{F.Quantity.Zero{}, "n", F.Term.Global{"Nat"}}]
   do Result<&2,&2,F.Error.t,Unit>:
@@ -498,6 +545,15 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"branch-dependent",unit => Suite.local_runtime(B.Fixture.branch_dependent,B.Fixture.branch_dependent_opaque,layout)},
       Suite.Case{"branch-nested",unit => Suite.local_runtime(B.Fixture.branch_nested,B.Fixture.branch_nested_opaque,layout)},
       Suite.Case{"branch-multi-ctor",unit => Suite.local_sealed(B.Fixture.branch_multi_ctor,B.Fixture.branch_multi_ctor_opaque,layout,2n)},
+      Suite.Case{"branch-parameter",unit => Suite.local_sealed(PF.Fixture.branch_parameter,PF.Fixture.branch_parameter_opaque,layout,1n)},
+      Suite.Case{"branch-parameter-dependent",unit => Suite.local_sealed(PF.Fixture.branch_parameter_dependent,PF.Fixture.branch_parameter_dependent_opaque,layout,1n)},
+      Suite.Case{"branch-parameter-function",unit => Suite.local_sealed(PF.Fixture.branch_parameter_function,PF.Fixture.branch_parameter_function_opaque,layout,1n)},
+      Suite.Case{"branch-parameter-annotated",unit => Suite.local_sealed(PF.Fixture.branch_parameter_annotated,PF.Fixture.branch_parameter_annotated_opaque,layout,1n)},
+      Suite.Case{"branch-parameter-let",unit => Suite.local_sealed(PF.Fixture.branch_parameter_let,PF.Fixture.branch_parameter_let_opaque,layout,1n)},
+      Suite.Case{"branch-parameter-global",unit => Suite.local_sealed(PF.Fixture.branch_parameter_global,PF.Fixture.branch_parameter_global_opaque,layout,1n)},
+      Suite.Case{"branch-parameter-ctor",unit => Suite.parameter_ctors(layout)},
+      Suite.Case{"branch-parameter-universe",unit => Suite.sealed_syntax(PF.Fixture.branch_parameter_universe,PF.Fixture.branch_parameter_universe_opaque,layout)},
+      Suite.Case{"branch-parameter-guards",unit => Suite.parameter_guards},
       Suite.Case{"alias-leg-scope",unit => Suite.stays_inline(X.Fixture.alias_leg_scope,"unknown binder was confused with an outer binder")},
       Suite.Case{"branch-metadata",unit => Suite.branch_guards},
       Suite.Case{"branch-fallback",unit => Suite.branch_fallback} ]

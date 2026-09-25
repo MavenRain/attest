@@ -23,6 +23,23 @@ def run(name, command, *, quiet=False, env=None):
 def script(name, path):
     return run(name, ["zsh", "-f", "dev/" + path + ".sh"])
 
+def quote_depth(depth=24, bound=10):
+    """Check a chain of stuck lets: quoting a stuck elimination must not copy its whole environment."""
+    lets = "".join(f"let y{i} : Type 0 := case b as s in B return Type 0 with | tt => {'B' if i == 1 else f'y{i - 1}'} | ff => B in "
+                   for i in range(1, depth + 1))
+    path = logs / "quote-depth.att"
+    path.write_text("mu B : Type 0 with\n| tt : B\n| ff : B\n\n"
+                    f"def Y : (b : B) -> Type 0 := fun (b : B) => {lets}y{depth}\n"
+                    "def keep : (b : B) -> (x : Y b) -> Y b := fun (b : B) => fun (x : Y b) => x\n")
+    try:
+        result = subprocess.run(["_build/default/bin/attest.exe", "check", str(path)], cwd=root,
+                                capture_output=True, text=True, timeout=bound)
+    except subprocess.TimeoutExpired:
+        raise ValueError(f"QUOTE-DEPTH depth={depth} took more than {bound} s")
+    if result.returncode or result.stderr:
+        raise ValueError(f"QUOTE-DEPTH exit={result.returncode}: {result.stdout}{result.stderr}")
+    print(f"QUOTE-DEPTH depth={depth} bound_s={bound} OK")
+
 try:
     run("BUILD", ["python3", "-P", "dev/build.py"])
     print("BUILD OK")
@@ -46,6 +63,7 @@ try:
         raise ValueError("SUITE-KERNEL missing benchmark median")
     print(f"SUITE-KERNEL pass={passed} fail=0 median_ms={median.group(1)} OK")
     run("SURFACE", ["_build/default/test/sl_surface.exe"])
+    quote_depth()
     script("AXIOMS-empty", "axioms-empty")
     script("TRUSTED-LINES", "trusted-lines")
     script("M0-RATIO", "ratio")

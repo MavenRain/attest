@@ -23,10 +23,15 @@ INLINE-ERASE row=local-proof-let-alias OK
 INLINE-ERASE row=local-proof-let-family OK
 INLINE-ERASE row=local-proof-let-universe OK
 INLINE-ERASE row=local-runtime-call OK
+INLINE-ERASE row=branch-parameter OK
+INLINE-ERASE row=branch-parameter-annotated OK
+INLINE-ERASE row=branch-parameter-let OK
+INLINE-ERASE row=branch-parameter-global OK
+INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=25 total=37 FAIL
+INLINE-ERASE pass=30 total=46 FAIL
 INLINE-ERASE row=local-index FAIL quantity: the erased binder n is read in a runtime position
 INLINE-ERASE row=local-dependent FAIL quantity: the erased binder A is read in a runtime position
 INLINE-ERASE row=local-inherited FAIL quantity: the erased binder A is read in a runtime position
@@ -39,4 +44,8 @@ INLINE-ERASE row=branch-scope FAIL quantity: the erased binder n is read in a ru
 INLINE-ERASE row=branch-dependent FAIL quantity: the erased binder n is read in a runtime position
 INLINE-ERASE row=branch-nested FAIL quantity: the erased binder outer is read in a runtime position
 INLINE-ERASE row=branch-multi-ctor FAIL quantity: the erased binder n is read in a runtime position
+INLINE-ERASE row=branch-parameter-dependent FAIL quantity: the erased binder A is read in a runtime position
+INLINE-ERASE row=branch-parameter-function FAIL quantity: the erased binder A is read in a runtime position
+INLINE-ERASE row=branch-parameter-ctor FAIL quantity: the erased binder A is read in a runtime position
+INLINE-ERASE row=branch-parameter-universe FAIL mismatch: sealed postulate type lost its source syntax: (Ran SPi 1 h (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 [])) (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 []))) is not (Ran SPi 0 h (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 [])) (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 [])))
 

@@ -1,4 +1,79 @@
 # M0 build log
+## 2026-09-24: Stage B parameterized constructor branch proofs
+
+Branch-local proofs now seal when the constructor belongs to a parameterized
+family and the scrutinee has a source type available from an annotation,
+global declaration, or typed local binder (including a let). The eraser checks
+the family shape, parameter count, argument scope, constructor quantities,
+and field dependencies before specializing the original field syntax.
+
+The shared source traversal substitutes parameters without normalizing
+universes. It shifts free variables under field, function, let, motive, and
+branch binders. The explicit task dispatcher is the only new `@unsafe` site:
+it walks finite syntax, and substituted arguments are traversed only in shift
+mode, so substitution cannot recursively expand an argument.
+
+The new dependent witnesses exposed an existing quotation bug. Quoting a
+stuck elimination copied its branch and motive syntax without applying the
+captured environment. Moving the result under newer binders could capture an
+outer variable. Quotation now opens the motive, branch and point closures on
+fresh variables in the captured environment and quotes their bodies under
+the new binders. It reads only the environment entries that these bodies
+use. A first version quoted every environment entry before it substituted
+them, so checking time doubled with each nested stuck let. The new Stage A
+QUOTE-DEPTH row checks a chain of 24 nested stuck lets within 10 seconds;
+the first version did not finish in 45 seconds. A hand-written opaque proof
+reproduced the capture failure on the prior compiler, and the new quotation
+mutation checks this correction.
+
+Eight source/opaque pairs cover concrete and dependent parameters, function
+fields, annotated scrutinees, lets, globals, two constructors of the same
+field shape, and a proof field at a universe. Their semantic rows require
+exactly one generated postulate and recheck its closed type. Nine malformed
+metadata probes exercise the conservative fallback. The carried eraser gives
+the same runtime output for both sides of these eight pairs, so their runtime
+rows are identical but do not discriminate: they pass also when no proof is
+sealed. The gate requires this carried equality, records it as
+`runtime-identical-coarse`, and keeps the runtime-difference requirement for
+all twenty-one earlier pairs. The two groups must be disjoint, and each
+parameter pair must have a semantic suite row. The semantic suite reads its
+own copies of these sources in `erase/test/parameter_fixtures.bend`, so the
+gate requires each copy to equal its `.att` file byte for byte.
+
+The kernel stays within its existing 6,000-line bound at 6,000 lines, with no
+lines of headroom. Removing
+76 lines of unused tuple/list helpers, an obsolete primitive reduction path,
+and unused wrapper reconstruction functions made room for the shared source
+traversal. The generated driver JavaScript is byte-for-byte unchanged by this
+cleanup. The helper removal changed no gate threshold. The erasure gate now
+exempts the eight parameter pairs from the carried runtime-difference check
+(see above).
+
+The full build, all sixteen test programs, Stage A gates, and erasure gates
+pass. All thirteen Stage A mutations are caught. The kernel unit suite passes
+34/34 cases and the inline semantic suite passes 46/46 cases, including the
+new parameter witnesses. All twenty-nine inline runtime pairs agree.
+All fifty-eight erasure mutations are caught, including the fifteen new parameter
+and quotation probes and two motive quotation probes that kernel unit case 17
+catches. The Lean twin check (`python3 -P dev/lean-twin-checks.py`) refuses
+a record whose log hashes do not match its logs. The frozen OCaml reference and its single existing divergence
+allowance are unchanged.
+
+The frozen comparison matches 936/941 approved expected results after bounded
+retries. The initial two-worker run at 180 seconds matched 930 cases and had
+eleven timeouts. Four checking cases matched with 600-second limits, and the
+remaining two multiplication checking modes matched in sequential runs with
+900-second limits. Five arithmetic agreement cases still time out under
+load, and the set of cases that time out changes with the load. No output
+mismatch occurs, and no new divergence allowance was introduced. The
+sequential multiplication print and axiom checks took 453.981 and 414.136
+seconds; the previous committed addition checker also needed 301.489 seconds
+under load.
+
+Stage B remains open. Motive binder contexts, source types requiring further
+inference or normalization, Acc runtime elimination, and trace comparison
+remain outside this increment.
+
 ## 2026-09-24: Stage B constructor branch proofs
 
 The Bend inline eraser now recovers constructor field contexts from the

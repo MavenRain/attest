@@ -5,9 +5,6 @@ import ./kernel_util.bend as U
 def Rules.spar_word() -> String:
   F.Shape.parallel_word
 
-def Rules.smu_word() -> String:
-  F.Shape.inductive_word
-
 def Rules.snu_word() -> String:
   F.Shape.coinductive_word
 
@@ -100,9 +97,6 @@ def Prim.name(p: F.Prim.t) -> String:
     case F.Prim.Nat_lt{}:
       "natLt"
 
-def Prim.arity(p: F.Prim.t) -> Nat:
-  2n
-
 def Prim.catalog() -> List<&2, F.Prim.t>:
   [F.Prim.Nat_add{}, F.Prim.Nat_sub{}, F.Prim.Nat_mul{}, F.Prim.Nat_eq{}, F.Prim.Nat_lt{}]
 
@@ -119,9 +113,6 @@ def Prim.find(xs: List<&2, F.Prim.t>, +name: String) -> Maybe<&2, F.Prim.t>:
       None{}
     case Con{+p, rest}:
       Prim.find_next(String.eq(Prim.name(p), name), p, Prim.find(rest, name))
-
-def Prim.of_name(name: String) -> Maybe<&2, F.Prim.t>:
-  Prim.find(Prim.catalog, name)
 
 def Prim.nat_name() -> String:
   "Nat"
@@ -181,32 +172,6 @@ def Prim.less(order: Cmp) -> Bool:
       False{}
     case GT{}:
       False{}
-
-def Prim.arithmetic(p: F.Prim.t, a: F.Bignum.t, b: F.Bignum.t) -> Maybe<&2, F.Literal.t>:
-  match p:
-    case F.Prim.Nat_add{}:
-      Some{F.Literal.LInt{F.Bignum.add(a, b)}}
-    case F.Prim.Nat_sub{}:
-      Some{F.Literal.LInt{F.Bignum.sub(a, b)}}
-    case F.Prim.Nat_mul{}:
-      Some{F.Literal.LInt{F.Bignum.mul(a, b)}}
-    case F.Prim.Nat_eq{}:
-      None{}
-    case F.Prim.Nat_lt{}:
-      None{}
-
-def Prim.reduce_nats(pair: Maybe<&2, F.Pair2<F.Bignum.t, F.Bignum.t>>, p: F.Prim.t)
-  -> Result<&2, &2, F.Error.t, Maybe<&2, F.Literal.t>>:
-  match pair:
-    case None{}:
-      Done{None{}}
-    case Some{ab}:
-      F.Pair2{a, b} = ab
-      Done{Prim.arithmetic(p, a, b)}
-
-def Prim.reduce(p: F.Prim.t, args: List<&2, F.Literal.t>)
-  -> Result<&2, &2, F.Error.t, Maybe<&2, F.Literal.t>>:
-  Prim.reduce_nats(Prim.two_nats(args), p)
 
 def Prim.calculate(p: F.Prim.t, a: F.Bignum.t, b: F.Bignum.t) -> F.Value.t:
   match p:

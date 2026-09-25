@@ -5,10 +5,11 @@ INLINE-ERASE row=runtime OK
 INLINE-ERASE row=local-type OK
 INLINE-ERASE row=rows OK
 INLINE-ERASE row=shape-payload OK
+INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=7 total=37 FAIL
+INLINE-ERASE pass=8 total=46 FAIL
 INLINE-ERASE row=let-body FAIL unbound: missing_inline_body
 INLINE-ERASE row=scrutinee-body FAIL unbound: missing_inline_body
 INLINE-ERASE row=inherited FAIL mismatch: inline proof selected a layout
@@ -39,4 +40,12 @@ INLINE-ERASE row=branch-scope FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-nested FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-multi-ctor FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-dependent FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-function FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-annotated FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-let FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-global FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-ctor FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=branch-parameter-universe FAIL mismatch: local proof has no postulate
 

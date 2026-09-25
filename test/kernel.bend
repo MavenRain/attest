@@ -51,6 +51,19 @@ def Test.neutral(result: Result<&2, &2, F.Error.t, F.Value.t>) -> Bool:
 def Test.guarded_ctor() -> F.Term.t:
   F.Term.In{F.Shape.SMu{"N", Nil{}}, F.Term.ACtor{"zero"}, Nil{}}
 
+# A stuck elimination on b in the environment [b, a := 7]. The motive (under its
+# own binder v) and the branch both read a. Quote must open both closures over
+# the captured environment: the motive body must become 7, not a raw index.
+def Test.stuck_elimination() -> F.Term.t:
+  F.Term.Elim{F.Term.Elimination{F.Shape.SMu{"Box", Nil{}}, F.Term.Var{0n}, F.Quantity.Many{},
+    Some{F.Term.Motive{None{}, Nil{}, "v", F.Term.Var{2n}}},
+    [F.Pair2{F.Term.ACtor{"box"}, F.Term.Leg{Nil{}, F.Term.Var{1n}}}]}}
+
+def Test.quote_stuck(expected: String) -> Bool:
+  String.eq(Test.render(Result.bind(&2, &2, F.Error.t, F.Value.t, F.Term.t,
+    E.Eval.eval(P.Global.initial, [F.Value.var(0n), F.Value.VLit{F.Literal.LInt{F.Bignum.from_nat(7n)}}], Test.stuck_elimination),
+    value => E.Eval.quote(P.Global.initial, 1n, value))), expected)
+
 def Test.run() -> List<&2, Bool>:
   [Test.primitive("natAdd", 40n, 2n, "42"),
    Test.primitive("natSub", 2n, 40n, "0"),
@@ -67,7 +80,8 @@ def Test.run() -> List<&2, Bool>:
    String.eq(Test.normal(Test.guard_globals(True{}), Test.app(F.Term.Global{"guarded"}, Test.guarded_ctor)), "9"),
    Test.neutral(E.Eval.eval(Test.guard_globals(False{}), Nil{}, Test.app(F.Term.Global{"guarded"}, Test.guarded_ctor))),
    Test.neutral(E.Eval.eval(Test.guard_globals(True{}), [F.Value.var(0n)], Test.app(F.Term.Global{"guarded"}, F.Term.Var{0n}))),
-   String.eq(T.Pp.literal(F.Literal.LString{"a\n\t\"\\"}), "\"a\\n\\t\\\"\\\\\"")]
+   String.eq(T.Pp.literal(F.Literal.LString{"a\n\t\"\\"}), "\"a\\n\\t\\\"\\\\\""),
+   Test.quote_stuck("(Elim SMu Box [] #0 as v return 7 with | (ACtor box)  => 7)")]
 
 def Test.ctx() -> C.Check.ctx:
   C.Check.make(P.Global.initial, C.Budget.unlimited)

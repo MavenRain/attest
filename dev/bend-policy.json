@@ -281,6 +281,41 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.local_type",
+      "pattern": "Nil{} index"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.scrutinee_type",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.parameter_legs",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.parameter_diagram",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.branch_arguments",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.parameterized_ctor_state",
+      "pattern": "other arguments"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.branch_scrutinee_view_state",
+      "pattern": "other address"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.run_state",
       "pattern": "other"
     },
@@ -798,6 +833,21 @@
       "path": "lib/kernel_conv.bend",
       "function": "Conv.by_type",
       "pattern": "_"
+    },
+    {
+      "path": "lib/kernel_source.bend",
+      "function": "Source.argument",
+      "pattern": "Nil{} index"
+    },
+    {
+      "path": "lib/kernel_source.bend",
+      "function": "Source.run",
+      "pattern": "other"
+    },
+    {
+      "path": "lib/kernel_source.bend",
+      "function": "Source.run",
+      "pattern": "other"
     },
     {
       "path": "surface/elab.bend",
@@ -1814,6 +1864,10 @@
     {
       "path": "lib/kernel_program.bend",
       "function": "Kernel.Program.bind"
+    },
+    {
+      "path": "lib/kernel_source.bend",
+      "function": "Source.run"
     },
     {
       "path": "surface/elab.bend",

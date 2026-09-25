@@ -22,6 +22,19 @@ INLINE_ROWS = ("let-proof", "scrutinee-proof", "projection-proof", "projection-s
                "local-proof-let-alias", "local-proof-let-family", "local-proof-let-universe",
                "branch-local-proof", "branch-dependent", "branch-nested",
                "branch-multi-ctor")
+# These pairs already share a coarse runtime layout in the carried eraser, so
+# their runtime rows do not discriminate: the gate requires the carried outputs
+# to be equal. Their semantic suite rows require a sealed postulate and
+# recheck its type, and the gate requires the suite strings in
+# PARAMETER_FIXTURES to equal the .att files byte for byte.
+PARAMETER_FIXTURES = Path("erase/test/parameter_fixtures.bend")
+# Suite strings with no runtime pair; any other extra string is refused.
+SUITE_ONLY_FIXTURES = frozenset(("Fixture.branch_parameter_ctor_last",
+                                 "Fixture.branch_parameter_ctor_last_opaque"))
+PARAMETER_ROWS = ("branch-parameter", "branch-parameter-dependent",
+                  "branch-parameter-function", "branch-parameter-annotated",
+                  "branch-parameter-let", "branch-parameter-global",
+                  "branch-parameter-ctor", "branch-parameter-universe")
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
                                "family-collision", "runtime", "local-type", "rows", "binders",
@@ -30,6 +43,9 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "local-inherited", "local-poison", "local-universe", "local-payload",
                                "branch-scope", "branch-dependent", "branch-nested", "branch-metadata", "branch-fallback",
                                "branch-multi-ctor", "alias-leg-scope",
+                               "branch-parameter", "branch-parameter-dependent", "branch-parameter-function",
+                               "branch-parameter-annotated", "branch-parameter-let", "branch-parameter-global",
+                               "branch-parameter-ctor", "branch-parameter-universe", "branch-parameter-guards",
                                "local-runtime-call", "local-let-alias",
                                "local-hypothesis", "local-proof-let",
                                "local-proof-let-value", "local-proof-let-type",
@@ -206,6 +222,39 @@ def runtime_output(output):
     return b"\n".join(line for line in output.splitlines() if not line.startswith(b"erased "))
 
 
+def row_groups(inline, parameter, suite_rows):
+    """The two runtime groups are disjoint, and each parameter pair has a
+    semantic suite row, since only that row checks its sealing."""
+    both = sorted(set(inline) & set(parameter))
+    unchecked = sorted(set(parameter) - suite_rows)
+    if both or unchecked or len(set(parameter)) != len(parameter):
+        raise ValueError(f"PARAMETER_ROWS overlap INLINE_ROWS={both} "
+                         f"without a suite row={unchecked}")
+
+
+def fixture_name(row):
+    return "Fixture." + row.replace("-", "_")
+
+
+def suite_fixtures(path):
+    """Read the Fixture.* source strings of the semantic suite. The strings
+    use only the newline escape; any other escape is refused."""
+    text = path.read_text()
+    found = re.findall(r'^def (Fixture\.\w+)\(\) -> String:\n  "((?:[^"\\\n]|\\n)*)"\n', text, flags=re.M)
+    names = [name for name, _ in found]
+    if len(names) != len(set(names)) or len(names) != len(re.findall(r"^def ", text, flags=re.M)):
+        raise ValueError(f"{path.relative_to(ROOT)} has an unreadable or repeated fixture")
+    return {name: value.replace("\\n", "\n").encode() for name, value in found}
+
+
+def fixture_matches(name, body, opaque, suite):
+    """The semantic suite must check the same sources as the runtime pair."""
+    pairs = ((body, fixture_name(name)), (opaque, fixture_name(name) + "_opaque"))
+    drift = [str(path) for path, key in pairs if (ROOT / path).read_bytes() != suite[key]]
+    if drift:
+        raise ValueError(f"row={name} fixture differs from {PARAMETER_FIXTURES}: {drift}")
+
+
 def inline_rows(logs):
     unit = execute(logs, "INLINE-ERASE", ["_build/default/erase/test/inline_test.exe"])
     lines = unit.stdout.rstrip(b"\n").split(b"\n")
@@ -220,11 +269,20 @@ def inline_rows(logs):
     if missing:
         raise ValueError(f"INLINE-ERASE rows missing: {missing}")
     print(lines[-1].decode())
+    row_groups(INLINE_ROWS, PARAMETER_ROWS, INLINE_SUITE_ROWS)
+    suite = suite_fixtures(ROOT / PARAMETER_FIXTURES)
+    fixture_names = {fixture_name(name) + suffix for name in PARAMETER_ROWS for suffix in ("", "_opaque")}
+    if set(suite) != fixture_names | SUITE_ONLY_FIXTURES or fixture_names & SUITE_ONLY_FIXTURES:
+        raise ValueError(f"{PARAMETER_FIXTURES} fixtures differ from PARAMETER_ROWS: "
+                         f"extra={sorted(set(suite) - fixture_names - SUITE_ONLY_FIXTURES)} "
+                         f"missing={sorted((fixture_names | SUITE_ONLY_FIXTURES) - set(suite))}")
     records = []
-    for name in INLINE_ROWS:
+    for name in INLINE_ROWS + PARAMETER_ROWS:
         body = Path("fixtures/erasure") / (name + ".att")
         opaque = body.with_name(name + "-opaque.att")
         twin_structure(name, body, opaque)
+        if name in PARAMETER_ROWS:
+            fixture_matches(name, body, opaque, suite)
         a = runtime_output(execute(logs, name + "-body",
                            [DRIVER, "build", "--erase", str(body)]).stdout)
         b = runtime_output(execute(logs, name + "-opaque",
@@ -235,14 +293,23 @@ def inline_rows(logs):
                            ["_build/default/dev/erase_probe.exe", str(body)]).stdout)
         before_b = runtime_output(execute(logs, name + "-carried-opaque",
                            ["_build/default/dev/erase_probe.exe", str(opaque)]).stdout)
-        if before_a == before_b or b"fun keep " not in before_b:
+        carried_diff = before_a != before_b
+        if b"fun keep " not in before_b:
+            raise ValueError(f"row={name} carried eraser gave no runtime keep")
+        if name in INLINE_ROWS and not carried_diff:
             raise ValueError(f"row={name} carried eraser did not reproduce the inline regression")
-        records.append({"row": name, "expected": "runtime-identical", "carried_diff": True,
+        if name in PARAMETER_ROWS and carried_diff:
+            raise ValueError(f"row={name} carried eraser now differs: move the row into INLINE_ROWS")
+        records.append({"row": name,
+                        "expected": "runtime-identical" if name in INLINE_ROWS else "runtime-identical-coarse",
+                        "carried_diff": carried_diff,
                         "body_sha256": digest((ROOT / body).read_bytes()),
                         "opaque_sha256": digest((ROOT / opaque).read_bytes()),
                         "runtime_sha256": digest(a)})
-    print(f"ERASURE-INLINE rows={len(INLINE_ROWS)} identical={len(records)} "
-          f"carried_diff={len(records)} OK")
+    print(f"ERASURE-INLINE rows={len(records)} identical={len(records)} "
+          f"carried_diff={sum(row['carried_diff'] for row in records)} "
+          f"parameter_pairs={len(PARAMETER_ROWS)} not_discriminating={len(PARAMETER_ROWS)} "
+          f"suite_fixtures={len(fixture_names)} OK")
     return records
 
 
@@ -439,7 +506,7 @@ def record(logs, rows):
     data = {"version": 1, "scope": "Stage B erasure increment", "stage_b": "OPEN",
             "rows": rows, "open": ["Acc erased proof binder and recursive proof elimination",
             "full TRACE-ERASURE including Acc",
-            "constructor branches of parameter-free families seal local proofs; motive binders remain open",
+            "constructor branches seal local proofs when source syntax supplies closed family arguments; motive binders remain open",
             "proofs depending on motive binders keep their bodies (no pinned row)",
             "lambda scopes without a syntactic expected function type",
             "local proofs without source type syntax",

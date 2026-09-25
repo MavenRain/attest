@@ -20,9 +20,18 @@ INLINE-ERASE row=local-poison OK
 INLINE-ERASE row=local-payload OK
 INLINE-ERASE row=local-runtime-call OK
 INLINE-ERASE row=local-hypothesis OK
+INLINE-ERASE row=branch-parameter OK
+INLINE-ERASE row=branch-parameter-dependent OK
+INLINE-ERASE row=branch-parameter-function OK
+INLINE-ERASE row=branch-parameter-annotated OK
+INLINE-ERASE row=branch-parameter-let OK
+INLINE-ERASE row=branch-parameter-global OK
+INLINE-ERASE row=branch-parameter-ctor OK
+INLINE-ERASE row=branch-parameter-universe OK
+INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=20 total=37 FAIL
+INLINE-ERASE pass=29 total=46 FAIL
 INLINE-ERASE row=binders FAIL mismatch: runtime differs from its sealed twin
 INLINE-ERASE row=local-index FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0] (Out SPi 0 n Nat (APt 0 0) __attest_inline_proof_0) as p return Type 1 with | (ACtor refl) j => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-dependent FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 x Nat (APt 0 0) (Out SPi 0 A Type 1 (APt 0 Nat) __attest_inline_proof_0)) as p return Type 1 with | (ACtor refl) C z => (Ran SColl 0 (Sec SColl 0 [])))

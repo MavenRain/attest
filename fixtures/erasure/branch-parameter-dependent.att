@@ -1,0 +1,8 @@
+mu Equal : (0 A : Type 0) -> (0 a : A) -> Prop with
+| refl : (0 A : Type 0) -> (0 a : A) -> Equal A a
+mu Pack (0 A : Type 0) (0 a : A) : Type 0 with
+| empty : Pack A a
+| pack : (0 b : A) -> (h : Equal A b) -> Pack A a
+
+def Layout : (0 A : Type 0) -> (0 a : A) -> (b : Pack A a) -> Type 0 := fun (0 A : Type 0) => fun (0 a : A) => fun (b : Pack A a) => case b as value in Pack return Type 0 with | empty => prod () | pack 0 j h => case (h : Equal A j) as p in Equal T k return Type 0 with | refl 0 U 0 z => prod ()
+def keep : (0 A : Type 0) -> (0 a : A) -> (b : Pack A a) -> (x : Layout A a b) -> Layout A a b := fun (0 A : Type 0) => fun (0 a : A) => fun (b : Pack A a) => fun (x : Layout A a b) => x

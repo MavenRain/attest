@@ -1,2 +1,2 @@
-CHECK /tmp/claude-501/attest-twin-wrong-attest-universe-d6cvvzci/fixtures/lean-twin/universe-refuse.att FAIL mismatch: the term has type Type 2 and the expected type is Type 1
+CHECK /tmp/claude-501/attest-twin-wrong-attest-universe-243u_la1/fixtures/lean-twin/universe-refuse.att FAIL mismatch: the term has type Type 2 and the expected type is Type 1
 attest: check: mismatch: the term has type Type 2 and the expected type is Type 1

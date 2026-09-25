@@ -34,10 +34,15 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and twenty-one inline proof
+increment compares four global proof pairs and twenty-nine inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences and checks the initial F2 and Acc witnesses
-plus the F2 negative probe. `python3 -P dev/erasure-mutations.py` checks forty-one
+differences only for the four global pairs and the twenty-one earlier
+inline pairs. The eight parameterized branch pairs give identical outputs
+with the carried eraser too, so their runtime rows do not discriminate; the
+semantic suite checks their sealing on copies that the gate requires to
+equal the fixture files. The gate also checks the initial F2 and Acc
+witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
+checks fifty-eight
 isolated mutations. The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -48,7 +53,11 @@ Stage B remains open: `Acc` runtime elimination still hits the erased-binder
 and recursive-singleton restrictions. Closed inline proofs and proofs under
 typed function, let, type-former, and constructor branch binders now erase like
 their opaque twins. Branch contexts use the original constructor field types
-of families without parameters, including dependent fields and nested scopes.
+of families with and without parameters, including dependent fields and nested scopes.
+Parameterized branches recover arguments from an annotated scrutinee, a global
+declaration, or a typed local binder (including lets). Source substitution keeps
+dependent fields and universe syntax intact. Quotation opens the motives and
+branches of stuck eliminations on fresh variables in their captured environment.
 A proof let keeps its value when its variable occurs in its body in an
 annotation, a let type, the value of a later let, a motive, a shape payload
 or a type former. It then also keeps its value in the telescope of each local
@@ -57,8 +66,9 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-Thirty-seven semantic tests protect this boundary. Parameterized constructor
-branches, motive binders, indirectly typed lambda scopes, local proofs without source type syntax,
+Forty-six semantic tests protect this boundary. Scrutinee types that need
+normalization or inference beyond those source forms, motive binders,
+indirectly typed lambda scopes, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.
 `zsh -f dev/gates.sh TRACE-ERASURE` runs the erasure regression, prints the
 remaining Acc frontier rows, and always exits 1 until the Stage B

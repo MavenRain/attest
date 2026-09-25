@@ -1,4 +1,51 @@
 # Mutation log
+## 2026-09-24: Parameterized constructor selection and field syntax mutations
+
+Four more probes cover the parameterized branch path. The fixture pair
+`branch-parameter-ctor` has a family with two constructors of the same field
+shape, and its proof is in the first constructor. The semantic row
+`branch-parameter-ctor` also seals a proof in the last constructor.
+`parameter-ctor-name` selects the first constructor, and
+`parameter-ctor-last` selects the last constructor, in the parameterized
+constructor lookup. The row must fail for each probe.
+
+The fixture pair `branch-parameter-universe` has a proof field whose domain
+contains a universe and an annotation. The semantic row
+`branch-parameter-universe` compares the sealed postulate type with the type
+of the opaque twin axiom. `parameter-field-quote` sends the specialized fields
+through evaluation and quotation, which removes the annotation.
+`parameter-source-universe` changes the universe level in the shared source
+traversal. The row must fail for each probe.
+
+The erasure battery now registers fifty-eight cases. The unmutated erasure
+gate passes all 46 inline semantic rows and all 29 inline runtime comparisons.
+## 2026-09-24: Parameterized constructor branch proof mutations
+
+The erasure battery then registered fifty-four cases. Eleven new probes cover
+parameter order, argument shifting, dependent field depth, parameter arity,
+free arguments, local source type shifting, context fallback, function binder
+depth, diagram width, family shape, and captured elimination environments.
+Each new probe requires its named semantic row to fail after a successful
+build. A compiler error does not count as detecting one of these mutations.
+
+The existing constructor-name and constructor-selection probes keep their
+original parameter-free targets. Their anchors now include the surrounding
+call so the additional parameterized constructor lookup stays distinct.
+
+Two more probes cover the motive half of stuck elimination quotation.
+`quote-elimination-motive` keeps the unquoted motive term, and
+`quote-motive-binders` opens the motive without its own binder. The
+fixture motives do not read an outer binder, so the erasure rows cannot
+detect these changes. Kernel unit case 17 quotes a stuck elimination whose
+motive reads an outer binder that the environment binds to a literal. Each
+probe must build and then fail that case. The mutation driver builds and
+runs `test/kernel.exe` for these probes.
+
+Validation: `python3 -P dev/erasure-mutations.py --record --jobs 2` catches
+58/58 probes. The unmutated erasure gate passes all 46 inline semantic rows
+and all 29 inline runtime comparisons. The independent Stage A battery
+catches all 13 of its probes. No gate limit, refusal, or existing runtime
+difference control was relaxed.
 ## 2026-09-24: Constructor branch proof mutations
 
 The complete erasure battery contains 41 cases. The `local-branch-scope`

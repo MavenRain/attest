@@ -35,6 +35,10 @@ type Eval.QuoteTask is Type:
   Eval.QuoteFormer{shape: F.Shape.t<F.Value.t>, diagram: F.Value.closure, level: Maybe<&2, F.Level.t>, left: Bool,
     size: Nat, done: F.Term.t -> Result<&2, &2, F.Error.t, F.Term.t>}
   Eval.QuoteFrames{frames: List<&2, F.Value.spine>, head: F.Term.t, size: Nat, done: F.Term.t -> Result<&2, &2, F.Error.t, F.Term.t>}
+  Eval.QuoteOpen{env: List<&2, F.Value.t>, arity: Nat, body: F.Term.t, size: Nat, done: F.Term.t -> Result<&2, &2, F.Error.t, F.Term.t>}
+  Eval.QuoteMotive{motive: Maybe<&2, F.Term.motive>, env: List<&2, F.Value.t>, size: Nat, done: Maybe<&2, F.Term.motive> -> Result<&2, &2, F.Error.t, F.Term.t>}
+  Eval.QuoteBranches{branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, env: List<&2, F.Value.t>, size: Nat, done: List<&2, F.Pair2<F.Term.addr, F.Term.leg>> -> Result<&2, &2, F.Error.t, F.Term.t>}
+  Eval.QuoteKey{key: F.Term.addr, env: List<&2, F.Value.t>, size: Nat, done: F.Term.addr -> Result<&2, &2, F.Error.t, F.Term.t>}
 
 # Quotation can evaluate a closure before recursively quoting its result, so
 # the termination relation is semantic rather than Bend's syntactic subterms.
@@ -284,30 +288,23 @@ def Eval.out_candidate(+shape: F.Shape.t<F.Value.t>, +addr: F.Value.vaddr, +valu
 
 def Eval.addr_key_equal(key: F.Term.addr, addr: F.Value.vaddr) -> Bool:
   match key:
-    case F.Term.APt{q, arg}:
-      False{}
+    case F.Term.APt{q, arg}: False{}
     case F.Term.ALeg{k}:
       match addr:
-        case F.Value.VALeg{j}:
-          Nat.is_eq(k, j)
-        case F.Value.VAPt{q, arg}:
-          False{}
-        case F.Value.VACtor{name}:
-          False{}
+        case F.Value.VALeg{j}: Nat.is_eq(k, j)
+        case F.Value.VAPt{q, arg}: False{}
+        case F.Value.VACtor{name}: False{}
     case F.Term.ACtor{name}:
       match addr:
-        case F.Value.VACtor{other}:
-          String.eq(name, other)
-        case F.Value.VAPt{q, arg}:
-          False{}
+        case F.Value.VACtor{other}: String.eq(name, other)
+        case F.Value.VAPt{q, arg}: False{}
         case F.Value.VALeg{k}:
           False{}
 
 
 def Eval.branch_choose(hit: Bool, leg: F.Term.leg, other: Maybe<&2, F.Term.leg>) -> Maybe<&2, F.Term.leg>:
   match hit:
-    case True{}:
-      Some{leg}
+    case True{}: Some{leg}
     case False{}:
       other
 
@@ -315,8 +312,7 @@ def Eval.branch_choose(hit: Bool, leg: F.Term.leg, other: Maybe<&2, F.Term.leg>)
 def Eval.branch(branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +addr: F.Value.vaddr)
   -> Maybe<&2, F.Term.leg>:
   match branches:
-    case Nil{}:
-      None{}
+    case Nil{}: None{}
     case Con{branch, rest}:
       F.Pair2{key, leg} = branch
       Eval.branch_choose(Eval.addr_key_equal(key, addr), leg, Eval.branch(rest, addr))
@@ -575,14 +571,10 @@ def Eval.beta_job(candidate: Maybe<&2, Eval.Job>, value: F.Value.t, frame: F.Val
               done(F.Value.VRan{s, diagram, Eval.filled(old, level)})
             case F.Value.VUniv{l}:
               done(F.Value.VUniv{l})
-            case F.Value.VIn{s, a, args}:
-              done(F.Value.VIn{s, a, args})
-            case F.Value.VSec{s, legs}:
-              done(F.Value.VSec{s, legs})
-            case F.Value.VLit{literal}:
-              done(F.Value.VLit{literal})
-            case F.Value.VNeutral{head, spine}:
-              done(F.Value.VNeutral{head, spine})
+            case F.Value.VIn{s, a, args}: done(F.Value.VIn{s, a, args})
+            case F.Value.VSec{s, legs}: done(F.Value.VSec{s, legs})
+            case F.Value.VLit{literal}: done(F.Value.VLit{literal})
+            case F.Value.VNeutral{head, spine}: done(F.Value.VNeutral{head, spine})
         case Eval.Weak{value}:
           +stepped = Eval.prim_step(globals, value)
           Eval.task(Eval.ValueTask{Eval.weak_job(Eval.rec_candidate(stepped, globals), stepped), done}, globals)
@@ -705,13 +697,9 @@ def Eval.quote_head(head: F.Value.head, +size: Nat) -> Result<&2, &2, F.Error.t,
     case Eval.QuoteLegs{legs, +size, done}:
       match legs:
         case Nil{}: done(Nil{})
-        case Con{leg, rest}:
-          F.Value.Leg{+binders, closure} = leg
-          +arity = List.length(&2, F.Pair2<F.Quantity.t, String>, binders)
-          do Result<&2, &2, F.Error.t, F.Term.t>:
-            body: F.Value.t <- Eval.open_closure(globals, closure, Eval.variables(arity, size))
-            Eval.quote_task(Eval.QuoteValue{body, (size + arity : Nat), term =>
-              Eval.quote_task(Eval.QuoteLegs{rest, size, terms => done(Con{F.Term.Leg{binders, term}, terms})}, globals)}, globals)
+        case Con{F.Value.Leg{+binders, F.Value.Closure{env, body}}, rest}:
+          Eval.quote_task(Eval.QuoteOpen{env, List.length(&2, F.Pair2<F.Quantity.t, String>, binders), body, size, term =>
+            Eval.quote_task(Eval.QuoteLegs{rest, size, terms => done(Con{F.Term.Leg{binders, term}, terms})}, globals)}, globals)
     case Eval.QuoteShape{shape, +size, done}:
       F.Shape.fold(F.Value.t, F.Shape.t<F.Term.t> -> Result<&2, &2, F.Error.t, F.Term.t>, Result<&2, &2, F.Error.t, F.Term.t>, shape, done,
         q => name => domain => resume => (
@@ -743,6 +731,28 @@ def Eval.quote_head(head: F.Value.head, +size: Nat) -> Result<&2, &2, F.Error.t,
           Eval.quote_task(Eval.QuoteValue{body, (size + arity : Nat), d =>
             done(Eval.annotate_term(level, Eval.former(left, s, d)))}, globals)
       )}, globals)
+    # Motives, branches and point keys are closures over the elimination environment: open them on fresh variables.
+    case Eval.QuoteOpen{env, +arity, body, +size, done}:
+      do Result<&2, &2, F.Error.t, F.Term.t>:
+        value: F.Value.t <- Eval.open_closure(globals, F.Value.Closure{env, body}, Eval.variables(arity, size))
+        Eval.quote_task(Eval.QuoteValue{value, (size + arity : Nat), done}, globals)
+    case Eval.QuoteMotive{motive, env, +size, done}:
+      match motive:
+        case None{}: done(None{})
+        case Some{F.Term.Motive{ind, +indices, self, body}}:
+          Eval.quote_task(Eval.QuoteOpen{env, (1n + List.length(&2, String, indices) : Nat), body, size, b => done(Some{F.Term.Motive{ind, indices, self, b}})}, globals)
+    case Eval.QuoteBranches{branches, +env, +size, done}:
+      match branches:
+        case Nil{}: done(Nil{})
+        case Con{F.Pair2{key, F.Term.Leg{+binders, body}}, rest}:
+          Eval.quote_task(Eval.QuoteKey{key, env, size, k =>
+            Eval.quote_task(Eval.QuoteOpen{env, List.length(&2, F.Pair2<F.Quantity.t, String>, binders), body, size, term =>
+              Eval.quote_task(Eval.QuoteBranches{rest, env, size, more => done(Con{F.Pair2{k, F.Term.Leg{binders, term}}, more})}, globals)}, globals)}, globals)
+    case Eval.QuoteKey{key, env, +size, done}:
+      match key:
+        case F.Term.APt{q, point}: Eval.quote_task(Eval.QuoteOpen{env, 0n, point, size, p => done(F.Term.APt{q, p})}, globals)
+        case F.Term.ALeg{k}: done(F.Term.ALeg{k})
+        case F.Term.ACtor{name}: done(F.Term.ACtor{name})
     case Eval.QuoteFrames{frames, head, +size, done}:
       match frames:
         case Nil{}: done(head)
@@ -753,9 +763,11 @@ def Eval.quote_head(head: F.Value.head, +size: Nat) -> Result<&2, &2, F.Error.t,
                 Eval.quote_task(Eval.QuoteAddr{addr, size, a =>
                   Eval.quote_task(Eval.QuoteFrames{rest, F.Term.Out{s, a, head}, size, done}, globals)}, globals)}, globals)
             case F.Value.SElim{elimination}:
-              F.Value.StuckElim{shape, q, motive, branches, env} = elimination
+              F.Value.StuckElim{shape, q, motive, branches, +env} = elimination
               Eval.quote_task(Eval.QuoteShape{shape, size, s =>
-                Eval.quote_task(Eval.QuoteFrames{rest, F.Term.Elim{F.Term.Elimination{s, head, q, motive, branches}}, size, done}, globals)}, globals)
+                Eval.quote_task(Eval.QuoteMotive{motive, env, size, mo =>
+                  Eval.quote_task(Eval.QuoteBranches{branches, env, size, bs =>
+                    Eval.quote_task(Eval.QuoteFrames{rest, F.Term.Elim{F.Term.Elimination{s, head, q, mo, bs}}, size, done}, globals)}, globals)}, globals)}, globals)
     case Eval.QuoteValue{value, +size, done}:
       match value:
         case F.Value.VUniv{level}: done(F.Term.Univ{level})

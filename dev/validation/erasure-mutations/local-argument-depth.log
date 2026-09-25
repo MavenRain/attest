@@ -26,10 +26,13 @@ INLINE-ERASE row=local-proof-let-family OK
 INLINE-ERASE row=local-proof-let-universe OK
 INLINE-ERASE row=local-runtime-call OK
 INLINE-ERASE row=local-hypothesis OK
+INLINE-ERASE row=branch-parameter-global OK
+INLINE-ERASE row=branch-parameter-universe OK
+INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=28 total=37 FAIL
+INLINE-ERASE pass=31 total=46 FAIL
 INLINE-ERASE row=local-dependent FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=local-inherited FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=local-poison FAIL mismatch: the term has type A and the expected type is Type 1
@@ -39,4 +42,10 @@ INLINE-ERASE row=branch-scope FAIL mismatch: the term has type Nat and the expec
 INLINE-ERASE row=branch-dependent FAIL mismatch: the term has type (Lan SMu Equal [n] (Sec SColl 0 [])) and the expected type is (Lan SMu Pack [] (Sec SColl 0 []))
 INLINE-ERASE row=branch-nested FAIL mismatch: the term has type (Lan SMu Mark [] (Sec SColl 0 [])) and the expected type is Nat
 INLINE-ERASE row=branch-multi-ctor FAIL mismatch: the term has type Nat and the expected type is (Lan SMu Tag [] (Sec SColl 0 []))
+INLINE-ERASE row=branch-parameter FAIL mismatch: the term has type (Lan SMu Equal [0] (Sec SColl 0 [])) and the expected type is (Lan SMu Pack [] (Sec SColl 1 [ => 0]))
+INLINE-ERASE row=branch-parameter-dependent FAIL mismatch: the term has type (Lan SMu Equal [A; j] (Sec SColl 0 [])) and the expected type is Type 1
+INLINE-ERASE row=branch-parameter-function FAIL mismatch: the term has type (Ran SPi 0 x A (Lan SMu Equal [A; x] (Sec SColl 0 []))) and the expected type is Type 1
+INLINE-ERASE row=branch-parameter-annotated FAIL mismatch: the term has type (Lan SMu Equal [0] (Sec SColl 0 [])) and the expected type is (Lan SMu Pack [] (Sec SColl 1 [ => 0]))
+INLINE-ERASE row=branch-parameter-let FAIL mismatch: the term has type (Lan SMu Equal [0] (Sec SColl 0 [])) and the expected type is (Lan SMu Pack [] (Sec SColl 1 [ => 0]))
+INLINE-ERASE row=branch-parameter-ctor FAIL mismatch: the term has type (Lan SMu Equal [A; j] (Sec SColl 0 [])) and the expected type is Type 1
 

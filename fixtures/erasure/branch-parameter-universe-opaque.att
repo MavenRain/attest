@@ -1,0 +1,9 @@
+mu Equal : (0 A : Type 1) -> (0 a : A) -> Prop with
+| refl : (0 A : Type 1) -> (0 a : A) -> Equal A a
+mu Pack (0 A : Type 0) : Type 0 with
+| pack : (h : Equal (Type 0) (A : Type 0)) -> Pack A
+
+axiom proof : (0 h : Equal (Type 0) (Nat : Type 0)) -> Equal (Type 0) (Nat : Type 0)
+axiom box : Pack Nat
+def Layout : Type 0 := case box as value in Pack return Type 0 with | pack h => case proof h as p in Equal T k return Type 0 with | refl 0 U 0 z => prod ()
+def keep : (x : Layout) -> Layout := fun (x : Layout) => x

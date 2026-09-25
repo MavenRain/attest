@@ -34,9 +34,18 @@ INLINE-ERASE row=branch-scope OK
 INLINE-ERASE row=branch-dependent OK
 INLINE-ERASE row=branch-nested OK
 INLINE-ERASE row=branch-multi-ctor OK
+INLINE-ERASE row=branch-parameter OK
+INLINE-ERASE row=branch-parameter-dependent OK
+INLINE-ERASE row=branch-parameter-function OK
+INLINE-ERASE row=branch-parameter-annotated OK
+INLINE-ERASE row=branch-parameter-let OK
+INLINE-ERASE row=branch-parameter-global OK
+INLINE-ERASE row=branch-parameter-ctor OK
+INLINE-ERASE row=branch-parameter-universe OK
+INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=36 total=37 FAIL
+INLINE-ERASE pass=45 total=46 FAIL
 INLINE-ERASE row=name-collision FAIL mismatch: fresh proof referenced an existing name
 

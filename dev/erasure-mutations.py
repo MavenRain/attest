@@ -123,13 +123,13 @@ CASES = (('proof-guard',
   'INLINE-ERASE row=branch-metadata FAIL'),
  ('branch-ctor-name',
   'erase/inline.bend',
-  'M.Mu.ctor_of(name, value)',
-  'Inline.mutant_head_ctor(ctors)',
+  'Inline.branch_ctor_state(M.Mu.ctor_of(name, value), binders, context)',
+  'Inline.branch_ctor_state(Inline.mutant_head_ctor(ctors), binders, context)',
   'INLINE-ERASE row=branch-multi-ctor FAIL'),
  ('branch-ctor-last',
   'erase/inline.bend',
-  'M.Mu.ctor_of(name, value)',
-  'Inline.mutant_last_ctor(ctors)',
+  'Inline.branch_ctor_state(M.Mu.ctor_of(name, value), binders, context)',
+  'Inline.branch_ctor_state(Inline.mutant_last_ctor(ctors), binders, context)',
   'INLINE-ERASE row=branch-multi-ctor FAIL'),
  ('branch-param-fallback',
   'erase/inline.bend',
@@ -141,6 +141,106 @@ CASES = (('proof-guard',
   '    case None{}: R.Erase.Return{None{}}\n    case Some{+value}:\n      F.Positivity.Family{family_name',
   '    case None{}: R.Erase.Return{Some{context}}\n    case Some{+value}:\n      F.Positivity.Family{family_name',
   'INLINE-ERASE row=branch-fallback FAIL'),
+ ('parameter-order',
+  'erase/inline.bend',
+  'Inline.parameter_legs(rest, body <> reversed)',
+  'Inline.parameter_legs(rest, Inline.append(F.Term.t, reversed, [body]))',
+  'INLINE-ERASE row=branch-parameter-dependent FAIL'),
+ ('parameter-argument-shift',
+  'lib/kernel_source.bend',
+  'case Done{term}: Source.run(Source.Node{Source.Shift{depth}, 0n, term, done})',
+  'case Done{term}: Source.run(Source.Node{Source.Shift{0n}, 0n, term, done})',
+  'INLINE-ERASE row=branch-parameter-dependent FAIL'),
+ ('parameter-field-depth',
+  'erase/inline.bend',
+  'Inline.specialize_fields(rest, arguments, (depth + 1n : Nat))',
+  'Inline.specialize_fields(rest, arguments, depth)',
+  'INLINE-ERASE row=branch-parameter-dependent FAIL'),
+ ('parameter-arity',
+  'erase/inline.bend',
+  'Nat.is_eq(count, Inline.length(F.Term.t, args))',
+  'True{}',
+  'INLINE-ERASE row=branch-parameter-guards FAIL'),
+ ('parameter-free-argument',
+  'erase/inline.bend',
+  'Inline.arguments_closed(args, C.Check.size(checker))',
+  'True{}',
+  'INLINE-ERASE row=branch-parameter-guards FAIL'),
+ ('parameter-local-type-shift',
+  'erase/inline.bend',
+  'S.Source.Shift{(skipped + 1n : Nat)}',
+  'S.Source.Shift{0n}',
+  'INLINE-ERASE row=branch-parameter-dependent FAIL'),
+ ('parameter-context-fallback',
+  'erase/inline.bend',
+  'Inline.parameterized_ctor_state(M.Mu.ctor_of(name, value), params, Inline.branch_arguments(ty, shape), binders, context)',
+  'R.Erase.Return{None{}}',
+  'INLINE-ERASE row=branch-parameter FAIL'),
+ ('parameter-former-depth',
+  'lib/kernel_source.bend',
+  'case Some{domain}: (depth + 1n : Nat)',
+  'case Some{domain}: depth',
+  'INLINE-ERASE row=branch-parameter-function FAIL'),
+ ('parameter-diagram-width',
+  'erase/inline.bend',
+  'Nat.is_eq(count, Inline.length(F.Term.leg, legs))',
+  'True{}',
+  'INLINE-ERASE row=branch-parameter-guards FAIL'),
+ ('parameter-family-shape',
+  'erase/inline.bend',
+  'Inline.branch_arguments_equal(Inline.term_equal(F.Term.Lan{shape, diagram}, F.Term.Lan{source_shape, diagram}), diagram)',
+  'Inline.parameter_diagram(diagram)',
+  'INLINE-ERASE row=branch-parameter-guards FAIL'),
+ # Two constructors share one field shape. The suite row seals a proof in
+ # the first constructor and a proof in the last constructor.
+ ('parameter-ctor-name',
+  'erase/inline.bend',
+  'Inline.parameterized_ctor_state(M.Mu.ctor_of(name, value), params,',
+  'Inline.parameterized_ctor_state(Inline.mutant_head_ctor(ctors), params,',
+  'INLINE-ERASE row=branch-parameter-ctor FAIL'),
+ ('parameter-ctor-last',
+  'erase/inline.bend',
+  'Inline.parameterized_ctor_state(M.Mu.ctor_of(name, value), params,',
+  'Inline.parameterized_ctor_state(Inline.mutant_last_ctor(ctors), params,',
+  'INLINE-ERASE row=branch-parameter-ctor FAIL'),
+ # Field specialization must keep universes and annotations as source syntax.
+ ('parameter-field-quote',
+  'erase/inline.bend',
+  ('arguments: List<&2, F.Term.t>, binders: List<&2, F.Pair2<F.Quantity.t, String>>, context: Inline.context) -> '
+   'R.Erase.State<Maybe<&2, Inline.context>>:\n  match valid:',
+   'R.Erase.State.lift(F.Positivity.telescope, Inline.specialize_fields(fields, arguments, 0n)), specialized =>'),
+  ('arguments: List<&2, F.Term.t>, binders: List<&2, F.Pair2<F.Quantity.t, String>>, +context: Inline.context) -> '
+   'R.Erase.State<Maybe<&2, Inline.context>>:\n  match valid:',
+   'R.Erase.State.lift(F.Positivity.telescope, Inline.mutant_quote_fields(Inline.specialize_fields(fields, arguments, 0n), '
+   'context)), specialized =>'),
+  'INLINE-ERASE row=branch-parameter-universe FAIL'),
+ ('parameter-source-universe',
+  'lib/kernel_source.bend',
+  '        case other: done(other)\n\ndef Source.term(',
+  '        case F.Term.Univ{level}: done(F.Term.Univ{F.Level.succ(level)})\n        case other: done(other)\n\n'
+  'def Source.term(',
+  'INLINE-ERASE row=branch-parameter-universe FAIL'),
+ ('quote-elimination-environment',
+  'lib/kernel_eval.bend',
+  'Eval.quote_task(Eval.QuoteMotive{motive, env, size, mo =>\n'
+  '                  Eval.quote_task(Eval.QuoteBranches{branches, env, size, bs =>\n'
+  '                    Eval.quote_task(Eval.QuoteFrames{rest, F.Term.Elim{F.Term.Elimination{s, head, q, mo, bs}}, size, done}, globals)}, globals)}, globals)',
+  'Eval.quote_task(Eval.QuoteFrames{rest, F.Term.Elim{F.Term.Elimination{s, head, q, motive, branches}}, size, done}, globals)',
+  'INLINE-ERASE row=branch-parameter FAIL'),
+ # The kernel unit case quotes a stuck elimination whose motive reads an
+ # outer binder. These two probes break only the motive half of quote.
+ ('quote-elimination-motive',
+  'lib/kernel_eval.bend',
+  ('F.Value.StuckElim{shape, q, motive, branches, +env} = elimination',
+   'F.Term.Elim{F.Term.Elimination{s, head, q, mo, bs}}'),
+  ('F.Value.StuckElim{shape, q, +motive, branches, +env} = elimination',
+   'F.Term.Elim{F.Term.Elimination{s, head, q, motive, bs}}'),
+  'FAIL kernel case 17'),
+ ('quote-motive-binders',
+  'lib/kernel_eval.bend',
+  'Eval.QuoteOpen{env, (1n + List.length(&2, String, indices) : Nat), body, size, b =>',
+  'Eval.QuoteOpen{env, List.length(&2, String, indices), body, size, b =>',
+  'FAIL kernel case 17'),
  ('leg-scope-root',
   'erase/inline.bend',
   '    case other: Inline.root(context)\n\n# Constructor types',
@@ -246,6 +346,21 @@ CASES = (('proof-guard',
 
 CODOMAIN_MUTANT = '\n\ndef Inline.mutant_codomain_state(+context: Inline.context, codomain: F.Term.t) -> R.Erase.State<Maybe<&2, F.Pair2<Inline.context, F.Term.t>>>:\n  Inline.Context{+checker, domains} = context\n  do R.Erase.State<Maybe<&2, F.Pair2<Inline.context, F.Term.t>>>:\n    value: F.Value.t <- R.Erase.State.lift(F.Value.t, E.Eval.eval(C.Check.global(checker), C.Check.environment(checker), codomain))\n    quoted: F.Term.t <- R.Erase.State.lift(F.Term.t, E.Eval.quote(C.Check.global(checker), C.Check.size(checker), value))\n    R.Erase.Return{Some{F.Pair2{context, quoted}}}\n'
 
+QUOTE_FIELDS_MUTANT = (
+    "def Inline.mutant_quote_telescope(fields: F.Positivity.telescope, +context: Inline.context) "
+    "-> Result<&2,&2,F.Error.t,F.Positivity.telescope>:\n"
+    "  match fields:\n    case Nil{}: Done{Nil{}}\n"
+    "    case F.Triple3{quantity, name, domain} <> rest:\n"
+    "      Inline.Context{+checker, domains} = context\n"
+    "      do Result<&2,&2,F.Error.t,F.Positivity.telescope>:\n"
+    "        value: F.Value.t <- E.Eval.eval(C.Check.global(checker), C.Check.environment(checker), domain)\n"
+    "        ty: F.Term.t <- E.Eval.quote(C.Check.global(checker), C.Check.size(checker), value)\n"
+    "        Done{F.Triple3{quantity, name, ty} <> rest}\n\n"
+    "def Inline.mutant_quote_fields(fields: Result<&2,&2,F.Error.t,F.Positivity.telescope>, +context: Inline.context) "
+    "-> Result<&2,&2,F.Error.t,F.Positivity.telescope>:\n"
+    "  match fields:\n    case Fail{error}: Fail{error}\n"
+    "    case Done{telescope}: Inline.mutant_quote_telescope(telescope, context)\n\n")
+
 def mutate_source(name, source, before, after):
     edits = zip(before, after) if isinstance(before, tuple) else [(before, after)]
     for old, new in edits:
@@ -260,15 +375,17 @@ def mutate_source(name, source, before, after):
     if name == "local-proof-let-alias":
         helper = "def Inline.mutant_universe(term: F.Term.t) -> Bool:\n  match term:\n    case F.Term.Univ{level}: True{}\n    case other: False{}\n\n"
         source = source.replace("def Inline.typed_here(", helper + "def Inline.typed_here(", 1)
-    if name == "branch-ctor-name":
+    if name in ("branch-ctor-name", "parameter-ctor-name"):
         helper = ("def Inline.mutant_head_ctor(ctors: List<&2, F.Positivity.ctor>) -> Maybe<&2, F.Positivity.ctor>:\n"
                   "  match ctors:\n    case Nil{}: None{}\n    case Con{ctor, rest}: Some{ctor}\n\n")
         source = source.replace("def Inline.branch_family_state(", helper + "def Inline.branch_family_state(", 1)
-    if name == "branch-ctor-last":
+    if name in ("branch-ctor-last", "parameter-ctor-last"):
         helper = ("def Inline.mutant_last_ctor(ctors: List<&2, F.Positivity.ctor>) -> Maybe<&2, F.Positivity.ctor>:\n"
                   "  match ctors:\n    case Nil{}: None{}\n    case Con{ctor, more}:\n"
                   "      match more:\n        case Nil{}: Some{ctor}\n        case Con{next, tail}: Inline.mutant_last_ctor(more)\n\n")
         source = source.replace("def Inline.branch_family_state(", helper + "def Inline.branch_family_state(", 1)
+    if name == "parameter-field-quote":
+        source = source.replace("def Inline.specialized_branch_state(", QUOTE_FIELDS_MUTANT + "def Inline.specialized_branch_state(", 1)
     return source
 
 
@@ -302,8 +419,10 @@ def run_case(case, logs, scratch_root, snapshot):
             source = original.decode()
             changed = mutate_source(name, source, before, after).encode()
             path.write_bytes(changed)
+        # A kernel unit probe also builds and runs test/kernel.bend directly.
+        kernel = diagnostic.startswith("FAIL kernel case ")
         build_command = ["python3", "-P", "dev/build.py", "--backend", "js",
-                         "attest", "erase-probe", "prop-index", "opaque", "inline"]
+                         "attest", "erase-probe", "prop-index", "opaque", "inline"] + (["kernel"] if kernel else [])
         build = run(scratch, build_command)
         (logs / (name + "-build.log")).write_bytes(build.stdout + build.stderr)
         if build.returncode:
@@ -329,16 +448,22 @@ def run_case(case, logs, scratch_root, snapshot):
                     output.replace(str(scratch).encode(), b"<mutation-tree>"))
                 if unit.returncode != 1:
                     raise ValueError(f"{name}: inline proof regression exit={unit.returncode}")
+        unit_command = ["_build/default/test/kernel.exe"]
+        unit = run(scratch, unit_command) if kernel else None
+        if kernel:
+            output += b"\nKERNEL direct regression:\n" + unit.stdout + unit.stderr
+        judged = unit.returncode if kernel else result.returncode
         # A temporary checkout path is not part of a diagnostic's identity.
         output = output.replace(str(scratch).encode(), b"<mutation-tree>")
         (logs / (name + ".log")).write_bytes(output)
-        if result.returncode != 1 or diagnostic.encode() not in output:
+        if judged != 1 or diagnostic.encode() not in output:
             raise ValueError(f"{name}: expected named gate failure {diagnostic!r}")
         return {"name": name, "path": relative, "before_sha256": digest(original),
             "mutated_sha256": None if changed is None else digest(changed),
             "log_sha256": digest(output),
             "build_exit": build.returncode, "gate_exit": result.returncode,
             "diagnostic": diagnostic, "build_command": build_command, "gate_command": gate_command,
+            **({"unit_command": unit_command, "unit_exit": unit.returncode} if kernel else {}),
             **({"deleted": True} if changed is None else {})}
 
 

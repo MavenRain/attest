@@ -71,19 +71,31 @@ as its scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
 The runtime output of each inline pair is identical
 after removing `erased NAME` declaration notices. The gate reproduces a
-runtime difference with the carried eraser for every pair. Thirty-seven semantic
+runtime difference with the carried eraser for those twenty-one pairs. Eight
+parameterized branch pairs require runtime equality, but the carried eraser
+gives equal outputs for them too, so these runtime rows do not discriminate.
+The gate requires that carried equality. Sealing for these pairs is checked
+only in the semantic suite, and the gate requires the suite copies in
+`erase/test/parameter_fixtures.bend` to equal the `.att` files byte for byte.
+Forty-six semantic
 tests cover poisoned proof bodies at known types, inherited entries, name
 collisions, runtime lets, local type annotations, and rewritten rows. They also
 check closed postulate types, dependent argument order, original universes,
 inherited local proofs, local hypotheses, proof lets needed by a local proof
 type, dependent constructor fields, nested branch scopes, and conservative
-fallback for missing or parameterized family metadata. They also check that a
+fallback for missing family metadata or unavailable parameter syntax. They also check that a
 branch takes the fields of its own constructor, not the first constructor of
 its family, and that an alias-typed lambda leg under an outer binder starts
 from the root scope. Branch contexts require
 the exact constructor binder count and quantities, and field types closed over
-earlier fields. Field types retain their original syntax when added to the
-outer local telescope.
+earlier fields and family parameters. Parameterized branches recover the source
+type from an annotated scrutinee, a global declaration, or a typed local binder,
+including lets. They require matching family shapes, closed parameter arguments,
+and an exact parameter count. Capture-avoiding source substitution specializes
+field types under their earlier fields and preserves universe syntax.
+Quotation opens the motive, branches and point keys of a stuck elimination
+on fresh variables in its captured environment, so it reads only the
+environment entries that these bodies use.
 This is regression evidence; a general erasure theorem and ELF comparisons
 remain later work.
 
@@ -97,7 +109,10 @@ The `branch-local-proof.att`, `branch-dependent.att`, `branch-nested.att`, and
 parameters. For `branch-local-proof.att`, `build --erase` keeps `keep` as the
 runtime identity, and the frozen OCaml reference erases `keep`. The migration
 differential allows only this named divergence, which
-`dev/validation/differential-divergences.json` pins. Motive binders and parameterized constructor branches remain open.
+`dev/validation/differential-divergences.json` pins. The eight `branch-parameter*`
+pairs cover concrete and dependent parameters, function fields, annotations,
+lets, globals, same-shape constructors, and a proof field at a universe. Motive binder contexts and scrutinee types needing further
+normalization or inference remain open.
 No row pins the motive binder case. Lambda bodies without a syntactic expected function
 type also remain conservative; closed subterms can still be sealed. Local
 proofs without source type syntax are left intact because inferred readback

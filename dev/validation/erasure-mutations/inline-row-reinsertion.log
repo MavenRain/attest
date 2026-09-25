@@ -16,10 +16,11 @@ INLINE-ERASE row=local-poison OK
 INLINE-ERASE row=local-universe OK
 INLINE-ERASE row=local-proof-let OK
 INLINE-ERASE row=local-hypothesis OK
+INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=18 total=37 FAIL
+INLINE-ERASE pass=19 total=46 FAIL
 INLINE-ERASE row=rows FAIL mismatch: stale declaration reinserted
 INLINE-ERASE row=binders FAIL mismatch: runtime differs from its sealed twin
 INLINE-ERASE row=redeclared FAIL mismatch: stale declaration reinserted
@@ -39,4 +40,12 @@ INLINE-ERASE row=branch-scope FAIL mismatch: local declaration rows differ
 INLINE-ERASE row=branch-dependent FAIL mismatch: local declaration rows differ
 INLINE-ERASE row=branch-nested FAIL mismatch: local declaration rows differ
 INLINE-ERASE row=branch-multi-ctor FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=branch-parameter FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=branch-parameter-dependent FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=branch-parameter-function FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=branch-parameter-annotated FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=branch-parameter-let FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=branch-parameter-global FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=branch-parameter-ctor FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=branch-parameter-universe FAIL mismatch: local declaration rows differ
 

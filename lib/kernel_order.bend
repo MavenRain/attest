@@ -432,18 +432,6 @@ type Order.Peel is Data:
 def Order.unwrap(term: F.Term.t) -> F.Pair2<List<&2, Order.wrapper>, F.Term.t>:
   Order.unwrap_loop(Order.Peeling{term}, [])
 
-def Order.rewrap_loop(wrappers: List<&2, Order.wrapper>, inner: F.Term.t) -> F.Term.t:
-  match wrappers:
-    case Nil{}:
-      inner
-    case Con{wrapper, rest}:
-      F.Pair2{shape, leg} = wrapper
-      F.Term.Leg{binders, body} = leg
-      Order.rewrap_loop(rest, F.Term.Sec{shape, [F.Term.Leg{binders, inner}]})
-
-def Order.rewrap(wrappers: List<&2, Order.wrapper>, inner: F.Term.t) -> F.Term.t:
-  Order.rewrap_loop(List.reverse(&2, Order.wrapper, wrappers), inner)
-
 def Order.spine(+term: F.Term.t, args: List<&2, F.Term.t>, shapes: List<&2, F.Shape.t<F.Term.t>>) -> F.Triple3<F.Term.t, List<&2, F.Term.t>, List<&2, F.Shape.t<F.Term.t>>>:
   match term:
     case F.Term.Out{shape, addr, head}:

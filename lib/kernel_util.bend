@@ -9,38 +9,9 @@ def Kernel.snd(-A: Data, -B: Data, pair: F.Pair2<A, B>) -> B:
   F.Pair2{x, y} = pair
   y
 
-def Kernel.first(-A: Data, -B: Data, -C: Data, triple: F.Triple3<A, B, C>) -> A:
-  F.Triple3{x, y, z} = triple
-  x
-
-def Kernel.second(-A: Data, -B: Data, -C: Data, triple: F.Triple3<A, B, C>) -> B:
-  F.Triple3{x, y, z} = triple
-  y
-
 def Kernel.third(-A: Data, -B: Data, -C: Data, triple: F.Triple3<A, B, C>) -> C:
   F.Triple3{x, y, z} = triple
   z
-
-# Reusable traversals keep context explicit so template arguments are closed.
-def Kernel.map(~A: Data, ~B: Data, ~C: Data, ~f: C -> A -> B,
-  xs: List<&2, A>, +ctx: C) -> List<&2, B>:
-  match xs:
-    case Nil{}:
-      Nil{}
-    case Con{x, rest}:
-      Con{f(ctx, x), Kernel.map(A, B, C, f, rest, ctx)}
-
-def Kernel.map_result(~A: Data, ~B: Data, ~C: Data,
-  ~f: C -> A -> Result<&2, &2, F.Error.t, B>,
-  xs: List<&2, A>, +ctx: C) -> Result<&2, &2, F.Error.t, List<&2, B>>:
-  match xs:
-    case Nil{}:
-      Done{Nil{}}
-    case Con{x, rest}:
-      do Result<&2, &2, F.Error.t, List<&2, B>>:
-        y: B <- f(ctx, x)
-        ys: List<&2, B> <- Kernel.map_result(A, B, C, f, rest, ctx)
-        return Con{y, ys}
 
 def Kernel.from_maybe(-A: Data, value: Maybe<&2, A>, error: F.Error.t)
   -> Result<&2, &2, F.Error.t, A>:

@@ -5,7 +5,7 @@ Error:
 Context:
 - env : List<&2, ../lib/foundation.Value.t>
 Location: ../lib/kernel_eval.Eval.task
-525 |         case Eval.Evaluate{+env, term}:
-526>|           match term:
-527 |             case F.Term.Var{+index}:
+521 |         case Eval.Evaluate{+env, term}:
+522>|           match term:
+523 |             case F.Term.Var{+index}:
 BUILD FAIL: attest js exit=1; log=.gatework/build/attest-js.log
