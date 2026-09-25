@@ -32,7 +32,12 @@ INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=31 total=46 FAIL
+INLINE-ERASE row=motive-index OK
+INLINE-ERASE row=motive-self OK
+INLINE-ERASE row=motive-dependent OK
+INLINE-ERASE row=motive-guards OK
+INLINE-ERASE row=motive-quantities OK
+INLINE-ERASE pass=36 total=53 FAIL
 INLINE-ERASE row=local-index FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=local-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=local-inherited FAIL mismatch: local proof has no postulate
@@ -48,4 +53,6 @@ INLINE-ERASE row=branch-parameter-dependent FAIL mismatch: local proof has no po
 INLINE-ERASE row=branch-parameter-function FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-parameter-let FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-parameter-ctor FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-parameter FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-parameter-indices FAIL mismatch: local proof has no postulate
 

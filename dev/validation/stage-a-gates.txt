@@ -22,7 +22,7 @@ BUILD OK
 CARRY files=594 diff=0 unlisted=0
 PIN eebe37e
 CARRY reference=assay:git,mechanism:git
-CARRY migration=Bend mapped=66 sources=58
+CARRY migration=Bend mapped=66 sources=59
 R0-COUNT formers=2 schema=4 shapes=5 admitted=3 OK
 R0-AUDIT OK
 R0-DIFF vs=2c2e6e6 rows=3 diff=0 OK
@@ -38,23 +38,23 @@ HOUSE no-loop-keyword OK
 HOUSE nonzero-division OK
 HOUSE OK
 DRIVER-EXIT pass=13 fail=0 stage=A OK
-BENCH SUITE-KERNEL median_ms=22656.256 min_ms=20410.712 max_ms=23259.621 runs=7
-SUITE-KERNEL pass=337 fail=0 median_ms=22656.256 OK
+BENCH SUITE-KERNEL median_ms=26076.736 min_ms=25238.939 max_ms=35036.033 runs=7
+SUITE-KERNEL pass=337 fail=0 median_ms=26076.736 OK
 surface: 20 lexer, 28 parser, match elaboration, 13 recursive values, axiom reporting, budget and extreme index checks passed
 QUOTE-DEPTH depth=24 bound_s=10 OK
 AXIOMS corpus/id.att count=0
 AXIOMS-empty rows=1 OK
 TRUSTED-LINES kernel=6000/6000 lower=0/1100 encoder=0/800 harness=0/100 OK
 TRUSTED-LINES whole_lib=8045 language=Bend INFO
-M0-RATIO rung=1 pass=parse ms=0.430000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
-M0-RATIO rung=1 pass=elaborate-check ms=0.330000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=parse ms=0.570000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=elaborate-check ms=0.480000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
 M0-RATIO rung=2 OPEN reason=denominators-not-frozen
 M0-RATIO rung=3 OPEN reason=denominators-not-frozen
 STAGE-A OK
 PROP-INDEX pass=28 total=28 OK
 ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
-INLINE-ERASE pass=46 total=46 OK
-ERASURE-INLINE rows=29 identical=29 carried_diff=21 parameter_pairs=8 not_discriminating=8 suite_fixtures=16 OK
+INLINE-ERASE pass=53 total=53 OK
+ERASURE-INLINE rows=34 identical=34 carried_diff=21 parameter_pairs=8 motive_pairs=5 not_discriminating=13 suite_fixtures=26 OK
 ERASURE-OPEN rows=0 different=0 OPEN
 ERASURE-CLI pass=6 fail=0 OK
 LEAN-TOOLCHAIN pinned=leanprover/lean4:v4.33.1 ran=4.33.1 OK

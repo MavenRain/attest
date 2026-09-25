@@ -1,0 +1,6 @@
+mu Equal : (0 A : Type 0) -> (0 x : A) -> Prop with
+| refl : (0 A : Type 0) -> (0 x : A) -> Equal A x
+mu Pack : (0 A : Type 0) -> (0 x : A) -> Type 1 with
+| pack : (0 A : Type 0) -> (0 x : A) -> Pack A x
+
+def keep : (0 A : Type 0) -> (0 x : A) -> (b : Pack A x) -> Nat := fun (0 A : Type 0) => fun (0 x : A) => fun (b : Pack A x) => case b as value in Pack B y return (let p : Equal B y := (refl B y : Equal B y) in Nat) with | pack 0 C 0 z => 7

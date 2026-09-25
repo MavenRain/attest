@@ -1,0 +1,58 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
+INLINE-ERASE row=let-body OK
+INLINE-ERASE row=scrutinee-body OK
+INLINE-ERASE row=inherited OK
+INLINE-ERASE row=name-collision OK
+INLINE-ERASE row=family-collision OK
+INLINE-ERASE row=runtime OK
+INLINE-ERASE row=local-type OK
+INLINE-ERASE row=rows OK
+INLINE-ERASE row=binders OK
+INLINE-ERASE row=motive OK
+INLINE-ERASE row=shape-payload OK
+INLINE-ERASE row=redeclared OK
+INLINE-ERASE row=payload-postulates OK
+INLINE-ERASE row=local-index OK
+INLINE-ERASE row=local-dependent OK
+INLINE-ERASE row=local-let OK
+INLINE-ERASE row=local-let-alias OK
+INLINE-ERASE row=local-diagram OK
+INLINE-ERASE row=local-inherited OK
+INLINE-ERASE row=local-poison OK
+INLINE-ERASE row=local-universe OK
+INLINE-ERASE row=local-proof-let OK
+INLINE-ERASE row=local-proof-let-value OK
+INLINE-ERASE row=local-proof-let-type OK
+INLINE-ERASE row=local-proof-let-alias OK
+INLINE-ERASE row=local-proof-let-family OK
+INLINE-ERASE row=local-proof-let-universe OK
+INLINE-ERASE row=local-payload OK
+INLINE-ERASE row=local-runtime-call OK
+INLINE-ERASE row=local-hypothesis OK
+INLINE-ERASE row=branch-scope OK
+INLINE-ERASE row=branch-dependent OK
+INLINE-ERASE row=branch-nested OK
+INLINE-ERASE row=branch-multi-ctor OK
+INLINE-ERASE row=branch-parameter OK
+INLINE-ERASE row=branch-parameter-dependent OK
+INLINE-ERASE row=branch-parameter-function OK
+INLINE-ERASE row=branch-parameter-annotated OK
+INLINE-ERASE row=branch-parameter-let OK
+INLINE-ERASE row=branch-parameter-global OK
+INLINE-ERASE row=branch-parameter-ctor OK
+INLINE-ERASE row=branch-parameter-universe OK
+INLINE-ERASE row=branch-parameter-guards OK
+INLINE-ERASE row=alias-leg-scope OK
+INLINE-ERASE row=branch-metadata OK
+INLINE-ERASE row=branch-fallback OK
+INLINE-ERASE row=motive-index OK
+INLINE-ERASE row=motive-self OK
+INLINE-ERASE row=motive-dependent OK
+INLINE-ERASE row=motive-guards OK
+INLINE-ERASE row=motive-quantities OK
+INLINE-ERASE pass=51 total=53 FAIL
+INLINE-ERASE row=motive-parameter FAIL mismatch: the term has type A and the expected type is Type 1
+INLINE-ERASE row=motive-parameter-indices FAIL mismatch: the term has type (Lan SMu Pair [u; v] (Sec SColl 1 [ => b])) and the expected type is (Lan SMu Pair [u; v] (Sec SColl 1 [ => A]))
+

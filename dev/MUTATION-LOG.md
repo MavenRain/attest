@@ -1,4 +1,32 @@
 # Mutation log
+## 2026-09-25: Named motive context mutations
+
+Seventeen new cases join the battery: fourteen behavior mutations of the
+eraser and three fixture-binding gate mutations of the semantic suite.
+The fourteen behavior mutations cover resetting the motive context, dropping
+self indices, corrupting index order, omitting parameter shifts, shifting
+parameters by a constant one, omitting substitution, admitting free index
+domains or free parameter arguments, skipping an index depth step, giving an index or self a runtime
+quantity, ignoring family identity or shape arity, and ignoring parameter
+arity. A fixture-binding mutation redirects a reported motive case to another
+valid pair; the gate must reject it even though that substituted semantic test
+passes.
+
+Two more binding mutations cover the exempt parameterized branch pairs and
+dead copies. `parameter-fixture-binding` redirects the `branch-parameter-global`
+case to the `branch-parameter` pair. `fixture-binding-dead-copy` keeps the
+correct `motive-index` case line in an unused definition and redirects the
+live case to the `motive-self` pair. The gate rejects both.
+
+The battery now contains 75 cases, and the record shows caught=75. Every code
+mutant builds and fails its named semantic row. The three fixture-binding
+mutants fail the named gate check.
+The two existing branch parameter arity and argument-scope mutation anchors
+include the branch-field validation expression to keep them distinct from
+the new motive path. Records and full logs remain under
+`dev/validation/erasure-mutations*`.
+
+
 ## 2026-09-24: Parameterized constructor selection and field syntax mutations
 
 Four more probes cover the parameterized branch path. The fixture pair

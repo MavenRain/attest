@@ -35,9 +35,13 @@ PARAMETER_ROWS = ("branch-parameter", "branch-parameter-dependent",
                   "branch-parameter-function", "branch-parameter-annotated",
                   "branch-parameter-let", "branch-parameter-global",
                   "branch-parameter-ctor", "branch-parameter-universe")
+MOTIVE_FIXTURES = Path("erase/test/motive_fixtures.bend")
+MOTIVE_ROWS = ("motive-index", "motive-self", "motive-dependent", "motive-parameter",
+               "motive-parameter-indices")
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
                                "family-collision", "runtime", "local-type", "rows", "binders",
+                               *MOTIVE_ROWS, "motive-guards", "motive-quantities",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",
@@ -247,12 +251,69 @@ def suite_fixtures(path):
     return {name: value.replace("\\n", "\n").encode() for name, value in found}
 
 
-def fixture_matches(name, body, opaque, suite):
+def fixture_matches(name, body, opaque, suite, source=PARAMETER_FIXTURES):
     """The semantic suite must check the same sources as the runtime pair."""
     pairs = ((body, fixture_name(name)), (opaque, fixture_name(name) + "_opaque"))
     drift = [str(path) for path, key in pairs if (ROOT / path).read_bytes() != suite[key]]
     if drift:
-        raise ValueError(f"row={name} fixture differs from {PARAMETER_FIXTURES}: {drift}")
+        raise ValueError(f"row={name} fixture differs from {source}: {drift}")
+
+
+SUITE_SOURCE = Path("erase/test/inline_test.bend")
+
+
+def sealed_call(prefix, name, layout):
+    fixture = fixture_name(name)
+    return (f'Suite.Case{{"{name}",unit=>Suite.local_sealed('
+            f'{prefix}.{fixture},{prefix}.{fixture}_opaque,{layout},1n)}}')
+
+
+def fixture_call_table():
+    """The exact whitespace-free Suite.Case line of each exempt runtime pair."""
+    universe = fixture_name("branch-parameter-universe")
+    special = {"branch-parameter-ctor":
+                   'Suite.Case{"branch-parameter-ctor",unit=>Suite.parameter_ctors(layout)}',
+               "branch-parameter-universe":
+                   ('Suite.Case{"branch-parameter-universe",unit=>Suite.sealed_syntax('
+                    f'PF.{universe},PF.{universe}_opaque,layout)}}')}
+    parameter = [(name, "parameter", special.get(name, sealed_call("PF", name, "layout")))
+                 for name in PARAMETER_ROWS]
+    motive = [(name, "motive", sealed_call("MF", name, "None{}")) for name in MOTIVE_ROWS]
+    return parameter + motive
+
+
+def def_body(source, name):
+    """The whitespace-free lines of the one definition NAME, without its def
+    line and without comment lines."""
+    bodies = re.findall(rf"^def {re.escape(name)}\(.*?(?=^def |\Z)", source, flags=re.M | re.S)
+    if len(bodies) != 1:
+        raise ValueError(f"{SUITE_SOURCE} must define {name} exactly once")
+    lines = [re.sub(r"\s+", "", line) for line in bodies[0].split("\n")[1:]]
+    return [line for line in lines if line and not line.startswith("#")]
+
+
+# The helper of branch-parameter-ctor seals these two pairs, in this order.
+PARAMETER_CTOR_BODY = [
+    "doResult<&2,&2,F.Error.t,Unit>:",
+    "first:Unit<-Suite.local_sealed(PF.Fixture.branch_parameter_ctor,"
+    "PF.Fixture.branch_parameter_ctor_opaque,layout,1n)",
+    "Suite.local_sealed(PF.Fixture.branch_parameter_ctor_last,"
+    "PF.Fixture.branch_parameter_ctor_last_opaque,layout,1n)"]
+
+
+def fixture_calls():
+    """Bind each exempt runtime pair to the live case of the same name: the
+    body of def Suite.cases must hold exactly one Case line for the row, and
+    that line must call the exact source pair and sealing count. A copy of
+    the line in other code or in a comment does not count."""
+    source = (ROOT / SUITE_SOURCE).read_text()
+    cases = def_body(source, "Suite.cases")
+    for name, kind, expected in fixture_call_table():
+        rows = [line.strip("[],") for line in cases if f'Suite.Case{{"{name}",' in line]
+        if rows != [expected]:
+            raise ValueError(f"row={name} {kind} fixture call differs")
+    if def_body(source, "Suite.parameter_ctors") != PARAMETER_CTOR_BODY:
+        raise ValueError("row=branch-parameter-ctor parameter fixture call differs")
 
 
 def inline_rows(logs):
@@ -269,20 +330,27 @@ def inline_rows(logs):
     if missing:
         raise ValueError(f"INLINE-ERASE rows missing: {missing}")
     print(lines[-1].decode())
-    row_groups(INLINE_ROWS, PARAMETER_ROWS, INLINE_SUITE_ROWS)
+    row_groups(INLINE_ROWS, PARAMETER_ROWS + MOTIVE_ROWS, INLINE_SUITE_ROWS)
     suite = suite_fixtures(ROOT / PARAMETER_FIXTURES)
     fixture_names = {fixture_name(name) + suffix for name in PARAMETER_ROWS for suffix in ("", "_opaque")}
     if set(suite) != fixture_names | SUITE_ONLY_FIXTURES or fixture_names & SUITE_ONLY_FIXTURES:
         raise ValueError(f"{PARAMETER_FIXTURES} fixtures differ from PARAMETER_ROWS: "
                          f"extra={sorted(set(suite) - fixture_names - SUITE_ONLY_FIXTURES)} "
                          f"missing={sorted((fixture_names | SUITE_ONLY_FIXTURES) - set(suite))}")
+    motive_suite = suite_fixtures(ROOT / MOTIVE_FIXTURES)
+    motive_names = {fixture_name(name) + suffix for name in MOTIVE_ROWS for suffix in ("", "_opaque")}
+    if set(motive_suite) != motive_names:
+        raise ValueError(f"{MOTIVE_FIXTURES} fixtures differ from MOTIVE_ROWS")
+    fixture_calls()
     records = []
-    for name in INLINE_ROWS + PARAMETER_ROWS:
+    for name in INLINE_ROWS + PARAMETER_ROWS + MOTIVE_ROWS:
         body = Path("fixtures/erasure") / (name + ".att")
         opaque = body.with_name(name + "-opaque.att")
         twin_structure(name, body, opaque)
         if name in PARAMETER_ROWS:
             fixture_matches(name, body, opaque, suite)
+        if name in MOTIVE_ROWS:
+            fixture_matches(name, body, opaque, motive_suite, MOTIVE_FIXTURES)
         a = runtime_output(execute(logs, name + "-body",
                            [DRIVER, "build", "--erase", str(body)]).stdout)
         b = runtime_output(execute(logs, name + "-opaque",
@@ -298,7 +366,7 @@ def inline_rows(logs):
             raise ValueError(f"row={name} carried eraser gave no runtime keep")
         if name in INLINE_ROWS and not carried_diff:
             raise ValueError(f"row={name} carried eraser did not reproduce the inline regression")
-        if name in PARAMETER_ROWS and carried_diff:
+        if name in PARAMETER_ROWS + MOTIVE_ROWS and carried_diff:
             raise ValueError(f"row={name} carried eraser now differs: move the row into INLINE_ROWS")
         records.append({"row": name,
                         "expected": "runtime-identical" if name in INLINE_ROWS else "runtime-identical-coarse",
@@ -308,8 +376,9 @@ def inline_rows(logs):
                         "runtime_sha256": digest(a)})
     print(f"ERASURE-INLINE rows={len(records)} identical={len(records)} "
           f"carried_diff={sum(row['carried_diff'] for row in records)} "
-          f"parameter_pairs={len(PARAMETER_ROWS)} not_discriminating={len(PARAMETER_ROWS)} "
-          f"suite_fixtures={len(fixture_names)} OK")
+          f"parameter_pairs={len(PARAMETER_ROWS)} motive_pairs={len(MOTIVE_ROWS)} "
+          f"not_discriminating={len(PARAMETER_ROWS) + len(MOTIVE_ROWS)} "
+          f"suite_fixtures={len(fixture_names) + len(motive_names)} OK")
     return records
 
 
@@ -506,8 +575,8 @@ def record(logs, rows):
     data = {"version": 1, "scope": "Stage B erasure increment", "stage_b": "OPEN",
             "rows": rows, "open": ["Acc erased proof binder and recursive proof elimination",
             "full TRACE-ERASURE including Acc",
-            "constructor branches seal local proofs when source syntax supplies closed family arguments; motive binders remain open",
-            "proofs depending on motive binders keep their bodies (no pinned row)",
+            "constructor branch and named motive scopes without source syntax for family parameters",
+            "motive scopes without an explicit inductive family name",
             "lambda scopes without a syntactic expected function type",
             "local proofs without source type syntax",
             "unannotated proof introductions without an expected type and family metadata"],

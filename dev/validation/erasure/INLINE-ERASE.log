@@ -44,4 +44,11 @@ INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=46 total=46 OK
+INLINE-ERASE row=motive-index OK
+INLINE-ERASE row=motive-self OK
+INLINE-ERASE row=motive-dependent OK
+INLINE-ERASE row=motive-parameter OK
+INLINE-ERASE row=motive-parameter-indices OK
+INLINE-ERASE row=motive-guards OK
+INLINE-ERASE row=motive-quantities OK
+INLINE-ERASE pass=53 total=53 OK

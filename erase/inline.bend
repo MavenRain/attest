@@ -796,6 +796,84 @@ def Inline.branch_scrutinee_view_state(view: Maybe<&2, F.Pair2<String, List<&2, 
 def Inline.branch_scrutinee_state(+shape: F.Shape.t<F.Term.t>, scrut: F.Term.t, address: F.Term.addr, binders: List<&2, F.Pair2<F.Quantity.t, String>>, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
   Inline.branch_scrutinee_view_state(F.Shape.inductive(F.Term.t, shape), shape, scrut, address, binders, context)
 
+# Motive indices and self are erased binders, even when family indices are not.
+def Inline.motive_variables(count: Nat) -> List<&2, F.Term.t>:
+  match count:
+    case 0n: Nil{}
+    case 1n+n:
+      +index = n
+      F.Term.Var{index} <> Inline.motive_variables(index)
+
+def Inline.motive_fields_valid(fields: F.Positivity.telescope, names: List<&2, String>, +depth: Nat) -> Bool:
+  match fields names:
+    case Nil{} Nil{}: True{}
+    case F.Triple3{quantity, old_name, domain} <> rest name <> more:
+      Bool.and(Inline.closed(depth, domain), Inline.motive_fields_valid(rest, more, (depth + 1n : Nat)))
+    case Nil{} name <> more: False{}
+    case field <> rest Nil{}: False{}
+
+def Inline.motive_fields_state(fields: F.Positivity.telescope, names: List<&2, String>, self: String, self_ty: F.Term.t, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match fields names:
+    case Nil{} Nil{}:
+      Inline.bind_state(Inline.context, Maybe<&2, Inline.context>, Inline.bind_domain_state(context, self, F.Quantity.Zero{}, self_ty), scope => R.Erase.Return{Some{scope}})
+    case F.Triple3{quantity, old_name, domain} <> rest name <> more:
+      Inline.bind_state(Inline.context, Maybe<&2, Inline.context>, Inline.bind_domain_state(context, name, F.Quantity.Zero{}, domain), scope =>
+        Inline.motive_fields_state(rest, more, self, self_ty, scope))
+    case Nil{} name <> more: R.Erase.Return{None{}}
+    case field <> rest Nil{}: R.Erase.Return{None{}}
+
+def Inline.motive_valid_state(valid: Bool, ind: String, fields: F.Positivity.telescope, +names: List<&2, String>, self: String, +arguments: List<&2, F.Term.t>, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match valid:
+    case False{}: R.Erase.Return{None{}}
+    case True{}:
+      +count = Inline.length(String, names)
+      do R.Erase.State<Maybe<&2, Inline.context>>:
+        specialized: F.Positivity.telescope <- R.Erase.State.lift(F.Positivity.telescope, Inline.specialize_fields(fields, arguments, 0n))
+        diagram: F.Term.t <- R.Erase.State.lift(F.Term.t, S.Source.term(S.Source.Shift{count}, 0n, P.Rules.diagram_of(Inline.reverse(F.Term.t, arguments, Nil{}))))
+        Inline.motive_fields_state(specialized, names, self, F.Term.Lan{F.Shape.make_inductive(F.Term.t, ind, Inline.motive_variables(count)), diagram}, context)
+
+def Inline.motive_arguments_state(ind: String, params: F.Positivity.telescope, +fields: F.Positivity.telescope, +names: List<&2, String>, self: String, arguments: Maybe<&2, List<&2, F.Term.t>>, +context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match arguments:
+    case None{}: R.Erase.Return{None{}}
+    case Some{+args}:
+      Inline.Context{checker, domains} = context
+      +count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, params)
+      valid = Bool.and(Nat.is_eq(count, Inline.length(F.Term.t, args)), Bool.and(Inline.arguments_closed(args, C.Check.size(checker)), Inline.motive_fields_valid(fields, names, count)))
+      Inline.motive_valid_state(valid, ind, fields, names, self, args, context)
+
+def Inline.motive_family_state(family: Maybe<&2, F.Positivity.family>, ind: String, names: List<&2, String>, self: String, shape: F.Shape.t<F.Term.t>, scrut: F.Term.t, +context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match family:
+    case None{}: R.Erase.Return{None{}}
+    case Some{F.Positivity.Family{family_name, +params, indices, level, status, ctors, positive}}:
+      match params:
+        case Nil{}: Inline.motive_arguments_state(ind, Nil{}, indices, names, self, Some{Nil{}}, context)
+        case param <> rest:
+          Inline.bind_state(Maybe<&2, F.Term.t>, Maybe<&2, Inline.context>, R.Erase.State.lift(Maybe<&2, F.Term.t>, Inline.scrutinee_type(scrut, context)), ty =>
+            Inline.motive_arguments_state(ind, params, indices, names, self, Inline.branch_arguments(ty, shape), context))
+
+def Inline.motive_selected_state(valid: Bool, shape: F.Shape.t<F.Term.t>, scrut: F.Term.t, +ind: String, names: List<&2, String>, self: String, +context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match valid:
+    case False{}: R.Erase.Return{None{}}
+    case True{}:
+      Inline.Context{checker, domains} = context
+      Inline.motive_family_state(F.Global.find_family(ind, C.Check.global(checker)), ind, names, self, shape, scrut, context)
+
+def Inline.motive_view_state(view: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, shape: F.Shape.t<F.Term.t>, scrut: F.Term.t, +ind: String, +names: List<&2, String>, self: String, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match view:
+    case None{}: R.Erase.Return{None{}}
+    case Some{F.Pair2{family, indices}}:
+      Inline.motive_selected_state(Bool.and(String.eq(ind, family), Nat.is_eq(Inline.length(F.Term.t, indices), Inline.length(String, names))), shape, scrut, ind, names, self, context)
+
+def Inline.motive_context_state(+shape: F.Shape.t<F.Term.t>, scrut: F.Term.t, ind: Maybe<&2, String>, names: List<&2, String>, self: String, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match ind:
+    case None{}: R.Erase.Return{None{}}
+    case Some{name}: Inline.motive_view_state(F.Shape.inductive(F.Term.t, shape), shape, scrut, name, names, self, context)
+
+def Inline.motive_scope(scope: Maybe<&2, Inline.context>, context: Inline.context) -> Inline.context:
+  match scope:
+    case None{}: Inline.root(context)
+    case Some{found}: found
+
 def Inline.replacement_choice(equal: Bool, rewritten: F.Term.t, other: Maybe<&2, F.Term.t>) -> Maybe<&2, F.Term.t>:
   match equal:
     case True{}: Some{rewritten}
@@ -839,7 +917,7 @@ type Inline.Task is Type:
   Inline.Leg{context: Inline.context, state: Inline.state, expected: Maybe<&2, F.Term.t>, leg: F.Term.leg, done: F.Term.leg -> Inline.state -> Inline.walk_result_state}
   Inline.LegContext{scope: Maybe<&2, F.Pair2<Inline.context, F.Term.t>>, context: Inline.context, state: Inline.state, leg: F.Term.leg, done: F.Term.leg -> Inline.state -> Inline.walk_result_state}
   Inline.Legs{context: Inline.context, state: Inline.state, expected: Maybe<&2, F.Term.t>, legs: List<&2, F.Term.leg>, done: List<&2, F.Term.leg> -> Inline.state -> Inline.walk_result_state}
-  Inline.Motive{context: Inline.context, state: Inline.state, motive: Maybe<&2, F.Term.motive>, done: Maybe<&2, F.Term.motive> -> Inline.state -> Inline.walk_result_state}
+  Inline.Motive{shape: F.Shape.t<F.Term.t>, scrut: F.Term.t, context: Inline.context, state: Inline.state, motive: Maybe<&2, F.Term.motive>, done: Maybe<&2, F.Term.motive> -> Inline.state -> Inline.walk_result_state}
   Inline.Branch{scope: Maybe<&2, Inline.context>, context: Inline.context, state: Inline.state, leg: F.Term.leg, done: F.Term.leg -> Inline.state -> Inline.walk_result_state}
   Inline.Branches{shape: F.Shape.t<F.Term.t>, scrut: F.Term.t, context: Inline.context, state: Inline.state, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, done: List<&2, F.Pair2<F.Term.addr, F.Term.leg>> -> Inline.state -> Inline.walk_result_state}
   Inline.Let{needed: Bool, context: Inline.context, state: Inline.state, name: String, ty: F.Term.t, value: F.Term.t, body: F.Term.t, done: F.Term.t -> Inline.state -> Inline.walk_result_state}
@@ -939,11 +1017,12 @@ def Inline.run_state(~ops: Inline.Semantics, task: Inline.Task) -> Inline.walk_r
         case h <> t:
           Inline.run_state(~ops, Inline.Leg{context, state, expected, h, rewritten => next =>
             Inline.run_state(~ops, Inline.Legs{context, next, expected, t, rest => after => done(rewritten <> rest, after)})})
-    case Inline.Motive{context, state, motive, done}:
+    case Inline.Motive{shape, scrut, +context, state, motive, done}:
       match motive:
         case None{}: done(None{}, state)
-        case Some{F.Term.Motive{ind, idx, self, body}}:
-          Inline.run_state(~ops, Inline.Walk{Inline.root(context), state, None{}, body, rewritten => next => done(Some{F.Term.Motive{ind, idx, self, rewritten}}, next)})
+        case Some{F.Term.Motive{+ind, +idx, +self, body}}:
+          Inline.bind_state(Maybe<&2, Inline.context>, F.Pair2<F.Term.t, Inline.state>, Inline.motive_context_state(shape, scrut, ind, idx, self, context), scope =>
+            Inline.run_state(~ops, Inline.Walk{Inline.motive_scope(scope, context), state, None{}, body, rewritten => next => done(Some{F.Term.Motive{ind, idx, self, rewritten}}, next)}))
     case Inline.Branch{scope, context, state, leg, done}:
       match scope:
         case None{}: Inline.run_state(~ops, Inline.Leg{context, state, None{}, leg, done})
@@ -1000,7 +1079,7 @@ def Inline.run_state(~ops: Inline.Semantics, task: Inline.Task) -> Inline.walk_r
         case F.Term.Elim{F.Term.Elimination{+shape, +scrut, quantity, motive, branches}}:
           Inline.run_state(~ops, Inline.Shape{context, state, shape, s => next =>
             Inline.run_state(~ops, Inline.Walk{context, next, None{}, scrut, sc => after_scrut =>
-              Inline.run_state(~ops, Inline.Motive{context, after_scrut, motive, mo => after_motive =>
+              Inline.run_state(~ops, Inline.Motive{shape, scrut, context, after_scrut, motive, mo => after_motive =>
                 Inline.run_state(~ops, Inline.Branches{shape, scrut, context, after_motive, branches, bs => after => done(F.Term.Elim{F.Term.Elimination{s, sc, quantity, mo, bs}}, after)})})})})
         case other: done(other, state)
 

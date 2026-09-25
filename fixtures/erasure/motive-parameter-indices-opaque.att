@@ -1,0 +1,7 @@
+mu Pair (0 A : Type 0) : (0 x : A) -> (0 y : A) -> Type 0 with
+| pair : (0 x : A) -> (0 y : A) -> Pair A x y
+mu Same : (0 A : Type 0) -> (0 x : A) -> (0 y : A) -> (0 b : Pair A x y) -> Prop with
+| same : (0 A : Type 0) -> (0 x : A) -> (0 y : A) -> (0 b : Pair A x y) -> Same A x y b
+axiom proof : (0 A : Type 0) -> (0 x : A) -> (0 y : A) -> (0 b : Pair A x y) -> Same A x y b
+
+def keep : (0 A : Type 0) -> (0 x : A) -> (b : Pair A x x) -> Nat := fun (0 A : Type 0) => fun (0 x : A) => fun (b : Pair A x x) => case b as value in Pair u v return (let p : Same A u v value := proof A u v value in Nat) with | pair 0 s 0 t => 7

@@ -28,7 +28,9 @@ INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=27 total=46 FAIL
+INLINE-ERASE row=motive-guards OK
+INLINE-ERASE row=motive-quantities OK
+INLINE-ERASE pass=29 total=53 FAIL
 INLINE-ERASE row=local-dependent FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=local-inherited FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=local-poison FAIL unbound: de Bruijn index 0 is outside the environment
@@ -48,4 +50,9 @@ INLINE-ERASE row=branch-parameter-function FAIL unbound: de Bruijn index 2 is ou
 INLINE-ERASE row=branch-parameter-annotated FAIL mismatch: the term has type (Lan SMu Pack [] (Sec SColl 1 [ => 0])) and the expected type is (Lan SMu Equal [0] (Sec SColl 0 []))
 INLINE-ERASE row=branch-parameter-let FAIL mismatch: the term has type (Lan SMu Equal [0] (Sec SColl 0 [])) and the expected type is (Lan SMu Pack [] (Sec SColl 1 [ => 0]))
 INLINE-ERASE row=branch-parameter-ctor FAIL unbound: de Bruijn index 3 is outside the environment
+INLINE-ERASE row=motive-index FAIL unbound: de Bruijn index 0 is outside the environment
+INLINE-ERASE row=motive-self FAIL unbound: de Bruijn index 0 is outside the environment
+INLINE-ERASE row=motive-dependent FAIL unbound: de Bruijn index 1 is outside the environment
+INLINE-ERASE row=motive-parameter FAIL unbound: de Bruijn index 0 is outside the environment
+INLINE-ERASE row=motive-parameter-indices FAIL unbound: de Bruijn index 1 is outside the environment
 

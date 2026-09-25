@@ -74,10 +74,13 @@ after removing `erased NAME` declaration notices. The gate reproduces a
 runtime difference with the carried eraser for those twenty-one pairs. Eight
 parameterized branch pairs require runtime equality, but the carried eraser
 gives equal outputs for them too, so these runtime rows do not discriminate.
+Five motive pairs also have equal carried runtime outputs; their semantic
+rows require exactly one sealed proof and recheck the generated proposition.
 The gate requires that carried equality. Sealing for these pairs is checked
 only in the semantic suite, and the gate requires the suite copies in
-`erase/test/parameter_fixtures.bend` to equal the `.att` files byte for byte.
-Forty-six semantic
+`erase/test/parameter_fixtures.bend` and `erase/test/motive_fixtures.bend` to
+equal the `.att` files byte for byte.
+Fifty-three semantic
 tests cover poisoned proof bodies at known types, inherited entries, name
 collisions, runtime lets, local type annotations, and rewritten rows. They also
 check closed postulate types, dependent argument order, original universes,
@@ -93,6 +96,22 @@ type from an annotated scrutinee, a global declaration, or a typed local binder,
 including lets. They require matching family shapes, closed parameter arguments,
 and an exact parameter count. Capture-avoiding source substitution specializes
 field types under their earlier fields and preserves universe syntax.
+Named inductive motives also recover a local context. Their family name and
+index count must match the elimination shape, and their binder names must
+match the family index telescope in number. Original index domains are
+specialized with the same source parameter arguments used by branches.
+The self type uses fresh indices in declaration order, with parameters
+shifted beneath those indices. Every index and the self binder has quantity
+zero, independently of the quantity in the family telescope. Missing metadata,
+unavailable parameter syntax, wrong counts, and free parameter arguments or index domains fall back
+to the root scope. The five `motive-*` pairs cover an index, self, dependent
+indices at a higher universe, a parameter from an enclosing lambda, and a
+parameter shifted beneath two indices.
+The gate requires the motive fixture strings to equal their files. For each
+parameterized branch and motive pair, the body of `Suite.cases` must hold
+exactly one case line with the row name, and that line must call the exact
+fixture pair and sealing count. A copy of the line in other code or in a
+comment does not count.
 Quotation opens the motive, branches and point keys of a stuck elimination
 on fresh variables in its captured environment, so it reads only the
 environment entries that these bodies use.
@@ -111,9 +130,9 @@ runtime identity, and the frozen OCaml reference erases `keep`. The migration
 differential allows only this named divergence, which
 `dev/validation/differential-divergences.json` pins. The eight `branch-parameter*`
 pairs cover concrete and dependent parameters, function fields, annotations,
-lets, globals, same-shape constructors, and a proof field at a universe. Motive binder contexts and scrutinee types needing further
-normalization or inference remain open.
-No row pins the motive binder case. Lambda bodies without a syntactic expected function
+lets, globals, same-shape constructors, and a proof field at a universe. Unnamed
+motive contexts and scrutinee types needing further normalization or inference
+remain open. Lambda bodies without a syntactic expected function
 type also remain conservative; closed subterms can still be sealed. Local
 proofs without source type syntax are left intact because inferred readback
 can lose the universe of a runtime result type.
@@ -125,7 +144,7 @@ although its family and constructor check in `acc-family.att`.
 `acc-runtime-proof.att` reaches the recursive singleton elimination refusal.
 `TRACE-ERASURE` continues to exit 1. The separate LEAN-TWIN checking corpus
 passes 24 ACCEPT and 12 REFUSE pairs in the shared fragment. This increment
-changes no checker rule, carry pin, term constructor, shape, or count.
+changes no checker rule, carry pin, term constructor, shape, or R0 count.
 
 ## 2 Kernel
 

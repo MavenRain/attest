@@ -12,6 +12,7 @@ import ./support.bend as T
 import ./fixtures.bend as X
 import ./branch_fixtures.bend as B
 import ./parameter_fixtures.bend as PF
+import ./motive_fixtures.bend as MF
 import ../../lib/kernel_pp.bend as P
 
 def Suite.postulate(index:Nat) -> String:
@@ -498,6 +499,43 @@ def Suite.parameter_guards() -> Result<&2,&2,F.Error.t,Unit>:
     width:Unit <- Suite.branch_absent(I.Inline.parameterized_ctor_state(ctor,params,I.Inline.parameter_diagram(F.Term.Sec{F.Shape.make_collection(F.Term.t,0n),[F.Term.Leg{Nil{},F.Term.Global{"Nat"}}]}),Nil{},context))
     Suite.branch_absent(I.Inline.parameterized_ctor_state(ctor,params,I.Inline.parameter_diagram(F.Term.Sec{F.Shape.make_collection(F.Term.t,1n),[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"x"}],F.Term.Var{0n}}]}),Nil{},context))
 
+def Suite.motive_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +family:F.Positivity.family = F.Positivity.Family{"Box",Nil{},[F.Triple3{F.Quantity.One{},"index",F.Term.Global{"Nat"}}],F.Level.one,F.Positivity.Complete{Nil{}},Nil{},True{}}
+  globals:F.Global.t = F.Global.add_family("Box",family,F.Global.add_family("Other",Suite.rename_family(family,"Other"),G.Global.initial))
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(globals,C.Budget.unlimited),Nil{}}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Box",[F.Term.Global{"Nat"}])
+  +scrut:F.Term.t = F.Term.Global{"unknown"}
+  +params:F.Positivity.telescope = [F.Triple3{F.Quantity.Zero{},"A",F.Term.Univ{F.Level.one}}]
+  +fields:F.Positivity.telescope = [F.Triple3{F.Quantity.One{},"index",F.Term.Var{0n}}]
+  +names:List<&2,String> = ["k"]
+  +args:Maybe<&2,List<&2,F.Term.t>> = Some{[F.Term.Global{"Nat"}]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.branch_absent(I.Inline.motive_context_state(F.Shape.make_inductive(F.Term.t,"Missing",[F.Term.Global{"Nat"}]),scrut,Some{"Missing"},names,"self",context))
+    unnamed:Unit <- Suite.branch_absent(I.Inline.motive_context_state(shape,scrut,None{},names,"self",context))
+    family:Unit <- Suite.branch_absent(I.Inline.motive_context_state(shape,scrut,Some{"Other"},names,"self",context))
+    shape_count:Unit <- Suite.branch_absent(I.Inline.motive_context_state(F.Shape.make_inductive(F.Term.t,"Box",Nil{}),scrut,Some{"Box"},names,"self",context))
+    unavailable:Unit <- Suite.branch_absent(I.Inline.motive_arguments_state("Box",params,fields,names,"self",None{},context))
+    short:Unit <- Suite.branch_absent(I.Inline.motive_arguments_state("Box",params,fields,names,"self",Some{Nil{}},context))
+    long:Unit <- Suite.branch_absent(I.Inline.motive_arguments_state("Box",params,fields,names,"self",Some{[F.Term.Global{"Nat"},F.Term.Global{"Nat"}]},context))
+    open:Unit <- Suite.branch_absent(I.Inline.motive_arguments_state("Box",params,fields,names,"self",Some{[F.Term.Var{0n}]},context))
+    index_count:Unit <- Suite.branch_absent(I.Inline.motive_arguments_state("Box",params,fields,Nil{},"self",args,context))
+    extra_index:Unit <- Suite.branch_absent(I.Inline.motive_arguments_state("Box",params,fields,["k","extra"],"self",args,context))
+    free_domain:Unit <- Suite.branch_absent(I.Inline.motive_arguments_state("Box",params,[F.Triple3{F.Quantity.Zero{},"k",F.Term.Var{1n}}],names,"self",args,context))
+    Suite.branch_absent(I.Inline.motive_arguments_state("Box",params,[F.Triple3{F.Quantity.Zero{},"x",F.Term.Global{"Nat"}},F.Triple3{F.Quantity.Zero{},"k",F.Term.Var{2n}}],["j","k"],"self",args,context))
+
+def Suite.motive_quantities_scope(scope:Maybe<&2,I.Inline.context>) -> Result<&2,&2,F.Error.t,Unit>:
+  match scope:
+    case Some{I.Inline.Context{C.Check.Ctx{globals,env,Con{F.Triple3{self,sq,sty},Con{F.Triple3{index,iq,ity},Nil{}}},size,budget},domains}}:
+      T.Test.require(Bool.and(Nat.is_eq(size,2n),Bool.and(String.eq(self,"self"),Bool.and(String.eq(index,"k"),Bool.and(F.Quantity.equal(sq,F.Quantity.Zero{}),F.Quantity.equal(iq,F.Quantity.Zero{}))))),"motive binders are not erased")
+    case other: Fail{F.Error.Mismatch{"motive binder context missing"}}
+
+def Suite.motive_quantities() -> Result<&2,&2,F.Error.t,Unit>:
+  context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
+  fields:F.Positivity.telescope = [F.Triple3{F.Quantity.One{},"index",F.Term.Global{"Nat"}}]
+  do Result<&2,&2,F.Error.t,Unit>:
+    scope:Maybe<&2,I.Inline.context> <- R.Erase.State.finish(Maybe<&2,I.Inline.context>,I.Inline.motive_fields_state(fields,["k"],"self",F.Term.Global{"Nat"},context),C.Budget.unlimited)
+    Suite.motive_quantities_scope(scope)
+
 def Suite.branch_guards() -> Result<&2,&2,F.Error.t,Unit>:
   +fields:F.Positivity.telescope = [F.Triple3{F.Quantity.Zero{}, "n", F.Term.Global{"Nat"}}]
   do Result<&2,&2,F.Error.t,Unit>:
@@ -556,7 +594,14 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"branch-parameter-guards",unit => Suite.parameter_guards},
       Suite.Case{"alias-leg-scope",unit => Suite.stays_inline(X.Fixture.alias_leg_scope,"unknown binder was confused with an outer binder")},
       Suite.Case{"branch-metadata",unit => Suite.branch_guards},
-      Suite.Case{"branch-fallback",unit => Suite.branch_fallback} ]
+      Suite.Case{"branch-fallback",unit => Suite.branch_fallback},
+      Suite.Case{"motive-index",unit => Suite.local_sealed(MF.Fixture.motive_index,MF.Fixture.motive_index_opaque,None{},1n)},
+      Suite.Case{"motive-self",unit => Suite.local_sealed(MF.Fixture.motive_self,MF.Fixture.motive_self_opaque,None{},1n)},
+      Suite.Case{"motive-dependent",unit => Suite.local_sealed(MF.Fixture.motive_dependent,MF.Fixture.motive_dependent_opaque,None{},1n)},
+      Suite.Case{"motive-parameter",unit => Suite.local_sealed(MF.Fixture.motive_parameter,MF.Fixture.motive_parameter_opaque,None{},1n)},
+      Suite.Case{"motive-parameter-indices",unit => Suite.local_sealed(MF.Fixture.motive_parameter_indices,MF.Fixture.motive_parameter_indices_opaque,None{},1n)},
+      Suite.Case{"motive-guards",unit => Suite.motive_guards},
+      Suite.Case{"motive-quantities",unit => Suite.motive_quantities} ]
 
 def main() -> IO(Unit):
   +layout:Maybe<&2,F.Pair2<Bool,String>> = Some{F.Pair2{False{},"Layout"}}

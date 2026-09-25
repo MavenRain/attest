@@ -1,0 +1,6 @@
+mu Equal : (0 n : Nat) -> Prop with
+| refl : (0 n : Nat) -> Equal n
+mu Box : (0 n : Nat) -> Type 0 with
+| box : (0 n : Nat) -> Box n
+
+def keep : (0 n : Nat) -> (b : Box n) -> Nat := fun (0 n : Nat) => fun (b : Box n) => case b as value in Box k return (let p : Equal k := (refl k : Equal k) in Nat) with | box 0 j => 7

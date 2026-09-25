@@ -1,0 +1,3 @@
+erased proof
+rec [mu<Pack>; nat; leg<mu<Pack>,0>]
+fun keep (union mu<Pack>) : union nat := KCase mu<Pack> (KVar 0) [{0 0 (KLit 7)}]

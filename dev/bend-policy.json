@@ -410,6 +410,11 @@
       "pattern": "other"
     },
     {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.motive_quantities_scope",
+      "pattern": "other"
+    },
+    {
       "path": "erase/test/ir_test.bend",
       "function": "check_lookup",
       "pattern": "other"

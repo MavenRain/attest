@@ -1,0 +1,2 @@
+rec [mu<Pair>; nat; leg<mu<Pair>,0>]
+fun keep (union mu<Pair>) : union nat := KCase mu<Pair> (KVar 0) [{0 0 (KLit 7)}]

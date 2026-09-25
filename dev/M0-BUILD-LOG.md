@@ -1,4 +1,46 @@
 # M0 build log
+## 2026-09-25: Stage B proofs in named inductive motives
+
+Inline erasure now recovers the index and self binders of a named inductive
+motive from checked family metadata. It specializes original index domains
+with source parameter arguments and shifts those arguments beneath the new
+indices when constructing the self type. Indices retain declaration order.
+All motive binders have quantity zero, including indices declared with
+quantity one in the family telescope. The kernel and its 6000-line bound are
+unchanged.
+
+The five `motive-index`, `motive-self`, `motive-dependent`,
+`motive-parameter`, and `motive-parameter-indices` fixture pairs cover the new
+contexts. The dependent family lives at Type 1 and the parameterized families
+take an outer type variable. The `motive-parameter-indices` family has two
+indices, so a parameter shift by a constant one gives an ill-typed self.
+Each semantic row requires exactly one new closed proof postulate, checks its
+type and declaration rows, rechecks `keep`, and compares runtime output with
+the opaque twin. Separate guard rows cover missing family metadata, absent
+names and parameter syntax, mismatched families and index counts, wrong
+parameter arity, free arguments and index domains, and erased binder quantities.
+
+The semantic suite has 53 cases. The erasure gate compares 34 inline pairs:
+21 reproduce a carried runtime difference, while eight parameterized branch
+pairs and five motive pairs already agree in the carried eraser. The latter
+13 rely on semantic sealing checks. Motive suite strings must equal the
+fixture files, and the gate ties every motive and parameterized branch
+case in `Suite.cases` to its exact pair and one-postulate assertion. Fourteen
+new behavior mutations and three fixture-binding gate mutations (seventeen
+new cases) bring the battery to 75 cases. Two older parameter mutation anchors now include their branch
+validation context so they still select exactly one expression.
+
+Validation is recorded by `dev/erasure-gates.py --record`,
+`dev/erasure-mutations.py --jobs 2 --record`, and
+`dev/lean-twin-checks.py --record`. The Bend migration source manifest is
+refreshed for the added fixture module.
+
+Stage B stays open. Motives without an explicit family name, scrutinee types
+needing additional inference or normalization, indirectly typed lambda
+scopes, Acc runtime elimination, and full trace comparison remain outside
+this increment.
+
+
 ## 2026-09-24: Stage B parameterized constructor branch proofs
 
 Branch-local proofs now seal when the constructor belongs to a parameterized

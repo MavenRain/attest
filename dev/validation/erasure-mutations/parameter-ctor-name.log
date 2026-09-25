@@ -45,7 +45,14 @@ INLINE-ERASE row=branch-parameter-guards OK
 INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
-INLINE-ERASE pass=44 total=46 FAIL
+INLINE-ERASE row=motive-index OK
+INLINE-ERASE row=motive-self OK
+INLINE-ERASE row=motive-dependent OK
+INLINE-ERASE row=motive-parameter OK
+INLINE-ERASE row=motive-parameter-indices OK
+INLINE-ERASE row=motive-guards OK
+INLINE-ERASE row=motive-quantities OK
+INLINE-ERASE pass=51 total=53 FAIL
 INLINE-ERASE row=branch-parameter-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-parameter-ctor FAIL mismatch: the term has type (Lan SMu Same [A; j] (Sec SColl 0 [])) and the expected type is (Lan SMu Equal [A; j] (Sec SColl 0 []))
 
