@@ -49,7 +49,14 @@ INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
 INLINE-ERASE row=motive-guards OK
 INLINE-ERASE row=motive-quantities OK
-INLINE-ERASE pass=48 total=53 FAIL
+INLINE-ERASE row=motive-plain-local OK
+INLINE-ERASE row=motive-plain-annotated OK
+INLINE-ERASE row=motive-plain-global OK
+INLINE-ERASE row=motive-plain-let OK
+INLINE-ERASE row=motive-plain-dependent OK
+INLINE-ERASE row=motive-plain-guards OK
+INLINE-ERASE row=motive-plain-quantity OK
+INLINE-ERASE pass=55 total=60 FAIL
 INLINE-ERASE row=motive-index FAIL mismatch: the indices of Box takes 1 arguments and the term gives 0
 INLINE-ERASE row=motive-self FAIL mismatch: the term has type (Lan SMu Box [] (Sec SColl 0 [])) and the expected type is (Lan SMu Box [k] (Sec SColl 0 []))
 INLINE-ERASE row=motive-dependent FAIL mismatch: the indices of Pack takes 2 arguments and the term gives 0

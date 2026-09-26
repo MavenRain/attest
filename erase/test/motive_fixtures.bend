@@ -1,5 +1,35 @@
 import Base
 
+def Fixture.motive_plain_annotated() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\n\ndef keep : Nat := case (inj 0 of 2 7 : sum (Nat, Nat)) as self return (let p : Same self := (same self : Same self) in Nat) with | 0 (x : Nat) => 7 | 1 (y : Nat) => 8\n"
+
+def Fixture.motive_plain_annotated_opaque() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\naxiom proof : (0 value : sum (Nat, Nat)) -> Same value\n\ndef keep : Nat := case (inj 0 of 2 7 : sum (Nat, Nat)) as self return (let p : Same self := proof self in Nat) with | 0 (x : Nat) => 7 | 1 (y : Nat) => 8\n"
+
+def Fixture.motive_plain_dependent() -> String:
+  "mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with\n| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\n\ndef keep : (0 A : Type 0) -> (v : sum (A, A)) -> Nat := fun (0 A : Type 0) => fun (v : sum (A, A)) => case v as self return (let p : Same A self := (same A self : Same A self) in Nat) with | 0 (x : A) => 7 | 1 (y : A) => 8\n"
+
+def Fixture.motive_plain_dependent_opaque() -> String:
+  "mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with\n| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\naxiom proof : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\n\ndef keep : (0 A : Type 0) -> (v : sum (A, A)) -> Nat := fun (0 A : Type 0) => fun (v : sum (A, A)) => case v as self return (let p : Same A self := proof A self in Nat) with | 0 (x : A) => 7 | 1 (y : A) => 8\n"
+
+def Fixture.motive_plain_global() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\naxiom input : sum (Nat, Nat)\n\ndef keep : Nat := case input as self return (let p : Same self := (same self : Same self) in Nat) with | 0 (x : Nat) => 7 | 1 (y : Nat) => 8\n"
+
+def Fixture.motive_plain_global_opaque() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\naxiom input : sum (Nat, Nat)\naxiom proof : (0 value : sum (Nat, Nat)) -> Same value\n\ndef keep : Nat := case input as self return (let p : Same self := proof self in Nat) with | 0 (x : Nat) => 7 | 1 (y : Nat) => 8\n"
+
+def Fixture.motive_plain_let() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\n\ndef keep : Nat := let v : sum (Nat, Nat) := inj 1 of 2 8 in case v as self return (let p : Same self := (same self : Same self) in Nat) with | 0 (x : Nat) => 7 | 1 (y : Nat) => 8\n"
+
+def Fixture.motive_plain_let_opaque() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\naxiom proof : (0 value : sum (Nat, Nat)) -> Same value\n\ndef keep : Nat := let v : sum (Nat, Nat) := inj 1 of 2 8 in case v as self return (let p : Same self := proof self in Nat) with | 0 (x : Nat) => 7 | 1 (y : Nat) => 8\n"
+
+def Fixture.motive_plain_local() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\n\ndef keep : (v : sum (Nat, Nat)) -> Nat := fun (v : sum (Nat, Nat)) => case v as self return (let p : Same self := (same self : Same self) in Nat) with | 0 (x : Nat) => 7 | 1 (y : Nat) => 8\n"
+
+def Fixture.motive_plain_local_opaque() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\naxiom proof : (0 value : sum (Nat, Nat)) -> Same value\n\ndef keep : (v : sum (Nat, Nat)) -> Nat := fun (v : sum (Nat, Nat)) => case v as self return (let p : Same self := proof self in Nat) with | 0 (x : Nat) => 7 | 1 (y : Nat) => 8\n"
+
 def Fixture.motive_index() -> String:
   "mu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\nmu Box : (0 n : Nat) -> Type 0 with\n| box : (0 n : Nat) -> Box n\n\ndef keep : (0 n : Nat) -> (b : Box n) -> Nat := fun (0 n : Nat) => fun (b : Box n) => case b as value in Box k return (let p : Equal k := (refl k : Equal k) in Nat) with | box 0 j => 7\n"
 

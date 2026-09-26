@@ -49,10 +49,17 @@ INLINE-ERASE row=motive-self OK
 INLINE-ERASE row=motive-dependent OK
 INLINE-ERASE row=motive-guards OK
 INLINE-ERASE row=motive-quantities OK
-INLINE-ERASE pass=48 total=53 FAIL
+INLINE-ERASE row=motive-plain-local OK
+INLINE-ERASE row=motive-plain-annotated OK
+INLINE-ERASE row=motive-plain-global OK
+INLINE-ERASE row=motive-plain-let OK
+INLINE-ERASE row=motive-plain-guards OK
+INLINE-ERASE row=motive-plain-quantity OK
+INLINE-ERASE pass=54 total=60 FAIL
 INLINE-ERASE row=branch-parameter-dependent FAIL mismatch: the term has type a and the expected type is A
 INLINE-ERASE row=branch-parameter-function FAIL universe: a term used as a type is not a universe:  A
 INLINE-ERASE row=branch-parameter-ctor FAIL mismatch: the term has type a and the expected type is A
 INLINE-ERASE row=motive-parameter FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-parameter-indices FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-plain-dependent FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => v;  => v])) and the expected type is (Lan SColl 2 (Sec SColl 2 [ => A;  => A]))
 

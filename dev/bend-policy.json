@@ -406,12 +406,17 @@
     },
     {
       "path": "erase/test/inline_test.bend",
-      "function": "Suite.branch_absent",
+      "function": "Suite.branch_absent_as",
       "pattern": "other"
     },
     {
       "path": "erase/test/inline_test.bend",
       "function": "Suite.motive_quantities_scope",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.plain_motive_scope",
       "pattern": "other"
     },
     {

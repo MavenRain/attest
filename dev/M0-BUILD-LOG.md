@@ -1,4 +1,37 @@
 # M0 build log
+## 2026-09-25: Stage B proofs in unnamed motives
+
+Unnamed motives now retain the source type of their erased self binder.
+The eraser recovers it from an annotated scrutinee, a global declaration,
+or a typed local binder, including a let. It requires a source type closed
+in the current scope and refuses context recovery for index binders or an
+inductive elimination shape. The trusted kernel is unchanged.
+
+Five `motive-plain-*` fixture pairs cover annotations, globals, typed locals,
+lets, and a sum type dependent on an outer type binder. Their semantic rows
+require one closed proof postulate, recheck its type and the rewritten
+program, and compare the erased output with the opaque twin. The gate binds
+each case to its fixture files. Separate checks cover malformed scopes,
+missing source types, and self's erased quantity and original source domain.
+The quantity check uses a source type other than `Nat` and compares both
+the Inline parameter and the quoted checker entry with it. Each guard
+check reports its own message.
+The semantic suite has 60 cases and the erasure gate compares 39 inline
+pairs. The ten motive pairs and eight parameterized branch pairs rely on
+the semantic sealing checks because their carried runtime outputs agree.
+
+Nine new mutation cases bring the battery to 84: disabled recovery, runtime
+self, a free source type that passes both closure checks (the
+`Inline.source_expected` filter and the self binder closure check),
+unexpected indices, an inductive shape, a redirected fixture pair, a
+hardcoded `Nat` self domain, a different checker entry type, and a source
+type for an unsupported scrutinee term.
+Validation is recorded through the erasure gates, mutation battery, and
+Lean twin checks. The source manifest and HOUSE test fallback registry are
+refreshed. Stage B remains open for additional source type inference,
+indirectly typed lambda scopes, Acc runtime elimination, and the full trace
+comparison.
+
 ## 2026-09-25: Stage B proofs in named inductive motives
 
 Inline erasure now recovers the index and self binders of a named inductive

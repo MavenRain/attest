@@ -53,6 +53,13 @@ INLINE-ERASE row=motive-parameter OK
 INLINE-ERASE row=motive-parameter-indices OK
 INLINE-ERASE row=motive-guards OK
 INLINE-ERASE row=motive-quantities OK
-INLINE-ERASE pass=52 total=53 FAIL
+INLINE-ERASE row=motive-plain-local OK
+INLINE-ERASE row=motive-plain-annotated OK
+INLINE-ERASE row=motive-plain-global OK
+INLINE-ERASE row=motive-plain-let OK
+INLINE-ERASE row=motive-plain-dependent OK
+INLINE-ERASE row=motive-plain-guards OK
+INLINE-ERASE row=motive-plain-quantity OK
+INLINE-ERASE pass=59 total=60 FAIL
 INLINE-ERASE row=alias-leg-scope FAIL mismatch: no postulate leaked
 

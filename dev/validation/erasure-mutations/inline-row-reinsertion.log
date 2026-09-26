@@ -22,7 +22,9 @@ INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
 INLINE-ERASE row=motive-guards OK
 INLINE-ERASE row=motive-quantities OK
-INLINE-ERASE pass=21 total=53 FAIL
+INLINE-ERASE row=motive-plain-guards OK
+INLINE-ERASE row=motive-plain-quantity OK
+INLINE-ERASE pass=23 total=60 FAIL
 INLINE-ERASE row=rows FAIL mismatch: stale declaration reinserted
 INLINE-ERASE row=binders FAIL mismatch: runtime differs from its sealed twin
 INLINE-ERASE row=redeclared FAIL mismatch: stale declaration reinserted
@@ -55,4 +57,9 @@ INLINE-ERASE row=motive-self FAIL mismatch: local declaration rows differ
 INLINE-ERASE row=motive-dependent FAIL mismatch: local declaration rows differ
 INLINE-ERASE row=motive-parameter FAIL mismatch: local declaration rows differ
 INLINE-ERASE row=motive-parameter-indices FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=motive-plain-local FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=motive-plain-annotated FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=motive-plain-global FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=motive-plain-let FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=motive-plain-dependent FAIL mismatch: local declaration rows differ
 

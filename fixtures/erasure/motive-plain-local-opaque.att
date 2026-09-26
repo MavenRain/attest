@@ -1,0 +1,5 @@
+mu Same : (0 value : sum (Nat, Nat)) -> Prop with
+| same : (0 value : sum (Nat, Nat)) -> Same value
+axiom proof : (0 value : sum (Nat, Nat)) -> Same value
+
+def keep : (v : sum (Nat, Nat)) -> Nat := fun (v : sum (Nat, Nat)) => case v as self return (let p : Same self := proof self in Nat) with | 0 (x : Nat) => 7 | 1 (y : Nat) => 8

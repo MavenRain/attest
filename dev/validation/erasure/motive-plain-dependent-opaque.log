@@ -1,0 +1,3 @@
+erased proof
+rec [sum<union any|union any>; nat]
+fun keep (union sum<union any|union any>) : union nat := KCase sum<union any|union any> (KVar 0) [{0 1 (KLit 7)}; {1 1 (KLit 8)}]

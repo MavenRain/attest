@@ -864,9 +864,30 @@ def Inline.motive_view_state(view: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>
     case Some{F.Pair2{family, indices}}:
       Inline.motive_selected_state(Bool.and(String.eq(ind, family), Nat.is_eq(Inline.length(F.Term.t, indices), Inline.length(String, names))), shape, scrut, ind, names, self, context)
 
+# Plain motives bind only an erased self with the original scrutinee type.
+def Inline.motive_plain_type_state(ty: Maybe<&2, F.Term.t>, self: String, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match ty:
+    case None{}: R.Erase.Return{None{}}
+    case Some{domain}:
+      Inline.bind_state(Inline.context, Maybe<&2, Inline.context>, Inline.bind_domain_state(context, self, F.Quantity.Zero{}, domain), scope =>
+        R.Erase.Return{Some{scope}})
+
+def Inline.motive_plain_names_state(names: List<&2, String>, scrut: F.Term.t, self: String, +context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match names:
+    case head <> tail: R.Erase.Return{None{}}
+    case Nil{}:
+      Inline.Context{checker, domains} = context
+      Inline.bind_state(Maybe<&2, F.Term.t>, Maybe<&2, Inline.context>, R.Erase.State.lift(Maybe<&2, F.Term.t>, Inline.scrutinee_type(scrut, context)), ty =>
+        Inline.motive_plain_type_state(Inline.source_expected(ty, C.Check.size(checker)), self, context))
+
+def Inline.motive_plain_view_state(view: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, scrut: F.Term.t, names: List<&2, String>, self: String, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
+  match view:
+    case Some{family}: R.Erase.Return{None{}}
+    case None{}: Inline.motive_plain_names_state(names, scrut, self, context)
+
 def Inline.motive_context_state(+shape: F.Shape.t<F.Term.t>, scrut: F.Term.t, ind: Maybe<&2, String>, names: List<&2, String>, self: String, context: Inline.context) -> R.Erase.State<Maybe<&2, Inline.context>>:
   match ind:
-    case None{}: R.Erase.Return{None{}}
+    case None{}: Inline.motive_plain_view_state(F.Shape.inductive(F.Term.t, shape), scrut, names, self, context)
     case Some{name}: Inline.motive_view_state(F.Shape.inductive(F.Term.t, shape), shape, scrut, name, names, self, context)
 
 def Inline.motive_scope(scope: Maybe<&2, Inline.context>, context: Inline.context) -> Inline.context:

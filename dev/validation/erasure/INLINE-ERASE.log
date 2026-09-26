@@ -51,4 +51,11 @@ INLINE-ERASE row=motive-parameter OK
 INLINE-ERASE row=motive-parameter-indices OK
 INLINE-ERASE row=motive-guards OK
 INLINE-ERASE row=motive-quantities OK
-INLINE-ERASE pass=53 total=53 OK
+INLINE-ERASE row=motive-plain-local OK
+INLINE-ERASE row=motive-plain-annotated OK
+INLINE-ERASE row=motive-plain-global OK
+INLINE-ERASE row=motive-plain-let OK
+INLINE-ERASE row=motive-plain-dependent OK
+INLINE-ERASE row=motive-plain-guards OK
+INLINE-ERASE row=motive-plain-quantity OK
+INLINE-ERASE pass=60 total=60 OK

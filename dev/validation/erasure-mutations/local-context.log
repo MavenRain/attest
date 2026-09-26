@@ -37,7 +37,12 @@ INLINE-ERASE row=motive-self OK
 INLINE-ERASE row=motive-dependent OK
 INLINE-ERASE row=motive-guards OK
 INLINE-ERASE row=motive-quantities OK
-INLINE-ERASE pass=36 total=53 FAIL
+INLINE-ERASE row=motive-plain-annotated OK
+INLINE-ERASE row=motive-plain-global OK
+INLINE-ERASE row=motive-plain-let OK
+INLINE-ERASE row=motive-plain-guards OK
+INLINE-ERASE row=motive-plain-quantity OK
+INLINE-ERASE pass=41 total=60 FAIL
 INLINE-ERASE row=local-index FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=local-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=local-inherited FAIL mismatch: local proof has no postulate
@@ -55,4 +60,6 @@ INLINE-ERASE row=branch-parameter-let FAIL mismatch: local proof has no postulat
 INLINE-ERASE row=branch-parameter-ctor FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-parameter FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-parameter-indices FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-plain-local FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-plain-dependent FAIL mismatch: local proof has no postulate
 

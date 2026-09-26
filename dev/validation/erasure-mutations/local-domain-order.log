@@ -30,7 +30,12 @@ INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
 INLINE-ERASE row=motive-guards OK
 INLINE-ERASE row=motive-quantities OK
-INLINE-ERASE pass=29 total=53 FAIL
+INLINE-ERASE row=motive-plain-local OK
+INLINE-ERASE row=motive-plain-annotated OK
+INLINE-ERASE row=motive-plain-global OK
+INLINE-ERASE row=motive-plain-guards OK
+INLINE-ERASE row=motive-plain-quantity OK
+INLINE-ERASE pass=34 total=60 FAIL
 INLINE-ERASE row=local-dependent FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=local-inherited FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=local-poison FAIL unbound: de Bruijn index 0 is outside the environment
@@ -55,4 +60,6 @@ INLINE-ERASE row=motive-self FAIL unbound: de Bruijn index 0 is outside the envi
 INLINE-ERASE row=motive-dependent FAIL unbound: de Bruijn index 1 is outside the environment
 INLINE-ERASE row=motive-parameter FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=motive-parameter-indices FAIL unbound: de Bruijn index 1 is outside the environment
+INLINE-ERASE row=motive-plain-let FAIL mismatch: the term has type (Lan SMu Same [(In SColl 2 (ALeg 1) [8])] (Sec SColl 0 [])) and the expected type is (Lan SMu Same [self] (Sec SColl 0 []))
+INLINE-ERASE row=motive-plain-dependent FAIL unbound: de Bruijn index 1 is outside the environment
 

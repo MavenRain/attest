@@ -1,4 +1,26 @@
 # Mutation log
+## 2026-09-25: Unnamed motive context mutations
+
+Nine new cases bring the erasure battery to 84. They disable unnamed motive
+recovery, give self a runtime quantity, bypass source type closure, admit
+unexpected indices, admit an inductive shape, redirect a plain motive
+case to a different valid fixture pair, bind self to a hardcoded `Nat`
+domain, give the checker entry a different type than the Inline
+parameter, and give an unsupported scrutinee term a source type. The
+record shows all 84 cases caught. All nine new cases build. All except
+the fixture mutation fail their named semantic rows. The four guard cases
+pin the full message of the guard check that catches them. The fixture
+mutation fails the gate's exact
+pair binding check. The closure case removes two checks: the
+`Inline.source_expected` filter and the closure check that
+`Inline.bind_domain_state` does on the self domain. The second check alone
+gives the same scope, so a mutation of only the filter changes only the
+optional result and not the scope. With both checks removed, the plain
+path evaluates the open self domain. The evaluation error replaces the
+conservative root scope fallback, and the free annotation guard of
+`motive-plain-guards` fails on that error state. Records and full logs
+remain under `dev/validation/erasure-mutations*`.
+
 ## 2026-09-25: Named motive context mutations
 
 Seventeen new cases join the battery: fourteen behavior mutations of the

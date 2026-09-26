@@ -22,11 +22,16 @@ INLINE_ROWS = ("let-proof", "scrutinee-proof", "projection-proof", "projection-s
                "local-proof-let-alias", "local-proof-let-family", "local-proof-let-universe",
                "branch-local-proof", "branch-dependent", "branch-nested",
                "branch-multi-ctor")
-# These pairs already share a coarse runtime layout in the carried eraser, so
-# their runtime rows do not discriminate: the gate requires the carried outputs
-# to be equal. Their semantic suite rows require a sealed postulate and
-# recheck its type, and the gate requires the suite strings in
-# PARAMETER_FIXTURES to equal the .att files byte for byte.
+# The pairs in PARAMETER_ROWS and MOTIVE_ROWS already share a coarse runtime
+# layout in the carried eraser, so their runtime rows do not discriminate: the
+# gate exempts them from the carried runtime difference and requires the
+# carried outputs to be equal. Their semantic suite rows seal a postulate and
+# recheck its type. The gate requires the suite strings in PARAMETER_FIXTURES
+# and MOTIVE_FIXTURES to equal the .att files byte for byte, and fixture_calls
+# binds each exempt pair to one exact sealed Suite.Case line in Suite.cases.
+# Each motive line and each plain parameter line calls Suite.local_sealed with
+# a postulate count of 1n; branch-parameter-ctor and branch-parameter-universe
+# use the exact helper calls in fixture_call_table.
 PARAMETER_FIXTURES = Path("erase/test/parameter_fixtures.bend")
 # Suite strings with no runtime pair; any other extra string is refused.
 SUITE_ONLY_FIXTURES = frozenset(("Fixture.branch_parameter_ctor_last",
@@ -37,11 +42,13 @@ PARAMETER_ROWS = ("branch-parameter", "branch-parameter-dependent",
                   "branch-parameter-ctor", "branch-parameter-universe")
 MOTIVE_FIXTURES = Path("erase/test/motive_fixtures.bend")
 MOTIVE_ROWS = ("motive-index", "motive-self", "motive-dependent", "motive-parameter",
-               "motive-parameter-indices")
+               "motive-parameter-indices", "motive-plain-local", "motive-plain-annotated",
+               "motive-plain-global", "motive-plain-let", "motive-plain-dependent")
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
                                "family-collision", "runtime", "local-type", "rows", "binders",
                                *MOTIVE_ROWS, "motive-guards", "motive-quantities",
+                               "motive-plain-guards", "motive-plain-quantity",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",
@@ -576,7 +583,7 @@ def record(logs, rows):
             "rows": rows, "open": ["Acc erased proof binder and recursive proof elimination",
             "full TRACE-ERASURE including Acc",
             "constructor branch and named motive scopes without source syntax for family parameters",
-            "motive scopes without an explicit inductive family name",
+            "unnamed motive scopes without a source scrutinee type",
             "lambda scopes without a syntactic expected function type",
             "local proofs without source type syntax",
             "unannotated proof introductions without an expected type and family metadata"],

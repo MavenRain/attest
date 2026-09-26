@@ -468,10 +468,13 @@ def Suite.length(rows:List<Suite.case>,n:Nat) -> Nat:
     case Nil{}: n
     case Suite.Case{name,run} <> rest: Suite.length(rest,(n + 1n : Nat))
 
-def Suite.branch_absent(state:R.Erase.State<Maybe<&2,I.Inline.context>>) -> Result<&2,&2,F.Error.t,Unit>:
+def Suite.branch_absent_as(state:R.Erase.State<Maybe<&2,I.Inline.context>>,label:String) -> Result<&2,&2,F.Error.t,Unit>:
   match state:
     case R.Erase.Return{None{}}: Done{Unit{}}
-    case other: Fail{F.Error.Mismatch{"unsupported branch acquired a context"}}
+    case other: Fail{F.Error.Mismatch{label}}
+
+def Suite.branch_absent(state:R.Erase.State<Maybe<&2,I.Inline.context>>) -> Result<&2,&2,F.Error.t,Unit>:
+  Suite.branch_absent_as(state,"unsupported branch acquired a context")
 
 def Suite.branch_fallback() -> Result<&2,&2,F.Error.t,Unit>:
   +context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
@@ -535,6 +538,36 @@ def Suite.motive_quantities() -> Result<&2,&2,F.Error.t,Unit>:
   do Result<&2,&2,F.Error.t,Unit>:
     scope:Maybe<&2,I.Inline.context> <- R.Erase.State.finish(Maybe<&2,I.Inline.context>,I.Inline.motive_fields_state(fields,["k"],"self",F.Term.Global{"Nat"},context),C.Budget.unlimited)
     Suite.motive_quantities_scope(scope)
+
+def Suite.plain_motive_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +scrut:F.Term.t = F.Term.Ann{F.Term.Global{"unknown"},F.Term.Global{"Nat"}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    indices:Unit <- Suite.branch_absent_as(I.Inline.motive_context_state(shape,scrut,None{},["k"],"self",context),"plain motive index names acquired a context")
+    inductive:Unit <- Suite.branch_absent_as(I.Inline.motive_context_state(F.Shape.make_inductive(F.Term.t,"Box",Nil{}),scrut,None{},Nil{},"self",context),"plain motive inductive shape acquired a context")
+    missing_global:Unit <- Suite.branch_absent_as(I.Inline.motive_context_state(shape,F.Term.Global{"unknown"},None{},Nil{},"self",context),"plain motive missing global acquired a context")
+    missing_local:Unit <- Suite.branch_absent_as(I.Inline.motive_context_state(shape,F.Term.Var{0n},None{},Nil{},"self",context),"plain motive missing local acquired a context")
+    unavailable:Unit <- Suite.branch_absent_as(I.Inline.motive_context_state(shape,F.Term.Univ{F.Level.one},None{},Nil{},"self",context),"plain motive unavailable source type acquired a context")
+    Suite.branch_absent_as(I.Inline.motive_context_state(shape,F.Term.Ann{F.Term.Global{"unknown"},F.Term.Var{0n}},None{},Nil{},"self",context),"plain motive free annotation acquired a context")
+
+# The source type is not Nat, so a hardcoded Nat domain fails. The checker
+# entry type is quoted and compared too, not only the Inline parameter.
+def Suite.plain_motive_scope(scope:Maybe<&2,I.Inline.context>,+expected:F.Term.t) -> Result<&2,&2,F.Error.t,Unit>:
+  match scope:
+    case Some{I.Inline.Context{C.Check.Ctx{globals,env,Con{F.Triple3{self,quantity,ty},Nil{}},size,budget},Con{I.Inline.Param{name,domain},Nil{}}}}:
+      do Result<&2,&2,F.Error.t,Unit>:
+        checked:F.Term.t <- V.Eval.quote(globals,0n,ty)
+        T.Test.require(Bool.and(Nat.is_eq(size,1n),Bool.and(String.eq(self,"self"),Bool.and(String.eq(name,"self"),Bool.and(I.Inline.term_equal(domain,expected),Bool.and(I.Inline.term_equal(checked,expected),F.Quantity.equal(quantity,F.Quantity.Zero{})))))),"plain motive self lost its source type or erased quantity")
+    case other: Fail{F.Error.Mismatch{"plain motive binder context missing"}}
+
+def Suite.plain_motive_quantity() -> Result<&2,&2,F.Error.t,Unit>:
+  context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
+  +source:F.Term.t = F.Term.Univ{F.Level.zero}
+  scrut:F.Term.t = F.Term.Ann{F.Term.Global{"unknown"},source}
+  do Result<&2,&2,F.Error.t,Unit>:
+    scope:Maybe<&2,I.Inline.context> <- R.Erase.State.finish(Maybe<&2,I.Inline.context>,I.Inline.motive_context_state(F.Shape.make_collection(F.Term.t,2n),scrut,None{},Nil{},"self",context),C.Budget.unlimited)
+    Suite.plain_motive_scope(scope,source)
 
 def Suite.branch_guards() -> Result<&2,&2,F.Error.t,Unit>:
   +fields:F.Positivity.telescope = [F.Triple3{F.Quantity.Zero{}, "n", F.Term.Global{"Nat"}}]
@@ -601,7 +634,14 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"motive-parameter",unit => Suite.local_sealed(MF.Fixture.motive_parameter,MF.Fixture.motive_parameter_opaque,None{},1n)},
       Suite.Case{"motive-parameter-indices",unit => Suite.local_sealed(MF.Fixture.motive_parameter_indices,MF.Fixture.motive_parameter_indices_opaque,None{},1n)},
       Suite.Case{"motive-guards",unit => Suite.motive_guards},
-      Suite.Case{"motive-quantities",unit => Suite.motive_quantities} ]
+      Suite.Case{"motive-quantities",unit => Suite.motive_quantities},
+      Suite.Case{"motive-plain-local",unit => Suite.local_sealed(MF.Fixture.motive_plain_local,MF.Fixture.motive_plain_local_opaque,None{},1n)},
+      Suite.Case{"motive-plain-annotated",unit => Suite.local_sealed(MF.Fixture.motive_plain_annotated,MF.Fixture.motive_plain_annotated_opaque,None{},1n)},
+      Suite.Case{"motive-plain-global",unit => Suite.local_sealed(MF.Fixture.motive_plain_global,MF.Fixture.motive_plain_global_opaque,None{},1n)},
+      Suite.Case{"motive-plain-let",unit => Suite.local_sealed(MF.Fixture.motive_plain_let,MF.Fixture.motive_plain_let_opaque,None{},1n)},
+      Suite.Case{"motive-plain-dependent",unit => Suite.local_sealed(MF.Fixture.motive_plain_dependent,MF.Fixture.motive_plain_dependent_opaque,None{},1n)},
+      Suite.Case{"motive-plain-guards",unit => Suite.plain_motive_guards},
+      Suite.Case{"motive-plain-quantity",unit => Suite.plain_motive_quantity} ]
 
 def main() -> IO(Unit):
   +layout:Maybe<&2,F.Pair2<Bool,String>> = Some{F.Pair2{False{},"Layout"}}

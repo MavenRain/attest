@@ -1,0 +1,2 @@
+rec [nat; sum<union nat|union nat>]
+fun keep () : union nat := KCase sum<union nat|union nat> (KTag sum<union nat|union nat> 0 [KLit 7]) [{0 1 (KLit 7)}; {1 1 (KLit 8)}]

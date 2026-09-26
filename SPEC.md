@@ -74,13 +74,13 @@ after removing `erased NAME` declaration notices. The gate reproduces a
 runtime difference with the carried eraser for those twenty-one pairs. Eight
 parameterized branch pairs require runtime equality, but the carried eraser
 gives equal outputs for them too, so these runtime rows do not discriminate.
-Five motive pairs also have equal carried runtime outputs; their semantic
+Ten motive pairs also have equal carried runtime outputs; their semantic
 rows require exactly one sealed proof and recheck the generated proposition.
 The gate requires that carried equality. Sealing for these pairs is checked
 only in the semantic suite, and the gate requires the suite copies in
 `erase/test/parameter_fixtures.bend` and `erase/test/motive_fixtures.bend` to
 equal the `.att` files byte for byte.
-Fifty-three semantic
+Sixty semantic
 tests cover poisoned proof bodies at known types, inherited entries, name
 collisions, runtime lets, local type annotations, and rewritten rows. They also
 check closed postulate types, dependent argument order, original universes,
@@ -104,9 +104,17 @@ The self type uses fresh indices in declaration order, with parameters
 shifted beneath those indices. Every index and the self binder has quantity
 zero, independently of the quantity in the family telescope. Missing metadata,
 unavailable parameter syntax, wrong counts, and free parameter arguments or index domains fall back
-to the root scope. The five `motive-*` pairs cover an index, self, dependent
+to the root scope. The five named motive pairs cover an index, self, dependent
 indices at a higher universe, a parameter from an enclosing lambda, and a
 parameter shifted beneath two indices.
+Unnamed motives recover only self, with quantity zero, from the scrutinee's
+source type. An annotation, a global declaration, or a typed local binder
+(including a let) provides that type. It must be closed in the current
+context. An unnamed motive with index binders, an inductive shape, or no
+recoverable source type falls back to the root scope. Five `motive-plain-*`
+pairs cover each source form and a sum type dependent on an outer type binder.
+The guard and quantity tests also check missing globals and locals, free
+type variables, and preservation of the source domain.
 The gate requires the motive fixture strings to equal their files. For each
 parameterized branch and motive pair, the body of `Suite.cases` must hold
 exactly one case line with the row name, and that line must call the exact
@@ -131,8 +139,8 @@ differential allows only this named divergence, which
 `dev/validation/differential-divergences.json` pins. The eight `branch-parameter*`
 pairs cover concrete and dependent parameters, function fields, annotations,
 lets, globals, same-shape constructors, and a proof field at a universe. Unnamed
-motive contexts and scrutinee types needing further normalization or inference
-remain open. Lambda bodies without a syntactic expected function
+motives without a source scrutinee type, and scrutinee types needing further
+normalization or inference, remain open. Lambda bodies without a syntactic expected function
 type also remain conservative; closed subterms can still be sealed. Local
 proofs without source type syntax are left intact because inferred readback
 can lose the universe of a runtime result type.

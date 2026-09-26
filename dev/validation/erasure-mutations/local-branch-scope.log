@@ -42,7 +42,14 @@ INLINE-ERASE row=motive-parameter OK
 INLINE-ERASE row=motive-parameter-indices OK
 INLINE-ERASE row=motive-guards OK
 INLINE-ERASE row=motive-quantities OK
-INLINE-ERASE pass=41 total=53 FAIL
+INLINE-ERASE row=motive-plain-local OK
+INLINE-ERASE row=motive-plain-annotated OK
+INLINE-ERASE row=motive-plain-global OK
+INLINE-ERASE row=motive-plain-let OK
+INLINE-ERASE row=motive-plain-dependent OK
+INLINE-ERASE row=motive-plain-guards OK
+INLINE-ERASE row=motive-plain-quantity OK
+INLINE-ERASE pass=48 total=60 FAIL
 INLINE-ERASE row=branch-scope FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-nested FAIL mismatch: local proof has no postulate

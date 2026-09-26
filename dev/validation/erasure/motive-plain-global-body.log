@@ -1,0 +1,3 @@
+axiom input : union sum<union nat|union nat>
+rec [nat; sum<union nat|union nat>]
+fun keep () : union nat := KCase sum<union nat|union nat> (KGlobal input) [{0 1 (KLit 7)}; {1 1 (KLit 8)}]
