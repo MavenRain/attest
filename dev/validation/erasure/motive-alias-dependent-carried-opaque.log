@@ -1,0 +1,5 @@
+erased Input
+axiom input : func fn<0>
+erased proof
+rec [nat; sum<union any|union any>]
+fun keep () : union nat := KCase sum<union any|union any> (KApp (KGlobal input) []) [{0 1 (KLit 7)}; {1 1 (KLit 8)}]

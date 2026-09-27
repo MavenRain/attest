@@ -66,6 +66,15 @@ INLINE-ERASE row=motive-application-local OK
 INLINE-ERASE row=motive-application-curried OK
 INLINE-ERASE row=application-capture OK
 INLINE-ERASE row=application-guards OK
-INLINE-ERASE pass=65 total=66 FAIL
+INLINE-ERASE row=alias-global OK
+INLINE-ERASE row=alias-local OK
+INLINE-ERASE row=alias-local-global OK
+INLINE-ERASE row=alias-fuel OK
+INLINE-ERASE row=alias-guards OK
+INLINE-ERASE row=motive-alias-global OK
+INLINE-ERASE row=motive-alias-dependent OK
+INLINE-ERASE row=motive-alias-local OK
+INLINE-ERASE row=motive-alias-curried OK
+INLINE-ERASE pass=74 total=75 FAIL
 INLINE-ERASE row=local-type FAIL unbound: de Bruijn index 1 is outside the context
 

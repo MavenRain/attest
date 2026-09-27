@@ -1,4 +1,26 @@
 # M0 build log
+## 2026-09-26: Stage B function source types through aliases
+
+Application source recovery now follows transparent nonrecursive global
+aliases and local let aliases until it reaches a syntactic function type.
+It checks alias bodies in their declaration scope before shifting local
+bodies into the use scope. A bound derived from the visible declarations
+terminates cyclic inputs. Opaque, recursive, and partial definitions remain
+conservative, and arbitrary type normalization remains open.
+
+Four new fixture pairs cover global chains, dependent function types, local
+chains under outer binders, and curried calls. Their semantic cases require
+one closed proof postulate, recheck the transformed program, and compare it
+with the opaque twin. Five direct cases cover scope, shifting, a local alias
+that names a global alias, the hop bound, and refusal guards. The suite has
+75 cases and the gate compares 47 inline pairs. Eleven new mutations bring
+the erasure battery to 100 cases.
+
+The kernel and its trust budget are unchanged. Stage B remains open for
+Acc runtime elimination, full trace comparison, and the other documented
+source-recovery limits.
+
+
 ## 2026-09-25: Stage B source types for function applications
 
 Scrutinee source recovery now follows function applications with syntactic

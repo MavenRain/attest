@@ -45,13 +45,17 @@ MOTIVE_ROWS = ("motive-index", "motive-self", "motive-dependent", "motive-parame
                "motive-parameter-indices", "motive-plain-local", "motive-plain-annotated",
                "motive-plain-global", "motive-plain-let", "motive-plain-dependent",
                "motive-application-global", "motive-application-dependent",
-               "motive-application-local", "motive-application-curried")
+               "motive-application-local", "motive-application-curried",
+               "motive-alias-global", "motive-alias-dependent",
+               "motive-alias-local", "motive-alias-curried")
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
                                "family-collision", "runtime", "local-type", "rows", "binders",
                                *MOTIVE_ROWS, "motive-guards", "motive-quantities",
                                "motive-plain-guards", "motive-plain-quantity",
                                "application-capture", "application-guards",
+                               "alias-global", "alias-local", "alias-guards",
+                               "alias-local-global", "alias-fuel",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",

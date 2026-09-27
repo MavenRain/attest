@@ -286,6 +286,26 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.global_alias",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.local_alias",
+      "pattern": "Nil{} index"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.alias_type",
+      "pattern": "0n ty"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.alias_type",
+      "pattern": "1n+remaining Some{other}"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.application_type",
       "pattern": "other address"
     },

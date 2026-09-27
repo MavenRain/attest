@@ -62,7 +62,16 @@ INLINE-ERASE row=motive-application-local OK
 INLINE-ERASE row=motive-application-curried OK
 INLINE-ERASE row=application-capture OK
 INLINE-ERASE row=application-guards OK
-INLINE-ERASE pass=61 total=66 FAIL
+INLINE-ERASE row=alias-global OK
+INLINE-ERASE row=alias-local OK
+INLINE-ERASE row=alias-local-global OK
+INLINE-ERASE row=alias-fuel OK
+INLINE-ERASE row=alias-guards OK
+INLINE-ERASE row=motive-alias-global OK
+INLINE-ERASE row=motive-alias-dependent OK
+INLINE-ERASE row=motive-alias-local OK
+INLINE-ERASE row=motive-alias-curried OK
+INLINE-ERASE pass=70 total=75 FAIL
 INLINE-ERASE row=motive-index FAIL mismatch: the indices of Box takes 1 arguments and the term gives 0
 INLINE-ERASE row=motive-self FAIL mismatch: the term has type (Lan SMu Box [] (Sec SColl 0 [])) and the expected type is (Lan SMu Box [k] (Sec SColl 0 []))
 INLINE-ERASE row=motive-dependent FAIL mismatch: the indices of Pack takes 2 arguments and the term gives 0

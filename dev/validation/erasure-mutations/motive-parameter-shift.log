@@ -65,7 +65,16 @@ INLINE-ERASE row=motive-application-local OK
 INLINE-ERASE row=motive-application-curried OK
 INLINE-ERASE row=application-capture OK
 INLINE-ERASE row=application-guards OK
-INLINE-ERASE pass=64 total=66 FAIL
+INLINE-ERASE row=alias-global OK
+INLINE-ERASE row=alias-local OK
+INLINE-ERASE row=alias-local-global OK
+INLINE-ERASE row=alias-fuel OK
+INLINE-ERASE row=alias-guards OK
+INLINE-ERASE row=motive-alias-global OK
+INLINE-ERASE row=motive-alias-dependent OK
+INLINE-ERASE row=motive-alias-local OK
+INLINE-ERASE row=motive-alias-curried OK
+INLINE-ERASE pass=73 total=75 FAIL
 INLINE-ERASE row=motive-parameter FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=motive-parameter-indices FAIL mismatch: the term has type (Lan SMu Pair [u; v] (Sec SColl 1 [ => b])) and the expected type is (Lan SMu Pair [u; v] (Sec SColl 1 [ => A]))
 

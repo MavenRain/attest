@@ -702,6 +702,44 @@ def Inline.global_type(entry: Maybe<&2, F.Global.entry>) -> Maybe<&2, F.Term.t>:
     case None{}: None{}
     case Some{value}: Some{F.Global.entry_ty(value)}
 
+# Alias bodies are checked in their declaration scope before entering this one.
+def Inline.global_alias(entry: Maybe<&2, F.Global.entry>) -> Maybe<&2, F.Term.t>:
+  match entry:
+    case Some{F.Global.Def{F.Global.DefEntry{ty, body, True{}, None{}, False{}}}}:
+      Inline.source_expected(Some{body}, 0n)
+    case other: None{}
+
+def Inline.shift_alias(valid: Bool, value: F.Term.t, skipped: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match valid:
+    case False{}: Done{None{}}
+    case True{}:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        shifted: F.Term.t <- S.Source.term(S.Source.Shift{(skipped + 1n : Nat)}, 0n, value)
+        Done{Some{shifted}}
+
+def Inline.local_alias(locals: List<&2, Inline.local>, index: Nat, skipped: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match locals index:
+    case Nil{} index: Done{None{}}
+    case Inline.Param{name, ty} <> rest 0n: Done{None{}}
+    case Inline.Local{name, ty, +value} <> +rest 0n:
+      Inline.shift_alias(Inline.closed(Inline.length(Inline.local, rest), value), value, skipped)
+    case local <> rest 1n+n: Inline.local_alias(rest, n, (skipped + 1n : Nat))
+
+# Each alias hop consumes one declaration; cycles exhaust the finite context.
+def Inline.alias_type(fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match fuel ty:
+    case 0n ty: Done{None{}}
+    case 1n+remaining None{}: Done{None{}}
+    case 1n+remaining Some{F.Term.Global{name}}:
+      Inline.Context{checker, domains} = context
+      Inline.alias_type(remaining, Inline.global_alias(F.Global.find(name, C.Check.global(checker))), context)
+    case 1n+remaining Some{F.Term.Var{index}}:
+      Inline.Context{checker, domains} = context
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        body: Maybe<&2, F.Term.t> <- Inline.local_alias(domains, index, 0n)
+        Inline.alias_type(remaining, body, context)
+    case 1n+remaining Some{other}: Done{Some{other}}
+
 # Substitution removes the function binder and preserves every outer variable.
 # Keep source syntax: semantic readback can erase dependent proof arguments.
 def Inline.source_variables(count: Nat, +index: Nat) -> List<&2, F.Term.t>:
@@ -729,6 +767,13 @@ def Inline.application_type(ty: Maybe<&2, F.Term.t>, address: F.Term.addr, depth
       Inline.application_point(P.Rules.as_vpi(F.Term.t, shape), codomain, argument, depth)
     case other address: Done{None{}}
 
+def Inline.application_source_type(ty: Maybe<&2, F.Term.t>, address: F.Term.addr, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  Inline.Context{checker, domains} = context
+  aliases = (Inline.length(F.Pair2<String, F.Global.entry>, F.Global.entries(C.Check.global(checker))) + Inline.length(Inline.local, domains) : Nat)
+  do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+    expanded: Maybe<&2, F.Term.t> <- Inline.alias_type((aliases + 1n : Nat), ty, context)
+    Inline.application_type(expanded, address, C.Check.size(checker))
+
 def Inline.scrutinee_type(term: F.Term.t, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match term:
     case F.Term.Ann{value, ty}: Done{Some{ty}}
@@ -742,7 +787,7 @@ def Inline.scrutinee_type(term: F.Term.t, +context: Inline.context) -> Result<&2
       Inline.Context{checker, domains} = context
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
         ty: Maybe<&2, F.Term.t> <- Inline.scrutinee_type(head, context)
-        Inline.application_type(ty, address, C.Check.size(checker))
+        Inline.application_source_type(ty, address, context)
     case other: Done{None{}}
 
 def Inline.parameter_legs(legs: List<&2, F.Term.leg>, reversed: List<&2, F.Term.t>) -> Maybe<&2, List<&2, F.Term.t>>:

@@ -63,9 +63,18 @@ INLINE-ERASE row=motive-plain-guards OK
 INLINE-ERASE row=motive-plain-quantity OK
 INLINE-ERASE row=application-capture OK
 INLINE-ERASE row=application-guards OK
-INLINE-ERASE pass=62 total=66 FAIL
+INLINE-ERASE row=alias-local OK
+INLINE-ERASE row=alias-guards OK
+INLINE-ERASE pass=64 total=75 FAIL
 INLINE-ERASE row=motive-application-global FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-application-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-application-local FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-application-curried FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=alias-global FAIL mismatch: application source type missing
+INLINE-ERASE row=alias-local-global FAIL mismatch: application source type missing
+INLINE-ERASE row=alias-fuel FAIL mismatch: application source type missing
+INLINE-ERASE row=motive-alias-global FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-alias-dependent FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-alias-local FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-alias-curried FAIL mismatch: local proof has no postulate
 

@@ -83,3 +83,27 @@ def Fixture.motive_parameter_indices() -> String:
 
 def Fixture.motive_parameter_indices_opaque() -> String:
   "mu Pair (0 A : Type 0) : (0 x : A) -> (0 y : A) -> Type 0 with\n| pair : (0 x : A) -> (0 y : A) -> Pair A x y\nmu Same : (0 A : Type 0) -> (0 x : A) -> (0 y : A) -> (0 b : Pair A x y) -> Prop with\n| same : (0 A : Type 0) -> (0 x : A) -> (0 y : A) -> (0 b : Pair A x y) -> Same A x y b\naxiom proof : (0 A : Type 0) -> (0 x : A) -> (0 y : A) -> (0 b : Pair A x y) -> Same A x y b\n\ndef keep : (0 A : Type 0) -> (0 x : A) -> (b : Pair A x x) -> Nat := fun (0 A : Type 0) => fun (0 x : A) => fun (b : Pair A x x) => case b as value in Pair u v return (let p : Same A u v value := proof A u v value in Nat) with | pair 0 s 0 t => 7\n"
+
+def Fixture.motive_alias_global() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\ndef Input : Type 0 := Nat -> sum (Nat, Nat)\ndef InputAlias : Type 0 := Input\naxiom input : InputAlias\n\ndef keep : Nat := case (input 3) as self return (let p : Same self := (same self : Same self) in Nat) with | 0 (left : Nat) => 7 | 1 (right : Nat) => 8\n"
+
+def Fixture.motive_alias_global_opaque() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\ndef Input : Type 0 := Nat -> sum (Nat, Nat)\ndef InputAlias : Type 0 := Input\naxiom input : InputAlias\naxiom proof : (0 value : sum (Nat, Nat)) -> Same value\n\ndef keep : Nat := case (input 3) as self return (let p : Same self := proof self in Nat) with | 0 (left : Nat) => 7 | 1 (right : Nat) => 8\n"
+
+def Fixture.motive_alias_dependent() -> String:
+  "mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with\n| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\ndef Input : Type 1 := (0 A : Type 0) -> sum (A, A)\naxiom input : Input\n\ndef keep : (0 A : Type 0) -> Nat := fun (0 A : Type 0) => case (input A) as self return (let p : Same A self := (same A self : Same A self) in Nat) with | 0 (left : A) => 7 | 1 (right : A) => 8\n"
+
+def Fixture.motive_alias_dependent_opaque() -> String:
+  "mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with\n| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\ndef Input : Type 1 := (0 A : Type 0) -> sum (A, A)\naxiom input : Input\naxiom proof : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\n\ndef keep : (0 A : Type 0) -> Nat := fun (0 A : Type 0) => case (input A) as self return (let p : Same A self := proof A self in Nat) with | 0 (left : A) => 7 | 1 (right : A) => 8\n"
+
+def Fixture.motive_alias_local() -> String:
+  "mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with\n| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\n\ndef keep : (0 A : Type 0) -> (f : Nat -> sum (A, A)) -> Nat := fun (0 A : Type 0) => fun (f : Nat -> sum (A, A)) => let Input : Type 0 := Nat -> sum (A, A) in let Alias : Type 0 := Input in let g : Alias := f in case (g 3) as self return (let p : Same A self := (same A self : Same A self) in Nat) with | 0 (left : A) => 7 | 1 (right : A) => 8\n"
+
+def Fixture.motive_alias_local_opaque() -> String:
+  "mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with\n| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\naxiom proof : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\n\ndef keep : (0 A : Type 0) -> (f : Nat -> sum (A, A)) -> Nat := fun (0 A : Type 0) => fun (f : Nat -> sum (A, A)) => let Input : Type 0 := Nat -> sum (A, A) in let Alias : Type 0 := Input in let g : Alias := f in case (g 3) as self return (let p : Same A self := proof A self in Nat) with | 0 (left : A) => 7 | 1 (right : A) => 8\n"
+
+def Fixture.motive_alias_curried() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\ndef Output : Type 0 := Nat -> sum (Nat, Nat)\ndef Input : Type 0 := Nat -> Output\naxiom input : Input\n\ndef keep : Nat := case (input 3 4) as self return (let p : Same self := (same self : Same self) in Nat) with | 0 (left : Nat) => 7 | 1 (right : Nat) => 8\n"
+
+def Fixture.motive_alias_curried_opaque() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\ndef Output : Type 0 := Nat -> sum (Nat, Nat)\ndef Input : Type 0 := Nat -> Output\naxiom input : Input\naxiom proof : (0 value : sum (Nat, Nat)) -> Same value\n\ndef keep : Nat := case (input 3 4) as self return (let p : Same self := proof self in Nat) with | 0 (left : Nat) => 7 | 1 (right : Nat) => 8\n"

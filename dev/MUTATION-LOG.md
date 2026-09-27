@@ -1,4 +1,18 @@
 # Mutation log
+## 2026-09-26: Function type alias mutations
+
+Eleven new cases bring the erasure battery to 100. They bypass alias recovery,
+remove global or local declaration-scope checks, shift a local alias to the
+wrong depth, and admit opaque, recursive, or partial definitions. Three
+cases replace the hop bound with a constant 3, drop its spare hop, or return
+the type when the bound is exhausted. A four-hop chain that uses every global
+entry catches the first two, and a direct call with no fuel catches the third.
+One case removes the globals when a local alias hop
+continues, and the local-to-global chain catches it. Each
+requires a specific semantic failure. Existing application and local-type
+mutation anchors now distinguish type lookup from alias-body lookup.
+
+
 ## 2026-09-25: Application source type mutations
 
 Five new cases bring the erasure battery to 89. They disable application

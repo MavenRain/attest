@@ -38,23 +38,23 @@ HOUSE no-loop-keyword OK
 HOUSE nonzero-division OK
 HOUSE OK
 DRIVER-EXIT pass=13 fail=0 stage=A OK
-BENCH SUITE-KERNEL median_ms=18441.102 min_ms=16508.211 max_ms=20071.332 runs=7
-SUITE-KERNEL pass=337 fail=0 median_ms=18441.102 OK
+BENCH SUITE-KERNEL median_ms=24145.254 min_ms=21850.582 max_ms=28069.640 runs=7
+SUITE-KERNEL pass=337 fail=0 median_ms=24145.254 OK
 surface: 20 lexer, 28 parser, match elaboration, 13 recursive values, axiom reporting, budget and extreme index checks passed
 QUOTE-DEPTH depth=24 bound_s=10 OK
 AXIOMS corpus/id.att count=0
 AXIOMS-empty rows=1 OK
 TRUSTED-LINES kernel=6000/6000 lower=0/1100 encoder=0/800 harness=0/100 OK
 TRUSTED-LINES whole_lib=8045 language=Bend INFO
-M0-RATIO rung=1 pass=parse ms=0.540000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
-M0-RATIO rung=1 pass=elaborate-check ms=0.430000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=parse ms=0.770000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=elaborate-check ms=0.760000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
 M0-RATIO rung=2 OPEN reason=denominators-not-frozen
 M0-RATIO rung=3 OPEN reason=denominators-not-frozen
 STAGE-A OK
 PROP-INDEX pass=28 total=28 OK
 ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
-INLINE-ERASE pass=66 total=66 OK
-ERASURE-INLINE rows=43 identical=43 carried_diff=21 parameter_pairs=8 motive_pairs=14 not_discriminating=22 suite_fixtures=44 OK
+INLINE-ERASE pass=75 total=75 OK
+ERASURE-INLINE rows=47 identical=47 carried_diff=21 parameter_pairs=8 motive_pairs=18 not_discriminating=26 suite_fixtures=52 OK
 ERASURE-OPEN rows=0 different=0 OPEN
 ERASURE-CLI pass=6 fail=0 OK
 LEAN-TOOLCHAIN pinned=leanprover/lean4:v4.33.1 ran=4.33.1 OK

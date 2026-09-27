@@ -575,6 +575,68 @@ def Suite.application_guards() -> Result<&2,&2,F.Error.t,Unit>:
     free_arg:Maybe<&2,F.Term.t> <- I.Inline.application_type(Some{ty},F.Term.APt{F.Quantity.Zero{},F.Term.Var{0n}},0n)
     Suite.application_absent(free_arg,"application free argument accepted")
 
+def Suite.alias_entry(body:F.Term.t) -> F.Global.entry:
+  F.Global.Def{F.Global.DefEntry{F.Term.Univ{F.Level.one},body,True{},None{},False{}}}
+
+def Suite.alias_global() -> Result<&2,&2,F.Error.t,Unit>:
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
+  globals:F.Global.t = F.Global.add("Fn",Suite.alias_entry(ty),F.Global.add("Alias",Suite.alias_entry(F.Term.Global{"Fn"}),G.Global.initial))
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(globals,C.Budget.unlimited),Nil{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{F.Term.Global{"Alias"}},F.Term.APt{F.Quantity.Zero{},F.Term.Global{"Nat"}},context)
+    Suite.application_equal(actual,F.Term.Global{"Nat"})
+
+def Suite.alias_local() -> Result<&2,&2,F.Error.t,Unit>:
+  value:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Many{},"x",F.Term.Var{0n}),F.Term.Var{1n}}
+  +locals:List<&2,I.Inline.local> = [I.Inline.Param{"y",F.Term.Global{"Nat"}},I.Inline.Local{"Alias",F.Term.Univ{F.Level.zero},value},I.Inline.Param{"A",F.Term.Univ{F.Level.zero}}]
+  context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),locals}
+  expected:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Many{},"x",F.Term.Var{2n}),F.Term.Var{3n}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.alias_type(4n,Some{F.Term.Var{1n}},context)
+    Suite.application_equal(actual,expected)
+
+# The local alias names a global alias, so the hop leaves the local list.
+def Suite.alias_local_global() -> Result<&2,&2,F.Error.t,Unit>:
+  ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
+  globals:F.Global.t = F.Global.add("Fn",Suite.alias_entry(ty),G.Global.initial)
+  +locals:List<&2,I.Inline.local> = [I.Inline.Local{"Alias",F.Term.Univ{F.Level.zero},F.Term.Global{"Fn"}}]
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(globals,C.Budget.unlimited),locals}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{F.Term.Var{0n}},F.Term.APt{F.Quantity.Zero{},F.Term.Global{"Nat"}},context)
+    Suite.application_equal(actual,F.Term.Global{"Nat"})
+
+# The chain uses every global entry, so the bound has no spare hop.
+def Suite.alias_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
+  chain:F.Global.t = F.Global.add("A4",Suite.alias_entry(F.Term.Global{"A3"}),F.Global.add("A3",Suite.alias_entry(F.Term.Global{"A2"}),F.Global.add("A2",Suite.alias_entry(F.Term.Global{"A1"}),F.Global.add("A1",Suite.alias_entry(ty),F.Global.empty))))
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(chain,C.Budget.unlimited),Nil{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    exhausted:Maybe<&2,F.Term.t> <- I.Inline.alias_type(0n,Some{ty},context)
+    exhausted_ok:Unit <- Suite.application_absent(exhausted,"exhausted alias fuel accepted")
+    actual:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{F.Term.Global{"A4"}},F.Term.APt{F.Quantity.Zero{},F.Term.Global{"Nat"}},context)
+    Suite.application_equal(actual,F.Term.Global{"Nat"})
+
+def Suite.alias_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Many{},"x",F.Term.Global{"Nat"}),F.Term.Global{"Nat"}}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  cycle:F.Global.t = F.Global.add("Cycle",Suite.alias_entry(F.Term.Global{"Cycle"}),G.Global.initial)
+  context:I.Inline.context = I.Inline.Context{C.Check.make(cycle,C.Budget.unlimited),Nil{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    opaque:Unit <- Suite.application_absent(I.Inline.global_alias(Some{F.Global.Def{F.Global.DefEntry{univ,ty,False{},None{},False{}}}}),"opaque alias unfolded")
+    recursive:Unit <- Suite.application_absent(I.Inline.global_alias(Some{F.Global.Def{F.Global.DefEntry{univ,ty,True{},Some{0n},False{}}}}),"recursive alias unfolded")
+    partial:Unit <- Suite.application_absent(I.Inline.global_alias(Some{F.Global.Def{F.Global.DefEntry{univ,ty,True{},None{},True{}}}}),"partial alias unfolded")
+    free:Unit <- Suite.application_absent(I.Inline.global_alias(Some{Suite.alias_entry(F.Term.Var{0n})}),"free global alias accepted")
+    axiom:Unit <- Suite.application_absent(I.Inline.global_alias(Some{F.Global.Axiom{F.Global.AxiomEntry{ty}}}),"axiom alias unfolded")
+    missing:Unit <- Suite.application_absent(I.Inline.global_alias(None{}),"missing alias unfolded")
+    param:Maybe<&2,F.Term.t> <- I.Inline.local_alias([I.Inline.Param{"A",univ}],0n,0n)
+    param_ok:Unit <- Suite.application_absent(param,"parameter alias unfolded")
+    self:Maybe<&2,F.Term.t> <- I.Inline.local_alias([I.Inline.Local{"A",univ,F.Term.Var{0n}}],0n,0n)
+    self_ok:Unit <- Suite.application_absent(self,"self-referencing local alias accepted")
+    absent:Maybe<&2,F.Term.t> <- I.Inline.local_alias(Nil{},0n,0n)
+    absent_ok:Unit <- Suite.application_absent(absent,"missing local alias unfolded")
+    loop:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{F.Term.Global{"Cycle"}},F.Term.APt{F.Quantity.Many{},F.Term.Global{"Nat"}},context)
+    Suite.application_absent(loop,"cyclic alias accepted")
+
 def Suite.plain_motive_guards() -> Result<&2,&2,F.Error.t,Unit>:
   +context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
   +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
@@ -683,7 +745,16 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"motive-application-local",unit => Suite.local_sealed(MF.Fixture.motive_application_local,MF.Fixture.motive_application_local_opaque,None{},1n)},
       Suite.Case{"motive-application-curried",unit => Suite.local_sealed(MF.Fixture.motive_application_curried,MF.Fixture.motive_application_curried_opaque,None{},1n)},
       Suite.Case{"application-capture",unit => Suite.application_capture},
-      Suite.Case{"application-guards",unit => Suite.application_guards} ]
+      Suite.Case{"application-guards",unit => Suite.application_guards},
+      Suite.Case{"alias-global",unit => Suite.alias_global},
+      Suite.Case{"alias-local",unit => Suite.alias_local},
+      Suite.Case{"alias-local-global",unit => Suite.alias_local_global},
+      Suite.Case{"alias-fuel",unit => Suite.alias_fuel},
+      Suite.Case{"alias-guards",unit => Suite.alias_guards},
+      Suite.Case{"motive-alias-global",unit => Suite.local_sealed(MF.Fixture.motive_alias_global,MF.Fixture.motive_alias_global_opaque,None{},1n)},
+      Suite.Case{"motive-alias-dependent",unit => Suite.local_sealed(MF.Fixture.motive_alias_dependent,MF.Fixture.motive_alias_dependent_opaque,None{},1n)},
+      Suite.Case{"motive-alias-local",unit => Suite.local_sealed(MF.Fixture.motive_alias_local,MF.Fixture.motive_alias_local_opaque,None{},1n)},
+      Suite.Case{"motive-alias-curried",unit => Suite.local_sealed(MF.Fixture.motive_alias_curried,MF.Fixture.motive_alias_curried_opaque,None{},1n)} ]
 
 def main() -> IO(Unit):
   +layout:Maybe<&2,F.Pair2<Bool,String>> = Some{F.Pair2{False{},"Layout"}}

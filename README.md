@@ -34,15 +34,15 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and forty-three inline proof
+increment compares four global proof pairs and forty-seven inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
 differences only for the four global pairs and the twenty-one earlier
-inline pairs. The eight parameterized branch pairs and fourteen motive pairs give identical outputs
+inline pairs. The eight parameterized branch pairs and eighteen motive pairs give identical outputs
 with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-checks eighty-nine isolated mutations, and the record shows all of them
+checks one hundred isolated mutations, and the record shows all of them
 caught. The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -63,7 +63,10 @@ self remain erased. Unnamed motives recover an erased self binder from the
 scrutinee's annotation, global declaration, or typed local binder, including
 lets. Function applications recover their result type from a syntactic
 function type, substituting arguments without capturing outer variables.
-This includes dependent and curried calls. The source type must be closed
+This includes dependent and curried calls. Transparent global and local let
+aliases can expose the function type while preserving its source syntax.
+Alias bodies must be closed in their declaration scope; opaque, recursive,
+partial, and cyclic aliases remain unsupported. The source type must be closed
 in the current scope; unnamed motives
 with index binders or an inductive elimination shape stay conservative.
 Quotation opens the motives and
@@ -76,7 +79,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-Sixty-six semantic tests protect this boundary. Scrutinee types that need
+Seventy-five semantic tests protect this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 indirectly typed lambda scopes, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

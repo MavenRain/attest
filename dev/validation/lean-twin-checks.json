@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "recorded_at": "2026-09-27T00:01:26.688234+00:00",
+  "recorded_at": "2026-09-27T06:20:57.084795+00:00",
   "root": "/Users/oobi/Documents/attest",
   "summary": "LEAN-TWIN-CHECKS passed=5/5 records=2/2 OK",
   "timeout_seconds": 900,
@@ -15,9 +15,9 @@
       ],
       "exit_code": 0,
       "expected": 0,
-      "seconds": 222.472,
+      "seconds": 302.122,
       "timeout_seconds": 900,
-      "log_sha256": "7867341d0d15bcd7bcec669d21bbbe59ea7d0561f9b51097206bfef8b914e474"
+      "log_sha256": "c2fbf8dfc38eec7f1062a6f2bf4fa6f7357ee33cf214616d87cdb4477c714201"
     },
     {
       "name": "bend-tests",
@@ -27,9 +27,9 @@
       ],
       "exit_code": 0,
       "expected": 0,
-      "seconds": 27.413,
+      "seconds": 35.264,
       "timeout_seconds": 900,
-      "log_sha256": "5d8c7c7bed348f7725a92f9737bd9437ff7be8db2d6313528ff4e25e35349373"
+      "log_sha256": "47dfe4e7d4f3fc3c828ac57ca70611eb63dcf3dd279c3db568d8433ce94320f2"
     },
     {
       "name": "corpus-record",
@@ -41,7 +41,7 @@
       ],
       "exit_code": 0,
       "expected": 0,
-      "seconds": 20.442,
+      "seconds": 30.849,
       "timeout_seconds": 900,
       "log_sha256": "8b944e5713c61c342a1d7bd55ff189c800a67540478144d2977d036282476ab0"
     },
@@ -55,7 +55,7 @@
       ],
       "exit_code": 0,
       "expected": 0,
-      "seconds": 12.125,
+      "seconds": 19.271,
       "timeout_seconds": 900,
       "log_sha256": "6e2d943d59878da5fb308f0a74235c0d6eaeb223fb187e9b5a5a44a73c99713f"
     },
@@ -69,21 +69,21 @@
       ],
       "exit_code": 1,
       "expected": 1,
-      "seconds": 24.817,
+      "seconds": 39.337,
       "timeout_seconds": 900,
-      "log_sha256": "b4a005596097fc042c838292e79b974241c7b0ae627ef6b6aab57abdf8b5dfcb"
+      "log_sha256": "6048c06438c4e481238e8460a5df7cdff8199a9527244aac787c9f21231816aa"
     }
   ],
   "log_sha256": {
-    "bend-tests.log": "5d8c7c7bed348f7725a92f9737bd9437ff7be8db2d6313528ff4e25e35349373",
+    "bend-tests.log": "47dfe4e7d4f3fc3c828ac57ca70611eb63dcf3dd279c3db568d8433ce94320f2",
     "corpus-record.log": "8b944e5713c61c342a1d7bd55ff189c800a67540478144d2977d036282476ab0",
-    "gates.log": "7867341d0d15bcd7bcec669d21bbbe59ea7d0561f9b51097206bfef8b914e474",
+    "gates.log": "c2fbf8dfc38eec7f1062a6f2bf4fa6f7357ee33cf214616d87cdb4477c714201",
     "mutation-record.log": "6e2d943d59878da5fb308f0a74235c0d6eaeb223fb187e9b5a5a44a73c99713f",
-    "trace-frontier.log": "b4a005596097fc042c838292e79b974241c7b0ae627ef6b6aab57abdf8b5dfcb"
+    "trace-frontier.log": "6048c06438c4e481238e8460a5df7cdff8199a9527244aac787c9f21231816aa"
   },
   "record_sha256": {
-    "dev/validation/lean-twin.json": "379f91bff855043ea07d3019669cdfcde9c8bf1fff432749fb342b5463ce150a",
-    "dev/validation/lean-twin-mutations.json": "c1d6a55e4ee30bdc787741c6cf836af71f5f4f249866cc3ac59111c745c38045"
+    "dev/validation/lean-twin.json": "85f333b1a03d922edcef91b0c685e5083a07d0f2d4a1c66e0eafd7c4ede3a3e9",
+    "dev/validation/lean-twin-mutations.json": "f7efcac1d74e664ec30b61df4282a19293f8eab686ec18ed36c7fb3948e0b471"
   },
   "record_hashes_verified": true
 }
