@@ -74,13 +74,13 @@ after removing `erased NAME` declaration notices. The gate reproduces a
 runtime difference with the carried eraser for those twenty-one pairs. Eight
 parameterized branch pairs require runtime equality, but the carried eraser
 gives equal outputs for them too, so these runtime rows do not discriminate.
-Ten motive pairs also have equal carried runtime outputs; their semantic
+Fourteen motive pairs also have equal carried runtime outputs; their semantic
 rows require exactly one sealed proof and recheck the generated proposition.
 The gate requires that carried equality. Sealing for these pairs is checked
 only in the semantic suite, and the gate requires the suite copies in
 `erase/test/parameter_fixtures.bend` and `erase/test/motive_fixtures.bend` to
 equal the `.att` files byte for byte.
-Sixty semantic
+Sixty-six semantic
 tests cover poisoned proof bodies at known types, inherited entries, name
 collisions, runtime lets, local type annotations, and rewritten rows. They also
 check closed postulate types, dependent argument order, original universes,
@@ -109,7 +109,15 @@ indices at a higher universe, a parameter from an enclosing lambda, and a
 parameter shifted beneath two indices.
 Unnamed motives recover only self, with quantity zero, from the scrutinee's
 source type. An annotation, a global declaration, or a typed local binder
-(including a let) provides that type. It must be closed in the current
+(including a let) provides that type. A function application recursively
+recovers its head's source type and substitutes the argument into a syntactic
+point-function codomain. Substitution removes the function binder, preserves
+outer variables, and shifts the argument beneath nested binders. No semantic
+readback or type alias unfolding is used. Missing function types, nonpoint
+formers, nonpoint addresses, free codomains, and free arguments are refused.
+Four `motive-application-*` pairs cover global, dependent, local, and curried
+calls; direct tests cover capture avoidance and each refusal.
+The resulting source type must be closed in the current
 context. An unnamed motive with index binders, an inductive shape, or no
 recoverable source type falls back to the root scope. Five `motive-plain-*`
 pairs cover each source form and a sum type dependent on an outer type binder.

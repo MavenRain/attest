@@ -55,11 +55,17 @@ INLINE-ERASE row=motive-parameter-indices OK
 INLINE-ERASE row=motive-guards OK
 INLINE-ERASE row=motive-quantities OK
 INLINE-ERASE row=motive-plain-guards OK
-INLINE-ERASE pass=54 total=60 FAIL
+INLINE-ERASE row=application-capture OK
+INLINE-ERASE row=application-guards OK
+INLINE-ERASE pass=56 total=66 FAIL
 INLINE-ERASE row=motive-plain-local FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => Nat;  => Nat]))
 INLINE-ERASE row=motive-plain-annotated FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => Nat;  => Nat]))
 INLINE-ERASE row=motive-plain-global FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => Nat;  => Nat]))
 INLINE-ERASE row=motive-plain-let FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => Nat;  => Nat]))
 INLINE-ERASE row=motive-plain-dependent FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => A;  => A]))
 INLINE-ERASE row=motive-plain-quantity FAIL mismatch: plain motive self lost its source type or erased quantity
+INLINE-ERASE row=motive-application-global FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => Nat;  => Nat]))
+INLINE-ERASE row=motive-application-dependent FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => A;  => A]))
+INLINE-ERASE row=motive-application-local FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => A;  => A]))
+INLINE-ERASE row=motive-application-curried FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => A;  => A]))
 

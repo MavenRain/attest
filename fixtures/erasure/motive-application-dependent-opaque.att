@@ -1,0 +1,6 @@
+mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with
+| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value
+axiom input : (0 A : Type 0) -> sum (A, A)
+axiom proof : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value
+
+def keep : (0 A : Type 0) -> Nat := fun (0 A : Type 0) => case (input A) as self return (let p : Same A self := proof A self in Nat) with | 0 (left : A) => 7 | 1 (right : A) => 8

@@ -539,6 +539,42 @@ def Suite.motive_quantities() -> Result<&2,&2,F.Error.t,Unit>:
     scope:Maybe<&2,I.Inline.context> <- R.Erase.State.finish(Maybe<&2,I.Inline.context>,I.Inline.motive_fields_state(fields,["k"],"self",F.Term.Global{"Nat"},context),C.Budget.unlimited)
     Suite.motive_quantities_scope(scope)
 
+def Suite.application_equal(actual:Maybe<&2,F.Term.t>,expected:F.Term.t) -> Result<&2,&2,F.Error.t,Unit>:
+  match actual:
+    case None{}: Fail{F.Error.Mismatch{"application source type missing"}}
+    case Some{ty}: T.Test.require(I.Inline.term_equal(ty,expected),"application substitution captured an outer variable")
+
+def Suite.application_absent(actual:Maybe<&2,F.Term.t>,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  match actual:
+    case None{}: Done{Unit{}}
+    case Some{ty}: Fail{F.Error.Mismatch{message}}
+
+def Suite.application_capture() -> Result<&2,&2,F.Error.t,Unit>:
+  +point:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero})
+  codomain:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Many{},"x",F.Term.Var{0n}),F.Term.Var{3n}}
+  expected:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Many{},"x",F.Term.Var{1n}),F.Term.Var{2n}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.application_type(Some{F.Term.Ran{point,codomain}},F.Term.APt{F.Quantity.Zero{},F.Term.Var{1n}},2n)
+    Suite.application_equal(actual,expected)
+
+def Suite.application_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +point:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero})
+  +arg:F.Term.addr = F.Term.APt{F.Quantity.Zero{},F.Term.Global{"Nat"}}
+  +ty:F.Term.t = F.Term.Ran{point,F.Term.Var{0n}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Maybe<&2,F.Term.t> <- I.Inline.application_type(None{},arg,0n)
+    missing_ok:Unit <- Suite.application_absent(missing,"application missing head type accepted")
+    scalar:Maybe<&2,F.Term.t> <- I.Inline.application_type(Some{F.Term.Global{"Nat"}},arg,0n)
+    scalar_ok:Unit <- Suite.application_absent(scalar,"application nonfunction accepted")
+    projection:Maybe<&2,F.Term.t> <- I.Inline.application_type(Some{ty},F.Term.ALeg{0n},0n)
+    projection_ok:Unit <- Suite.application_absent(projection,"application projection accepted")
+    collection:Maybe<&2,F.Term.t> <- I.Inline.application_type(Some{F.Term.Ran{F.Shape.make_collection(F.Term.t,1n),F.Term.Global{"Nat"}}},arg,0n)
+    collection_ok:Unit <- Suite.application_absent(collection,"application nonpoint former accepted")
+    free_type:Maybe<&2,F.Term.t> <- I.Inline.application_type(Some{F.Term.Ran{point,F.Term.Var{1n}}},arg,0n)
+    free_type_ok:Unit <- Suite.application_absent(free_type,"application free codomain accepted")
+    free_arg:Maybe<&2,F.Term.t> <- I.Inline.application_type(Some{ty},F.Term.APt{F.Quantity.Zero{},F.Term.Var{0n}},0n)
+    Suite.application_absent(free_arg,"application free argument accepted")
+
 def Suite.plain_motive_guards() -> Result<&2,&2,F.Error.t,Unit>:
   +context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
   +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
@@ -641,7 +677,13 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"motive-plain-let",unit => Suite.local_sealed(MF.Fixture.motive_plain_let,MF.Fixture.motive_plain_let_opaque,None{},1n)},
       Suite.Case{"motive-plain-dependent",unit => Suite.local_sealed(MF.Fixture.motive_plain_dependent,MF.Fixture.motive_plain_dependent_opaque,None{},1n)},
       Suite.Case{"motive-plain-guards",unit => Suite.plain_motive_guards},
-      Suite.Case{"motive-plain-quantity",unit => Suite.plain_motive_quantity} ]
+      Suite.Case{"motive-plain-quantity",unit => Suite.plain_motive_quantity},
+      Suite.Case{"motive-application-global",unit => Suite.local_sealed(MF.Fixture.motive_application_global,MF.Fixture.motive_application_global_opaque,None{},1n)},
+      Suite.Case{"motive-application-dependent",unit => Suite.local_sealed(MF.Fixture.motive_application_dependent,MF.Fixture.motive_application_dependent_opaque,None{},1n)},
+      Suite.Case{"motive-application-local",unit => Suite.local_sealed(MF.Fixture.motive_application_local,MF.Fixture.motive_application_local_opaque,None{},1n)},
+      Suite.Case{"motive-application-curried",unit => Suite.local_sealed(MF.Fixture.motive_application_curried,MF.Fixture.motive_application_curried_opaque,None{},1n)},
+      Suite.Case{"application-capture",unit => Suite.application_capture},
+      Suite.Case{"application-guards",unit => Suite.application_guards} ]
 
 def main() -> IO(Unit):
   +layout:Maybe<&2,F.Pair2<Bool,String>> = Some{F.Pair2{False{},"Layout"}}

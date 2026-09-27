@@ -60,6 +60,12 @@ INLINE-ERASE row=motive-plain-let OK
 INLINE-ERASE row=motive-plain-dependent OK
 INLINE-ERASE row=motive-plain-guards OK
 INLINE-ERASE row=motive-plain-quantity OK
-INLINE-ERASE pass=59 total=60 FAIL
+INLINE-ERASE row=motive-application-global OK
+INLINE-ERASE row=motive-application-dependent OK
+INLINE-ERASE row=motive-application-local OK
+INLINE-ERASE row=motive-application-curried OK
+INLINE-ERASE row=application-capture OK
+INLINE-ERASE row=application-guards OK
+INLINE-ERASE pass=65 total=66 FAIL
 INLINE-ERASE row=name-collision FAIL mismatch: fresh proof referenced an existing name
 

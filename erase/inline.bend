@@ -702,7 +702,34 @@ def Inline.global_type(entry: Maybe<&2, F.Global.entry>) -> Maybe<&2, F.Term.t>:
     case None{}: None{}
     case Some{value}: Some{F.Global.entry_ty(value)}
 
-def Inline.scrutinee_type(term: F.Term.t, context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+# Substitution removes the function binder and preserves every outer variable.
+# Keep source syntax: semantic readback can erase dependent proof arguments.
+def Inline.source_variables(count: Nat, +index: Nat) -> List<&2, F.Term.t>:
+  match count:
+    case 0n: Nil{}
+    case 1n+n: F.Term.Var{index} <> Inline.source_variables(n, (index + 1n : Nat))
+
+def Inline.application_closed(valid: Bool, codomain: F.Term.t, argument: F.Term.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match valid:
+    case False{}: Done{None{}}
+    case True{}:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        ty: F.Term.t <- S.Source.term(S.Source.Parameters{argument <> Inline.source_variables(depth, 0n)}, 0n, codomain)
+        Done{Some{ty}}
+
+def Inline.application_point(point: Maybe<&2, F.Triple3<F.Quantity.t, String, F.Term.t>>, +codomain: F.Term.t, +argument: F.Term.t, +depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match point:
+    case None{}: Done{None{}}
+    case Some{F.Triple3{q, name, domain}}:
+      Inline.application_closed(Bool.and(Inline.closed((depth + 1n : Nat), codomain), Inline.closed(depth, argument)), codomain, argument, depth)
+
+def Inline.application_type(ty: Maybe<&2, F.Term.t>, address: F.Term.addr, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match ty address:
+    case Some{F.Term.Ran{shape, codomain}} F.Term.APt{quantity, argument}:
+      Inline.application_point(P.Rules.as_vpi(F.Term.t, shape), codomain, argument, depth)
+    case other address: Done{None{}}
+
+def Inline.scrutinee_type(term: F.Term.t, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match term:
     case F.Term.Ann{value, ty}: Done{Some{ty}}
     case F.Term.Var{index}:
@@ -711,6 +738,11 @@ def Inline.scrutinee_type(term: F.Term.t, context: Inline.context) -> Result<&2,
     case F.Term.Global{name}:
       Inline.Context{checker, domains} = context
       Done{Inline.global_type(F.Global.find(name, C.Check.global(checker)))}
+    case F.Term.Out{shape, address, head}:
+      Inline.Context{checker, domains} = context
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        ty: Maybe<&2, F.Term.t> <- Inline.scrutinee_type(head, context)
+        Inline.application_type(ty, address, C.Check.size(checker))
     case other: Done{None{}}
 
 def Inline.parameter_legs(legs: List<&2, F.Term.leg>, reversed: List<&2, F.Term.t>) -> Maybe<&2, List<&2, F.Term.t>>:

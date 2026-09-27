@@ -43,12 +43,15 @@ PARAMETER_ROWS = ("branch-parameter", "branch-parameter-dependent",
 MOTIVE_FIXTURES = Path("erase/test/motive_fixtures.bend")
 MOTIVE_ROWS = ("motive-index", "motive-self", "motive-dependent", "motive-parameter",
                "motive-parameter-indices", "motive-plain-local", "motive-plain-annotated",
-               "motive-plain-global", "motive-plain-let", "motive-plain-dependent")
+               "motive-plain-global", "motive-plain-let", "motive-plain-dependent",
+               "motive-application-global", "motive-application-dependent",
+               "motive-application-local", "motive-application-curried")
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
                                "family-collision", "runtime", "local-type", "rows", "binders",
                                *MOTIVE_ROWS, "motive-guards", "motive-quantities",
                                "motive-plain-guards", "motive-plain-quantity",
+                               "application-capture", "application-guards",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",

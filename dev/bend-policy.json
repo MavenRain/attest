@@ -286,6 +286,11 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.application_type",
+      "pattern": "other address"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.scrutinee_type",
       "pattern": "other"
     },

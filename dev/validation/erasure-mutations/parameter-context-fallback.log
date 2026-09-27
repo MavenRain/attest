@@ -53,7 +53,13 @@ INLINE-ERASE row=motive-plain-let OK
 INLINE-ERASE row=motive-plain-dependent OK
 INLINE-ERASE row=motive-plain-guards OK
 INLINE-ERASE row=motive-plain-quantity OK
-INLINE-ERASE pass=52 total=60 FAIL
+INLINE-ERASE row=motive-application-global OK
+INLINE-ERASE row=motive-application-dependent OK
+INLINE-ERASE row=motive-application-local OK
+INLINE-ERASE row=motive-application-curried OK
+INLINE-ERASE row=application-capture OK
+INLINE-ERASE row=application-guards OK
+INLINE-ERASE pass=58 total=66 FAIL
 INLINE-ERASE row=branch-parameter FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-parameter-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=branch-parameter-function FAIL mismatch: local proof has no postulate

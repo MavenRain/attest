@@ -1,4 +1,27 @@
 # M0 build log
+## 2026-09-25: Stage B source types for function applications
+
+Scrutinee source recovery now follows function applications with syntactic
+point-function types. It substitutes each argument into the codomain using
+the existing source walker, removes the function binder, and preserves outer
+variables and source annotations under nested binders. This supports global,
+local, dependent, and curried function calls without changing the kernel.
+Unsupported heads and addresses remain conservative; free codomains and
+arguments are refused before substitution.
+
+Four new motive fixture pairs require one sealed proof, recheck the
+generated postulate and program, and compare with an opaque twin. The gate
+ties their embedded source strings and semantic rows to the fixture files.
+Two direct rows check binder capture and six unsupported or malformed input
+forms. The suite now has 66 cases and 43 inline fixture pairs.
+Five new mutations target disabled recovery, shifted outer variables,
+free codomains, free arguments, and nonpoint function types.
+
+Stage B remains open for the seven items in dev/validation/erasure.json.
+These include unnamed motive scopes whose source scrutinee type needs alias
+unfolding, lambda scopes without a syntactic expected function type, Acc
+runtime elimination, and full trace comparison.
+
 ## 2026-09-25: Stage B proofs in unnamed motives
 
 Unnamed motives now retain the source type of their erased self binder.

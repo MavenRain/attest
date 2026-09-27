@@ -60,6 +60,12 @@ INLINE-ERASE row=motive-plain-let OK
 INLINE-ERASE row=motive-plain-dependent OK
 INLINE-ERASE row=motive-plain-guards OK
 INLINE-ERASE row=motive-plain-quantity OK
-INLINE-ERASE pass=59 total=60 FAIL
+INLINE-ERASE row=motive-application-global OK
+INLINE-ERASE row=motive-application-dependent OK
+INLINE-ERASE row=motive-application-local OK
+INLINE-ERASE row=motive-application-curried OK
+INLINE-ERASE row=application-capture OK
+INLINE-ERASE row=application-guards OK
+INLINE-ERASE pass=65 total=66 FAIL
 INLINE-ERASE row=branch-parameter-universe FAIL mismatch: sealed postulate type lost its source syntax: (Ran SPi 0 h (Lan SMu Equal [Type 1; Nat] (Sec SColl 0 [])) (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 []))) is not (Ran SPi 0 h (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 [])) (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 [])))
 

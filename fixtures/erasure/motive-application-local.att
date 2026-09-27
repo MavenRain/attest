@@ -1,0 +1,4 @@
+mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with
+| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value
+
+def keep : (0 A : Type 0) -> (f : Nat -> sum (A, A)) -> Nat := fun (0 A : Type 0) => fun (f : Nat -> sum (A, A)) => case (f 3) as self return (let p : Same A self := (same A self : Same A self) in Nat) with | 0 (left : A) => 7 | 1 (right : A) => 8

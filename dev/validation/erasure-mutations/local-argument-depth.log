@@ -40,7 +40,10 @@ INLINE-ERASE row=motive-plain-global OK
 INLINE-ERASE row=motive-plain-let OK
 INLINE-ERASE row=motive-plain-guards OK
 INLINE-ERASE row=motive-plain-quantity OK
-INLINE-ERASE pass=39 total=60 FAIL
+INLINE-ERASE row=motive-application-global OK
+INLINE-ERASE row=application-capture OK
+INLINE-ERASE row=application-guards OK
+INLINE-ERASE pass=42 total=66 FAIL
 INLINE-ERASE row=local-dependent FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=local-inherited FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=local-poison FAIL mismatch: the term has type A and the expected type is Type 1
@@ -62,4 +65,7 @@ INLINE-ERASE row=motive-dependent FAIL mismatch: the term has type (Lan SMu Pack
 INLINE-ERASE row=motive-parameter FAIL mismatch: the term has type (Lan SMu Pack [y] (Sec SColl 1 [ => A])) and the expected type is Type 1
 INLINE-ERASE row=motive-parameter-indices FAIL mismatch: the term has type (Lan SMu Pair [u; v] (Sec SColl 1 [ => A])) and the expected type is Type 1
 INLINE-ERASE row=motive-plain-dependent FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => A;  => A])) and the expected type is Type 1
+INLINE-ERASE row=motive-application-dependent FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => A;  => A])) and the expected type is Type 1
+INLINE-ERASE row=motive-application-local FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => A;  => A])) and the expected type is Type 1
+INLINE-ERASE row=motive-application-curried FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => A;  => A])) and the expected type is Type 1
 

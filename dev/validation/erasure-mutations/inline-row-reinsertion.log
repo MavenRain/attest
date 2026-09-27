@@ -24,7 +24,9 @@ INLINE-ERASE row=motive-guards OK
 INLINE-ERASE row=motive-quantities OK
 INLINE-ERASE row=motive-plain-guards OK
 INLINE-ERASE row=motive-plain-quantity OK
-INLINE-ERASE pass=23 total=60 FAIL
+INLINE-ERASE row=application-capture OK
+INLINE-ERASE row=application-guards OK
+INLINE-ERASE pass=25 total=66 FAIL
 INLINE-ERASE row=rows FAIL mismatch: stale declaration reinserted
 INLINE-ERASE row=binders FAIL mismatch: runtime differs from its sealed twin
 INLINE-ERASE row=redeclared FAIL mismatch: stale declaration reinserted
@@ -62,4 +64,8 @@ INLINE-ERASE row=motive-plain-annotated FAIL mismatch: local declaration rows di
 INLINE-ERASE row=motive-plain-global FAIL mismatch: local declaration rows differ
 INLINE-ERASE row=motive-plain-let FAIL mismatch: local declaration rows differ
 INLINE-ERASE row=motive-plain-dependent FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=motive-application-global FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=motive-application-dependent FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=motive-application-local FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=motive-application-curried FAIL mismatch: local declaration rows differ
 

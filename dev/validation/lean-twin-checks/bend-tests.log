@@ -342,5 +342,11 @@ INLINE-ERASE row=motive-plain-let OK
 INLINE-ERASE row=motive-plain-dependent OK
 INLINE-ERASE row=motive-plain-guards OK
 INLINE-ERASE row=motive-plain-quantity OK
-INLINE-ERASE pass=60 total=60 OK
+INLINE-ERASE row=motive-application-global OK
+INLINE-ERASE row=motive-application-dependent OK
+INLINE-ERASE row=motive-application-local OK
+INLINE-ERASE row=motive-application-curried OK
+INLINE-ERASE row=application-capture OK
+INLINE-ERASE row=application-guards OK
+INLINE-ERASE pass=66 total=66 OK
 TESTS programs=16 OK

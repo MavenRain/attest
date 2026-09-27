@@ -59,7 +59,13 @@ INLINE-ERASE row=motive-plain-let OK
 INLINE-ERASE row=motive-plain-dependent OK
 INLINE-ERASE row=motive-plain-guards OK
 INLINE-ERASE row=motive-plain-quantity OK
-INLINE-ERASE pass=58 total=60 FAIL
+INLINE-ERASE row=motive-application-global OK
+INLINE-ERASE row=motive-application-dependent OK
+INLINE-ERASE row=motive-application-local OK
+INLINE-ERASE row=motive-application-curried OK
+INLINE-ERASE row=application-capture OK
+INLINE-ERASE row=application-guards OK
+INLINE-ERASE pass=64 total=66 FAIL
 INLINE-ERASE row=motive-parameter FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=motive-parameter-indices FAIL mismatch: the term has type (Lan SMu Pair [u; v] (Sec SColl 1 [ => b])) and the expected type is (Lan SMu Pair [u; v] (Sec SColl 1 [ => A]))
 

@@ -1,4 +1,15 @@
 # Mutation log
+## 2026-09-25: Application source type mutations
+
+Five new cases bring the erasure battery to 89. They disable application
+recovery, shift outer variables during substitution, remove codomain closure,
+remove argument closure, and admit a nonpoint former. Each requires a named
+semantic failure. Without the codomain closure guard, the walker refuses the
+free codomain with a hard Source error. The guard changes that error into a
+conservative None{} refusal, so this case pins the walker diagnostic. The
+existing unknown-term mutation anchor now follows the application case,
+preserving its original fallback diagnostic.
+
 ## 2026-09-25: Unnamed motive context mutations
 
 Nine new cases bring the erasure battery to 84. They disable unnamed motive
