@@ -1,0 +1,7 @@
+mu Same : (0 value : sum (Nat, Nat)) -> Prop with
+| same : (0 value : sum (Nat, Nat)) -> Same value
+def Output : Type 0 := let N : Type 0 := Nat in N -> sum (N, N)
+def Input : Type 0 := let T : Type 0 := Nat -> Output in T
+axiom input : Input
+
+def keep : Nat := case (input 3 4) as self return (let p : Same self := (same self : Same self) in Nat) with | 0 (left : Nat) => 7 | 1 (right : Nat) => 8

@@ -659,7 +659,7 @@ def Suite.lambda_alias_guards() -> Result<&2,&2,F.Error.t,Unit>:
     missing:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Global{"unknown"}),"missing lambda alias unfolded")
     cycle:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Global{"Fn"}),"cyclic lambda alias accepted")
     axiom:Unit <- Suite.lambda_alias_refused(F.Global.Axiom{F.Global.AxiomEntry{univ}},"axiom lambda alias unfolded")
-    computed:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Let{"A",univ,ty,F.Term.Var{0n}}),"computed lambda alias acquired a context")
+    computed:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Ann{ty,univ}),"annotated lambda alias acquired a context")
     Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Ran{F.Shape.make_collection(F.Term.t,1n),F.Term.Global{"Nat"}}),"nonpoint lambda alias acquired a context")
 
 def Suite.lambda_alias_scope_result(state:R.Erase.State<Maybe<&2,F.Pair2<I.Inline.context,F.Term.t>>>,expected:F.Term.t) -> Result<&2,&2,F.Error.t,Unit>:
@@ -678,6 +678,61 @@ def Suite.lambda_alias_scope() -> Result<&2,&2,F.Error.t,Unit>:
   context:I.Inline.context = I.Inline.Context{C.Check.make(globals,C.Budget.unlimited),Nil{}}
   leg:F.Term.leg = F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"Item"}],F.Term.Var{0n}}
   Suite.lambda_alias_scope_result(I.Inline.lambda_context_state(Some{F.Term.Global{"Alias"}},leg,context),codomain)
+
+def Suite.let_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  # Only source recovery runs here; size records the two outer variables.
+  +context:I.Inline.context = I.Inline.Context{C.Check.Ctx{F.Global.empty,Nil{},Nil{},2n,C.Budget.unlimited},Nil{}}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  value:F.Term.t = F.Term.Ann{F.Term.Var{1n},univ}
+  body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{0n}),F.Term.Ann{F.Term.Var{3n},univ}}
+  +ty:F.Term.t = F.Term.Let{"A",univ,value,body}
+  expected:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{2n},univ}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{ty},context)
+    syntax:Unit <- Suite.application_equal(actual,expected)
+    applied:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{ty},F.Term.APt{F.Quantity.Zero{},F.Term.Var{0n}},context)
+    Suite.application_equal(applied,F.Term.Ann{F.Term.Var{1n},univ})
+
+def Suite.let_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.one}
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
+  cycle:F.Global.entry = Suite.alias_entry(F.Term.Let{"T",univ,F.Term.Global{"Cycle"},F.Term.Var{0n}})
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.add("Cycle",cycle,F.Global.empty),C.Budget.unlimited),Nil{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    annotation:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Let{"T",F.Term.Var{0n},ty,F.Term.Var{0n}}},context)
+    annotation_ok:Unit <- Suite.application_absent(annotation,"free let annotation accepted")
+    value:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Let{"T",univ,F.Term.Var{0n},ty}},context)
+    value_ok:Unit <- Suite.application_absent(value,"free unused let value accepted")
+    body:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Let{"T",univ,ty,F.Term.Var{1n}}},context)
+    body_ok:Unit <- Suite.application_absent(body,"free let body accepted")
+    loop:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Global{"Cycle"}},context)
+    Suite.application_absent(loop,"let alias cycle accepted")
+
+def Suite.let_chain(count:Nat,+ty:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: ty
+    case 1n+n: F.Term.Let{"T",F.Term.Univ{F.Level.one},Suite.let_chain(n,ty),F.Term.Var{0n}}
+
+def Suite.let_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(64n,ty)},context)
+    exact_ok:Unit <- Suite.application_equal(exact,ty)
+    over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(65n,ty)},context)
+    over_ok:Unit <- Suite.application_absent(over,"let reduction bound exceeded")
+    zero:Maybe<&2,F.Term.t> <- I.Inline.source_let_type(0n,Some{ty},context)
+    zero_ok:Unit <- Suite.application_equal(zero,ty)
+    exhausted:Maybe<&2,F.Term.t> <- I.Inline.source_let_type(0n,Some{Suite.let_chain(1n,ty)},context)
+    Suite.application_absent(exhausted,"exhausted let fuel accepted")
+
+def Suite.lambda_let_scope() -> Result<&2,&2,F.Error.t,Unit>:
+  +codomain:F.Term.t = F.Term.Ann{F.Term.Var{0n},F.Term.Univ{F.Level.zero}}
+  ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),codomain}
+  expected:F.Term.t = F.Term.Let{"T",F.Term.Univ{F.Level.one},ty,F.Term.Var{0n}}
+  context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
+  leg:F.Term.leg = F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"Item"}],F.Term.Var{0n}}
+  Suite.lambda_alias_scope_result(I.Inline.lambda_context_state(Some{expected},leg,context),codomain)
 
 def Suite.plain_motive_guards() -> Result<&2,&2,F.Error.t,Unit>:
   +context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
@@ -802,7 +857,17 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"lambda-alias-local",unit => Suite.local_sealed(LF.Fixture.lambda_alias_local,LF.Fixture.lambda_alias_local_opaque,layout,1n)},
       Suite.Case{"lambda-alias-curried",unit => Suite.local_sealed(LF.Fixture.lambda_alias_curried,LF.Fixture.lambda_alias_curried_opaque,layout,1n)},
       Suite.Case{"lambda-alias-guards",unit => Suite.lambda_alias_guards},
-      Suite.Case{"lambda-alias-scope",unit => Suite.lambda_alias_scope} ]
+      Suite.Case{"lambda-alias-scope",unit => Suite.lambda_alias_scope},
+      Suite.Case{"lambda-let-global",unit => Suite.local_sealed(LF.Fixture.lambda_let_global,LF.Fixture.lambda_let_global_opaque,layout,1n)},
+      Suite.Case{"lambda-let-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_let_dependent,LF.Fixture.lambda_let_dependent_opaque,layout,1n)},
+      Suite.Case{"lambda-let-local",unit => Suite.local_sealed(LF.Fixture.lambda_let_local,LF.Fixture.lambda_let_local_opaque,layout,1n)},
+      Suite.Case{"lambda-let-curried",unit => Suite.local_sealed(LF.Fixture.lambda_let_curried,LF.Fixture.lambda_let_curried_opaque,layout,1n)},
+      Suite.Case{"motive-let-dependent",unit => Suite.local_sealed(MF.Fixture.motive_let_dependent,MF.Fixture.motive_let_dependent_opaque,None{},1n)},
+      Suite.Case{"motive-let-curried",unit => Suite.local_sealed(MF.Fixture.motive_let_curried,MF.Fixture.motive_let_curried_opaque,None{},1n)},
+      Suite.Case{"let-source-syntax",unit => Suite.let_source_syntax},
+      Suite.Case{"let-source-guards",unit => Suite.let_source_guards},
+      Suite.Case{"let-source-fuel",unit => Suite.let_source_fuel},
+      Suite.Case{"lambda-let-scope",unit => Suite.lambda_let_scope} ]
 
 def main() -> IO(Unit):
   +layout:Maybe<&2,F.Pair2<Bool,String>> = Some{F.Pair2{False{},"Layout"}}

@@ -54,7 +54,14 @@ INLINE-ERASE row=lambda-alias-global OK
 INLINE-ERASE row=lambda-alias-curried OK
 INLINE-ERASE row=lambda-alias-guards OK
 INLINE-ERASE row=lambda-alias-scope OK
-INLINE-ERASE pass=53 total=81 FAIL
+INLINE-ERASE row=lambda-let-global OK
+INLINE-ERASE row=lambda-let-curried OK
+INLINE-ERASE row=motive-let-curried OK
+INLINE-ERASE row=let-source-syntax OK
+INLINE-ERASE row=let-source-guards OK
+INLINE-ERASE row=let-source-fuel OK
+INLINE-ERASE row=lambda-let-scope OK
+INLINE-ERASE pass=60 total=91 FAIL
 INLINE-ERASE row=local-dependent FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=local-inherited FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=local-poison FAIL mismatch: the term has type A and the expected type is Type 1
@@ -83,4 +90,7 @@ INLINE-ERASE row=motive-alias-dependent FAIL mismatch: the term has type (Lan SC
 INLINE-ERASE row=motive-alias-local FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => A;  => A])) and the expected type is Type 1
 INLINE-ERASE row=lambda-alias-dependent FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=lambda-alias-local FAIL mismatch: the term has type A and the expected type is Type 1
+INLINE-ERASE row=lambda-let-dependent FAIL mismatch: the term has type A and the expected type is Type 1
+INLINE-ERASE row=lambda-let-local FAIL mismatch: the term has type A and the expected type is Type 1
+INLINE-ERASE row=motive-let-dependent FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => A;  => A])) and the expected type is Type 1
 

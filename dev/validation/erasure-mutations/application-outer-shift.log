@@ -78,9 +78,19 @@ INLINE-ERASE row=lambda-alias-local OK
 INLINE-ERASE row=lambda-alias-curried OK
 INLINE-ERASE row=lambda-alias-guards OK
 INLINE-ERASE row=lambda-alias-scope OK
-INLINE-ERASE pass=77 total=81 FAIL
+INLINE-ERASE row=lambda-let-global OK
+INLINE-ERASE row=lambda-let-dependent OK
+INLINE-ERASE row=lambda-let-local OK
+INLINE-ERASE row=lambda-let-curried OK
+INLINE-ERASE row=motive-let-dependent OK
+INLINE-ERASE row=motive-let-curried OK
+INLINE-ERASE row=let-source-guards OK
+INLINE-ERASE row=let-source-fuel OK
+INLINE-ERASE row=lambda-let-scope OK
+INLINE-ERASE pass=86 total=91 FAIL
 INLINE-ERASE row=motive-application-local FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-application-curried FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=application-capture FAIL mismatch: application substitution captured an outer variable
 INLINE-ERASE row=motive-alias-local FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=let-source-syntax FAIL mismatch: application substitution captured an outer variable
 

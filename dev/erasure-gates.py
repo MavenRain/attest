@@ -47,10 +47,13 @@ MOTIVE_ROWS = ("motive-index", "motive-self", "motive-dependent", "motive-parame
                "motive-application-global", "motive-application-dependent",
                "motive-application-local", "motive-application-curried",
                "motive-alias-global", "motive-alias-dependent",
-               "motive-alias-local", "motive-alias-curried")
+               "motive-alias-local", "motive-alias-curried",
+               "motive-let-dependent", "motive-let-curried")
 LAMBDA_FIXTURES = Path("erase/test/lambda_fixtures.bend")
 LAMBDA_ROWS = ("lambda-alias-global", "lambda-alias-dependent",
-               "lambda-alias-local", "lambda-alias-curried")
+               "lambda-alias-local", "lambda-alias-curried",
+               "lambda-let-global", "lambda-let-dependent",
+               "lambda-let-local", "lambda-let-curried")
 INLINE_ROWS += LAMBDA_ROWS
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
@@ -61,6 +64,8 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "alias-global", "alias-local", "alias-guards",
                                "alias-local-global", "alias-fuel",
                                *LAMBDA_ROWS, "lambda-alias-guards", "lambda-alias-scope",
+                               "let-source-syntax", "let-source-guards", "let-source-fuel",
+                               "lambda-let-scope",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",
@@ -603,7 +608,7 @@ def record(logs, rows):
             "full TRACE-ERASURE including Acc",
             "constructor branch and named motive scopes without source syntax for family parameters",
             "unnamed motive scopes without a source scrutinee type",
-            "lambda scopes whose expected type needs normalization beyond transparent alias hops",
+            "lambda scopes whose expected type needs normalization beyond transparent alias hops and bounded head lets",
             "local proofs without source type syntax",
             "unannotated proof introductions without an expected type and family metadata"],
             "implementation_sha256": {str(p.relative_to(ROOT)): digest(p.read_bytes())

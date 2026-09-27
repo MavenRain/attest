@@ -1,4 +1,4 @@
 PROP-INDEX pass=28 total=28 OK
 ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
-INLINE-ERASE pass=81 total=81 OK
+INLINE-ERASE pass=91 total=91 OK
 ERASURE-INCREMENT FAIL: row=branch-parameter-global parameter fixture call differs

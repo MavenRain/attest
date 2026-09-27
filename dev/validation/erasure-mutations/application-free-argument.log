@@ -81,6 +81,16 @@ INLINE-ERASE row=lambda-alias-local OK
 INLINE-ERASE row=lambda-alias-curried OK
 INLINE-ERASE row=lambda-alias-guards OK
 INLINE-ERASE row=lambda-alias-scope OK
-INLINE-ERASE pass=80 total=81 FAIL
+INLINE-ERASE row=lambda-let-global OK
+INLINE-ERASE row=lambda-let-dependent OK
+INLINE-ERASE row=lambda-let-local OK
+INLINE-ERASE row=lambda-let-curried OK
+INLINE-ERASE row=motive-let-dependent OK
+INLINE-ERASE row=motive-let-curried OK
+INLINE-ERASE row=let-source-syntax OK
+INLINE-ERASE row=let-source-guards OK
+INLINE-ERASE row=let-source-fuel OK
+INLINE-ERASE row=lambda-let-scope OK
+INLINE-ERASE pass=90 total=91 FAIL
 INLINE-ERASE row=application-guards FAIL mismatch: application free argument accepted
 

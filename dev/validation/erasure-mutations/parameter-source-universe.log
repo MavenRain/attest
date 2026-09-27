@@ -80,7 +80,17 @@ INLINE-ERASE row=lambda-alias-local OK
 INLINE-ERASE row=lambda-alias-curried OK
 INLINE-ERASE row=lambda-alias-guards OK
 INLINE-ERASE row=lambda-alias-scope OK
-INLINE-ERASE pass=79 total=81 FAIL
+INLINE-ERASE row=lambda-let-global OK
+INLINE-ERASE row=lambda-let-local OK
+INLINE-ERASE row=lambda-let-curried OK
+INLINE-ERASE row=motive-let-dependent OK
+INLINE-ERASE row=motive-let-curried OK
+INLINE-ERASE row=let-source-guards OK
+INLINE-ERASE pass=85 total=91 FAIL
 INLINE-ERASE row=branch-parameter-universe FAIL mismatch: the term has type Type 3 and the expected type is Type 2
 INLINE-ERASE row=motive-dependent FAIL mismatch: the term has type Type 2 and the expected type is Type 1
+INLINE-ERASE row=lambda-let-dependent FAIL mismatch: the term has type Type 2 and the expected type is Type 1
+INLINE-ERASE row=let-source-syntax FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=let-source-fuel FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=lambda-let-scope FAIL mismatch: lambda alias domain syntax changed
 

@@ -306,6 +306,16 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.let_type",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.let_exhausted",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.application_type",
       "pattern": "other address"
     },

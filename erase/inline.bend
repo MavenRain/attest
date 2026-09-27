@@ -740,10 +740,55 @@ def Inline.alias_type(fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.conte
         Inline.alias_type(remaining, body, context)
     case 1n+remaining Some{other}: Done{Some{other}}
 
-def Inline.source_alias_type(ty: Maybe<&2, F.Term.t>, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+def Inline.source_variables(count: Nat, +index: Nat) -> List<&2, F.Term.t>:
+  match count:
+    case 0n: Nil{}
+    case 1n+n: F.Term.Var{index} <> Inline.source_variables(n, (index + 1n : Nat))
+
+def Inline.source_alias_head(ty: Maybe<&2, F.Term.t>, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   Inline.Context{checker, domains} = context
   aliases = (Inline.length(F.Pair2<String, F.Global.entry>, F.Global.entries(C.Check.global(checker))) + Inline.length(Inline.local, domains) : Nat)
   Inline.alias_type((aliases + 1n : Nat), ty, context)
+
+def Inline.let_closed(valid: Bool, value: F.Term.t, body: F.Term.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match valid:
+    case True{}:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        reduced: F.Term.t <- S.Source.term(S.Source.Parameters{value <> Inline.source_variables(depth, 0n)}, 0n, body)
+        Done{Some{reduced}}
+    case False{}: Done{None{}}
+
+def Inline.let_type(ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Maybe<&2, F.Term.t> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match ty:
+    case Some{F.Term.Let{name, +annotation, +value, +body}}:
+      Inline.Context{checker, domains} = context
+      +depth = C.Check.size(checker)
+      valid = Bool.and(Inline.closed(depth, annotation), Bool.and(Inline.closed(depth, value), Inline.closed((depth + 1n : Nat), body)))
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        reduced: Maybe<&2, F.Term.t> <- Inline.let_closed(valid, value, body, depth)
+        next(reduced)
+    case other: Done{other}
+
+def Inline.let_exhausted(ty: Maybe<&2, F.Term.t>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match ty:
+    case Some{F.Term.Let{name, annotation, value, body}}: Done{None{}}
+    case other: Done{other}
+
+# Alias chains keep their declaration bound between let reductions.
+# A separate bound prevents cycles that pass through a let from restarting forever.
+def Inline.source_let_type(fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match fuel:
+    case 0n:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        expanded: Maybe<&2, F.Term.t> <- Inline.source_alias_head(ty, context)
+        Inline.let_exhausted(expanded)
+    case 1n+remaining:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        expanded: Maybe<&2, F.Term.t> <- Inline.source_alias_head(ty, context)
+        Inline.let_type(expanded, context, reduced => Inline.source_let_type(remaining, reduced, context))
+
+def Inline.source_alias_type(ty: Maybe<&2, F.Term.t>, context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  Inline.source_let_type(64n, ty, context)
 
 def Inline.lambda_context_state(expected: Maybe<&2, F.Term.t>, leg: F.Term.leg, +context: Inline.context) -> R.Erase.State<Maybe<&2, F.Pair2<Inline.context, F.Term.t>>>:
   Inline.bind_state(Maybe<&2, F.Term.t>, Maybe<&2, F.Pair2<Inline.context, F.Term.t>>, R.Erase.State.lift(Maybe<&2, F.Term.t>, Inline.source_alias_type(expected, context)), expanded =>
@@ -751,11 +796,6 @@ def Inline.lambda_context_state(expected: Maybe<&2, F.Term.t>, leg: F.Term.leg, 
 
 # Substitution removes the function binder and preserves every outer variable.
 # Keep source syntax: semantic readback can erase dependent proof arguments.
-def Inline.source_variables(count: Nat, +index: Nat) -> List<&2, F.Term.t>:
-  match count:
-    case 0n: Nil{}
-    case 1n+n: F.Term.Var{index} <> Inline.source_variables(n, (index + 1n : Nat))
-
 def Inline.application_closed(valid: Bool, codomain: F.Term.t, argument: F.Term.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match valid:
     case False{}: Done{None{}}

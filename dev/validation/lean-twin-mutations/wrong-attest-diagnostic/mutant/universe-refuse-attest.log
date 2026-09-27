@@ -1,2 +1,2 @@
-CHECK /tmp/claude-501/attest-twin-wrong-attest-diagnostic-e1u3zli3/fixtures/lean-twin/universe-refuse.att FAIL mismatch: a tuple needs a right former as its expected type
+CHECK /var/folders/d4/9sdgktzs23s857pdkm4yfndw0000gn/T/attest-twin-wrong-attest-diagnostic-760hd7at/fixtures/lean-twin/universe-refuse.att FAIL mismatch: a tuple needs a right former as its expected type
 attest: check: mismatch: a tuple needs a right former as its expected type

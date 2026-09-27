@@ -1,4 +1,28 @@
 # M0 build log
+## 2026-09-27: Stage B source types through head lets
+
+The shared lambda and application source resolver now reduces head lets,
+including lets reached through global and local aliases. Source substitution
+preserves annotations, universe syntax, binder quantities, and outer variables.
+The annotation and value must be closed in the current scope, and the body
+must be closed under its let binder. Each recovery permits 64 let reductions;
+each intervening alias chain retains its declaration-count bound. Cycles and
+exhausted recovery return no source type. Beta reduction and annotated type
+wrappers remain unsupported. The kernel and its trusted-line budget are unchanged.
+
+Four lambda pairs cover global, dependent, nested local, and curried types.
+Two motive pairs cover dependent and curried applications. Every semantic row
+requires a closed postulate, rechecks the transformed program, and compares
+with its opaque twin. The gate binds each row to its exact fixture pair and
+checks the embedded fixture bytes. Direct cases cover source syntax, free
+variables in all three let positions, cycles, binder scope, and the exact
+64/65 reduction boundary. Existing unknown-scope fixtures now require beta
+reduction and retain their refusal checks.
+
+The suite has 91 cases, the integration gate compares 57 inline pairs, and
+11 new mutations bring the erasure battery to 115. Stage B remains open for
+Acc runtime elimination, full trace comparison, and the documented source limits.
+
 ## 2026-09-27: Stage B lambda scopes through function type aliases
 
 Lambda scope recovery now follows the same transparent global and local let

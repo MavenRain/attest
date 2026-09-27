@@ -1,4 +1,15 @@
 # Mutation log
+## 2026-09-27: Head let source type mutations
+
+Eleven new cases bring the erasure battery to 115. They disable let recovery,
+replace the substituted value, shift the outer telescope incorrectly, remove
+each of the annotation/value/body closure guards, shorten or extend the let
+bound, drop the remaining reduction fuel, bypass exhaustion, and substitute
+a different fixture pair. Each case must build and fail its named semantic
+or fixture-binding check. The 64/65 boundary and a cycle passing through a
+let protect termination. Three existing unknown-scope fixtures now require
+beta reduction while preserving their refusal assertions.
+
 ## 2026-09-27: Lambda type alias mutations
 
 Four new cases bring the erasure battery to 104. They bypass alias recovery

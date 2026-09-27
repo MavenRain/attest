@@ -49,7 +49,14 @@ INLINE-ERASE row=lambda-alias-global OK
 INLINE-ERASE row=lambda-alias-curried OK
 INLINE-ERASE row=lambda-alias-guards OK
 INLINE-ERASE row=lambda-alias-scope OK
-INLINE-ERASE pass=48 total=81 FAIL
+INLINE-ERASE row=lambda-let-global OK
+INLINE-ERASE row=lambda-let-curried OK
+INLINE-ERASE row=motive-let-curried OK
+INLINE-ERASE row=let-source-syntax OK
+INLINE-ERASE row=let-source-guards OK
+INLINE-ERASE row=let-source-fuel OK
+INLINE-ERASE row=lambda-let-scope OK
+INLINE-ERASE pass=55 total=91 FAIL
 INLINE-ERASE row=local-dependent FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=local-inherited FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=local-poison FAIL unbound: de Bruijn index 0 is outside the environment
@@ -83,4 +90,7 @@ INLINE-ERASE row=motive-alias-dependent FAIL unbound: de Bruijn index 0 is outsi
 INLINE-ERASE row=motive-alias-local FAIL unbound: de Bruijn index 4 is outside the environment
 INLINE-ERASE row=lambda-alias-dependent FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=lambda-alias-local FAIL unbound: de Bruijn index 3 is outside the environment
+INLINE-ERASE row=lambda-let-dependent FAIL unbound: de Bruijn index 0 is outside the environment
+INLINE-ERASE row=lambda-let-local FAIL unbound: de Bruijn index 3 is outside the environment
+INLINE-ERASE row=motive-let-dependent FAIL unbound: de Bruijn index 0 is outside the environment
 

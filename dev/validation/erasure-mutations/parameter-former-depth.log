@@ -79,8 +79,18 @@ INLINE-ERASE row=lambda-alias-local OK
 INLINE-ERASE row=lambda-alias-curried OK
 INLINE-ERASE row=lambda-alias-guards OK
 INLINE-ERASE row=lambda-alias-scope OK
-INLINE-ERASE pass=78 total=81 FAIL
+INLINE-ERASE row=lambda-let-global OK
+INLINE-ERASE row=lambda-let-dependent OK
+INLINE-ERASE row=lambda-let-local OK
+INLINE-ERASE row=lambda-let-curried OK
+INLINE-ERASE row=motive-let-dependent OK
+INLINE-ERASE row=let-source-guards OK
+INLINE-ERASE row=let-source-fuel OK
+INLINE-ERASE row=lambda-let-scope OK
+INLINE-ERASE pass=86 total=91 FAIL
 INLINE-ERASE row=branch-parameter-function FAIL mismatch: parameter outside its telescope
 INLINE-ERASE row=motive-application-curried FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => x;  => x])) and the expected type is (Lan SColl 2 (Sec SColl 2 [ => A;  => A]))
 INLINE-ERASE row=application-capture FAIL mismatch: parameter outside its telescope
+INLINE-ERASE row=motive-let-curried FAIL mismatch: parameter outside its telescope
+INLINE-ERASE row=let-source-syntax FAIL mismatch: parameter outside its telescope
 

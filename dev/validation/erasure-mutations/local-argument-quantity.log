@@ -62,7 +62,13 @@ INLINE-ERASE row=motive-alias-local OK
 INLINE-ERASE row=motive-alias-curried OK
 INLINE-ERASE row=lambda-alias-guards OK
 INLINE-ERASE row=lambda-alias-scope OK
-INLINE-ERASE pass=61 total=81 FAIL
+INLINE-ERASE row=motive-let-dependent OK
+INLINE-ERASE row=motive-let-curried OK
+INLINE-ERASE row=let-source-syntax OK
+INLINE-ERASE row=let-source-guards OK
+INLINE-ERASE row=let-source-fuel OK
+INLINE-ERASE row=lambda-let-scope OK
+INLINE-ERASE pass=67 total=91 FAIL
 INLINE-ERASE row=local-index FAIL quantity: the erased binder n is read in a runtime position
 INLINE-ERASE row=local-dependent FAIL quantity: the erased binder A is read in a runtime position
 INLINE-ERASE row=local-inherited FAIL quantity: the erased binder A is read in a runtime position
@@ -83,4 +89,8 @@ INLINE-ERASE row=lambda-alias-global FAIL quantity: the erased binder n is read 
 INLINE-ERASE row=lambda-alias-dependent FAIL quantity: the erased binder A is read in a runtime position
 INLINE-ERASE row=lambda-alias-local FAIL quantity: the erased binder A is read in a runtime position
 INLINE-ERASE row=lambda-alias-curried FAIL quantity: the erased binder x is read in a runtime position
+INLINE-ERASE row=lambda-let-global FAIL quantity: the erased binder n is read in a runtime position
+INLINE-ERASE row=lambda-let-dependent FAIL quantity: the erased binder A is read in a runtime position
+INLINE-ERASE row=lambda-let-local FAIL quantity: the erased binder A is read in a runtime position
+INLINE-ERASE row=lambda-let-curried FAIL quantity: the erased binder x is read in a runtime position
 

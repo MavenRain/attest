@@ -1,4 +1,4 @@
-/tmp/claude-501/attest-twin-lean-prefix-3o0grb07/lean/Corpus/universe-refuse.lean:5:23: error: Type mismatch
+/var/folders/d4/9sdgktzs23s857pdkm4yfndw0000gn/T/attest-twin-lean-prefix-rawz6w73/lean/Corpus/universe-refuse.lean:5:23: error: Type mismatch
   Type
 has type
   Type 1

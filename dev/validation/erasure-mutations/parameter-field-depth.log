@@ -64,7 +64,15 @@ INLINE-ERASE row=lambda-alias-global OK
 INLINE-ERASE row=lambda-alias-curried OK
 INLINE-ERASE row=lambda-alias-guards OK
 INLINE-ERASE row=lambda-alias-scope OK
-INLINE-ERASE pass=63 total=81 FAIL
+INLINE-ERASE row=lambda-let-global OK
+INLINE-ERASE row=lambda-let-curried OK
+INLINE-ERASE row=motive-let-dependent OK
+INLINE-ERASE row=motive-let-curried OK
+INLINE-ERASE row=let-source-syntax OK
+INLINE-ERASE row=let-source-guards OK
+INLINE-ERASE row=let-source-fuel OK
+INLINE-ERASE row=lambda-let-scope OK
+INLINE-ERASE pass=71 total=91 FAIL
 INLINE-ERASE row=local-dependent FAIL mismatch: parameter outside its telescope
 INLINE-ERASE row=local-let-alias FAIL mismatch: parameter outside its telescope
 INLINE-ERASE row=local-inherited FAIL mismatch: parameter outside its telescope
@@ -83,4 +91,6 @@ INLINE-ERASE row=motive-dependent FAIL mismatch: parameter outside its telescope
 INLINE-ERASE row=motive-parameter-indices FAIL mismatch: parameter outside its telescope
 INLINE-ERASE row=lambda-alias-dependent FAIL mismatch: parameter outside its telescope
 INLINE-ERASE row=lambda-alias-local FAIL mismatch: parameter outside its telescope
+INLINE-ERASE row=lambda-let-dependent FAIL mismatch: parameter outside its telescope
+INLINE-ERASE row=lambda-let-local FAIL mismatch: parameter outside its telescope
 

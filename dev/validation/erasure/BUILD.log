@@ -2,5 +2,4 @@ BUILD attest js cached
 BUILD erase-probe js cached
 BUILD prop-index js cached
 BUILD opaque js cached
-BUILD inline js compile
-BUILD inline js OK
+BUILD inline js cached
