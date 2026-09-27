@@ -70,7 +70,13 @@ INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-dependent OK
 INLINE-ERASE row=motive-alias-local OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=69 total=75 FAIL
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-dependent OK
+INLINE-ERASE row=lambda-alias-local OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=75 total=81 FAIL
 INLINE-ERASE row=shape-payload FAIL unbound: de Bruijn index 1 is outside the context
 INLINE-ERASE row=payload-postulates FAIL mismatch: payload postulate orphaned, missing, or duplicated
 INLINE-ERASE row=local-poison FAIL unbound: de Bruijn index 1 is outside the context

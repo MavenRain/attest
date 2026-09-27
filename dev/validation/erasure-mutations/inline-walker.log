@@ -20,7 +20,9 @@ INLINE-ERASE row=alias-local OK
 INLINE-ERASE row=alias-local-global OK
 INLINE-ERASE row=alias-fuel OK
 INLINE-ERASE row=alias-guards OK
-INLINE-ERASE pass=19 total=75 FAIL
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=21 total=81 FAIL
 INLINE-ERASE row=let-body FAIL unbound: missing_inline_body
 INLINE-ERASE row=scrutinee-body FAIL unbound: missing_inline_body
 INLINE-ERASE row=inherited FAIL mismatch: inline proof selected a layout
@@ -77,4 +79,8 @@ INLINE-ERASE row=motive-alias-global FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-alias-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-alias-local FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-alias-curried FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-alias-global FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-alias-dependent FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-alias-local FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-alias-curried FAIL mismatch: local proof has no postulate
 

@@ -1,0 +1,9 @@
+mu Equal : (0 x : Nat) -> (0 y : Nat) -> Prop with
+| refl : (0 x : Nat) -> (0 y : Nat) -> Equal x y
+
+axiom sealed : (0 x : Nat) -> (0 y : Nat) -> Equal x y
+def Tail : Type 1 := (0 y : Nat) -> Type 0
+def Fn : Type 1 := (0 x : Nat) -> Tail
+def Alias : Type 1 := Fn
+def Layout : Alias := fun (0 x : Nat) (0 y : Nat) => case sealed x y as p in Equal a b return Type 0 with | refl 0 c 0 d => prod ()
+def keep : (x : Layout 0 1) -> Layout 0 1 := fun (x : Layout 0 1) => x

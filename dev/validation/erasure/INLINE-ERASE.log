@@ -73,4 +73,10 @@ INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-dependent OK
 INLINE-ERASE row=motive-alias-local OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=75 total=75 OK
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-dependent OK
+INLINE-ERASE row=lambda-alias-local OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=81 total=81 OK

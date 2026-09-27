@@ -31,7 +31,9 @@ INLINE-ERASE row=alias-local OK
 INLINE-ERASE row=alias-local-global OK
 INLINE-ERASE row=alias-fuel OK
 INLINE-ERASE row=alias-guards OK
-INLINE-ERASE pass=30 total=75 FAIL
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=32 total=81 FAIL
 INLINE-ERASE row=rows FAIL mismatch: stale declaration reinserted
 INLINE-ERASE row=binders FAIL mismatch: runtime differs from its sealed twin
 INLINE-ERASE row=redeclared FAIL mismatch: stale declaration reinserted
@@ -77,4 +79,8 @@ INLINE-ERASE row=motive-alias-global FAIL mismatch: local declaration rows diffe
 INLINE-ERASE row=motive-alias-dependent FAIL mismatch: local declaration rows differ
 INLINE-ERASE row=motive-alias-local FAIL mismatch: local declaration rows differ
 INLINE-ERASE row=motive-alias-curried FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=lambda-alias-global FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=lambda-alias-dependent FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=lambda-alias-local FAIL mismatch: local declaration rows differ
+INLINE-ERASE row=lambda-alias-curried FAIL mismatch: local declaration rows differ
 

@@ -60,7 +60,11 @@ INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-dependent OK
 INLINE-ERASE row=motive-alias-local OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=59 total=75 FAIL
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=63 total=81 FAIL
 INLINE-ERASE row=local-dependent FAIL mismatch: parameter outside its telescope
 INLINE-ERASE row=local-let-alias FAIL mismatch: parameter outside its telescope
 INLINE-ERASE row=local-inherited FAIL mismatch: parameter outside its telescope
@@ -77,4 +81,6 @@ INLINE-ERASE row=branch-parameter-ctor FAIL mismatch: parameter outside its tele
 INLINE-ERASE row=branch-parameter-universe FAIL mismatch: parameter outside its telescope
 INLINE-ERASE row=motive-dependent FAIL mismatch: parameter outside its telescope
 INLINE-ERASE row=motive-parameter-indices FAIL mismatch: parameter outside its telescope
+INLINE-ERASE row=lambda-alias-dependent FAIL mismatch: parameter outside its telescope
+INLINE-ERASE row=lambda-alias-local FAIL mismatch: parameter outside its telescope
 

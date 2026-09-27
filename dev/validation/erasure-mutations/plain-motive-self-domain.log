@@ -62,7 +62,13 @@ INLINE-ERASE row=alias-local OK
 INLINE-ERASE row=alias-local-global OK
 INLINE-ERASE row=alias-fuel OK
 INLINE-ERASE row=alias-guards OK
-INLINE-ERASE pass=61 total=75 FAIL
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-dependent OK
+INLINE-ERASE row=lambda-alias-local OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=67 total=81 FAIL
 INLINE-ERASE row=motive-plain-local FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => Nat;  => Nat]))
 INLINE-ERASE row=motive-plain-annotated FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => Nat;  => Nat]))
 INLINE-ERASE row=motive-plain-global FAIL mismatch: the term has type Nat and the expected type is (Lan SColl 2 (Sec SColl 2 [ => Nat;  => Nat]))

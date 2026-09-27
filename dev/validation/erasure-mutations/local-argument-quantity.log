@@ -60,7 +60,9 @@ INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-dependent OK
 INLINE-ERASE row=motive-alias-local OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=59 total=75 FAIL
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=61 total=81 FAIL
 INLINE-ERASE row=local-index FAIL quantity: the erased binder n is read in a runtime position
 INLINE-ERASE row=local-dependent FAIL quantity: the erased binder A is read in a runtime position
 INLINE-ERASE row=local-inherited FAIL quantity: the erased binder A is read in a runtime position
@@ -77,4 +79,8 @@ INLINE-ERASE row=branch-parameter-dependent FAIL quantity: the erased binder A i
 INLINE-ERASE row=branch-parameter-function FAIL quantity: the erased binder A is read in a runtime position
 INLINE-ERASE row=branch-parameter-ctor FAIL quantity: the erased binder A is read in a runtime position
 INLINE-ERASE row=branch-parameter-universe FAIL mismatch: sealed postulate type lost its source syntax: (Ran SPi 1 h (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 [])) (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 []))) is not (Ran SPi 0 h (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 [])) (Lan SMu Equal [Type 1; (Nat : Type 1)] (Sec SColl 0 [])))
+INLINE-ERASE row=lambda-alias-global FAIL quantity: the erased binder n is read in a runtime position
+INLINE-ERASE row=lambda-alias-dependent FAIL quantity: the erased binder A is read in a runtime position
+INLINE-ERASE row=lambda-alias-local FAIL quantity: the erased binder A is read in a runtime position
+INLINE-ERASE row=lambda-alias-curried FAIL quantity: the erased binder x is read in a runtime position
 

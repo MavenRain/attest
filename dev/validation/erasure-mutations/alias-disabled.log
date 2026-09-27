@@ -69,7 +69,8 @@ INLINE-ERASE row=application-capture OK
 INLINE-ERASE row=application-guards OK
 INLINE-ERASE row=alias-local OK
 INLINE-ERASE row=alias-guards OK
-INLINE-ERASE pass=68 total=75 FAIL
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE pass=69 total=81 FAIL
 INLINE-ERASE row=alias-global FAIL mismatch: application source type missing
 INLINE-ERASE row=alias-local-global FAIL mismatch: application source type missing
 INLINE-ERASE row=alias-fuel FAIL mismatch: application source type missing
@@ -77,4 +78,9 @@ INLINE-ERASE row=motive-alias-global FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-alias-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-alias-local FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-alias-curried FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-alias-global FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-alias-dependent FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-alias-local FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-alias-curried FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-alias-scope FAIL mismatch: lambda alias context missing
 

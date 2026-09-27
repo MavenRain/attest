@@ -1,4 +1,26 @@
 # M0 build log
+## 2026-09-27: Stage B lambda scopes through function type aliases
+
+Lambda scope recovery now follows the same transparent global and local let
+alias chains as application source recovery. It retains source domain and
+codomain syntax, uses the declared binder quantity, and shifts local alias
+bodies into the use scope. Opaque, recursive, partial, cyclic, and open alias
+bodies remain unsupported. Let reduction and other normalization stay open.
+
+Four new fixture pairs cover global chains, dependent types, local chains
+beneath outer binders, and curried codomain aliases. Each pair failed to seal
+before the change. Their semantic rows require one closed postulate, recheck
+the transformed program, and compare with an opaque twin. The gate checks
+the embedded fixture bytes and binds each row to its exact pair. Two direct
+cases cover refusal guards, the alias hop bound, binder quantity and names,
+and preservation of source annotations. Existing unknown-scope regressions
+now use types requiring let reduction and retain their refusal assertions.
+
+The suite has 81 cases and the integration gate compares 51 inline pairs.
+Four new mutations bring the erasure battery to 104. The kernel is unchanged.
+Stage B remains open for Acc runtime elimination, full trace comparison,
+and the other documented source-recovery limits.
+
 ## 2026-09-26: Stage B function source types through aliases
 
 Application source recovery now follows transparent nonrecursive global

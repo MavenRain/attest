@@ -45,7 +45,11 @@ INLINE-ERASE row=alias-fuel OK
 INLINE-ERASE row=alias-guards OK
 INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=44 total=75 FAIL
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=48 total=81 FAIL
 INLINE-ERASE row=local-dependent FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=local-inherited FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=local-poison FAIL unbound: de Bruijn index 0 is outside the environment
@@ -77,4 +81,6 @@ INLINE-ERASE row=motive-application-local FAIL unbound: de Bruijn index 1 is out
 INLINE-ERASE row=motive-application-curried FAIL unbound: de Bruijn index 1 is outside the environment
 INLINE-ERASE row=motive-alias-dependent FAIL unbound: de Bruijn index 0 is outside the environment
 INLINE-ERASE row=motive-alias-local FAIL unbound: de Bruijn index 4 is outside the environment
+INLINE-ERASE row=lambda-alias-dependent FAIL unbound: de Bruijn index 0 is outside the environment
+INLINE-ERASE row=lambda-alias-local FAIL unbound: de Bruijn index 3 is outside the environment
 

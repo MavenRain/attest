@@ -1,0 +1,8 @@
+erased sealed
+erased Tail
+erased Fn
+erased Alias
+rec [any]
+fun Layout () : union any := KErased
+rec [any]
+fun keep (union any) : union any := KVar 0

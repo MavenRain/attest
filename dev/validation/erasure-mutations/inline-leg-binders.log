@@ -74,7 +74,13 @@ INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-dependent OK
 INLINE-ERASE row=motive-alias-local OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=73 total=75 FAIL
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-dependent OK
+INLINE-ERASE row=lambda-alias-local OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=79 total=81 FAIL
 INLINE-ERASE row=binders FAIL mismatch: closed proof lambda was not sealed as a whole
 INLINE-ERASE row=local-proof-let-family FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] __attest_inline_proof_0 as q return Type 1 with | (ACtor refl) C z => Nat)
 

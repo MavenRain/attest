@@ -266,7 +266,7 @@
     },
     {
       "path": "erase/inline.bend",
-      "function": "Inline.lambda_context_state",
+      "function": "Inline.lambda_type_state",
       "pattern": "other"
     },
     {
@@ -437,6 +437,16 @@
     {
       "path": "erase/test/inline_test.bend",
       "function": "Suite.motive_quantities_scope",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.lambda_absent",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.lambda_alias_scope_result",
       "pattern": "other"
     },
     {

@@ -73,7 +73,13 @@ INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-dependent OK
 INLINE-ERASE row=motive-alias-local OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=72 total=75 FAIL
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-dependent OK
+INLINE-ERASE row=lambda-alias-local OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=78 total=81 FAIL
 INLINE-ERASE row=branch-parameter-dependent FAIL mismatch: the term has type a and the expected type is A
 INLINE-ERASE row=branch-parameter-function FAIL universe: a term used as a type is not a universe:  A
 INLINE-ERASE row=branch-parameter-ctor FAIL mismatch: the term has type a and the expected type is A

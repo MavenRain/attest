@@ -48,6 +48,10 @@ MOTIVE_ROWS = ("motive-index", "motive-self", "motive-dependent", "motive-parame
                "motive-application-local", "motive-application-curried",
                "motive-alias-global", "motive-alias-dependent",
                "motive-alias-local", "motive-alias-curried")
+LAMBDA_FIXTURES = Path("erase/test/lambda_fixtures.bend")
+LAMBDA_ROWS = ("lambda-alias-global", "lambda-alias-dependent",
+               "lambda-alias-local", "lambda-alias-curried")
+INLINE_ROWS += LAMBDA_ROWS
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
                                "family-collision", "runtime", "local-type", "rows", "binders",
@@ -56,6 +60,7 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "application-capture", "application-guards",
                                "alias-global", "alias-local", "alias-guards",
                                "alias-local-global", "alias-fuel",
+                               *LAMBDA_ROWS, "lambda-alias-guards", "lambda-alias-scope",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",
@@ -283,7 +288,7 @@ def sealed_call(prefix, name, layout):
 
 
 def fixture_call_table():
-    """The exact whitespace-free Suite.Case line of each exempt runtime pair."""
+    """The exact Suite.Case line of each parameter, motive, and lambda pair."""
     universe = fixture_name("branch-parameter-universe")
     special = {"branch-parameter-ctor":
                    'Suite.Case{"branch-parameter-ctor",unit=>Suite.parameter_ctors(layout)}',
@@ -293,7 +298,8 @@ def fixture_call_table():
     parameter = [(name, "parameter", special.get(name, sealed_call("PF", name, "layout")))
                  for name in PARAMETER_ROWS]
     motive = [(name, "motive", sealed_call("MF", name, "None{}")) for name in MOTIVE_ROWS]
-    return parameter + motive
+    lambdas = [(name, "lambda", sealed_call("LF", name, "layout")) for name in LAMBDA_ROWS]
+    return parameter + motive + lambdas
 
 
 def def_body(source, name):
@@ -316,7 +322,7 @@ PARAMETER_CTOR_BODY = [
 
 
 def fixture_calls():
-    """Bind each exempt runtime pair to the live case of the same name: the
+    """Bind each listed runtime pair to the live case of the same name: the
     body of def Suite.cases must hold exactly one Case line for the row, and
     that line must call the exact source pair and sealing count. A copy of
     the line in other code or in a comment does not count."""
@@ -355,6 +361,10 @@ def inline_rows(logs):
     motive_names = {fixture_name(name) + suffix for name in MOTIVE_ROWS for suffix in ("", "_opaque")}
     if set(motive_suite) != motive_names:
         raise ValueError(f"{MOTIVE_FIXTURES} fixtures differ from MOTIVE_ROWS")
+    lambda_suite = suite_fixtures(ROOT / LAMBDA_FIXTURES)
+    lambda_names = {fixture_name(name) + suffix for name in LAMBDA_ROWS for suffix in ("", "_opaque")}
+    if set(lambda_suite) != lambda_names:
+        raise ValueError(f"{LAMBDA_FIXTURES} fixtures differ from LAMBDA_ROWS")
     fixture_calls()
     records = []
     for name in INLINE_ROWS + PARAMETER_ROWS + MOTIVE_ROWS:
@@ -365,6 +375,8 @@ def inline_rows(logs):
             fixture_matches(name, body, opaque, suite)
         if name in MOTIVE_ROWS:
             fixture_matches(name, body, opaque, motive_suite, MOTIVE_FIXTURES)
+        if name in LAMBDA_ROWS:
+            fixture_matches(name, body, opaque, lambda_suite, LAMBDA_FIXTURES)
         a = runtime_output(execute(logs, name + "-body",
                            [DRIVER, "build", "--erase", str(body)]).stdout)
         b = runtime_output(execute(logs, name + "-opaque",
@@ -392,7 +404,7 @@ def inline_rows(logs):
           f"carried_diff={sum(row['carried_diff'] for row in records)} "
           f"parameter_pairs={len(PARAMETER_ROWS)} motive_pairs={len(MOTIVE_ROWS)} "
           f"not_discriminating={len(PARAMETER_ROWS) + len(MOTIVE_ROWS)} "
-          f"suite_fixtures={len(fixture_names) + len(motive_names)} OK")
+          f"suite_fixtures={len(fixture_names) + len(motive_names) + len(lambda_names)} OK")
     return records
 
 
@@ -591,7 +603,7 @@ def record(logs, rows):
             "full TRACE-ERASURE including Acc",
             "constructor branch and named motive scopes without source syntax for family parameters",
             "unnamed motive scopes without a source scrutinee type",
-            "lambda scopes without a syntactic expected function type",
+            "lambda scopes whose expected type needs normalization beyond transparent alias hops",
             "local proofs without source type syntax",
             "unannotated proof introductions without an expected type and family metadata"],
             "implementation_sha256": {str(p.relative_to(ROOT)): digest(p.read_bytes())

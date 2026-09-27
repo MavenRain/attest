@@ -73,7 +73,13 @@ INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-dependent OK
 INLINE-ERASE row=motive-alias-local OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=72 total=75 FAIL
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-dependent OK
+INLINE-ERASE row=lambda-alias-local OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=78 total=81 FAIL
 INLINE-ERASE row=local-proof-let-alias FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] p as q return Type 1 with | (ACtor refl) C z => Nat)
 INLINE-ERASE row=local-proof-let-family FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] p as q return Type 1 with | (ACtor refl) C z => Nat)
 INLINE-ERASE row=local-proof-let-universe FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] p as q return Type 1 with | (ACtor refl) C z => Nat)

@@ -58,7 +58,13 @@ INLINE-ERASE row=alias-local OK
 INLINE-ERASE row=alias-local-global OK
 INLINE-ERASE row=alias-fuel OK
 INLINE-ERASE row=alias-guards OK
-INLINE-ERASE pass=57 total=75 FAIL
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-dependent OK
+INLINE-ERASE row=lambda-alias-local OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=63 total=81 FAIL
 INLINE-ERASE row=motive-index FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-self FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-dependent FAIL mismatch: local proof has no postulate

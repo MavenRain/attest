@@ -613,7 +613,7 @@ def Inline.lambda_point_state(point: Maybe<&2, F.Triple3<F.Quantity.t, String, F
           Inline.lambda_bind_state(Inline.closed(C.Check.size(checker), domain), context, name, quantity, domain, codomain)
         case other: R.Erase.Return{None{}}
 
-def Inline.lambda_context_state(expected: Maybe<&2, F.Term.t>, leg: F.Term.leg, context: Inline.context) -> R.Erase.State<Maybe<&2, F.Pair2<Inline.context, F.Term.t>>>:
+def Inline.lambda_type_state(expected: Maybe<&2, F.Term.t>, leg: F.Term.leg, context: Inline.context) -> R.Erase.State<Maybe<&2, F.Pair2<Inline.context, F.Term.t>>>:
   match expected:
     case None{}: R.Erase.Return{None{}}
     case Some{ty}:
@@ -740,6 +740,15 @@ def Inline.alias_type(fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.conte
         Inline.alias_type(remaining, body, context)
     case 1n+remaining Some{other}: Done{Some{other}}
 
+def Inline.source_alias_type(ty: Maybe<&2, F.Term.t>, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  Inline.Context{checker, domains} = context
+  aliases = (Inline.length(F.Pair2<String, F.Global.entry>, F.Global.entries(C.Check.global(checker))) + Inline.length(Inline.local, domains) : Nat)
+  Inline.alias_type((aliases + 1n : Nat), ty, context)
+
+def Inline.lambda_context_state(expected: Maybe<&2, F.Term.t>, leg: F.Term.leg, +context: Inline.context) -> R.Erase.State<Maybe<&2, F.Pair2<Inline.context, F.Term.t>>>:
+  Inline.bind_state(Maybe<&2, F.Term.t>, Maybe<&2, F.Pair2<Inline.context, F.Term.t>>, R.Erase.State.lift(Maybe<&2, F.Term.t>, Inline.source_alias_type(expected, context)), expanded =>
+    Inline.lambda_type_state(expanded, leg, context))
+
 # Substitution removes the function binder and preserves every outer variable.
 # Keep source syntax: semantic readback can erase dependent proof arguments.
 def Inline.source_variables(count: Nat, +index: Nat) -> List<&2, F.Term.t>:
@@ -769,9 +778,8 @@ def Inline.application_type(ty: Maybe<&2, F.Term.t>, address: F.Term.addr, depth
 
 def Inline.application_source_type(ty: Maybe<&2, F.Term.t>, address: F.Term.addr, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   Inline.Context{checker, domains} = context
-  aliases = (Inline.length(F.Pair2<String, F.Global.entry>, F.Global.entries(C.Check.global(checker))) + Inline.length(Inline.local, domains) : Nat)
   do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
-    expanded: Maybe<&2, F.Term.t> <- Inline.alias_type((aliases + 1n : Nat), ty, context)
+    expanded: Maybe<&2, F.Term.t> <- Inline.source_alias_type(ty, context)
     Inline.application_type(expanded, address, C.Check.size(checker))
 
 def Inline.scrutinee_type(term: F.Term.t, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:

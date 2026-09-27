@@ -60,7 +60,8 @@ INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-dependent OK
 INLINE-ERASE row=motive-alias-local OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=58 total=75 FAIL
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE pass=59 total=81 FAIL
 INLINE-ERASE row=binders FAIL mismatch: runtime differs from its sealed twin
 INLINE-ERASE row=local-index FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0] (Out SPi 0 n Nat (APt 0 0) __attest_inline_proof_0) as p return Type 1 with | (ACtor refl) j => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-dependent FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 x Nat (APt 0 0) (Out SPi 0 A Type 1 (APt 0 Nat) __attest_inline_proof_0)) as p return Type 1 with | (ACtor refl) C z => (Ran SColl 0 (Sec SColl 0 [])))
@@ -78,4 +79,9 @@ INLINE-ERASE row=branch-dependent FAIL mismatch: the term has type (Ran SColl 0 
 INLINE-ERASE row=branch-nested FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [7; (In SMu Tone [] (ACtor tone) []); (In SMu Mark [] (ACtor mark) [])] (Out SPi 0 m (Lan SMu Mark [] (Sec SColl 0 [])) (APt 0 (In SMu Mark [] (ACtor mark) [])) (Out SPi 0 n (Lan SMu Tone [] (Sec SColl 0 [])) (APt 0 (In SMu Tone [] (ACtor tone) [])) (Out SPi 0 b (Lan SMu Cell [] (Sec SColl 0 [])) (APt 0 (In SMu Cell [] (ACtor cell) [(In SMu Mark [] (ACtor mark) [])])) (Out SPi 0 a (Lan SMu Box [] (Sec SColl 0 [])) (APt 0 (In SMu Box [] (ACtor box) [(In SMu Tone [] (ACtor tone) [])])) (Out SPi 0 outer Nat (APt 0 7) __attest_inline_proof_0))))) as p return Type 1 with | (ACtor refl) i j k => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=branch-multi-ctor FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0] (Out SPi 0 h (Lan SMu Equal [0] (Sec SColl 0 [])) (APt 0 (In SMu Equal [0] (ACtor refl) [0])) (Out SPi 0 n Nat (APt 0 0) (Out SPi 0 t (Lan SMu Tag [] (Sec SColl 0 [])) (APt 0 (In SMu Tag [] (ACtor proved) [0; (In SMu Equal [0] (ACtor refl) [0])])) __attest_inline_proof_1))) as p return Type 1 with | (ACtor refl) j => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=alias-leg-scope FAIL mismatch: no postulate leaked
+INLINE-ERASE row=lambda-alias-global FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0] (Out SPi 0 n Nat (APt 0 0) __attest_inline_proof_0) as p return Type 1 with | (ACtor refl) j => (Ran SColl 0 (Sec SColl 0 [])))
+INLINE-ERASE row=lambda-alias-dependent FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 x Nat (APt 0 0) (Out SPi 0 A Type 1 (APt 0 Nat) __attest_inline_proof_0)) as p return Type 1 with | (ACtor refl) C z => (Ran SColl 0 (Sec SColl 0 [])))
+INLINE-ERASE row=lambda-alias-local FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 y Nat (APt 0 0) (Out SPi 0 x Nat (APt 0 0) (Out SPi 0 A Type 1 (APt 0 Nat) __attest_inline_proof_0))) as p return Type 1 with | (ACtor refl) C w => (Ran SColl 0 (Sec SColl 0 [])))
+INLINE-ERASE row=lambda-alias-curried FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0; 1] (Out SPi 0 y Nat (APt 0 1) (Out SPi 0 x Nat (APt 0 0) __attest_inline_proof_0)) as p return Type 1 with | (ACtor refl) c d => (Ran SColl 0 (Sec SColl 0 [])))
+INLINE-ERASE row=lambda-alias-scope FAIL mismatch: lambda alias codomain syntax changed
 

@@ -39,8 +39,8 @@ Classification uses the original checked environment. The API takes the
 final globals and declaration rows returned together by `Elab.check_in`.
 
 `erase/inline.bend` also seals inline proofs in ordinary entries when their
-type is available from an annotation, let type, or syntactic expected function
-type, or inferred independently for a closed term. It tracks the types of function, let,
+type is available from an annotation, let type, or expected function type
+exposed by transparent alias hops, or inferred independently for a closed term. It tracks the types of function, let,
 and type-former binders. Each local proof becomes a closed postulate whose
 parameters are all erased, applied to the locals in their original order.
 Original domain and codomain syntax preserves declared universes; normalized
@@ -80,7 +80,7 @@ The gate requires that carried equality. Sealing for these pairs is checked
 only in the semantic suite, and the gate requires the suite copies in
 `erase/test/parameter_fixtures.bend` and `erase/test/motive_fixtures.bend` to
 equal the `.att` files byte for byte.
-Seventy-five semantic
+Eighty-one semantic
 tests cover poisoned proof bodies at known types, inherited entries, name
 collisions, runtime lets, local type annotations, and rewritten rows. They also
 check closed postulate types, dependent argument order, original universes,
@@ -88,8 +88,8 @@ inherited local proofs, local hypotheses, proof lets needed by a local proof
 type, dependent constructor fields, nested branch scopes, and conservative
 fallback for missing family metadata or unavailable parameter syntax. They also check that a
 branch takes the fields of its own constructor, not the first constructor of
-its family, and that an alias-typed lambda leg under an outer binder starts
-from the root scope. Branch contexts require
+its family, and that a lambda leg whose type needs let reduction under an
+outer binder starts from the root scope. Branch contexts require
 the exact constructor binder count and quantities, and field types closed over
 earlier fields and family parameters. Parameterized branches recover the source
 type from an annotated scrutinee, a global declaration, or a typed local binder,
@@ -127,6 +127,15 @@ calls; four `motive-alias-*` pairs cover global alias chains, dependent types,
 local alias chains, and curried calls. Direct tests cover capture avoidance,
 local shifting, a local alias that names a global alias, the hop bound,
 declaration scope, opacity, recursion, partiality, and cycles.
+Lambda scopes use the same alias resolver on their expected function type.
+They preserve the declared binder quantity, domain syntax, and dependent
+codomain. Four `lambda-alias-*` fixture pairs cover global chains, dependent
+types, local chains beneath outer binders, and curried codomain aliases.
+Their runtime outputs differ under the carried eraser and match their opaque
+twins after sealing. Each semantic case requires one generated postulate and
+rechecks its type and the transformed program. The gate binds each case to
+its exact fixture pair and verifies `erase/test/lambda_fixtures.bend` against
+the `.att` files. Direct cases protect refusal guards and source syntax.
 The resulting source type must be closed in the current
 context. An unnamed motive with index binders, an inductive shape, or no
 recoverable source type falls back to the root scope. Five `motive-plain-*`
@@ -158,8 +167,9 @@ differential allows only this named divergence, which
 pairs cover concrete and dependent parameters, function fields, annotations,
 lets, globals, same-shape constructors, and a proof field at a universe. Unnamed
 motives without a source scrutinee type, and scrutinee types needing further
-normalization or inference, remain open. Lambda bodies without a syntactic expected function
-type also remain conservative; closed subterms can still be sealed. Local
+normalization or inference, remain open. Lambda bodies whose expected function
+type needs reduction beyond transparent alias hops also remain conservative;
+closed subterms can still be sealed. Local
 proofs without source type syntax are left intact because inferred readback
 can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and

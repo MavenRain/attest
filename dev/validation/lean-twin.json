@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "recorded_at": "2026-09-27T06:19:58.372182+00:00",
+  "recorded_at": "2026-09-27T16:56:35.711073+00:00",
   "root": "/Users/oobi/Documents/attest",
   "summary": "LEAN-TWIN accept=24/24 refuse=12/12 axioms=0 OK",
   "toolchain": "leanprover/lean4:v4.33.1",
@@ -50,15 +50,16 @@
     "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
     "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
     "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
-    "erase/inline.bend": "d808e7f7f2b8cd717ca1be8fc8eb79581870011e46b1393ff1dc20e0d2282211",
+    "erase/inline.bend": "c57cb71a73eb1df86457f2ed6aa4fe03078976dbd193df63c2247b9af371212c",
     "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
     "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
     "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
-    "erase/test/fixtures.bend": "68e6d218dc4b4be49cd7e1e3bd99dba19fef4986b893809d1f75d181d021bf4b",
+    "erase/test/fixtures.bend": "20df59009faacd6d2acc56ae1d892beb39b089fa0718e3b2726f417a47217a71",
     "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
     "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
-    "erase/test/inline_test.bend": "1599423a6516544447a0559d1377ecc3007b809294b72d98dd37517aae1c9ac9",
+    "erase/test/inline_test.bend": "12631fc4da8e2761b5009f8958b9cde2683153e9ab41c486a8865fe65f9a26c4",
     "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
+    "erase/test/lambda_fixtures.bend": "9a69ede056fd2556852d477e265287e4d7aa52fd9e374c713057d83dad30a24e",
     "erase/test/motive_fixtures.bend": "52506913c9014503d51a8c9cf0ec30fbc41982ec327dcc3f63c5e987a61f9ede",
     "erase/test/opaque_core.bend": "27c3d0153f546db7e0ee2127626f03787fe7a14ce2d053c057d1a4169305938c",
     "erase/test/opaque_test.bend": "72b2354aa5fbae943e85381a1b561a31aa41e1be49747cf07c929df169996ee7",
@@ -69,7 +70,7 @@
     "erase/test/support.bend": "f6423cc10fc237d835e465fc413c1429c473bca37690a68b19b4c60443d06e61",
     "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99"
   },
-  "driver_sha256": "536c13b3f81a9b88238690419c917c134e1e3b48bd62d2af456dcef790efd6b1",
+  "driver_sha256": "9ac44cd044eeb3ce9dc8b1b4fcf13462c6e390faf94bebc97d091836c7a70748",
   "rows": [
     {
       "row": "nat-literal",

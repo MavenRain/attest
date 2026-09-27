@@ -72,7 +72,13 @@ INLINE-ERASE row=alias-guards OK
 INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-dependent OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=71 total=75 FAIL
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-dependent OK
+INLINE-ERASE row=lambda-alias-local OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=77 total=81 FAIL
 INLINE-ERASE row=motive-application-local FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-application-curried FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=application-capture FAIL mismatch: application substitution captured an outer variable

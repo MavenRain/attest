@@ -36,7 +36,9 @@ INLINE-ERASE row=alias-local OK
 INLINE-ERASE row=alias-local-global OK
 INLINE-ERASE row=alias-fuel OK
 INLINE-ERASE row=alias-guards OK
-INLINE-ERASE pass=35 total=75 FAIL
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=37 total=81 FAIL
 INLINE-ERASE row=local-index FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Nat
 INLINE-ERASE row=local-dependent FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Type 1
 INLINE-ERASE row=local-diagram FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Nat
@@ -77,4 +79,8 @@ INLINE-ERASE row=motive-alias-global FAIL mismatch: the term has type ((Ran SCol
 INLINE-ERASE row=motive-alias-dependent FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Type 1
 INLINE-ERASE row=motive-alias-local FAIL universe: a term used as a type is not a universe:  ((Ran SColl 0 (Sec SColl 0 [])) : Type 0)
 INLINE-ERASE row=motive-alias-curried FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is (Lan SColl 2 (Sec SColl 2 [ => Nat;  => Nat]))
+INLINE-ERASE row=lambda-alias-global FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Nat
+INLINE-ERASE row=lambda-alias-dependent FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Type 1
+INLINE-ERASE row=lambda-alias-local FAIL universe: a term used as a type is not a universe:  ((Ran SColl 0 (Sec SColl 0 [])) : Type 0)
+INLINE-ERASE row=lambda-alias-curried FAIL mismatch: the term has type ((Ran SColl 0 (Sec SColl 0 [])) : Type 0) and the expected type is Nat
 

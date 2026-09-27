@@ -34,15 +34,15 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and forty-seven inline proof
+increment compares four global proof pairs and fifty-one inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences only for the four global pairs and the twenty-one earlier
-inline pairs. The eight parameterized branch pairs and eighteen motive pairs give identical outputs
+differences for the four global pairs and twenty-five inline pairs, including
+four lambda alias pairs. The eight parameterized branch pairs and eighteen motive pairs give identical outputs
 with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-checks one hundred isolated mutations, and the record shows all of them
+checks 104 isolated mutations, and the record shows all of them
 caught. The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -65,6 +65,8 @@ lets. Function applications recover their result type from a syntactic
 function type, substituting arguments without capturing outer variables.
 This includes dependent and curried calls. Transparent global and local let
 aliases can expose the function type while preserving its source syntax.
+Lambda scopes use the same recovery for their expected types, including
+dependent and curried functions and local alias chains beneath outer binders.
 Alias bodies must be closed in their declaration scope; opaque, recursive,
 partial, and cyclic aliases remain unsupported. The source type must be closed
 in the current scope; unnamed motives
@@ -79,9 +81,9 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-Seventy-five semantic tests protect this boundary. Scrutinee types that need
+Eighty-one semantic tests protect this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
-indirectly typed lambda scopes, local proofs without source type syntax,
+lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.
 `zsh -f dev/gates.sh TRACE-ERASURE` runs the erasure regression, prints the
 remaining Acc frontier rows, and always exits 1 until the Stage B

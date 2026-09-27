@@ -13,6 +13,7 @@ import ./fixtures.bend as X
 import ./branch_fixtures.bend as B
 import ./parameter_fixtures.bend as PF
 import ./motive_fixtures.bend as MF
+import ./lambda_fixtures.bend as LF
 import ../../lib/kernel_pp.bend as P
 
 def Suite.postulate(index:Nat) -> String:
@@ -637,6 +638,47 @@ def Suite.alias_guards() -> Result<&2,&2,F.Error.t,Unit>:
     loop:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{F.Term.Global{"Cycle"}},F.Term.APt{F.Quantity.Many{},F.Term.Global{"Nat"}},context)
     Suite.application_absent(loop,"cyclic alias accepted")
 
+def Suite.lambda_absent(state:R.Erase.State<Maybe<&2,F.Pair2<I.Inline.context,F.Term.t>>>,label:String) -> Result<&2,&2,F.Error.t,Unit>:
+  match state:
+    case R.Erase.Return{None{}}: Done{Unit{}}
+    case other: Fail{F.Error.Mismatch{label}}
+
+def Suite.lambda_alias_refused(entry:F.Global.entry,label:String) -> Result<&2,&2,F.Error.t,Unit>:
+  context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.add("Fn",entry,G.Global.initial),C.Budget.unlimited),Nil{}}
+  leg:F.Term.leg = F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"A"}],F.Term.Global{"Nat"}}
+  Suite.lambda_absent(I.Inline.lambda_context_state(Some{F.Term.Global{"Fn"}},leg,context),label)
+
+def Suite.lambda_alias_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
+  +univ:F.Term.t = F.Term.Univ{F.Level.one}
+  do Result<&2,&2,F.Error.t,Unit>:
+    opaque:Unit <- Suite.lambda_alias_refused(F.Global.Def{F.Global.DefEntry{univ,ty,False{},None{},False{}}},"opaque lambda alias unfolded")
+    recursive:Unit <- Suite.lambda_alias_refused(F.Global.Def{F.Global.DefEntry{univ,ty,True{},Some{0n},False{}}},"recursive lambda alias unfolded")
+    partial:Unit <- Suite.lambda_alias_refused(F.Global.Def{F.Global.DefEntry{univ,ty,True{},None{},True{}}},"partial lambda alias unfolded")
+    free:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Var{0n}),"free lambda alias accepted")
+    missing:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Global{"unknown"}),"missing lambda alias unfolded")
+    cycle:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Global{"Fn"}),"cyclic lambda alias accepted")
+    axiom:Unit <- Suite.lambda_alias_refused(F.Global.Axiom{F.Global.AxiomEntry{univ}},"axiom lambda alias unfolded")
+    computed:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Let{"A",univ,ty,F.Term.Var{0n}}),"computed lambda alias acquired a context")
+    Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Ran{F.Shape.make_collection(F.Term.t,1n),F.Term.Global{"Nat"}}),"nonpoint lambda alias acquired a context")
+
+def Suite.lambda_alias_scope_result(state:R.Erase.State<Maybe<&2,F.Pair2<I.Inline.context,F.Term.t>>>,expected:F.Term.t) -> Result<&2,&2,F.Error.t,Unit>:
+  match state:
+    case R.Erase.Return{Some{F.Pair2{I.Inline.Context{C.Check.Ctx{globals,env,Con{F.Triple3{name,q,ty},Nil{}},size,budget},I.Inline.Param{local,domain} <> Nil{}},codomain}}}:
+      do Result<&2,&2,F.Error.t,Unit>:
+        scope:Unit <- T.Test.require(Bool.and(Nat.is_eq(size,1n),Bool.and(String.eq(name,"Item"),Bool.and(String.eq(local,"Item"),F.Quantity.equal(q,F.Quantity.Zero{})))),"lambda alias binder context changed")
+        source:Unit <- T.Test.require(I.Inline.term_equal(domain,F.Term.Univ{F.Level.zero}),"lambda alias domain syntax changed")
+        T.Test.require(I.Inline.term_equal(codomain,expected),"lambda alias codomain syntax changed")
+    case other: Fail{F.Error.Mismatch{"lambda alias context missing"}}
+
+def Suite.lambda_alias_scope() -> Result<&2,&2,F.Error.t,Unit>:
+  +codomain:F.Term.t = F.Term.Ann{F.Term.Var{0n},F.Term.Univ{F.Level.zero}}
+  ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),codomain}
+  globals:F.Global.t = F.Global.add("Fn",Suite.alias_entry(ty),F.Global.add("Alias",Suite.alias_entry(F.Term.Global{"Fn"}),F.Global.empty))
+  context:I.Inline.context = I.Inline.Context{C.Check.make(globals,C.Budget.unlimited),Nil{}}
+  leg:F.Term.leg = F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"Item"}],F.Term.Var{0n}}
+  Suite.lambda_alias_scope_result(I.Inline.lambda_context_state(Some{F.Term.Global{"Alias"}},leg,context),codomain)
+
 def Suite.plain_motive_guards() -> Result<&2,&2,F.Error.t,Unit>:
   +context:I.Inline.context = I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}
   +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
@@ -754,7 +796,13 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"motive-alias-global",unit => Suite.local_sealed(MF.Fixture.motive_alias_global,MF.Fixture.motive_alias_global_opaque,None{},1n)},
       Suite.Case{"motive-alias-dependent",unit => Suite.local_sealed(MF.Fixture.motive_alias_dependent,MF.Fixture.motive_alias_dependent_opaque,None{},1n)},
       Suite.Case{"motive-alias-local",unit => Suite.local_sealed(MF.Fixture.motive_alias_local,MF.Fixture.motive_alias_local_opaque,None{},1n)},
-      Suite.Case{"motive-alias-curried",unit => Suite.local_sealed(MF.Fixture.motive_alias_curried,MF.Fixture.motive_alias_curried_opaque,None{},1n)} ]
+      Suite.Case{"motive-alias-curried",unit => Suite.local_sealed(MF.Fixture.motive_alias_curried,MF.Fixture.motive_alias_curried_opaque,None{},1n)},
+      Suite.Case{"lambda-alias-global",unit => Suite.local_sealed(LF.Fixture.lambda_alias_global,LF.Fixture.lambda_alias_global_opaque,layout,1n)},
+      Suite.Case{"lambda-alias-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_alias_dependent,LF.Fixture.lambda_alias_dependent_opaque,layout,1n)},
+      Suite.Case{"lambda-alias-local",unit => Suite.local_sealed(LF.Fixture.lambda_alias_local,LF.Fixture.lambda_alias_local_opaque,layout,1n)},
+      Suite.Case{"lambda-alias-curried",unit => Suite.local_sealed(LF.Fixture.lambda_alias_curried,LF.Fixture.lambda_alias_curried_opaque,layout,1n)},
+      Suite.Case{"lambda-alias-guards",unit => Suite.lambda_alias_guards},
+      Suite.Case{"lambda-alias-scope",unit => Suite.lambda_alias_scope} ]
 
 def main() -> IO(Unit):
   +layout:Maybe<&2,F.Pair2<Bool,String>> = Some{F.Pair2{False{},"Layout"}}

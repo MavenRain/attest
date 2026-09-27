@@ -1,4 +1,13 @@
 # Mutation log
+## 2026-09-27: Lambda type alias mutations
+
+Four new cases bring the erasure battery to 104. They bypass alias recovery
+for lambda scopes, replace the declared binder quantity, replace the source
+codomain, and wire a lambda fixture row to the wrong source pair. Each
+requires a named semantic or fixture-binding failure. The prior unknown-scope
+fixtures now require let reduction, preserving their original refusal checks
+while transparent alias scopes become supported.
+
 ## 2026-09-26: Function type alias mutations
 
 Eleven new cases bring the erasure battery to 100. They bypass alias recovery,

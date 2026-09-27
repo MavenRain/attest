@@ -50,7 +50,11 @@ INLINE-ERASE row=alias-fuel OK
 INLINE-ERASE row=alias-guards OK
 INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-curried OK
-INLINE-ERASE pass=49 total=75 FAIL
+INLINE-ERASE row=lambda-alias-global OK
+INLINE-ERASE row=lambda-alias-curried OK
+INLINE-ERASE row=lambda-alias-guards OK
+INLINE-ERASE row=lambda-alias-scope OK
+INLINE-ERASE pass=53 total=81 FAIL
 INLINE-ERASE row=local-dependent FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=local-inherited FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=local-poison FAIL mismatch: the term has type A and the expected type is Type 1
@@ -77,4 +81,6 @@ INLINE-ERASE row=motive-application-local FAIL mismatch: the term has type (Lan 
 INLINE-ERASE row=motive-application-curried FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => A;  => A])) and the expected type is Type 1
 INLINE-ERASE row=motive-alias-dependent FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => A;  => A])) and the expected type is Type 1
 INLINE-ERASE row=motive-alias-local FAIL mismatch: the term has type (Lan SColl 2 (Sec SColl 2 [ => A;  => A])) and the expected type is Type 1
+INLINE-ERASE row=lambda-alias-dependent FAIL mismatch: the term has type A and the expected type is Type 1
+INLINE-ERASE row=lambda-alias-local FAIL mismatch: the term has type A and the expected type is Type 1
 
