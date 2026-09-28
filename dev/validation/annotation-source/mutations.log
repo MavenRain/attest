@@ -1,0 +1,9 @@
+ERASURE-MUTATION let-free-annotation caught
+ERASURE-MUTATION annotation-disabled caught
+ERASURE-MUTATION annotation-free-body caught
+ERASURE-MUTATION annotation-free-type caught
+ERASURE-MUTATION annotation-exhausted caught
+ERASURE-MUTATION annotation-fuel caught
+ERASURE-MUTATION beta-work-bound caught
+ERASURE-MUTATION beta-let-pending caught
+ERASURE-MUTATIONS caught=8 total=132 PARTIAL

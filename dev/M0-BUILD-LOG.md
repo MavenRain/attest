@@ -1,5 +1,43 @@
 # M0 build log
 
+## 2026-09-28: Stage B source types through head annotations
+
+Source recovery now opens head annotation wrappers whose body and annotation
+are closed in the current scope. Each wrapper consumes one step from the
+existing shared 64-step let and beta budget. Pending applications survive the
+step, and annotations inside function domains and codomains retain their source
+syntax. The kernel and its trusted-line budget are unchanged.
+
+Four lambda pairs cover global, dependent, local, and curried types. Two motive
+pairs cover dependent and curried application results. Each semantic row
+requires a closed postulate, rechecks the transformed program, and compares
+with its opaque twin. Direct tests cover outer variables, source syntax, open
+bodies and annotations, the exact 64/65 boundary, and mixed annotation, let,
+and beta chains. Unknown-scope controls now use nonpoint tuple projections.
+
+The semantic suite has 111 cases and the integration gate compares 69 inline
+pairs. Five new mutations bring the erasure battery to 132. Validation of this
+slice uses the five new mutations, the changed let annotation anchor, and the
+shared beta pending-frame and transition-bound mutations. The full 127-case
+mutation record remains historical. The attempted full rerun was stopped
+because of its runtime; no partial result replaces that full record.
+Mutation testing exposed an inadequate body-closure regression: a bare free
+variable was rejected later as an unresolved alias. The strengthened test
+puts the free variable inside a function domain, isolating the closure guard.
+All eight scoped mutations were caught after that correction, and the current
+baseline passed all 111 semantic cases and 73 fixture pairs. The 16-program
+Bend test suite passed before the body-closure test was strengthened. The
+scoped baseline then reran only the inline suite. Detailed outcomes, source
+hashes, and logs are in `dev/validation/annotation-source.json`. A later
+review fix changed one guard row in `Suite.lambda_alias_guards`: it now calls
+the lambda context directly, so the open annotation reaches the annotation
+step instead of the alias closure check. The source hashes in that record
+predate this fix. The full Lean release runner timed out
+after 900 seconds during Stage A, so this entry does not claim a release pass.
+Stage B remains
+open for Acc runtime elimination, full trace comparison, and source reductions
+beyond the documented subset.
+
 ## 2026-09-27: Stage B source types through beta reduction
 
 Source recovery now reduces point applications whose head resolves to a

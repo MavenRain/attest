@@ -1,0 +1,3 @@
+ERASURE-MUTATION let-free-annotation caught
+ERASURE-MUTATION annotation-disabled caught
+ERASURE-MUTATIONS FAIL: annotation-free-body: inline proof regression exit=0

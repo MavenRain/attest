@@ -1,5 +1,21 @@
 # Mutation log
 
+## 2026-09-28: Head annotation source type mutations
+
+Five new cases bring the erasure battery to 132. They disable annotation
+recovery, remove each of the body and annotation closure checks, unwrap a
+wrapper after fuel exhaustion, and stop charging wrappers against the shared
+reduction budget. Each must compile and fail its named semantic row. The let
+annotation mutation now uses a larger unique anchor to keep targeting the let
+guard. Direct tests cover the exact 64/65 boundary and mixed annotation, let,
+and beta chains. Unknown-scope controls use nonpoint tuple projections.
+This slice validates the five new cases plus `let-free-annotation`,
+`beta-let-pending`, and `beta-work-bound` in scoped mode. The existing
+127-case full-battery record remains historical. The first scoped run showed
+that the body-closure probe also triggered alias rejection. Its replacement
+uses a function type with a free domain, so removing the closure check must
+fail the named body-closure row.
+
 ## 2026-09-27: Beta source type mutations
 
 Twelve new cases bring the erasure battery to 127. They disable beta recovery,

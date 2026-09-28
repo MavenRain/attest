@@ -1,0 +1,10 @@
+mu Equal : (0 n : Nat) -> Prop with
+| refl : (0 n : Nat) -> Equal n
+
+axiom sealed : (0 n : Nat) -> Equal n
+def MakeFn : (0 N : Type 0) -> Type 1 := fun (0 N : Type 0) => (0 n : N) -> Type 0
+def MakeAlias : (0 N : Type 0) -> Type 1 := MakeFn
+def Fn : Type 1 := (MakeAlias Nat : Type 1)
+def Alias : Type 1 := Fn
+def Layout : Alias := fun (0 n : Nat) => case sealed n as p in Equal k return Type 0 with | refl 0 j => prod ()
+def keep : (x : Layout 0) -> Layout 0 := fun (x : Layout 0) => x

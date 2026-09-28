@@ -788,6 +788,7 @@ def Inline.let_type(ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Mayb
 
 def Inline.let_exhausted(ty: Maybe<&2, F.Term.t>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match ty:
+    case Some{F.Term.Ann{body, annotation}}: Done{None{}}
     case Some{F.Term.Let{name, annotation, value, body}}: Done{None{}}
     case Some{F.Term.Out{shape, address, head}}: Done{None{}}
     case other: Done{other}
@@ -824,6 +825,10 @@ def Inline.source_reduce_head(fuel: Nat, expanded: Maybe<&2, F.Term.t>, context:
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
         stopped: Maybe<&2, F.Term.t> <- Inline.let_exhausted(expanded)
         Inline.beta_pending(pending, 0n, stopped, context, next)
+    case 1n+remaining Some{F.Term.Ann{+body, annotation}}:
+      Inline.Context{checker, domains} = context
+      +depth: Nat = C.Check.size(checker)
+      next(remaining, Inline.keep_expected(Bool.and(Inline.closed(depth, body), Inline.closed(depth, annotation)), body), pending)
     case 1n+remaining Some{F.Term.Let{name, annotation, value, body}}:
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
         reduced: Maybe<&2, F.Term.t> <- Inline.let_type(Some{F.Term.Let{name, annotation, value, body}}, context, reduced => Done{reduced})

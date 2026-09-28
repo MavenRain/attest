@@ -659,7 +659,7 @@ def Suite.lambda_alias_guards() -> Result<&2,&2,F.Error.t,Unit>:
     missing:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Global{"unknown"}),"missing lambda alias unfolded")
     cycle:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Global{"Fn"}),"cyclic lambda alias accepted")
     axiom:Unit <- Suite.lambda_alias_refused(F.Global.Axiom{F.Global.AxiomEntry{univ}},"axiom lambda alias unfolded")
-    computed:Unit <- Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Ann{ty,univ}),"annotated lambda alias acquired a context")
+    computed:Unit <- Suite.lambda_absent(I.Inline.lambda_context_state(Some{F.Term.Ann{ty,F.Term.Var{0n}}},F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"A"}],F.Term.Global{"Nat"}},I.Inline.Context{C.Check.make(G.Global.initial,C.Budget.unlimited),Nil{}}),"open annotation acquired a lambda context")
     Suite.lambda_alias_refused(Suite.alias_entry(F.Term.Ran{F.Shape.make_collection(F.Term.t,1n),F.Term.Global{"Nat"}}),"nonpoint lambda alias acquired a context")
 
 def Suite.lambda_alias_scope_result(state:R.Erase.State<Maybe<&2,F.Pair2<I.Inline.context,F.Term.t>>>,expected:F.Term.t) -> Result<&2,&2,F.Error.t,Unit>:
@@ -786,6 +786,30 @@ def Suite.let_head(argument:F.Term.t) -> F.Term.t:
   function:F.Term.t = F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],body}]}
   F.Term.Out{shape,F.Term.APt{F.Quantity.Zero{},argument},F.Term.Let{"F",F.Term.Univ{F.Level.one},function,F.Term.Var{0n}}}
 
+def Suite.annotation_chain(count: Nat, body: F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: body
+    case 1n+rest: F.Term.Ann{Suite.annotation_chain(rest,body),F.Term.Univ{F.Level.one}}
+
+def Suite.annotation_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.Ctx{F.Global.empty,Nil{},Nil{},2n,C.Budget.unlimited},Nil{}}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{2n},univ}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Ann{ty,F.Term.Var{0n}}},context)
+    syntax:Unit <- Suite.application_equal(actual,ty)
+    applied:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{F.Term.Ann{ty,univ}},F.Term.APt{F.Quantity.Zero{},F.Term.Var{0n}},context)
+    Suite.application_equal(applied,F.Term.Ann{F.Term.Var{1n},univ})
+
+def Suite.annotation_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    annotation:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Ann{ty,F.Term.Var{0n}}},context)
+    annotation_ok:Unit <- Suite.application_absent(annotation,"free source annotation accepted")
+    body:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Ann{F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{0n}),F.Term.Global{"Nat"}},F.Term.Univ{F.Level.zero}}},context)
+    Suite.application_absent(body,"free annotated body accepted")
+
 def Suite.beta_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
   +context:I.Inline.context = I.Inline.Context{C.Check.Ctx{F.Global.empty,Nil{},Nil{},2n,C.Budget.unlimited},Nil{}}
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
@@ -843,6 +867,19 @@ def Suite.beta_head_chain(count:Nat,body:F.Term.t) -> F.Term.t:
   +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",F.Term.Univ{F.Level.one})
   head:F.Term.t = Suite.beta_chain(count,F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],body}]})
   F.Term.Out{shape,F.Term.APt{F.Quantity.Zero{},F.Term.Global{"Nat"}},head}
+
+def Suite.annotation_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.annotation_chain(64n,ty)},context)
+    exact_ok:Unit <- Suite.application_equal(exact,ty)
+    over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.annotation_chain(65n,ty)},context)
+    over_ok:Unit <- Suite.application_absent(over,"annotation reduction bound exceeded")
+    mixed:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(21n,Suite.annotation_chain(22n,Suite.beta_chain(21n,ty)))},context)
+    mixed_ok:Unit <- Suite.application_equal(mixed,ty)
+    mixed_over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(21n,Suite.annotation_chain(23n,Suite.beta_chain(21n,ty)))},context)
+    Suite.application_absent(mixed_over,"annotation mixed reduction bound exceeded")
 
 def Suite.beta_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
   +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
@@ -981,6 +1018,15 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"let-source-guards",unit => Suite.let_source_guards},
       Suite.Case{"let-source-fuel",unit => Suite.let_source_fuel},
       Suite.Case{"lambda-let-scope",unit => Suite.lambda_let_scope},
+      Suite.Case{"lambda-annotation-global",unit => Suite.local_sealed(LF.Fixture.lambda_annotation_global,LF.Fixture.lambda_annotation_global_opaque,layout,1n)},
+      Suite.Case{"lambda-annotation-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_annotation_dependent,LF.Fixture.lambda_annotation_dependent_opaque,layout,1n)},
+      Suite.Case{"lambda-annotation-local",unit => Suite.local_sealed(LF.Fixture.lambda_annotation_local,LF.Fixture.lambda_annotation_local_opaque,layout,1n)},
+      Suite.Case{"lambda-annotation-curried",unit => Suite.local_sealed(LF.Fixture.lambda_annotation_curried,LF.Fixture.lambda_annotation_curried_opaque,layout,1n)},
+      Suite.Case{"motive-annotation-dependent",unit => Suite.local_sealed(MF.Fixture.motive_annotation_dependent,MF.Fixture.motive_annotation_dependent_opaque,None{},1n)},
+      Suite.Case{"motive-annotation-curried",unit => Suite.local_sealed(MF.Fixture.motive_annotation_curried,MF.Fixture.motive_annotation_curried_opaque,None{},1n)},
+      Suite.Case{"annotation-source-syntax",unit => Suite.annotation_source_syntax},
+      Suite.Case{"annotation-source-guards",unit => Suite.annotation_source_guards},
+      Suite.Case{"annotation-source-fuel",unit => Suite.annotation_source_fuel},
       Suite.Case{"beta-source-syntax",unit => Suite.beta_source_syntax},
       Suite.Case{"lambda-beta-global",unit => Suite.local_sealed(LF.Fixture.lambda_beta_global,LF.Fixture.lambda_beta_global_opaque,layout,1n)},
       Suite.Case{"lambda-beta-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_beta_dependent,LF.Fixture.lambda_beta_dependent_opaque,layout,1n)},
