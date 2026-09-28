@@ -1,4 +1,20 @@
 # Mutation log
+
+## 2026-09-27: Beta source type mutations
+
+Twelve new cases bring the erasure battery to 127. They disable beta recovery,
+remove closure checking, replace each point-shape check, and bypass quantity
+matching. Other cases discard the remaining function-head or result budget,
+shorten the structural step bound, and bind a lambda row to the wrong fixture
+pair. Three cases drop the pending application under a head let, accept more
+than one section binder, and remove the 4096-node size cap on let and beta
+results. Every mutation must build and trigger
+its named semantic or fixture-binding failure. Existing let mutations now
+target the shared reducer. Direct tests also cover the exact 64/65 boundary,
+mixed let/beta chains, and a budget split between a function head and its
+result. They also cover cycles in each position and a doubling let chain that
+exceeds the size cap. Unknown-scope controls use annotated wrappers.
+
 ## 2026-09-27: Head let source type mutations
 
 Eleven new cases bring the erasure battery to 115. They disable let recovery,

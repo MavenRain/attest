@@ -34,15 +34,15 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and fifty-seven inline proof
+increment compares four global proof pairs and sixty-three inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences for the four global pairs and twenty-nine inline pairs, including
-eight lambda alias and let pairs. The eight parameterized branch pairs and twenty motive pairs give identical outputs
+differences for the four global pairs and thirty-three inline pairs, including
+twelve lambda alias, let, and beta pairs. The eight parameterized branch pairs and twenty-two motive pairs give identical outputs
 with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-checks 115 isolated mutations, and the record shows all of them
+checks 127 isolated mutations, and the record shows all of them
 caught. The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -67,10 +67,13 @@ This includes dependent and curried calls. Transparent global and local let
 aliases can expose the function type while preserving its source syntax.
 Lambda scopes use the same recovery for their expected types, including
 dependent and curried functions and local alias chains beneath outer binders.
-Source types can also expose a function through head let reduction. Substitution
-preserves outer variables, universes, and annotations, with at most 64 let
-reductions per recovery. Each alias chain between reductions retains its
-declaration-count bound. Beta reduction and annotated type wrappers remain open.
+Source types can also expose a function through head let and beta reduction.
+Point applications recover a single-binder section through aliases, lets, and
+nested applications. Substitution preserves outer variables, universes, and
+annotations. Let and beta steps share a limit of 64 reductions per recovery,
+including reductions in the function head and its result. A let or beta
+result with more than 4096 syntax nodes gives no type. Each alias chain
+retains its declaration-count bound. Annotated type wrappers remain open.
 Alias bodies must be closed in their declaration scope; opaque, recursive,
 partial, and cyclic aliases remain unsupported. The source type must be closed
 in the current scope; unnamed motives
@@ -85,7 +88,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-Ninety-one semantic tests protect this boundary. Scrutinee types that need
+One hundred and one semantic tests protect this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

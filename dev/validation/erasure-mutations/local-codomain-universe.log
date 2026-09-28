@@ -66,7 +66,14 @@ INLINE-ERASE row=motive-let-curried OK
 INLINE-ERASE row=let-source-syntax OK
 INLINE-ERASE row=let-source-guards OK
 INLINE-ERASE row=let-source-fuel OK
-INLINE-ERASE pass=64 total=91 FAIL
+INLINE-ERASE row=beta-source-syntax OK
+INLINE-ERASE row=motive-beta-dependent OK
+INLINE-ERASE row=motive-beta-curried OK
+INLINE-ERASE row=beta-source-guards OK
+INLINE-ERASE row=beta-source-fuel OK
+INLINE-ERASE row=beta-source-cycles OK
+INLINE-ERASE row=source-size-bound OK
+INLINE-ERASE pass=71 total=102 FAIL
 INLINE-ERASE row=binders FAIL mismatch: runtime differs from its sealed twin
 INLINE-ERASE row=local-index FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0] (Out SPi 0 n Nat (APt 0 0) __attest_inline_proof_0) as p return Type 1 with | (ACtor refl) j => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=local-dependent FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 x Nat (APt 0 0) (Out SPi 0 A Type 1 (APt 0 Nat) __attest_inline_proof_0)) as p return Type 1 with | (ACtor refl) C z => (Ran SColl 0 (Sec SColl 0 [])))
@@ -94,4 +101,8 @@ INLINE-ERASE row=lambda-let-dependent FAIL mismatch: the term has type (Ran SCol
 INLINE-ERASE row=lambda-let-local FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 y Nat (APt 0 0) (Out SPi 0 x Nat (APt 0 0) (Out SPi 0 A Type 1 (APt 0 Nat) __attest_inline_proof_0))) as p return Type 1 with | (ACtor refl) C w => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=lambda-let-curried FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0; 1] (Out SPi 0 y Nat (APt 0 1) (Out SPi 0 x Nat (APt 0 0) __attest_inline_proof_0)) as p return Type 1 with | (ACtor refl) c d => (Ran SColl 0 (Sec SColl 0 [])))
 INLINE-ERASE row=lambda-let-scope FAIL mismatch: lambda alias codomain syntax changed
+INLINE-ERASE row=lambda-beta-global FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0] (Out SPi 0 n Nat (APt 0 0) __attest_inline_proof_0) as p return Type 1 with | (ACtor refl) j => (Ran SColl 0 (Sec SColl 0 [])))
+INLINE-ERASE row=lambda-beta-dependent FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 x Nat (APt 0 0) (Out SPi 0 A Type 1 (APt 0 Nat) __attest_inline_proof_0)) as p return Type 1 with | (ACtor refl) C z => (Ran SColl 0 (Sec SColl 0 [])))
+INLINE-ERASE row=lambda-beta-local FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [Nat; 0] (Out SPi 0 y Nat (APt 0 0) (Out SPi 0 x Nat (APt 0 0) (Out SPi 0 A Type 1 (APt 0 Nat) __attest_inline_proof_0))) as p return Type 1 with | (ACtor refl) C w => (Ran SColl 0 (Sec SColl 0 [])))
+INLINE-ERASE row=lambda-beta-curried FAIL mismatch: the term has type (Ran SColl 0 (Sec SColl 0 [])) and the expected type is (Elim SMu Equal [0; 1] (Out SPi 0 y Nat (APt 0 1) (Out SPi 0 x Nat (APt 0 0) __attest_inline_proof_0)) as p return Type 1 with | (ACtor refl) c d => (Ran SColl 0 (Sec SColl 0 [])))
 

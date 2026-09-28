@@ -1,4 +1,4 @@
-/var/folders/d4/9sdgktzs23s857pdkm4yfndw0000gn/T/attest-twin-refuse-accepted-ts_ow6wb/lean/Corpus/universe-refuse.lean:5:23: error: Type mismatch
+/tmp/claude-501/attest-twin-refuse-accepted-h2r50e_x/lean/Corpus/universe-refuse.lean:5:23: error: Type mismatch
   Type
 has type
   Type 1

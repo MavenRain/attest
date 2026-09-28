@@ -88,9 +88,20 @@ INLINE-ERASE row=motive-let-dependent OK
 INLINE-ERASE row=motive-let-curried OK
 INLINE-ERASE row=let-source-guards OK
 INLINE-ERASE row=lambda-let-scope OK
-INLINE-ERASE pass=87 total=91 FAIL
+INLINE-ERASE row=lambda-beta-global OK
+INLINE-ERASE row=lambda-beta-dependent OK
+INLINE-ERASE row=lambda-beta-local OK
+INLINE-ERASE row=lambda-beta-curried OK
+INLINE-ERASE row=motive-beta-dependent OK
+INLINE-ERASE row=motive-beta-curried OK
+INLINE-ERASE row=beta-source-guards OK
+INLINE-ERASE row=beta-source-cycles OK
+INLINE-ERASE pass=95 total=102 FAIL
 INLINE-ERASE row=alias-fuel FAIL mismatch: application source type missing
 INLINE-ERASE row=lambda-alias-scope FAIL mismatch: lambda alias context missing
 INLINE-ERASE row=let-source-syntax FAIL mismatch: application source type missing
 INLINE-ERASE row=let-source-fuel FAIL mismatch: application source type missing
+INLINE-ERASE row=beta-source-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=beta-source-fuel FAIL mismatch: application source type missing
+INLINE-ERASE row=source-size-bound FAIL mismatch: application source type missing
 

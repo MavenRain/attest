@@ -1,4 +1,43 @@
 # M0 build log
+
+## 2026-09-27: Stage B source types through beta reduction
+
+Source recovery now reduces point applications whose head resolves to a
+single-binder section. Head aliases, local function aliases, intervening lets,
+and curried applications preserve source syntax. Applications and sections must
+have point shapes with matching address and binder quantities respectively.
+The recovered application must be closed in the current scope. Let and beta
+steps share a 64-step budget, consumed before descending into an application
+head and threaded into its result. Cycles and exhausted recovery yield no type.
+The kernel and its trusted-line budget are unchanged.
+
+Four lambda pairs and two motive pairs require a generated closed postulate,
+recheck the transformed program, and compare it with its opaque twin. Direct
+cases protect source syntax, outer variables, shape and quantity guards,
+single-binder arity, cyclic heads and results, and the exact shared budget.
+A direct case also reduces a head let while its application is pending.
+Unknown-scope controls now use annotated type wrappers and retain their
+conservative assertions. The suite has 102 cases and compares 63 inline pairs;
+12 new mutations bring the erasure battery to 127. A structural step bound
+allows each beta step to push and pop its pending application before the final
+result. Thus the Bend implementation also checks termination directly. The step
+bound does not limit substitution work, because duplicating let or beta
+arguments can double the term at each step. A cap of 4096 syntax nodes on each
+let or beta result bounds that work, and a doubling let chain tests the cap.
+
+Validation passed with 102/102 inline cases, 63 matching inline pairs,
+127/127 erasure mutations caught, and 5/5 Lean release checks. The release
+checks reran Stage A and all 16 Bend test programs. The Lean corpus accepted
+24/24 cases and refused 12/12, with zero axioms. The trace-frontier check
+retained its expected refusal. Refreshed records are in
+`dev/validation/erasure.json`, `dev/validation/erasure-mutations.json`, and
+`dev/validation/lean-twin-checks.json`.
+We removed the final blank line from eight new mutation logs before staging.
+We updated their recorded hashes. Their diagnostics did not change otherwise.
+
+Stage B remains open for Acc runtime elimination, full trace comparison, and
+source reductions beyond the documented subset.
+
 ## 2026-09-27: Stage B source types through head lets
 
 The shared lambda and application source resolver now reduces head lets,

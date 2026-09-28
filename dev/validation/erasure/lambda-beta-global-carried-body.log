@@ -1,0 +1,9 @@
+rec [any]
+fun MakeFn () : union any := KErased
+rec [any]
+fun MakeAlias () : union any := KTail (KGlobal MakeFn) []
+erased Fn
+erased Alias
+rec [any]
+fun Layout () : union any := KErased
+erased keep

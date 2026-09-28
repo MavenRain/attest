@@ -1,1 +1,1 @@
-/var/folders/d4/9sdgktzs23s857pdkm4yfndw0000gn/T/attest-twin-wrong-diagnostic-wl4199_9/lean/Corpus/universe-refuse.lean:5:23: error(lean.unknownIdentifier): Unknown identifier `missingName`
+/tmp/claude-501/attest-twin-wrong-diagnostic-vmxg5ixk/lean/Corpus/universe-refuse.lean:5:23: error(lean.unknownIdentifier): Unknown identifier `missingName`

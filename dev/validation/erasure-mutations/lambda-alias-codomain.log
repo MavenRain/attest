@@ -70,7 +70,15 @@ INLINE-ERASE row=motive-let-curried OK
 INLINE-ERASE row=let-source-syntax OK
 INLINE-ERASE row=let-source-guards OK
 INLINE-ERASE row=let-source-fuel OK
-INLINE-ERASE pass=69 total=91 FAIL
+INLINE-ERASE row=beta-source-syntax OK
+INLINE-ERASE row=lambda-beta-global OK
+INLINE-ERASE row=motive-beta-dependent OK
+INLINE-ERASE row=motive-beta-curried OK
+INLINE-ERASE row=beta-source-guards OK
+INLINE-ERASE row=beta-source-fuel OK
+INLINE-ERASE row=beta-source-cycles OK
+INLINE-ERASE row=source-size-bound OK
+INLINE-ERASE pass=77 total=102 FAIL
 INLINE-ERASE row=local-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=local-inherited FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=local-poison FAIL mismatch: local proof has no postulate
@@ -93,4 +101,7 @@ INLINE-ERASE row=lambda-let-dependent FAIL mismatch: local proof has no postulat
 INLINE-ERASE row=lambda-let-local FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-let-curried FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-let-scope FAIL mismatch: lambda alias codomain syntax changed
+INLINE-ERASE row=lambda-beta-dependent FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-beta-local FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-beta-curried FAIL mismatch: local proof has no postulate
 

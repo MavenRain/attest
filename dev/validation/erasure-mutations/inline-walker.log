@@ -26,7 +26,12 @@ INLINE-ERASE row=let-source-syntax OK
 INLINE-ERASE row=let-source-guards OK
 INLINE-ERASE row=let-source-fuel OK
 INLINE-ERASE row=lambda-let-scope OK
-INLINE-ERASE pass=25 total=91 FAIL
+INLINE-ERASE row=beta-source-syntax OK
+INLINE-ERASE row=beta-source-guards OK
+INLINE-ERASE row=beta-source-fuel OK
+INLINE-ERASE row=beta-source-cycles OK
+INLINE-ERASE row=source-size-bound OK
+INLINE-ERASE pass=30 total=102 FAIL
 INLINE-ERASE row=let-body FAIL unbound: missing_inline_body
 INLINE-ERASE row=scrutinee-body FAIL unbound: missing_inline_body
 INLINE-ERASE row=inherited FAIL mismatch: inline proof selected a layout
@@ -93,4 +98,10 @@ INLINE-ERASE row=lambda-let-local FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-let-curried FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-let-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-let-curried FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-beta-global FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-beta-dependent FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-beta-local FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-beta-curried FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-beta-dependent FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-beta-curried FAIL mismatch: local proof has no postulate
 

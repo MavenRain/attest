@@ -82,15 +82,26 @@ INLINE-ERASE row=lambda-alias-local OK
 INLINE-ERASE row=lambda-alias-curried OK
 INLINE-ERASE row=lambda-alias-guards OK
 INLINE-ERASE row=lambda-alias-scope OK
-INLINE-ERASE pass=81 total=91 FAIL
+INLINE-ERASE row=let-source-guards OK
+INLINE-ERASE row=lambda-beta-global OK
+INLINE-ERASE row=lambda-beta-dependent OK
+INLINE-ERASE row=lambda-beta-local OK
+INLINE-ERASE row=lambda-beta-curried OK
+INLINE-ERASE row=motive-beta-dependent OK
+INLINE-ERASE row=motive-beta-curried OK
+INLINE-ERASE row=beta-source-guards OK
+INLINE-ERASE row=beta-source-cycles OK
+INLINE-ERASE pass=90 total=102 FAIL
 INLINE-ERASE row=lambda-let-global FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-let-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-let-local FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-let-curried FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-let-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-let-curried FAIL mismatch: local proof has no postulate
-INLINE-ERASE row=let-source-syntax FAIL mismatch: application substitution captured an outer variable
-INLINE-ERASE row=let-source-guards FAIL mismatch: free let annotation accepted
-INLINE-ERASE row=let-source-fuel FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=let-source-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=let-source-fuel FAIL mismatch: application source type missing
 INLINE-ERASE row=lambda-let-scope FAIL mismatch: lambda alias context missing
+INLINE-ERASE row=beta-source-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=beta-source-fuel FAIL mismatch: application source type missing
+INLINE-ERASE row=source-size-bound FAIL mismatch: application source type missing
 

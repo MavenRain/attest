@@ -91,6 +91,17 @@ INLINE-ERASE row=let-source-syntax OK
 INLINE-ERASE row=let-source-guards OK
 INLINE-ERASE row=let-source-fuel OK
 INLINE-ERASE row=lambda-let-scope OK
-INLINE-ERASE pass=90 total=91 FAIL
+INLINE-ERASE row=beta-source-syntax OK
+INLINE-ERASE row=lambda-beta-global OK
+INLINE-ERASE row=lambda-beta-dependent OK
+INLINE-ERASE row=lambda-beta-local OK
+INLINE-ERASE row=lambda-beta-curried OK
+INLINE-ERASE row=motive-beta-dependent OK
+INLINE-ERASE row=motive-beta-curried OK
+INLINE-ERASE row=beta-source-guards OK
+INLINE-ERASE row=beta-source-fuel OK
+INLINE-ERASE row=beta-source-cycles OK
+INLINE-ERASE row=source-size-bound OK
+INLINE-ERASE pass=101 total=102 FAIL
 INLINE-ERASE row=motive-plain-guards FAIL mismatch: plain motive inductive shape acquired a context
 

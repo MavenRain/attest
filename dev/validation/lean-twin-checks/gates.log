@@ -1,5 +1,4 @@
-BUILD attest js compile
-BUILD attest js OK
+BUILD attest js cached
 BUILD foundation js cached
 BUILD global-map js cached
 BUILD order js cached
@@ -7,20 +6,13 @@ BUILD kernel js cached
 BUILD surface js cached
 BUILD ir js cached
 BUILD repr js cached
-BUILD inline-scan js compile
-BUILD inline-scan js OK
-BUILD inline-sealing js compile
-BUILD inline-sealing js OK
-BUILD opaque-core js compile
-BUILD opaque-core js OK
-BUILD erasure-budget js compile
-BUILD erasure-budget js OK
-BUILD erasure-refusal js compile
-BUILD erasure-refusal js OK
-BUILD inline js compile
-BUILD inline js OK
-BUILD opaque js compile
-BUILD opaque js OK
+BUILD inline-scan js cached
+BUILD inline-sealing js cached
+BUILD opaque-core js cached
+BUILD erasure-budget js cached
+BUILD erasure-refusal js cached
+BUILD inline js cached
+BUILD opaque js cached
 BUILD prop-index js cached
 BUILD parse-probe js cached
 BUILD erase-probe js cached
@@ -46,23 +38,23 @@ HOUSE no-loop-keyword OK
 HOUSE nonzero-division OK
 HOUSE OK
 DRIVER-EXIT pass=13 fail=0 stage=A OK
-BENCH SUITE-KERNEL median_ms=21204.424 min_ms=19213.287 max_ms=23554.381 runs=7
-SUITE-KERNEL pass=337 fail=0 median_ms=21204.424 OK
+BENCH SUITE-KERNEL median_ms=23927.196 min_ms=21250.049 max_ms=25923.367 runs=7
+SUITE-KERNEL pass=337 fail=0 median_ms=23927.196 OK
 surface: 20 lexer, 28 parser, match elaboration, 13 recursive values, axiom reporting, budget and extreme index checks passed
 QUOTE-DEPTH depth=24 bound_s=10 OK
 AXIOMS corpus/id.att count=0
 AXIOMS-empty rows=1 OK
 TRUSTED-LINES kernel=6000/6000 lower=0/1100 encoder=0/800 harness=0/100 OK
 TRUSTED-LINES whole_lib=8045 language=Bend INFO
-M0-RATIO rung=1 pass=parse ms=0.640000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
-M0-RATIO rung=1 pass=elaborate-check ms=0.550000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=parse ms=0.600000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=elaborate-check ms=0.540000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
 M0-RATIO rung=2 OPEN reason=denominators-not-frozen
 M0-RATIO rung=3 OPEN reason=denominators-not-frozen
 STAGE-A OK
 PROP-INDEX pass=28 total=28 OK
 ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
-INLINE-ERASE pass=91 total=91 OK
-ERASURE-INLINE rows=57 identical=57 carried_diff=29 parameter_pairs=8 motive_pairs=20 not_discriminating=28 suite_fixtures=72 OK
+INLINE-ERASE pass=102 total=102 OK
+ERASURE-INLINE rows=63 identical=63 carried_diff=33 parameter_pairs=8 motive_pairs=22 not_discriminating=30 suite_fixtures=84 OK
 ERASURE-OPEN rows=0 different=0 OPEN
 ERASURE-CLI pass=6 fail=0 OK
 LEAN-TOOLCHAIN pinned=leanprover/lean4:v4.33.1 ran=4.33.1 OK

@@ -184,6 +184,23 @@ def Inline.keep_expected(closed: Bool, ty: F.Term.t) -> Maybe<&2, F.Term.t>:
     case True{}: Some{ty}
     case False{}: None{}
 
+# Count syntax nodes against a budget. A task list that outlasts the budget
+# fails, so the count stops early on a large term.
+def Inline.size_tasks(budget: Nat, tasks: List<&2, F.Pair2<Nat, F.Term.t>>) -> Bool:
+  match budget tasks:
+    case 0n Nil{}: True{}
+    case 0n F.Pair2{depth, term} <> rest: False{}
+    case 1n+remaining Nil{}: True{}
+    case 1n+remaining F.Pair2{depth, term} <> rest: Inline.size_tasks(remaining, Inline.append(F.Pair2<Nat, F.Term.t>, Inline.children(term), rest))
+
+def Inline.size_within(budget: Nat, term: F.Term.t) -> Bool:
+  Inline.size_tasks(budget, [F.Pair2{0n, term}])
+
+# Let and beta substitution can copy an argument to each occurrence. The cap
+# keeps each later step polynomial, because each step input is capped too.
+def Inline.size_bounded(+term: F.Term.t) -> Maybe<&2, F.Term.t>:
+  Inline.keep_expected(Inline.size_within(4096n, term), term)
+
 def Inline.source_expected(expected: Maybe<&2, F.Term.t>, +depth: Nat) -> Maybe<&2, F.Term.t>:
   match expected:
     case None{}: None{}
@@ -755,7 +772,7 @@ def Inline.let_closed(valid: Bool, value: F.Term.t, body: F.Term.t, depth: Nat) 
     case True{}:
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
         reduced: F.Term.t <- S.Source.term(S.Source.Parameters{value <> Inline.source_variables(depth, 0n)}, 0n, body)
-        Done{Some{reduced}}
+        Done{Inline.size_bounded(reduced)}
     case False{}: Done{None{}}
 
 def Inline.let_type(ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Maybe<&2, F.Term.t> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
@@ -772,20 +789,61 @@ def Inline.let_type(ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Mayb
 def Inline.let_exhausted(ty: Maybe<&2, F.Term.t>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match ty:
     case Some{F.Term.Let{name, annotation, value, body}}: Done{None{}}
+    case Some{F.Term.Out{shape, address, head}}: Done{None{}}
     case other: Done{other}
 
-# Alias chains keep their declaration bound between let reductions.
-# A separate bound prevents cycles that pass through a let from restarting forever.
-def Inline.source_let_type(fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
-  match fuel:
-    case 0n:
+def Inline.beta_points(point: Maybe<&2, F.Triple3<F.Quantity.t, String, F.Term.t>>, section: Maybe<&2, F.Triple3<F.Quantity.t, String, F.Term.t>>, quantity: F.Quantity.t, binder: F.Quantity.t, valid: Bool, argument: F.Term.t, body: F.Term.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match point section:
+    case Some{F.Triple3{application_quantity, name, domain}} Some{F.Triple3{section_quantity, ignored, parameter}}:
+      quantities = Bool.and(F.Quantity.equal(application_quantity, quantity), F.Quantity.equal(section_quantity, binder))
+      Inline.let_closed(Bool.and(valid, quantities), argument, body, depth)
+    case other section: Done{None{}}
+
+def Inline.beta_type(+shape: F.Shape.t<F.Term.t>, address: F.Term.addr, head: Maybe<&2, F.Term.t>, +depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match address head:
+    case F.Term.APt{+quantity, +argument} Some{F.Term.Sec{+section, F.Term.Leg{F.Pair2{+binder, name} <> Nil{}, +body} <> Nil{}}}:
+      application: F.Term.t = F.Term.Out{shape, F.Term.APt{quantity, argument}, F.Term.Sec{section, [F.Term.Leg{[F.Pair2{binder, name}], body}]}}
+      Inline.beta_points(P.Rules.as_vpi(F.Term.t, shape), P.Rules.as_vpi(F.Term.t, section), quantity, binder, Inline.closed(depth, application), argument, body, depth)
+    case other head: Done{None{}}
+
+# Alias chains retain their declaration bound between source reductions.
+# Charge an application before descending into its head, then share the remainder
+# with its result. This also bounds cyclic and nested function applications.
+def Inline.beta_pending(pending: List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>>, fuel: Nat, ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match pending:
+    case Nil{}: Done{ty}
+    case F.Pair2{shape, address} <> rest:
+      Inline.Context{checker, domains} = context
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
-        expanded: Maybe<&2, F.Term.t> <- Inline.source_alias_head(ty, context)
-        Inline.let_exhausted(expanded)
+        reduced: Maybe<&2, F.Term.t> <- Inline.beta_type(shape, address, ty, C.Check.size(checker))
+        next(fuel, reduced, rest)
+
+def Inline.source_reduce_head(fuel: Nat, expanded: Maybe<&2, F.Term.t>, context: Inline.context, pending: List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match fuel expanded:
+    case 0n expanded:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        stopped: Maybe<&2, F.Term.t> <- Inline.let_exhausted(expanded)
+        Inline.beta_pending(pending, 0n, stopped, context, next)
+    case 1n+remaining Some{F.Term.Let{name, annotation, value, body}}:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        reduced: Maybe<&2, F.Term.t> <- Inline.let_type(Some{F.Term.Let{name, annotation, value, body}}, context, reduced => Done{reduced})
+        next(remaining, reduced, pending)
+    case 1n+remaining Some{F.Term.Out{shape, address, head}}:
+      next(remaining, Some{head}, F.Pair2{shape, address} <> pending)
+    case 1n+remaining other: Inline.beta_pending(pending, (remaining + 1n : Nat), other, context, next)
+
+# A beta step can push and later pop one frame. The step count bounds transitions;
+# the term-size cap in Inline.let_closed bounds substitution work.
+def Inline.source_reduce_steps(steps: Nat, fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.context, pending: List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match steps:
+    case 0n: Done{None{}}
     case 1n+remaining:
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
         expanded: Maybe<&2, F.Term.t> <- Inline.source_alias_head(ty, context)
-        Inline.let_type(expanded, context, reduced => Inline.source_let_type(remaining, reduced, context))
+        Inline.source_reduce_head(fuel, expanded, context, pending, left => reduced => rest => Inline.source_reduce_steps(remaining, left, reduced, context, rest))
+
+def Inline.source_let_type(+fuel: Nat, ty: Maybe<&2, F.Term.t>, context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  Inline.source_reduce_steps((fuel + fuel + 1n : Nat), fuel, ty, context, Nil{})
 
 def Inline.source_alias_type(ty: Maybe<&2, F.Term.t>, context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   Inline.source_let_type(64n, ty, context)

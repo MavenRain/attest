@@ -1,5 +1,18 @@
 import Base
 
+def Fixture.motive_beta_dependent() -> String:
+  "mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with\n| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\ndef MakeInput : (0 N : Type 0) -> Type 1 := fun (0 N : Type 0) => (0 A : Type 0) -> sum (A, A)\ndef Input : Type 1 := MakeInput Nat\naxiom input : Input\n\ndef keep : (0 A : Type 0) -> Nat := fun (0 A : Type 0) => case (input A) as self return (let p : Same A self := (same A self : Same A self) in Nat) with | 0 (left : A) => 7 | 1 (right : A) => 8\n"
+
+def Fixture.motive_beta_dependent_opaque() -> String:
+  "mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with\n| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\ndef MakeInput : (0 N : Type 0) -> Type 1 := fun (0 N : Type 0) => (0 A : Type 0) -> sum (A, A)\ndef Input : Type 1 := MakeInput Nat\naxiom input : Input\naxiom proof : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\n\ndef keep : (0 A : Type 0) -> Nat := fun (0 A : Type 0) => case (input A) as self return (let p : Same A self := proof A self in Nat) with | 0 (left : A) => 7 | 1 (right : A) => 8\n"
+
+def Fixture.motive_beta_curried() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\ndef MakeInput : (0 N : Type 0) -> (0 M : Type 0) -> Type 0 := fun (0 N : Type 0) (0 M : Type 0) => N -> M -> sum (M, M)\ndef Input : Type 0 := MakeInput Nat Nat\naxiom input : Input\n\ndef keep : Nat := case (input 3 4) as self return (let p : Same self := (same self : Same self) in Nat) with | 0 (left : Nat) => 7 | 1 (right : Nat) => 8\n"
+
+def Fixture.motive_beta_curried_opaque() -> String:
+  "mu Same : (0 value : sum (Nat, Nat)) -> Prop with\n| same : (0 value : sum (Nat, Nat)) -> Same value\ndef MakeInput : (0 N : Type 0) -> (0 M : Type 0) -> Type 0 := fun (0 N : Type 0) (0 M : Type 0) => N -> M -> sum (M, M)\ndef Input : Type 0 := MakeInput Nat Nat\naxiom input : Input\naxiom proof : (0 value : sum (Nat, Nat)) -> Same value\n\ndef keep : Nat := case (input 3 4) as self return (let p : Same self := proof self in Nat) with | 0 (left : Nat) => 7 | 1 (right : Nat) => 8\n"
+
+
 def Fixture.motive_let_dependent() -> String:
   "mu Same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Prop with\n| same : (0 A : Type 0) -> (0 value : sum (A, A)) -> Same A value\ndef Input : Type 1 := let T : Type 1 := (0 A : Type 0) -> sum (A, A) in T\naxiom input : Input\n\ndef keep : (0 A : Type 0) -> Nat := fun (0 A : Type 0) => case (input A) as self return (let p : Same A self := (same A self : Same A self) in Nat) with | 0 (left : A) => 7 | 1 (right : A) => 8\n"
 

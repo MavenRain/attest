@@ -78,7 +78,15 @@ INLINE-ERASE row=lambda-let-curried OK
 INLINE-ERASE row=let-source-guards OK
 INLINE-ERASE row=let-source-fuel OK
 INLINE-ERASE row=lambda-let-scope OK
-INLINE-ERASE pass=77 total=91 FAIL
+INLINE-ERASE row=lambda-beta-global OK
+INLINE-ERASE row=lambda-beta-dependent OK
+INLINE-ERASE row=lambda-beta-local OK
+INLINE-ERASE row=lambda-beta-curried OK
+INLINE-ERASE row=beta-source-guards OK
+INLINE-ERASE row=beta-source-fuel OK
+INLINE-ERASE row=beta-source-cycles OK
+INLINE-ERASE row=source-size-bound OK
+INLINE-ERASE pass=85 total=102 FAIL
 INLINE-ERASE row=motive-application-global FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-application-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-application-local FAIL mismatch: local proof has no postulate
@@ -93,4 +101,7 @@ INLINE-ERASE row=motive-alias-curried FAIL mismatch: local proof has no postulat
 INLINE-ERASE row=motive-let-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=motive-let-curried FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=let-source-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=beta-source-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=motive-beta-dependent FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-beta-curried FAIL mismatch: local proof has no postulate
 

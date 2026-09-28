@@ -86,11 +86,22 @@ INLINE-ERASE row=let-source-syntax OK
 INLINE-ERASE row=let-source-guards OK
 INLINE-ERASE row=let-source-fuel OK
 INLINE-ERASE row=lambda-let-scope OK
-INLINE-ERASE pass=85 total=91 FAIL
+INLINE-ERASE row=beta-source-syntax OK
+INLINE-ERASE row=lambda-beta-global OK
+INLINE-ERASE row=lambda-beta-dependent OK
+INLINE-ERASE row=lambda-beta-local OK
+INLINE-ERASE row=lambda-beta-curried OK
+INLINE-ERASE row=motive-beta-dependent OK
+INLINE-ERASE row=motive-beta-curried OK
+INLINE-ERASE row=beta-source-fuel OK
+INLINE-ERASE row=beta-source-cycles OK
+INLINE-ERASE pass=94 total=102 FAIL
 INLINE-ERASE row=shape-payload FAIL unbound: de Bruijn index 1 is outside the context
 INLINE-ERASE row=payload-postulates FAIL mismatch: payload postulate orphaned, missing, or duplicated
 INLINE-ERASE row=local-poison FAIL unbound: de Bruijn index 1 is outside the context
 INLINE-ERASE row=local-universe FAIL mismatch: local domain lost its declared universe
 INLINE-ERASE row=local-proof-let-value FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; m] p as q return Type 1 with | (ACtor refl) C z => Nat)
 INLINE-ERASE row=local-payload FAIL unbound: de Bruijn index 1 is outside the environment
+INLINE-ERASE row=beta-source-guards FAIL mismatch: free beta application domain accepted
+INLINE-ERASE row=source-size-bound FAIL mismatch: source size cap ignored
 

@@ -86,7 +86,18 @@ INLINE-ERASE row=let-source-syntax OK
 INLINE-ERASE row=let-source-guards OK
 INLINE-ERASE row=let-source-fuel OK
 INLINE-ERASE row=lambda-let-scope OK
-INLINE-ERASE pass=85 total=91 FAIL
+INLINE-ERASE row=beta-source-syntax OK
+INLINE-ERASE row=lambda-beta-global OK
+INLINE-ERASE row=lambda-beta-dependent OK
+INLINE-ERASE row=lambda-beta-local OK
+INLINE-ERASE row=lambda-beta-curried OK
+INLINE-ERASE row=motive-beta-dependent OK
+INLINE-ERASE row=motive-beta-curried OK
+INLINE-ERASE row=beta-source-guards OK
+INLINE-ERASE row=beta-source-fuel OK
+INLINE-ERASE row=beta-source-cycles OK
+INLINE-ERASE row=source-size-bound OK
+INLINE-ERASE pass=96 total=102 FAIL
 INLINE-ERASE row=branch-parameter FAIL mismatch: the term has type (Elim SMu Pack [] b as value return Type 1 with | (ACtor pack) h => (Elim SMu Equal [0] (Out SPi 0 h (Lan SMu Equal [0] (Sec SColl 0 [])) (APt 0 h) (Out SPi 0 b (Lan SMu Pack [] (Sec SColl 1 [ => 0])) (APt 0 h) __attest_inline_proof_0)) as p return Type 1 with | (ACtor refl) j => (Ran SColl 0 (Sec SColl 0 [])))) and the expected type is (Lan SMu Pack [] (Sec SColl 1 [ => 0]))
 INLINE-ERASE row=branch-parameter-dependent FAIL mismatch: the term has type A and the expected type is Type 1
 INLINE-ERASE row=branch-parameter-function FAIL mismatch: the term has type A and the expected type is Type 1

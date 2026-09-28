@@ -40,7 +40,7 @@ final globals and declaration rows returned together by `Elab.check_in`.
 
 `erase/inline.bend` also seals inline proofs in ordinary entries when their
 type is available from an annotation, let type, or expected function type
-exposed by transparent alias hops and head let reduction, or inferred independently for a closed term. It tracks the types of function, let,
+exposed by transparent alias hops and bounded head let and beta reduction, or inferred independently for a closed term. It tracks the types of function, let,
 and type-former binders. Each local proof becomes a closed postulate whose
 parameters are all erased, applied to the locals in their original order.
 Original domain and codomain syntax preserves declared universes; normalized
@@ -74,13 +74,13 @@ after removing `erased NAME` declaration notices. The gate reproduces a
 runtime difference with the carried eraser for those twenty-one pairs. Eight
 parameterized branch pairs require runtime equality, but the carried eraser
 gives equal outputs for them too, so these runtime rows do not discriminate.
-Twenty motive pairs also have equal carried runtime outputs; their semantic
+Twenty-two motive pairs also have equal carried runtime outputs; their semantic
 rows require exactly one sealed proof and recheck the generated proposition.
 The gate requires that carried equality. Sealing for these pairs is checked
 only in the semantic suite, and the gate requires the suite copies in
 `erase/test/parameter_fixtures.bend` and `erase/test/motive_fixtures.bend` to
 equal the `.att` files byte for byte.
-Ninety-one semantic
+One hundred and one semantic
 tests cover poisoned proof bodies at known types, inherited entries, name
 collisions, runtime lets, local type annotations, and rewritten rows. They also
 check closed postulate types, dependent argument order, original universes,
@@ -88,8 +88,8 @@ inherited local proofs, local hypotheses, proof lets needed by a local proof
 type, dependent constructor fields, nested branch scopes, and conservative
 fallback for missing family metadata or unavailable parameter syntax. They also check that a
 branch takes the fields of its own constructor, not the first constructor of
-its family, and that a lambda leg whose type needs beta reduction under an
-outer binder starts from the root scope. Branch contexts require
+its family, and that a lambda leg whose expected type is hidden behind an
+annotated type wrapper under an outer binder starts from the root scope. Branch contexts require
 the exact constructor binder count and quantities, and field types closed over
 earlier fields and family parameters. Parameterized branches recover the source
 type from an annotated scrutinee, a global declaration, or a typed local binder,
@@ -120,12 +120,20 @@ into the use scope. Each alias chain is bounded by the number of visible
 global and local declarations. Head lets substitute their value into the body
 with the same source substitution used for applications. The annotation and
 value must be closed in the current scope, and the body must be closed under
-the additional let binder. Recovery allows at most 64 let reductions, with
-the alias-chain bound applied between reductions. A cycle through aliases or
-lets returns no recovered type. Substitution retains source annotations and
+the additional let binder. Point applications also reduce a single section leg
+with exactly one binder. The application and section shapes must be points.
+The address quantity must match the application point. The binder quantity
+must match the section point. The recovered application must be closed in the
+current scope. The function head can itself require aliases, lets, or beta
+reduction. Let and beta steps share a budget of 64. An application consumes
+one step before recovery of its head. Its result receives only the remaining
+budget. Each let or beta result must have at most 4096 syntax nodes, or
+recovery gives no type. This cap bounds substitution work. The alias-chain bound
+applies between reductions. Cycles through aliases, lets, function heads, or
+results return no recovered type. Substitution retains source annotations and
 universe syntax and avoids capturing outer variables.
 Opaque definitions, partial definitions, recursive definitions, and parameters
-do not unfold. Beta reduction and annotated type wrappers remain unsupported. Missing function types, nonpoint
+do not unfold. Annotated type wrappers remain unsupported. Missing function types, nonpoint
 formers, nonpoint addresses, free codomains, and free arguments are refused.
 Four `motive-application-*` pairs cover global, dependent, local, and curried
 calls; four `motive-alias-*` pairs cover global alias chains, dependent types,
@@ -137,13 +145,18 @@ They preserve the declared binder quantity, domain syntax, and dependent
 codomain. Four `lambda-alias-*` and four `lambda-let-*` fixture pairs cover
 global chains, dependent types, local chains beneath outer binders, and
 curried codomain aliases and lets. Two `motive-let-*` pairs exercise dependent
-and curried application recovery through head lets.
-Their runtime outputs differ under the carried eraser and match their opaque
-twins after sealing. Each semantic case requires one generated postulate and
+and curried application recovery through head lets. Four `lambda-beta-*` and
+two `motive-beta-*` pairs cover the corresponding beta-reduced source types,
+including local function aliases and curried type producers.
+The lambda pairs have different carried runtime outputs; the motive pairs
+share a coarse carried runtime layout. All pairs match their opaque twins
+after sealing. Each semantic case requires one generated postulate and
 rechecks its type and the transformed program. The gate binds each case to
 its exact fixture pair and verifies `erase/test/lambda_fixtures.bend` against
 the `.att` files. Direct cases protect refusal guards, source syntax, binder
-quantity, outer scope, and the exact let reduction limit.
+quantity, outer scope, and the exact shared reduction limit. They include mixed
+let/beta chains, reductions split across a function head and its result, a
+head let under a pending application, and the size cap.
 The resulting source type must be closed in the current
 context. An unnamed motive with index binders, an inductive shape, or no
 recoverable source type falls back to the root scope. Five `motive-plain-*`
@@ -176,8 +189,8 @@ pairs cover concrete and dependent parameters, function fields, annotations,
 lets, globals, same-shape constructors, and a proof field at a universe. Unnamed
 motives without a source scrutinee type, and scrutinee types needing further
 normalization or inference, remain open. Lambda bodies whose expected function
-type needs reduction beyond transparent alias hops and bounded head lets also remains conservative;
-closed subterms can still be sealed. Local
+type needs reduction beyond transparent alias hops and bounded head let/beta
+reduction remain conservative; closed subterms can still be sealed. Local
 proofs without source type syntax are left intact because inferred readback
 can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and

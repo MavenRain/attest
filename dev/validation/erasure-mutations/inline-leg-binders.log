@@ -90,7 +90,18 @@ INLINE-ERASE row=let-source-syntax OK
 INLINE-ERASE row=let-source-guards OK
 INLINE-ERASE row=let-source-fuel OK
 INLINE-ERASE row=lambda-let-scope OK
-INLINE-ERASE pass=89 total=91 FAIL
+INLINE-ERASE row=lambda-beta-local OK
+INLINE-ERASE row=motive-beta-dependent OK
+INLINE-ERASE row=beta-source-guards OK
+INLINE-ERASE row=beta-source-fuel OK
+INLINE-ERASE row=beta-source-cycles OK
+INLINE-ERASE row=source-size-bound OK
+INLINE-ERASE pass=95 total=102 FAIL
 INLINE-ERASE row=binders FAIL mismatch: closed proof lambda was not sealed as a whole
 INLINE-ERASE row=local-proof-let-family FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; 0] __attest_inline_proof_0 as q return Type 1 with | (ACtor refl) C z => Nat)
+INLINE-ERASE row=beta-source-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=lambda-beta-global FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-beta-dependent FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-beta-curried FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=motive-beta-curried FAIL mismatch: local proof has no postulate
 

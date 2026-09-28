@@ -316,6 +316,26 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.beta_points",
+      "pattern": "other section"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.beta_type",
+      "pattern": "other head"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.source_reduce_head",
+      "pattern": "0n expanded"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.source_reduce_head",
+      "pattern": "1n+remaining other"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.application_type",
       "pattern": "other address"
     },

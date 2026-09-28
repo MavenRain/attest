@@ -775,6 +775,119 @@ def Suite.branch_guards() -> Result<&2,&2,F.Error.t,Unit>:
     later: Unit <- T.Test.require(Bool.not(I.Inline.branch_fields_valid([F.Triple3{F.Quantity.Zero{}, "n", F.Term.Global{"Nat"}}, F.Triple3{F.Quantity.Zero{}, "p", F.Term.Var{1n}}], pair, 0n)), "second branch field captured an outer variable")
     T.Test.require(I.Inline.branch_fields_valid([F.Triple3{F.Quantity.Zero{}, "n", F.Term.Global{"Nat"}}, F.Triple3{F.Quantity.Zero{}, "p", F.Term.Var{0n}}], pair, 0n), "second branch field lost its earlier field")
 
+def Suite.beta_term(argument:F.Term.t,body:F.Term.t) -> F.Term.t:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",F.Term.Univ{F.Level.one})
+  F.Term.Out{shape,F.Term.APt{F.Quantity.Zero{},argument},F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],body}]}}
+
+# The let reduces while its application is still pending.
+def Suite.let_head(argument:F.Term.t) -> F.Term.t:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",F.Term.Univ{F.Level.one})
+  body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{0n}),F.Term.Univ{F.Level.zero}}
+  function:F.Term.t = F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],body}]}
+  F.Term.Out{shape,F.Term.APt{F.Quantity.Zero{},argument},F.Term.Let{"F",F.Term.Univ{F.Level.one},function,F.Term.Var{0n}}}
+
+def Suite.beta_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.Ctx{F.Global.empty,Nil{},Nil{},2n,C.Budget.unlimited},Nil{}}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  value:F.Term.t = F.Term.Ann{F.Term.Var{1n},univ}
+  body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{0n}),F.Term.Ann{F.Term.Var{3n},univ}}
+  +ty:F.Term.t = Suite.beta_term(value,body)
+  expected:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{2n},univ}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{ty},context)
+    syntax:Unit <- Suite.application_equal(actual,expected)
+    applied:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{ty},F.Term.APt{F.Quantity.Zero{},F.Term.Var{0n}},context)
+    applied_ok:Unit <- Suite.application_equal(applied,F.Term.Ann{F.Term.Var{1n},univ})
+    headed:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_head(F.Term.Global{"Nat"})},context)
+    Suite.application_equal(headed,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Global{"Nat"}),univ})
+
+def Suite.beta_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",F.Term.Univ{F.Level.one})
+  +free_shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",F.Term.Var{0n})
+  +arg:F.Term.addr = F.Term.APt{F.Quantity.Zero{},F.Term.Global{"Nat"}}
+  +leg:F.Term.leg = F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],F.Term.Var{0n}}
+  +head:Maybe<&2,F.Term.t> = Some{F.Term.Sec{shape,[leg]}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    argument:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.beta_term(F.Term.Var{0n},F.Term.Univ{F.Level.one})},context)
+    argument_ok:Unit <- Suite.application_absent(argument,"free unused beta argument accepted")
+    body:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.beta_term(F.Term.Global{"Nat"},F.Term.Var{1n})},context)
+    body_ok:Unit <- Suite.application_absent(body,"free beta body accepted")
+    domain:Maybe<&2,F.Term.t> <- I.Inline.beta_type(free_shape,arg,head,0n)
+    domain_ok:Unit <- Suite.application_absent(domain,"free beta application domain accepted")
+    parameter:Maybe<&2,F.Term.t> <- I.Inline.beta_type(shape,arg,Some{F.Term.Sec{free_shape,[leg]}},0n)
+    parameter_ok:Unit <- Suite.application_absent(parameter,"free beta section domain accepted")
+    nonpoint:Maybe<&2,F.Term.t> <- I.Inline.beta_type(F.Shape.make_collection(F.Term.t,1n),arg,head,0n)
+    nonpoint_ok:Unit <- Suite.application_absent(nonpoint,"nonpoint beta application accepted")
+    section:Maybe<&2,F.Term.t> <- I.Inline.beta_type(shape,arg,Some{F.Term.Sec{F.Shape.make_collection(F.Term.t,1n),[leg]}},0n)
+    section_ok:Unit <- Suite.application_absent(section,"nonpoint beta section accepted")
+    projection:Maybe<&2,F.Term.t> <- I.Inline.beta_type(shape,F.Term.ALeg{0n},head,0n)
+    projection_ok:Unit <- Suite.application_absent(projection,"beta projection accepted")
+    quantity:Maybe<&2,F.Term.t> <- I.Inline.beta_type(shape,F.Term.APt{F.Quantity.Many{},F.Term.Global{"Nat"}},head,0n)
+    quantity_ok:Unit <- Suite.application_absent(quantity,"beta application quantity ignored")
+    binder:Maybe<&2,F.Term.t> <- I.Inline.beta_type(shape,arg,Some{F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Many{},"T"}],F.Term.Var{0n}}]}},0n)
+    binder_ok:Unit <- Suite.application_absent(binder,"beta binder quantity ignored")
+    arity:Maybe<&2,F.Term.t> <- I.Inline.beta_type(shape,arg,Some{F.Term.Sec{shape,[F.Term.Leg{Nil{},F.Term.Global{"Nat"}}]}},0n)
+    arity_ok:Unit <- Suite.application_absent(arity,"beta binder arity ignored")
+    binders:Maybe<&2,F.Term.t> <- I.Inline.beta_type(shape,arg,Some{F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"},F.Pair2{F.Quantity.Zero{},"U"}],F.Term.Var{0n}}]}},0n)
+    binders_ok:Unit <- Suite.application_absent(binders,"beta binder count ignored")
+    legs:Maybe<&2,F.Term.t> <- I.Inline.beta_type(shape,arg,Some{F.Term.Sec{shape,[leg,leg]}},0n)
+    Suite.application_absent(legs,"beta section arity ignored")
+
+def Suite.beta_chain(count:Nat,ty:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: ty
+    case 1n+n: Suite.beta_term(F.Term.Global{"Nat"},Suite.beta_chain(n,ty))
+
+def Suite.beta_head_chain(count:Nat,body:F.Term.t) -> F.Term.t:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",F.Term.Univ{F.Level.one})
+  head:F.Term.t = Suite.beta_chain(count,F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],body}]})
+  F.Term.Out{shape,F.Term.APt{F.Quantity.Zero{},F.Term.Global{"Nat"}},head}
+
+def Suite.beta_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.beta_chain(64n,ty)},context)
+    exact_ok:Unit <- Suite.application_equal(exact,ty)
+    over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.beta_chain(65n,ty)},context)
+    over_ok:Unit <- Suite.application_absent(over,"beta reduction bound exceeded")
+    mixed:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(32n,Suite.beta_chain(32n,ty))},context)
+    mixed_ok:Unit <- Suite.application_equal(mixed,ty)
+    mixed_over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(32n,Suite.beta_chain(33n,ty))},context)
+    mixed_over_ok:Unit <- Suite.application_absent(mixed_over,"mixed reduction bound exceeded")
+    head:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.beta_head_chain(31n,Suite.beta_chain(32n,ty))},context)
+    head_ok:Unit <- Suite.application_equal(head,ty)
+    head_over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.beta_head_chain(32n,Suite.beta_chain(32n,ty))},context)
+    Suite.application_absent(head_over,"beta function budget was reset")
+
+def Suite.beta_source_cycles() -> Result<&2,&2,F.Error.t,Unit>:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",F.Term.Univ{F.Level.one})
+  cycle:F.Term.t = F.Term.Out{shape,F.Term.APt{F.Quantity.Zero{},F.Term.Global{"Nat"}},F.Term.Global{"Cycle"}}
+  globals:F.Global.t = F.Global.add("Cycle",Suite.alias_entry(cycle),F.Global.add("Body",Suite.alias_entry(Suite.beta_term(F.Term.Global{"Nat"},F.Term.Global{"Body"})),F.Global.empty))
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(globals,C.Budget.unlimited),Nil{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    head:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Global{"Cycle"}},context)
+    head_ok:Unit <- Suite.application_absent(head,"beta function cycle accepted")
+    body:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Global{"Body"}},context)
+    Suite.application_absent(body,"beta result cycle accepted")
+
+# Each let value doubles the previous one. Without a size cap, recovery does
+# exponential work within the step budget.
+def Suite.size_chain(count:Nat) -> F.Term.t:
+  match count:
+    case 0n: F.Term.Var{0n}
+    case 1n+n: F.Term.Let{"T",F.Term.Univ{F.Level.one},F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{0n}),F.Term.Var{1n}},Suite.size_chain(n)}
+
+def Suite.source_size_bound() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  +nat:F.Term.t = F.Term.Global{"Nat"}
+  do Result<&2,&2,F.Error.t,Unit>:
+    small:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Let{"T",F.Term.Univ{F.Level.one},nat,Suite.size_chain(1n)}},context)
+    small_ok:Unit <- Suite.application_equal(small,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",nat),nat})
+    large:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Let{"T",F.Term.Univ{F.Level.one},nat,Suite.size_chain(14n)}},context)
+    Suite.application_absent(large,"source size cap ignored")
+
 def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
   [
       Suite.Case{"let-body",unit => Suite.poisoned(X.Fixture.let_proof,False{})},
@@ -867,7 +980,18 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"let-source-syntax",unit => Suite.let_source_syntax},
       Suite.Case{"let-source-guards",unit => Suite.let_source_guards},
       Suite.Case{"let-source-fuel",unit => Suite.let_source_fuel},
-      Suite.Case{"lambda-let-scope",unit => Suite.lambda_let_scope} ]
+      Suite.Case{"lambda-let-scope",unit => Suite.lambda_let_scope},
+      Suite.Case{"beta-source-syntax",unit => Suite.beta_source_syntax},
+      Suite.Case{"lambda-beta-global",unit => Suite.local_sealed(LF.Fixture.lambda_beta_global,LF.Fixture.lambda_beta_global_opaque,layout,1n)},
+      Suite.Case{"lambda-beta-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_beta_dependent,LF.Fixture.lambda_beta_dependent_opaque,layout,1n)},
+      Suite.Case{"lambda-beta-local",unit => Suite.local_sealed(LF.Fixture.lambda_beta_local,LF.Fixture.lambda_beta_local_opaque,layout,1n)},
+      Suite.Case{"lambda-beta-curried",unit => Suite.local_sealed(LF.Fixture.lambda_beta_curried,LF.Fixture.lambda_beta_curried_opaque,layout,1n)},
+      Suite.Case{"motive-beta-dependent",unit => Suite.local_sealed(MF.Fixture.motive_beta_dependent,MF.Fixture.motive_beta_dependent_opaque,None{},1n)},
+      Suite.Case{"motive-beta-curried",unit => Suite.local_sealed(MF.Fixture.motive_beta_curried,MF.Fixture.motive_beta_curried_opaque,None{},1n)},
+      Suite.Case{"beta-source-guards",unit => Suite.beta_source_guards},
+      Suite.Case{"beta-source-fuel",unit => Suite.beta_source_fuel},
+      Suite.Case{"beta-source-cycles",unit => Suite.beta_source_cycles},
+      Suite.Case{"source-size-bound",unit => Suite.source_size_bound} ]
 
 def main() -> IO(Unit):
   +layout:Maybe<&2,F.Pair2<Bool,String>> = Some{F.Pair2{False{},"Layout"}}
