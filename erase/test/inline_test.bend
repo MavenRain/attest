@@ -786,6 +786,73 @@ def Suite.let_head(argument:F.Term.t) -> F.Term.t:
   function:F.Term.t = F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],body}]}
   F.Term.Out{shape,F.Term.APt{F.Quantity.Zero{},argument},F.Term.Let{"F",F.Term.Univ{F.Level.one},function,F.Term.Var{0n}}}
 
+def Suite.projection_pair(index: Nat, first: F.Term.t, second: F.Term.t) -> F.Term.t:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  F.Term.Out{shape,F.Term.ALeg{index},F.Term.Sec{shape,[F.Term.Leg{Nil{},first},F.Term.Leg{Nil{},second}]}}
+
+def Suite.projection_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.Ctx{F.Global.empty,Nil{},Nil{},2n,C.Budget.unlimited},Nil{}}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{2n},univ}}
+  +point:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",univ)
+  identity:F.Term.t = F.Term.Sec{point,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],F.Term.Var{0n}}]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    first:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_pair(0n,ty,univ)},context)
+    first_ok:Unit <- Suite.application_equal(first,ty)
+    last:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_pair(1n,univ,ty)},context)
+    last_ok:Unit <- Suite.application_equal(last,ty)
+    applied:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{Suite.projection_pair(1n,univ,ty)},F.Term.APt{F.Quantity.Zero{},F.Term.Var{0n}},context)
+    applied_ok:Unit <- Suite.application_equal(applied,F.Term.Ann{F.Term.Var{1n},univ})
+    pending:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Out{point,F.Term.APt{F.Quantity.Zero{},ty},Suite.projection_pair(1n,univ,identity)}},context)
+    Suite.application_equal(pending,ty)
+
+def Suite.projection_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +one:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,1n)
+  +two:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +point:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",univ)
+  +head:F.Term.t = F.Term.Sec{one,[F.Term.Leg{Nil{},univ}]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    width:Maybe<&2,F.Term.t> <- I.Inline.beta_type(one,F.Term.ALeg{0n},Some{F.Term.Sec{two,[F.Term.Leg{Nil{},univ}]}},0n)
+    width_ok:Unit <- Suite.application_absent(width,"projection shape mismatch accepted")
+    short:Maybe<&2,F.Term.t> <- I.Inline.beta_type(two,F.Term.ALeg{0n},Some{F.Term.Sec{two,[F.Term.Leg{Nil{},univ}]}},0n)
+    short_ok:Unit <- Suite.application_absent(short,"short projection tuple accepted")
+    long:Maybe<&2,F.Term.t> <- I.Inline.beta_type(one,F.Term.ALeg{0n},Some{F.Term.Sec{one,[F.Term.Leg{Nil{},univ},F.Term.Leg{Nil{},univ}]}},0n)
+    long_ok:Unit <- Suite.application_absent(long,"long projection tuple accepted")
+    shape:Maybe<&2,F.Term.t> <- I.Inline.beta_type(point,F.Term.ALeg{0n},Some{head},0n)
+    shape_ok:Unit <- Suite.application_absent(shape,"point projection shape accepted")
+    section:Maybe<&2,F.Term.t> <- I.Inline.beta_type(one,F.Term.ALeg{0n},Some{F.Term.Sec{point,[F.Term.Leg{Nil{},univ}]}},0n)
+    section_ok:Unit <- Suite.application_absent(section,"point projection section accepted")
+    index:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_pair(2n,univ,univ)},context)
+    index_ok:Unit <- Suite.application_absent(index,"out of range projection accepted")
+    empty:Maybe<&2,F.Term.t> <- I.Inline.beta_type(F.Shape.make_collection(F.Term.t,0n),F.Term.ALeg{0n},Some{F.Term.Sec{F.Shape.make_collection(F.Term.t,0n),Nil{}}},0n)
+    empty_ok:Unit <- Suite.application_absent(empty,"empty projection accepted")
+    selected:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_pair(0n,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{0n}),univ},univ)},context)
+    selected_ok:Unit <- Suite.application_absent(selected,"free selected projection accepted")
+    unused:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_pair(0n,univ,F.Term.Var{0n})},context)
+    unused_ok:Unit <- Suite.application_absent(unused,"free unused projection accepted")
+    binder:Maybe<&2,F.Term.t> <- I.Inline.beta_type(one,F.Term.ALeg{0n},Some{F.Term.Sec{one,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"x"}],univ}]}},0n)
+    binder_ok:Unit <- Suite.application_absent(binder,"bound selected projection accepted")
+    other_binder:Maybe<&2,F.Term.t> <- I.Inline.beta_type(two,F.Term.ALeg{0n},Some{F.Term.Sec{two,[F.Term.Leg{Nil{},univ},F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"x"}],univ}]}},0n)
+    other_binder_ok:Unit <- Suite.application_absent(other_binder,"bound unused projection accepted")
+    address:Maybe<&2,F.Term.t> <- I.Inline.beta_type(one,F.Term.ACtor{"field"},Some{head},0n)
+    address_ok:Unit <- Suite.application_absent(address,"constructor projection address accepted")
+    stuck:Maybe<&2,F.Term.t> <- I.Inline.beta_type(one,F.Term.ALeg{0n},Some{univ},0n)
+    Suite.application_absent(stuck,"nonsection projection head accepted")
+
+def Suite.projection_chain(count: Nat, ty: F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: ty
+    case 1n+n: Suite.projection_pair(1n,F.Term.Univ{F.Level.zero},Suite.projection_chain(n,ty))
+
+def Suite.projection_head_chain(count: Nat, ty: F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: ty
+    case 1n+n:
+      +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+      F.Term.Out{shape,F.Term.ALeg{1n},Suite.projection_head_chain(n,F.Term.Sec{shape,[F.Term.Leg{Nil{},F.Term.Univ{F.Level.zero}},F.Term.Leg{Nil{},ty}]})}
+
 def Suite.annotation_chain(count: Nat, body: F.Term.t) -> F.Term.t:
   match count:
     case 0n: body
@@ -867,6 +934,23 @@ def Suite.beta_head_chain(count:Nat,body:F.Term.t) -> F.Term.t:
   +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",F.Term.Univ{F.Level.one})
   head:F.Term.t = Suite.beta_chain(count,F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],body}]})
   F.Term.Out{shape,F.Term.APt{F.Quantity.Zero{},F.Term.Global{"Nat"}},head}
+
+def Suite.projection_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}),F.Term.Var{0n}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_chain(64n,ty)},context)
+    exact_ok:Unit <- Suite.application_equal(exact,ty)
+    over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_chain(65n,ty)},context)
+    over_ok:Unit <- Suite.application_absent(over,"projection reduction bound exceeded")
+    heads:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_head_chain(64n,ty)},context)
+    heads_ok:Unit <- Suite.application_equal(heads,ty)
+    heads_over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_head_chain(65n,ty)},context)
+    heads_over_ok:Unit <- Suite.application_absent(heads_over,"projection head reduction bound exceeded")
+    mixed:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(16n,Suite.annotation_chain(16n,Suite.beta_chain(16n,Suite.projection_chain(16n,ty))))},context)
+    mixed_ok:Unit <- Suite.application_equal(mixed,ty)
+    mixed_over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(16n,Suite.annotation_chain(16n,Suite.beta_chain(16n,Suite.projection_chain(17n,ty))))},context)
+    Suite.application_absent(mixed_over,"projection mixed reduction bound exceeded")
 
 def Suite.annotation_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
   +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
@@ -1019,12 +1103,19 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"let-source-fuel",unit => Suite.let_source_fuel},
       Suite.Case{"lambda-let-scope",unit => Suite.lambda_let_scope},
       Suite.Case{"lambda-annotation-global",unit => Suite.local_sealed(LF.Fixture.lambda_annotation_global,LF.Fixture.lambda_annotation_global_opaque,layout,1n)},
+      Suite.Case{"lambda-projection-global",unit => Suite.local_sealed(LF.Fixture.lambda_projection_global,LF.Fixture.lambda_projection_global_opaque,layout,1n)},
+      Suite.Case{"lambda-projection-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_projection_dependent,LF.Fixture.lambda_projection_dependent_opaque,layout,1n)},
+      Suite.Case{"lambda-projection-local",unit => Suite.local_sealed(LF.Fixture.lambda_projection_local,LF.Fixture.lambda_projection_local_opaque,layout,1n)},
+      Suite.Case{"lambda-projection-curried",unit => Suite.local_sealed(LF.Fixture.lambda_projection_curried,LF.Fixture.lambda_projection_curried_opaque,layout,1n)},
       Suite.Case{"lambda-annotation-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_annotation_dependent,LF.Fixture.lambda_annotation_dependent_opaque,layout,1n)},
       Suite.Case{"lambda-annotation-local",unit => Suite.local_sealed(LF.Fixture.lambda_annotation_local,LF.Fixture.lambda_annotation_local_opaque,layout,1n)},
       Suite.Case{"lambda-annotation-curried",unit => Suite.local_sealed(LF.Fixture.lambda_annotation_curried,LF.Fixture.lambda_annotation_curried_opaque,layout,1n)},
       Suite.Case{"motive-annotation-dependent",unit => Suite.local_sealed(MF.Fixture.motive_annotation_dependent,MF.Fixture.motive_annotation_dependent_opaque,None{},1n)},
       Suite.Case{"motive-annotation-curried",unit => Suite.local_sealed(MF.Fixture.motive_annotation_curried,MF.Fixture.motive_annotation_curried_opaque,None{},1n)},
       Suite.Case{"annotation-source-syntax",unit => Suite.annotation_source_syntax},
+      Suite.Case{"projection-source-syntax",unit => Suite.projection_source_syntax},
+      Suite.Case{"projection-source-guards",unit => Suite.projection_source_guards},
+      Suite.Case{"projection-source-fuel",unit => Suite.projection_source_fuel},
       Suite.Case{"annotation-source-guards",unit => Suite.annotation_source_guards},
       Suite.Case{"annotation-source-fuel",unit => Suite.annotation_source_fuel},
       Suite.Case{"beta-source-syntax",unit => Suite.beta_source_syntax},

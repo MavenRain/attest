@@ -1,5 +1,24 @@
 # Mutation log
 
+## 2026-09-28: Tuple projection source type mutations
+
+The catalog now has 139 cases. Seven new cases disable projection recovery,
+skip collection-shape agreement, skip tuple arity, admit open components,
+admit unused leg binders, select the wrong component, or misbind a fixture
+pair. Guard fixtures isolate shape agreement from tuple length and keep a
+free variable inside a selected function type, so later alias lookup cannot
+hide a removed scope check.
+
+The scoped run includes these seven cases plus `beta-free-scope`,
+`beta-head-fuel`, `beta-result-fuel`, `beta-work-bound`, and `beta-let-pending`.
+It also includes three existing inline cases: `inline-local-type`,
+`inline-shape-payload`, and `leg-scope-root`. The beta scope anchor now targets the beta call specifically because tuple
+projections perform their own whole-application scope check. Every catalog
+anchor remains unique. Results, commands, source hashes, and captured logs
+are in `dev/validation/projection-source.json`; the older full mutation record
+is unchanged. All 15 selected variants compiled and produced their required
+named behavioral failures.
+
 ## 2026-09-28: Head annotation source type mutations
 
 Five new cases bring the erasure battery to 132. They disable annotation

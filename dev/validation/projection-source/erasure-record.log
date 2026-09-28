@@ -1,0 +1,13 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+INLINE-ERASE pass=118 total=118 OK
+ERASURE-INLINE rows=73 identical=73 carried_diff=41 parameter_pairs=8 motive_pairs=24 not_discriminating=32 suite_fixtures=104 OK
+ERASURE-OPEN rows=0 different=0 OPEN
+ERASURE-CLI pass=6 fail=0 OK
+LEAN-TOOLCHAIN pinned=leanprover/lean4:v4.33.1 ran=4.33.1 OK
+LEAN-AXIOMS declarations=8 axioms=['AccFixture.R', 'F2Fixture.opaqueProof'] extra=0 OK
+LEAN-ERASURE sources=3 accepted=2 refused=1 OK
+ACC-FAMILY accepted OK
+ACC-FRONTIER lean=accepted attest=refused reason=proof-quantity OPEN
+ACC-RECURSIVE attest=refused reason=recursive-singleton OPEN
+ERASURE-INCREMENT OK; Stage B remains OPEN

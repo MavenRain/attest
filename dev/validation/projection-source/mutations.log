@@ -1,0 +1,16 @@
+ERASURE-MUTATION inline-local-type caught
+ERASURE-MUTATION inline-shape-payload caught
+ERASURE-MUTATION leg-scope-root caught
+ERASURE-MUTATION projection-disabled caught
+ERASURE-MUTATION projection-shape caught
+ERASURE-MUTATION projection-arity caught
+ERASURE-MUTATION projection-scope caught
+ERASURE-MUTATION projection-binders caught
+ERASURE-MUTATION projection-index caught
+ERASURE-MUTATION projection-fixture-binding caught
+ERASURE-MUTATION beta-free-scope caught
+ERASURE-MUTATION beta-head-fuel caught
+ERASURE-MUTATION beta-result-fuel caught
+ERASURE-MUTATION beta-work-bound caught
+ERASURE-MUTATION beta-let-pending caught
+ERASURE-MUTATIONS caught=15 total=139 PARTIAL

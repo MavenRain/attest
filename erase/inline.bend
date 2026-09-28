@@ -800,11 +800,33 @@ def Inline.beta_points(point: Maybe<&2, F.Triple3<F.Quantity.t, String, F.Term.t
       Inline.let_closed(Bool.and(valid, quantities), argument, body, depth)
     case other section: Done{None{}}
 
+def Inline.projection_legs(legs: List<&2, F.Term.leg>) -> Bool:
+  match legs:
+    case Nil{}: True{}
+    case F.Term.Leg{Nil{}, body} <> rest: Inline.projection_legs(rest)
+    case other: False{}
+
+def Inline.projection_body(valid: Bool, leg: Maybe<&2, F.Term.leg>) -> Maybe<&2, F.Term.t>:
+  match leg:
+    case Some{F.Term.Leg{Nil{}, body}}: Inline.keep_expected(valid, body)
+    case other: None{}
+
+def Inline.projection_type(width: Maybe<&2, Nat>, section: Maybe<&2, Nat>, index: Nat, +legs: List<&2, F.Term.leg>, closed: Bool) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match width section:
+    case Some{+width} Some{section}:
+      shape_ok = Bool.and(Nat.is_eq(width, section), Nat.is_eq(width, Inline.length(F.Term.leg, legs)))
+      valid = Bool.and(shape_ok, Bool.and(closed, Inline.projection_legs(legs)))
+      Done{Inline.projection_body(valid, List.get(&2, F.Term.leg, legs, index))}
+    case other section: Done{None{}}
+
 def Inline.beta_type(+shape: F.Shape.t<F.Term.t>, address: F.Term.addr, head: Maybe<&2, F.Term.t>, +depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match address head:
     case F.Term.APt{+quantity, +argument} Some{F.Term.Sec{+section, F.Term.Leg{F.Pair2{+binder, name} <> Nil{}, +body} <> Nil{}}}:
       application: F.Term.t = F.Term.Out{shape, F.Term.APt{quantity, argument}, F.Term.Sec{section, [F.Term.Leg{[F.Pair2{binder, name}], body}]}}
       Inline.beta_points(P.Rules.as_vpi(F.Term.t, shape), P.Rules.as_vpi(F.Term.t, section), quantity, binder, Inline.closed(depth, application), argument, body, depth)
+    case F.Term.ALeg{+index} Some{F.Term.Sec{+section, +legs}}:
+      application: F.Term.t = F.Term.Out{shape, F.Term.ALeg{index}, F.Term.Sec{section, legs}}
+      Inline.projection_type(P.Rules.as_vcoll(F.Term.t, shape), P.Rules.as_vcoll(F.Term.t, section), index, legs, Inline.closed(depth, application))
     case other head: Done{None{}}
 
 # Alias chains retain their declaration bound between source reductions.
@@ -837,7 +859,7 @@ def Inline.source_reduce_head(fuel: Nat, expanded: Maybe<&2, F.Term.t>, context:
       next(remaining, Some{head}, F.Pair2{shape, address} <> pending)
     case 1n+remaining other: Inline.beta_pending(pending, (remaining + 1n : Nat), other, context, next)
 
-# A beta step can push and later pop one frame. The step count bounds transitions;
+# A beta or projection step can push and later pop one frame. The step count bounds transitions;
 # the term-size cap in Inline.let_closed bounds substitution work.
 def Inline.source_reduce_steps(steps: Nat, fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.context, pending: List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match steps:

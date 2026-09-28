@@ -1,5 +1,38 @@
 # M0 build log
 
+## 2026-09-28: Stage B source types through tuple projections
+
+Source recovery now selects a tuple component when the projection and section
+have matching collection widths, the section has exactly that many legs, and
+every leg has no binders. The entire recovered projection must be closed in
+the current scope, including unused components. Selection preserves source
+syntax and uses the existing pending-application stack, so tuple heads and
+selected components can pass through aliases, annotations, lets, beta steps,
+and nested projections. All four reduction forms share the 64-step budget.
+
+Four new opaque-twin pairs cover global, dependent, local, and curried function
+types. Direct cases cover component indices, annotations and outer variables,
+malformed shapes and tuples, free components, and the exact 64/65 boundary in
+heads, results, and mixed reduction chains. Three unknown-scope controls now
+use case expressions, which remain outside source recovery.
+
+The inline suite has 118 cases. The erasure gate compares 73 inline pairs,
+including 41 with different carried outputs, and all 16 Bend test programs
+pass. Seven new mutations check projection recovery, shape agreement, tuple
+arity, scope, binder arity, component selection, and fixture binding. Scoped
+validation also exercises five existing beta scope, fuel, work-bound, and
+pending-frame mutations, and three existing inline mutations for local types,
+shape payloads, and leg scope. The full 127-case mutation record remains
+evidence for its earlier slice. All 15 selected mutations were caught after their
+variants compiled successfully. Current results and source hashes are recorded in
+`dev/validation/projection-source.json`.
+
+The first full gate attempt stopped at the expected source-integrity check
+because the migration manifest still pinned the previous four Bend sources.
+The reviewed manifest now pins the implementation and tests in this slice.
+The HOUSE registry adds three explicit projection fallback sites and no
+unsafe functions. Stage B remains open at the Acc runtime-elimination frontier.
+
 ## 2026-09-28: Stage B source types through head annotations
 
 Source recovery now opens head annotation wrappers whose body and annotation

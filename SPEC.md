@@ -40,7 +40,7 @@ final globals and declaration rows returned together by `Elab.check_in`.
 
 `erase/inline.bend` also seals inline proofs in ordinary entries when their
 type is available from an annotation, let type, or expected function type
-exposed by transparent alias hops and bounded head annotation, let, and beta reduction, or inferred independently for a closed term. It tracks the types of function, let,
+exposed by transparent alias hops and bounded head annotation, let, beta, and tuple projection reduction, or inferred independently for a closed term. It tracks the types of function, let,
 and type-former binders. Each local proof becomes a closed postulate whose
 parameters are all erased, applied to the locals in their original order.
 Original domain and codomain syntax preserves declared universes; normalized
@@ -80,7 +80,7 @@ The gate requires that carried equality. Sealing for these pairs is checked
 only in the semantic suite, and the gate requires the suite copies in
 `erase/test/parameter_fixtures.bend` and `erase/test/motive_fixtures.bend` to
 equal the `.att` files byte for byte.
-One hundred and eleven semantic
+One hundred and eighteen semantic
 tests cover poisoned proof bodies at known types, inherited entries, name
 collisions, runtime lets, local type annotations, and rewritten rows. They also
 check closed postulate types, dependent argument order, original universes,
@@ -89,7 +89,7 @@ type, dependent constructor fields, nested branch scopes, and conservative
 fallback for missing family metadata or unavailable parameter syntax. They also check that a
 branch takes the fields of its own constructor, not the first constructor of
 its family, and that a lambda leg whose expected type is hidden behind a
-tuple projection under an outer binder starts from the root scope. Branch contexts require
+case expression under an outer binder starts from the root scope. Branch contexts require
 the exact constructor binder count and quantities, and field types closed over
 earlier fields and family parameters. Parameterized branches recover the source
 type from an annotated scrutinee, a global declaration, or a typed local binder,
@@ -127,8 +127,14 @@ must match the section point. The recovered application must be closed in the
 current scope. The function head can itself require aliases, lets, or beta
 reduction. Head annotations expose their body only when both the body and
 annotation are closed in the current scope. Nested annotations in function
-domains and codomains retain their source syntax. Annotation, let, and beta
-steps share a budget of 64. An application consumes
+domains and codomains retain their source syntax. A tuple projection requires
+a numeric leg address and a section with the same collection width as the
+projection shape. The section must have exactly that many legs, all without
+binders, and the entire recovered projection must be closed in the current
+scope. Out-of-range indices and empty collections return no source type.
+Selection preserves the component's source syntax. Its head and selected
+component can require further aliases, annotations, lets, beta steps, or
+projections. Annotation, let, beta, and projection steps share a budget of 64. An application or projection consumes
 one step before recovery of its head. Its result receives only the remaining
 budget. Each let or beta result must have at most 4096 syntax nodes, or
 recovery gives no type. This cap bounds substitution work. The alias-chain bound
@@ -136,8 +142,9 @@ applies between reductions. Cycles through aliases, lets, function heads, or
 results return no recovered type. Substitution retains source annotations and
 universe syntax and avoids capturing outer variables.
 Opaque definitions, partial definitions, recursive definitions, and parameters
-do not unfold. Nonpoint tuple projections remain unsupported. Missing function types, nonpoint
-formers, nonpoint addresses, free codomains, and free arguments are refused.
+do not unfold. Head case expressions remain unsupported. Missing function types,
+nonpoint function formers, nonpoint function application addresses, free codomains,
+and free arguments are refused.
 Four `motive-application-*` pairs cover global, dependent, local, and curried
 calls; four `motive-alias-*` pairs cover global alias chains, dependent types,
 local alias chains, and curried calls. Direct tests cover capture avoidance,
@@ -153,6 +160,12 @@ two `motive-beta-*` pairs cover the corresponding beta-reduced source types,
 including local function aliases and curried type producers. Four
 `lambda-annotation-*` and two `motive-annotation-*` pairs cover head annotation
 wrappers in the same scopes, including annotated application heads.
+Four `lambda-projection-*` pairs cover global, dependent, local, and curried
+types selected from tuples, including projections in an application head.
+Direct cases check first and last components, source syntax and outer variables,
+invalid shapes and addresses, tuple arity, binder rejection, free selected and
+unused components, and exact 64/65-step boundaries in heads, results, and mixed
+annotation, let, beta, and projection chains.
 The lambda pairs have different carried runtime outputs; the motive pairs
 share a coarse carried runtime layout. All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and
@@ -195,9 +208,9 @@ lets, globals, same-shape constructors, and a proof field at a universe. Unnamed
 motives without a source scrutinee type, and scrutinee types needing further
 normalization or inference, remain open. Lambda bodies whose expected function
 type needs reduction beyond transparent alias hops and bounded head annotation,
-let, and beta reduction remain conservative; closed subterms can still be sealed. Local
-proofs without source type syntax are left intact because inferred readback
-can lose the universe of a runtime result type.
+let, beta, and tuple projection reduction remain conservative; closed subterms
+can still be sealed. Local proofs without source type syntax are left intact
+because inferred readback can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and
 inline proofs in family metadata are also outside this increment.
 

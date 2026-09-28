@@ -1,0 +1,23 @@
+BUILD attest js cached
+BUILD foundation js cached
+BUILD global-map js cached
+BUILD order js cached
+BUILD kernel js cached
+BUILD surface js cached
+BUILD ir js cached
+BUILD repr js cached
+BUILD inline-scan js cached
+BUILD inline-sealing js cached
+BUILD opaque-core js cached
+BUILD erasure-budget js cached
+BUILD erasure-refusal js cached
+BUILD inline js cached
+BUILD opaque js cached
+BUILD prop-index js cached
+BUILD parse-probe js cached
+BUILD erase-probe js cached
+BUILD pass-bench js cached
+BUILD suite-probe js cached
+BUILD OK
+CARRY FAIL: unreviewed Bend source change: erase/inline.bend
+STAGE-A FAIL: CARRY exit=1; log=/Users/oobi/Documents/attest/.gatework/stage-a/CARRY.log

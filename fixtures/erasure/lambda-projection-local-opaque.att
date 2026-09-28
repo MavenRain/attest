@@ -1,0 +1,6 @@
+mu Equal : (0 A : Type 0) -> (0 x : A) -> Prop with
+| refl : (0 A : Type 0) -> (0 x : A) -> Equal A x
+
+axiom sealed : (0 A : Type 0) -> (0 y : A) -> Equal A y
+def Layout : (0 A : Type 0) -> (0 x : A) -> Type 0 := fun (0 A : Type 0) (0 x : A) => let MakeFn : (0 N : Type 0) -> Type 1 := fun (0 N : Type 0) => (0 y : N) -> Type 0 in let Fn : Type 1 := (tuple (((n : Nat) -> Type 0), (MakeFn A)) : prod (Type 1, Type 1)).1 in let Alias : Type 1 := Fn in let choose : Alias := fun (0 y : A) => case sealed A y as p in Equal B z return Type 0 with | refl 0 C 0 w => prod () in choose x
+def keep : (x : Layout Nat 0) -> Layout Nat 0 := fun (x : Layout Nat 0) => x

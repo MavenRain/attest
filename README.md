@@ -34,17 +34,18 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and sixty-nine inline proof
+increment compares four global proof pairs and seventy-three inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences for the four global pairs and thirty-seven inline pairs, including
-sixteen lambda alias, let, beta, and annotation pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
+differences for the four global pairs and forty-one inline pairs, including
+twenty lambda alias, let, beta, annotation, and projection pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
 with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 132 isolated mutations. The full mutation record covers the preceding
+contains 139 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
-[scoped validation evidence](dev/validation/annotation-source.json).
+[scoped validation evidence](dev/validation/annotation-source.json), as does
+[tuple projection recovery](dev/validation/projection-source.json).
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -73,11 +74,14 @@ Source types can also expose a function through head let and beta reduction.
 Point applications recover a single-binder section through aliases, lets, and
 nested applications. Substitution preserves outer variables, universes, and
 annotations. Head annotation wrappers expose their body only when both the
-body and annotation are closed in the current scope. Annotation, let, and beta
+body and annotation are closed in the current scope. Tuple projections select
+a component from a section with matching collection widths, exactly that many
+legs, and no leg binders. The entire recovered projection must be closed in
+the current scope, including unused components. Annotation, let, beta, and projection
 steps share a limit of 64 reductions per recovery,
 including reductions in the function head and its result. A let or beta
 result with more than 4096 syntax nodes gives no type. Each alias chain
-retains its declaration-count bound. Nonpoint tuple projections remain open.
+retains its declaration-count bound. Source recovery through case expressions remains open.
 Alias bodies must be closed in their declaration scope; opaque, recursive,
 partial, and cyclic aliases remain unsupported. The source type must be closed
 in the current scope; unnamed motives
@@ -92,7 +96,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-One hundred and eleven semantic tests protect this boundary. Scrutinee types that need
+One hundred and eighteen semantic tests protect this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

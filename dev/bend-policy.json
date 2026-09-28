@@ -321,6 +321,21 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.projection_legs",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.projection_body",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.projection_type",
+      "pattern": "other section"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.beta_type",
       "pattern": "other head"
     },
