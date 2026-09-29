@@ -1,5 +1,32 @@
 # Mutation log
 
+## 2026-09-28: Finite case source type mutations
+
+Seventeen new cases bring the catalog to 156. They disable recovery, remove shape
+agreement, branch coverage, duplicate, range, scope, motive, or binder checks,
+remove the one-binder limit on unused branches, select the wrong branch, omit
+payload substitution, bypass exhaustion, truncate or skip the shared fuel,
+starve the case result, discard a pending frame, or misbind a fixture pair.
+
+The scoped selection includes those 17 cases plus `beta-disabled`,
+`beta-head-fuel`, `beta-result-fuel`, `beta-work-bound`, `beta-let-pending`,
+`source-size-cap`, `inline-local-type`, `inline-shape-payload`, and
+`leg-scope-root`. Existing beta anchors now identify the application frame so
+the case frame does not make them ambiguous. All 156 catalog anchors remain
+valid.
+
+Shape probes isolate width agreement from branch count. The unused-branch
+scope probe precedes the selected-branch probe so substitution failure cannot
+hide a missing whole-case closure check. The three existing unknown-scope
+controls now use inductive cases, which remain unsupported. Validation results
+and captured logs are in `dev/validation/case-source.json`; the previous full
+127-case mutation record is unchanged.
+
+All 26 selected variants compiled successfully and produced their required
+named failures. The initial serial mutation launch was interrupted after the
+full gates passed, then the same selection ran successfully with the harness's
+two-worker mode. The interrupted attempt is retained in the scoped record.
+
 ## 2026-09-28: Tuple projection source type mutations
 
 The catalog now has 139 cases. Seven new cases disable projection recovery,

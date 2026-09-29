@@ -40,7 +40,7 @@ final globals and declaration rows returned together by `Elab.check_in`.
 
 `erase/inline.bend` also seals inline proofs in ordinary entries when their
 type is available from an annotation, let type, or expected function type
-exposed by transparent alias hops and bounded head annotation, let, beta, and tuple projection reduction, or inferred independently for a closed term. It tracks the types of function, let,
+exposed by transparent alias hops and bounded head annotation, let, beta, tuple projection, and finite case reduction, or inferred independently for a closed term. It tracks the types of function, let,
 and type-former binders. Each local proof becomes a closed postulate whose
 parameters are all erased, applied to the locals in their original order.
 Original domain and codomain syntax preserves declared universes; normalized
@@ -88,8 +88,8 @@ inherited local proofs, local hypotheses, proof lets needed by a local proof
 type, dependent constructor fields, nested branch scopes, and conservative
 fallback for missing family metadata or unavailable parameter syntax. They also check that a
 branch takes the fields of its own constructor, not the first constructor of
-its family, and that a lambda leg whose expected type is hidden behind a
-case expression under an outer binder starts from the root scope. Branch contexts require
+its family, and that a lambda leg whose expected type is hidden behind an
+inductive case expression under an outer binder starts from the root scope. Branch contexts require
 the exact constructor binder count and quantities, and field types closed over
 earlier fields and family parameters. Parameterized branches recover the source
 type from an annotated scrutinee, a global declaration, or a typed local binder,
@@ -134,15 +134,24 @@ binders, and the entire recovered projection must be closed in the current
 scope. Out-of-range indices and empty collections return no source type.
 Selection preserves the component's source syntax. Its head and selected
 component can require further aliases, annotations, lets, beta steps, or
-projections. Annotation, let, beta, and projection steps share a budget of 64. An application or projection consumes
-one step before recovery of its head. Its result receives only the remaining
-budget. Each let or beta result must have at most 4096 syntax nodes, or
+projections. A finite case requires matching collection widths on its elimination
+and injection, a numeric injection address, and exactly one payload. Its branches
+must cover every numeric address exactly once, in any order, with one binder per
+branch. Its optional motive must be unnamed and have no index binders. The entire
+recovered case must be closed in the current scope, including unused branches,
+the motive, and the payload. Selection substitutes the payload into the branch
+body using source substitution, preserving annotations, universes, and outer
+variables. Scrutinees and selected results can require further source reductions.
+Annotation, let, beta, projection, and case steps share a budget of 64. An application,
+projection, or case consumes one step before recovery of its head or scrutinee.
+Its result receives only the remaining budget. Each let, beta, or case result
+must have at most 4096 syntax nodes, or
 recovery gives no type. This cap bounds substitution work. The alias-chain bound
 applies between reductions. Cycles through aliases, lets, function heads, or
 results return no recovered type. Substitution retains source annotations and
 universe syntax and avoids capturing outer variables.
 Opaque definitions, partial definitions, recursive definitions, and parameters
-do not unfold. Head case expressions remain unsupported. Missing function types,
+do not unfold. Inductive cases and neutral scrutinees remain unsupported. Missing function types,
 nonpoint function formers, nonpoint function application addresses, free codomains,
 and free arguments are refused.
 Four `motive-application-*` pairs cover global, dependent, local, and curried
@@ -166,6 +175,13 @@ Direct cases check first and last components, source syntax and outer variables,
 invalid shapes and addresses, tuple arity, binder rejection, free selected and
 unused components, and exact 64/65-step boundaries in heads, results, and mixed
 annotation, let, beta, and projection chains.
+Four `lambda-case-*` pairs cover global, dependent, local, and curried types
+selected by finite cases. Direct cases check both branches, branch order,
+source syntax and outer variables, shape, branch, payload, binder, and motive
+guards, free branches, payloads, scrutinee annotations, and motives, neutral
+scrutinees, cases under a pending application or a projection, and exact
+64/65-step boundaries in scrutinees, results, heads, and mixed let, beta,
+projection, and case chains.
 The lambda pairs have different carried runtime outputs; the motive pairs
 share a coarse carried runtime layout. All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and
@@ -208,8 +224,9 @@ lets, globals, same-shape constructors, and a proof field at a universe. Unnamed
 motives without a source scrutinee type, and scrutinee types needing further
 normalization or inference, remain open. Lambda bodies whose expected function
 type needs reduction beyond transparent alias hops and bounded head annotation,
-let, beta, and tuple projection reduction remain conservative; closed subterms
-can still be sealed. Local proofs without source type syntax are left intact
+let, beta, tuple projection, and finite case reduction remain conservative; closed
+subterms can still be sealed. Inductive cases and cases with neutral scrutinees
+stay conservative. Local proofs without source type syntax are left intact
 because inferred readback can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and
 inline proofs in family metadata are also outside this increment.

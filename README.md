@@ -34,18 +34,19 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and seventy-three inline proof
+increment compares four global proof pairs and seventy-seven inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences for the four global pairs and forty-one inline pairs, including
-twenty lambda alias, let, beta, annotation, and projection pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
+differences for the four global pairs and forty-five inline pairs, including
+twenty-four lambda alias, let, beta, annotation, projection, and case pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
 with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 139 isolated mutations. The full mutation record covers the preceding
+contains 156 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
 [scoped validation evidence](dev/validation/annotation-source.json), as does
-[tuple projection recovery](dev/validation/projection-source.json).
+[tuple projection recovery](dev/validation/projection-source.json) and
+[finite case recovery](dev/validation/case-source.json).
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -77,11 +78,17 @@ annotations. Head annotation wrappers expose their body only when both the
 body and annotation are closed in the current scope. Tuple projections select
 a component from a section with matching collection widths, exactly that many
 legs, and no leg binders. The entire recovered projection must be closed in
-the current scope, including unused components. Annotation, let, beta, and projection
-steps share a limit of 64 reductions per recovery,
-including reductions in the function head and its result. A let or beta
+the current scope, including unused components. Finite cases select a branch
+from an injection with the same collection width and exactly one payload.
+Branches must cover every numeric address once, in any order, and each must
+bind one variable. Recovery substitutes the payload into the selected branch
+without capturing outer variables. The whole recovered case must be closed,
+including unused branches and its optional unnamed, unindexed motive.
+Annotation, let, beta, projection, and case steps share a limit of 64 reductions
+per recovery, including reductions in heads, scrutinees, and selected results. A let, beta, or case
 result with more than 4096 syntax nodes gives no type. Each alias chain
-retains its declaration-count bound. Source recovery through case expressions remains open.
+retains its declaration-count bound. Source recovery through inductive cases
+and cases with neutral scrutinees remains open.
 Alias bodies must be closed in their declaration scope; opaque, recursive,
 partial, and cyclic aliases remain unsupported. The source type must be closed
 in the current scope; unnamed motives

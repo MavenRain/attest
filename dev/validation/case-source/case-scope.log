@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -106,7 +109,6 @@ INLINE-ERASE row=motive-annotation-curried OK
 INLINE-ERASE row=annotation-source-syntax OK
 INLINE-ERASE row=case-source-syntax OK
 INLINE-ERASE row=case-source-guards OK
-INLINE-ERASE row=case-source-scope OK
 INLINE-ERASE row=case-source-fuel OK
 INLINE-ERASE row=case-source-pending OK
 INLINE-ERASE row=projection-source-syntax OK
@@ -125,4 +127,5 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=127 total=127 OK
+INLINE-ERASE pass=126 total=127 FAIL
+INLINE-ERASE row=case-source-scope FAIL mismatch: free unused case branch accepted

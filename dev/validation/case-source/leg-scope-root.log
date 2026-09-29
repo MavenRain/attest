@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -41,7 +44,6 @@ INLINE-ERASE row=branch-parameter-global OK
 INLINE-ERASE row=branch-parameter-ctor OK
 INLINE-ERASE row=branch-parameter-universe OK
 INLINE-ERASE row=branch-parameter-guards OK
-INLINE-ERASE row=alias-leg-scope OK
 INLINE-ERASE row=branch-metadata OK
 INLINE-ERASE row=branch-fallback OK
 INLINE-ERASE row=motive-index OK
@@ -125,4 +127,5 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=127 total=127 OK
+INLINE-ERASE pass=126 total=127 FAIL
+INLINE-ERASE row=alias-leg-scope FAIL mismatch: no postulate leaked

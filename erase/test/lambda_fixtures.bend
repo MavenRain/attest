@@ -1,5 +1,29 @@
 import Base
 
+def Fixture.lambda_case_global() -> String:
+  "mu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\n\ndef Choice : sum (Type 0, Type 0) := inj 1 of 2 Nat\ndef Fn : Type 1 := case Choice as choice return Type 1 with | 0 (A : Type 0) => (n : A) -> Type 0 | 1 (A : Type 0) => (0 n : A) -> Type 0\ndef Alias : Type 1 := Fn\ndef Layout : Alias := fun (0 n : Nat) => case (refl n : Equal n) as p in Equal k return Type 0 with | refl 0 j => prod ()\ndef keep : (x : Layout 0) -> Layout 0 := fun (x : Layout 0) => x\n"
+
+def Fixture.lambda_case_global_opaque() -> String:
+  "mu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\n\naxiom sealed : (0 n : Nat) -> Equal n\ndef Choice : sum (Type 0, Type 0) := inj 1 of 2 Nat\ndef Fn : Type 1 := case Choice as choice return Type 1 with | 0 (A : Type 0) => (n : A) -> Type 0 | 1 (A : Type 0) => (0 n : A) -> Type 0\ndef Alias : Type 1 := Fn\ndef Layout : Alias := fun (0 n : Nat) => case sealed n as p in Equal k return Type 0 with | refl 0 j => prod ()\ndef keep : (x : Layout 0) -> Layout 0 := fun (x : Layout 0) => x\n"
+
+def Fixture.lambda_case_dependent() -> String:
+  "mu Equal : (0 A : Type 0) -> (0 x : A) -> Prop with\n| refl : (0 A : Type 0) -> (0 x : A) -> Equal A x\n\ndef Fn : Type 1 := (0 A : Type 0) -> (case (inj 1 of 2 A : sum (Type 0, Type 0)) as choice return Type 1 with | 0 (B : Type 0) => (n : B) -> Type 0 | 1 (B : Type 0) => (0 x : B) -> Type 0)\ndef Alias : Type 1 := Fn\ndef Layout : Alias := fun (0 A : Type 0) (0 x : A) => case (refl A x : Equal A x) as p in Equal B y return Type 0 with | refl 0 C 0 z => prod ()\ndef keep : (x : Layout Nat 0) -> Layout Nat 0 := fun (x : Layout Nat 0) => x\n"
+
+def Fixture.lambda_case_dependent_opaque() -> String:
+  "mu Equal : (0 A : Type 0) -> (0 x : A) -> Prop with\n| refl : (0 A : Type 0) -> (0 x : A) -> Equal A x\n\naxiom sealed : (0 A : Type 0) -> (0 x : A) -> Equal A x\ndef Fn : Type 1 := (0 A : Type 0) -> (case (inj 1 of 2 A : sum (Type 0, Type 0)) as choice return Type 1 with | 0 (B : Type 0) => (n : B) -> Type 0 | 1 (B : Type 0) => (0 x : B) -> Type 0)\ndef Alias : Type 1 := Fn\ndef Layout : Alias := fun (0 A : Type 0) (0 x : A) => case sealed A x as p in Equal B y return Type 0 with | refl 0 C 0 z => prod ()\ndef keep : (x : Layout Nat 0) -> Layout Nat 0 := fun (x : Layout Nat 0) => x\n"
+
+def Fixture.lambda_case_local() -> String:
+  "mu Equal : (0 A : Type 0) -> (0 x : A) -> Prop with\n| refl : (0 A : Type 0) -> (0 x : A) -> Equal A x\n\ndef Layout : (0 A : Type 0) -> (0 x : A) -> Type 0 := fun (0 A : Type 0) (0 x : A) => let Choice : sum (Nat, Nat) := inj 1 of 2 0 in let Fn : Type 1 := case Choice as choice return Type 1 with | 0 (n : Nat) => (y : A) -> Type 0 | 1 (n : Nat) => (0 y : A) -> Type 0 in let Alias : Type 1 := Fn in let choose : Alias := fun (0 y : A) => case (refl A y : Equal A y) as p in Equal B z return Type 0 with | refl 0 C 0 w => prod () in choose x\ndef keep : (x : Layout Nat 0) -> Layout Nat 0 := fun (x : Layout Nat 0) => x\n"
+
+def Fixture.lambda_case_local_opaque() -> String:
+  "mu Equal : (0 A : Type 0) -> (0 x : A) -> Prop with\n| refl : (0 A : Type 0) -> (0 x : A) -> Equal A x\n\naxiom sealed : (0 A : Type 0) -> (0 y : A) -> Equal A y\ndef Layout : (0 A : Type 0) -> (0 x : A) -> Type 0 := fun (0 A : Type 0) (0 x : A) => let Choice : sum (Nat, Nat) := inj 1 of 2 0 in let Fn : Type 1 := case Choice as choice return Type 1 with | 0 (n : Nat) => (y : A) -> Type 0 | 1 (n : Nat) => (0 y : A) -> Type 0 in let Alias : Type 1 := Fn in let choose : Alias := fun (0 y : A) => case sealed A y as p in Equal B z return Type 0 with | refl 0 C 0 w => prod () in choose x\ndef keep : (x : Layout Nat 0) -> Layout Nat 0 := fun (x : Layout Nat 0) => x\n"
+
+def Fixture.lambda_case_curried() -> String:
+  "mu Equal : (0 x : Nat) -> (0 y : Nat) -> Prop with\n| refl : (0 x : Nat) -> (0 y : Nat) -> Equal x y\n\ndef MakeFn : (0 N : Type 0) -> (0 M : Type 0) -> Type 1 := fun (0 N : Type 0) (0 M : Type 0) => (0 x : N) -> (0 y : M) -> Type 0\ndef Fn : Type 1 := (case (inj 1 of 2 Nat : sum (Type 0, Type 0)) as choice return (0 M : Type 0) -> Type 1 with | 0 (N : Type 0) => MakeFn (prod ()) | 1 (N : Type 0) => MakeFn N) Nat\ndef Alias : Type 1 := Fn\ndef Layout : Alias := fun (0 x : Nat) (0 y : Nat) => case (refl x y : Equal x y) as p in Equal a b return Type 0 with | refl 0 c 0 d => prod ()\ndef keep : (x : Layout 0 1) -> Layout 0 1 := fun (x : Layout 0 1) => x\n"
+
+def Fixture.lambda_case_curried_opaque() -> String:
+  "mu Equal : (0 x : Nat) -> (0 y : Nat) -> Prop with\n| refl : (0 x : Nat) -> (0 y : Nat) -> Equal x y\n\naxiom sealed : (0 x : Nat) -> (0 y : Nat) -> Equal x y\ndef MakeFn : (0 N : Type 0) -> (0 M : Type 0) -> Type 1 := fun (0 N : Type 0) (0 M : Type 0) => (0 x : N) -> (0 y : M) -> Type 0\ndef Fn : Type 1 := (case (inj 1 of 2 Nat : sum (Type 0, Type 0)) as choice return (0 M : Type 0) -> Type 1 with | 0 (N : Type 0) => MakeFn (prod ()) | 1 (N : Type 0) => MakeFn N) Nat\ndef Alias : Type 1 := Fn\ndef Layout : Alias := fun (0 x : Nat) (0 y : Nat) => case sealed x y as p in Equal a b return Type 0 with | refl 0 c 0 d => prod ()\ndef keep : (x : Layout 0 1) -> Layout 0 1 := fun (x : Layout 0 1) => x\n"
+
 def Fixture.lambda_projection_global() -> String:
   "mu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\n\ndef MakeFn : (0 N : Type 0) -> Type 1 := fun (0 N : Type 0) => (0 n : N) -> Type 0\ndef MakeAlias : (0 N : Type 0) -> Type 1 := MakeFn\ndef Fn : Type 1 := (tuple (((n : Nat) -> Type 0), (MakeAlias Nat)) : prod (Type 1, Type 1)).1\ndef Alias : Type 1 := Fn\ndef Layout : Alias := fun (0 n : Nat) => case (refl n : Equal n) as p in Equal k return Type 0 with | refl 0 j => prod ()\ndef keep : (x : Layout 0) -> Layout 0 := fun (x : Layout 0) => x\n"
 

@@ -1009,6 +1009,124 @@ def Suite.source_size_bound() -> Result<&2,&2,F.Error.t,Unit>:
     large:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Let{"T",F.Term.Univ{F.Level.one},nat,Suite.size_chain(14n)}},context)
     Suite.application_absent(large,"source size cap ignored")
 
+def Suite.case_pair(index: Nat, argument: F.Term.t, first: F.Term.t, second: F.Term.t) -> F.Term.t:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +binder:F.Pair2<F.Quantity.t,String> = F.Pair2{F.Quantity.Many{},"payload"}
+  F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ALeg{index},[argument]},F.Quantity.Many{},None{},[
+    F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[binder],first}},
+    F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[binder],second}}]}}
+
+def Suite.case_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.Ctx{F.Global.empty,Nil{},Nil{},2n,C.Budget.unlimited},Nil{}}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{F.Term.Var{0n},univ}),F.Term.Ann{F.Term.Var{3n},univ}}
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{2n},univ}}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +branches:List<&2,F.Pair2<F.Term.addr,F.Term.leg>> = [F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"payload"}],body}},F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"payload"}],univ}}]
+  do Result<&2,&2,F.Error.t,Unit>:
+    first:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.case_pair(0n,F.Term.Var{1n},univ,body)},context)
+    first_ok:Unit <- Suite.application_equal(first,univ)
+    second:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.case_pair(1n,F.Term.Var{1n},univ,body)},context)
+    second_ok:Unit <- Suite.application_equal(second,ty)
+    reversed:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ALeg{1n},[F.Term.Var{1n}]},F.Quantity.Many{},None{},branches}}},context)
+    reversed_ok:Unit <- Suite.application_equal(reversed,ty)
+    applied:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{Suite.case_pair(1n,F.Term.Var{1n},univ,body)},F.Term.APt{F.Quantity.Zero{},F.Term.Var{0n}},context)
+    Suite.application_equal(applied,F.Term.Ann{F.Term.Var{1n},univ})
+
+def Suite.case_refused(term:F.Term.t,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{term},context)
+    Suite.application_absent(actual,message)
+
+def Suite.case_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +one:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,1n)
+  +two:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +binder:F.Pair2<F.Quantity.t,String> = F.Pair2{F.Quantity.Many{},"payload"}
+  +leg:F.Term.leg = F.Term.Leg{[binder],univ}
+  +branches:List<&2,F.Pair2<F.Term.addr,F.Term.leg>> = [F.Pair2{F.Term.ALeg{0n},leg},F.Pair2{F.Term.ALeg{1n},leg}]
+  +scrut:F.Term.t = F.Term.In{two,F.Term.ALeg{1n},[univ]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    shape:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.In{one,F.Term.ALeg{1n},[univ]},F.Quantity.Many{},None{},branches}},"case shape mismatch accepted")
+    short:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{1n},leg}] }},"short case branches accepted")
+    duplicate:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{1n},leg},F.Pair2{F.Term.ALeg{1n},leg}]}},"duplicate case branch accepted")
+    outside:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{2n},leg},F.Pair2{F.Term.ALeg{1n},leg}]}},"out-of-range case branch accepted")
+    missing:Unit <- Suite.case_refused(Suite.case_pair(2n,univ,univ,univ),"missing case branch accepted")
+    empty:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.In{two,F.Term.ALeg{1n},Nil{}},F.Quantity.Many{},None{},branches}},"empty case payload accepted")
+    extra:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.In{two,F.Term.ALeg{1n},[univ,univ]},F.Quantity.Many{},None{},branches}},"extra case payload accepted")
+    binder_count:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{Nil{},univ}},F.Pair2{F.Term.ALeg{1n},leg}]}},"empty unused case binder accepted")
+    extra_binder:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{0n},leg},F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[binder,binder],univ}}]}},"extra selected case binder accepted")
+    extra_unused_binder:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[binder,binder],univ}},F.Pair2{F.Term.ALeg{1n},leg}]}},"extra unused case binder accepted")
+    named:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"ctor"},leg},F.Pair2{F.Term.ALeg{1n},leg}]}},"named case branch accepted")
+    named_motive:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},Some{F.Term.Motive{Some{"Named"},Nil{},"self",univ}},branches}},"named case motive accepted")
+    indexed_motive:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},Some{F.Term.Motive{None{},["index"],"self",univ}},branches}},"indexed case motive accepted")
+    Suite.case_refused(F.Term.Elim{F.Term.Elimination{F.Shape.make_point(F.Term.t,F.Quantity.Many{},"x",univ),scrut,F.Quantity.Many{},None{},branches}},"point case shape accepted")
+
+def Suite.case_source_scope() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +two:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +leg:F.Term.leg = F.Term.Leg{[F.Pair2{F.Quantity.Many{},"payload"}],univ}
+  +branches:List<&2,F.Pair2<F.Term.addr,F.Term.leg>> = [F.Pair2{F.Term.ALeg{0n},leg},F.Pair2{F.Term.ALeg{1n},leg}]
+  +scrut:F.Term.t = F.Term.In{two,F.Term.ALeg{1n},[univ]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    unused:Unit <- Suite.case_refused(Suite.case_pair(1n,univ,F.Term.Var{1n},univ),"free unused case branch accepted")
+    selected:Unit <- Suite.case_refused(Suite.case_pair(1n,univ,univ,F.Term.Var{1n}),"free selected case branch accepted")
+    payload:Unit <- Suite.case_refused(Suite.case_pair(1n,F.Term.Var{0n},univ,univ),"free case payload accepted")
+    annotation:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.Ann{scrut,F.Term.Var{0n}},F.Quantity.Many{},None{},branches}},"free case scrutinee annotation accepted")
+    motive:Unit <- Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},Some{F.Term.Motive{None{},Nil{},"self",F.Term.Var{1n}}},branches}},"free case motive accepted")
+    Suite.case_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.Global{"unknown"},F.Quantity.Many{},None{},branches}},"neutral case scrutinee accepted")
+
+def Suite.case_chain(count:Nat,ty:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: ty
+    case 1n+n: Suite.case_pair(1n,Suite.case_chain(n,ty),F.Term.Univ{F.Level.zero},F.Term.Var{0n})
+
+def Suite.case_result_chain(count:Nat,ty:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: ty
+    case 1n+n: Suite.case_pair(1n,F.Term.Univ{F.Level.zero},F.Term.Univ{F.Level.zero},Suite.case_result_chain(n,ty))
+
+def Suite.case_head_chain(count:Nat,ty:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: ty
+    case 1n+n:
+      +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,1n)
+      injection:F.Term.t = F.Term.In{shape,F.Term.ALeg{0n},[ty]}
+      F.Term.Elim{F.Term.Elimination{shape,Suite.case_head_chain(n,injection),F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"payload"}],F.Term.Var{0n}}}]}}
+
+def Suite.case_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  +ty:F.Term.t = F.Term.Univ{F.Level.zero}
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.case_chain(64n,ty)},context)
+    exact_ok:Unit <- Suite.application_equal(exact,ty)
+    over:Unit <- Suite.case_refused(Suite.case_chain(65n,ty),"case reduction bound exceeded")
+    results:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.case_result_chain(64n,ty)},context)
+    results_ok:Unit <- Suite.application_equal(results,ty)
+    results_over:Unit <- Suite.case_refused(Suite.case_result_chain(65n,ty),"case result reduction bound exceeded")
+    heads:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.case_head_chain(64n,ty)},context)
+    heads_ok:Unit <- Suite.application_equal(heads,ty)
+    heads_over:Unit <- Suite.case_refused(Suite.case_head_chain(65n,ty),"case head reduction bound exceeded")
+    mixed:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(16n,Suite.beta_chain(16n,Suite.projection_chain(16n,Suite.case_chain(16n,ty))))},context)
+    mixed_ok:Unit <- Suite.application_equal(mixed,ty)
+    Suite.case_refused(Suite.let_chain(16n,Suite.beta_chain(16n,Suite.projection_chain(16n,Suite.case_chain(17n,ty)))),"mixed case reduction bound exceeded")
+
+def Suite.case_source_pending() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = I.Inline.Context{C.Check.make(F.Global.empty,C.Budget.unlimited),Nil{}}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +point:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",univ)
+  +identity:F.Term.t = F.Term.Sec{point,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],F.Term.Var{0n}}]}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  scrut:F.Term.t = F.Term.In{shape,F.Term.ALeg{1n},[univ]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    application:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Out{point,F.Term.APt{F.Quantity.Zero{},univ},Suite.case_pair(1n,identity,univ,F.Term.Var{0n})}},context)
+    application_ok:Unit <- Suite.application_equal(application,univ)
+    projection:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_pair(1n,univ,Suite.case_pair(1n,univ,univ,F.Term.Var{0n}))},context)
+    projection_ok:Unit <- Suite.application_equal(projection,univ)
+    recovered:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Elim{F.Term.Elimination{shape,Suite.projection_pair(1n,univ,F.Term.Out{point,F.Term.APt{F.Quantity.Zero{},scrut},identity}),F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"x"}],univ}},F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"x"}],F.Term.Var{0n}}}]}}},context)
+    Suite.application_equal(recovered,univ)
+
 def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
   [
       Suite.Case{"let-body",unit => Suite.poisoned(X.Fixture.let_proof,False{})},
@@ -1103,6 +1221,10 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"let-source-fuel",unit => Suite.let_source_fuel},
       Suite.Case{"lambda-let-scope",unit => Suite.lambda_let_scope},
       Suite.Case{"lambda-annotation-global",unit => Suite.local_sealed(LF.Fixture.lambda_annotation_global,LF.Fixture.lambda_annotation_global_opaque,layout,1n)},
+      Suite.Case{"lambda-case-global",unit => Suite.local_sealed(LF.Fixture.lambda_case_global,LF.Fixture.lambda_case_global_opaque,layout,1n)},
+      Suite.Case{"lambda-case-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_case_dependent,LF.Fixture.lambda_case_dependent_opaque,layout,1n)},
+      Suite.Case{"lambda-case-local",unit => Suite.local_sealed(LF.Fixture.lambda_case_local,LF.Fixture.lambda_case_local_opaque,layout,1n)},
+      Suite.Case{"lambda-case-curried",unit => Suite.local_sealed(LF.Fixture.lambda_case_curried,LF.Fixture.lambda_case_curried_opaque,layout,1n)},
       Suite.Case{"lambda-projection-global",unit => Suite.local_sealed(LF.Fixture.lambda_projection_global,LF.Fixture.lambda_projection_global_opaque,layout,1n)},
       Suite.Case{"lambda-projection-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_projection_dependent,LF.Fixture.lambda_projection_dependent_opaque,layout,1n)},
       Suite.Case{"lambda-projection-local",unit => Suite.local_sealed(LF.Fixture.lambda_projection_local,LF.Fixture.lambda_projection_local_opaque,layout,1n)},
@@ -1113,6 +1235,11 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"motive-annotation-dependent",unit => Suite.local_sealed(MF.Fixture.motive_annotation_dependent,MF.Fixture.motive_annotation_dependent_opaque,None{},1n)},
       Suite.Case{"motive-annotation-curried",unit => Suite.local_sealed(MF.Fixture.motive_annotation_curried,MF.Fixture.motive_annotation_curried_opaque,None{},1n)},
       Suite.Case{"annotation-source-syntax",unit => Suite.annotation_source_syntax},
+      Suite.Case{"case-source-syntax",unit => Suite.case_source_syntax},
+      Suite.Case{"case-source-guards",unit => Suite.case_source_guards},
+      Suite.Case{"case-source-scope",unit => Suite.case_source_scope},
+      Suite.Case{"case-source-fuel",unit => Suite.case_source_fuel},
+      Suite.Case{"case-source-pending",unit => Suite.case_source_pending},
       Suite.Case{"projection-source-syntax",unit => Suite.projection_source_syntax},
       Suite.Case{"projection-source-guards",unit => Suite.projection_source_guards},
       Suite.Case{"projection-source-fuel",unit => Suite.projection_source_fuel},

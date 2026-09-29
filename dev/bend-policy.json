@@ -341,6 +341,31 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.case_branch",
+      "pattern": "other <> rest"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.case_branches",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.case_collection",
+      "pattern": "other injection"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.case_motive",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.case_type",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.source_reduce_head",
       "pattern": "0n expanded"
     },

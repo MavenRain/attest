@@ -1,5 +1,35 @@
 # M0 build log
 
+## 2026-09-28: Stage B source types through finite cases
+
+Source recovery now reduces finite collection cases with matching injection and
+elimination widths, one payload, and one binder in every branch. Branch addresses
+must cover the collection exactly once; their order does not matter. An optional
+motive must be unnamed and unindexed. The entire recovered case must be closed,
+including unused branches and the motive. Source substitution preserves outer
+variables, annotations, and universes in the selected branch.
+
+Application and case frames share the existing pending stack. Cases consume the
+same 64-step budget as annotations, lets, beta steps, and projections, including
+work in scrutinees and selected results. Case substitution also uses the existing
+4096-node result cap. Inductive cases and neutral scrutinees stay unsupported.
+
+Four new opaque-twin pairs cover global, dependent, local, and curried function
+types. Five direct rows cover syntax, malformed shapes and branches, scope,
+64/65-step boundaries, and mixed pending frames. The inline suite passes all 127
+cases, and all 16 test programs pass. Three existing unknown-scope controls now use inductive cases, preserving
+their refusal purpose after finite cases became recoverable.
+
+The mutation catalog has 156 cases. The scoped selection exercises all 17 new
+cases and nine existing reducer, size-cap, and scope mutations. Commands, source
+hashes, logs, and results are recorded in `dev/validation/case-source.json`.
+All 26 selected variants compiled successfully and produced their required
+failures. The full gates pass, including all 36 Lean twin cases.
+The previous full 127-case mutation record remains historical evidence.
+The source manifest is refreshed, and HOUSE registers five explicit fallback
+sites without adding unsafe functions. The kernel is unchanged. Stage B remains
+open at the Acc runtime-elimination frontier.
+
 ## 2026-09-28: Stage B source types through tuple projections
 
 Source recovery now selects a tuple component when the projection and section

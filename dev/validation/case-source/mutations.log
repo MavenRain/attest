@@ -1,0 +1,27 @@
+ERASURE-MUTATION inline-local-type caught
+ERASURE-MUTATION inline-shape-payload caught
+ERASURE-MUTATION leg-scope-root caught
+ERASURE-MUTATION case-disabled caught
+ERASURE-MUTATION case-shape caught
+ERASURE-MUTATION case-arity caught
+ERASURE-MUTATION case-duplicate caught
+ERASURE-MUTATION case-branch-range caught
+ERASURE-MUTATION case-scope caught
+ERASURE-MUTATION case-motive caught
+ERASURE-MUTATION case-binder caught
+ERASURE-MUTATION case-selection caught
+ERASURE-MUTATION case-substitution caught
+ERASURE-MUTATION case-exhausted caught
+ERASURE-MUTATION case-head-fuel caught
+ERASURE-MUTATION case-pending caught
+ERASURE-MUTATION case-result-fuel caught
+ERASURE-MUTATION case-fuel caught
+ERASURE-MUTATION case-binder-limit caught
+ERASURE-MUTATION case-fixture-binding caught
+ERASURE-MUTATION beta-disabled caught
+ERASURE-MUTATION beta-head-fuel caught
+ERASURE-MUTATION beta-result-fuel caught
+ERASURE-MUTATION beta-work-bound caught
+ERASURE-MUTATION beta-let-pending caught
+ERASURE-MUTATION source-size-cap caught
+ERASURE-MUTATIONS caught=26 total=156 PARTIAL

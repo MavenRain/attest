@@ -791,6 +791,7 @@ def Inline.let_exhausted(ty: Maybe<&2, F.Term.t>) -> Result<&2,&2,F.Error.t,Mayb
     case Some{F.Term.Ann{body, annotation}}: Done{None{}}
     case Some{F.Term.Let{name, annotation, value, body}}: Done{None{}}
     case Some{F.Term.Out{shape, address, head}}: Done{None{}}
+    case Some{F.Term.Elim{elimination}}: Done{None{}}
     case other: Done{other}
 
 def Inline.beta_points(point: Maybe<&2, F.Triple3<F.Quantity.t, String, F.Term.t>>, section: Maybe<&2, F.Triple3<F.Quantity.t, String, F.Term.t>>, quantity: F.Quantity.t, binder: F.Quantity.t, valid: Bool, argument: F.Term.t, body: F.Term.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
@@ -829,19 +830,78 @@ def Inline.beta_type(+shape: F.Shape.t<F.Term.t>, address: F.Term.addr, head: Ma
       Inline.projection_type(P.Rules.as_vcoll(F.Term.t, shape), P.Rules.as_vcoll(F.Term.t, section), index, legs, Inline.closed(depth, application))
     case other head: Done{None{}}
 
+def Inline.case_choose(hit: Bool, body: F.Term.t, other: Maybe<&2, F.Term.t>) -> Maybe<&2, F.Term.t>:
+  match hit:
+    case True{}: Some{body}
+    case False{}: other
+
+def Inline.case_branch(+index: Nat, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>) -> Maybe<&2, F.Term.t>:
+  match branches:
+    case Nil{}: None{}
+    case F.Pair2{F.Term.ALeg{candidate}, F.Term.Leg{binder <> Nil{}, body}} <> rest:
+      Inline.case_choose(Nat.is_eq(index, candidate), body, Inline.case_branch(index, rest))
+    case other <> rest: Inline.case_branch(index, rest)
+
+def Inline.case_unique(found: Maybe<&2, F.Term.t>, valid: Bool) -> Bool:
+  match found:
+    case Some{duplicate}: False{}
+    case None{}: valid
+
+def Inline.case_branches(branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +width: Nat) -> Bool:
+  match branches:
+    case Nil{}: True{}
+    case F.Pair2{F.Term.ALeg{+index}, F.Term.Leg{binder <> Nil{}, body}} <> +rest:
+      Inline.case_unique(Inline.case_branch(index, rest), Bool.and(Nat.is_lt(index, width), Inline.case_branches(rest, width)))
+    case other: False{}
+
+def Inline.case_selected(valid: Bool, selected: Maybe<&2, F.Term.t>, argument: F.Term.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match selected:
+    case Some{body}: Inline.let_closed(valid, argument, body, depth)
+    case None{}: Done{None{}}
+
+def Inline.case_collection(width: Maybe<&2, Nat>, injection: Maybe<&2, Nat>, index: Nat, argument: F.Term.t, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, closed: Bool, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match width injection:
+    case Some{+width} Some{injection}:
+      shape_ok = Bool.and(Nat.is_eq(width, injection), Nat.is_eq(width, Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))
+      valid = Bool.and(shape_ok, Bool.and(closed, Inline.case_branches(branches, width)))
+      Inline.case_selected(valid, Inline.case_branch(index, branches), argument, depth)
+    case other injection: Done{None{}}
+
+def Inline.case_motive(motive: Maybe<&2, F.Term.motive>) -> Bool:
+  match motive:
+    case None{}: True{}
+    case Some{F.Term.Motive{None{}, Nil{}, self, body}}: True{}
+    case other: False{}
+
+def Inline.case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, +depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match scrutinee:
+    case Some{F.Term.In{+injection, F.Term.ALeg{+index}, +argument <> Nil{}}}:
+      elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ALeg{index}, [argument]}, quantity, motive, branches}}
+      Inline.case_collection(P.Rules.as_vcoll(F.Term.t, shape), P.Rules.as_vcoll(F.Term.t, injection), index, argument, branches, Bool.and(Inline.closed(depth, elimination), Inline.case_motive(motive)), depth)
+    case other: Done{None{}}
+
+type Inline.source_frame is Data:
+  Inline.ApplicationFrame{shape: F.Shape.t<F.Term.t>, address: F.Term.addr}
+  Inline.CaseFrame{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>}
+
 # Alias chains retain their declaration bound between source reductions.
-# Charge an application before descending into its head, then share the remainder
-# with its result. This also bounds cyclic and nested function applications.
-def Inline.beta_pending(pending: List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>>, fuel: Nat, ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+# Charge an application or case before descending into its head or scrutinee, then
+# share the remainder with its result. This also bounds cyclic and nested applications and cases.
+def Inline.beta_pending(pending: List<&2, Inline.source_frame>, fuel: Nat, ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.source_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match pending:
     case Nil{}: Done{ty}
-    case F.Pair2{shape, address} <> rest:
+    case Inline.ApplicationFrame{shape, address} <> rest:
       Inline.Context{checker, domains} = context
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
         reduced: Maybe<&2, F.Term.t> <- Inline.beta_type(shape, address, ty, C.Check.size(checker))
         next(fuel, reduced, rest)
+    case Inline.CaseFrame{shape, quantity, motive, branches} <> rest:
+      Inline.Context{checker, domains} = context
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        reduced: Maybe<&2, F.Term.t> <- Inline.case_type(shape, quantity, motive, branches, ty, C.Check.size(checker))
+        next(fuel, reduced, rest)
 
-def Inline.source_reduce_head(fuel: Nat, expanded: Maybe<&2, F.Term.t>, context: Inline.context, pending: List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+def Inline.source_reduce_head(fuel: Nat, expanded: Maybe<&2, F.Term.t>, context: Inline.context, pending: List<&2, Inline.source_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.source_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match fuel expanded:
     case 0n expanded:
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
@@ -856,12 +916,14 @@ def Inline.source_reduce_head(fuel: Nat, expanded: Maybe<&2, F.Term.t>, context:
         reduced: Maybe<&2, F.Term.t> <- Inline.let_type(Some{F.Term.Let{name, annotation, value, body}}, context, reduced => Done{reduced})
         next(remaining, reduced, pending)
     case 1n+remaining Some{F.Term.Out{shape, address, head}}:
-      next(remaining, Some{head}, F.Pair2{shape, address} <> pending)
+      next(remaining, Some{head}, Inline.ApplicationFrame{shape, address} <> pending)
+    case 1n+remaining Some{F.Term.Elim{F.Term.Elimination{shape, scrutinee, quantity, motive, branches}}}:
+      next(remaining, Some{scrutinee}, Inline.CaseFrame{shape, quantity, motive, branches} <> pending)
     case 1n+remaining other: Inline.beta_pending(pending, (remaining + 1n : Nat), other, context, next)
 
-# A beta or projection step can push and later pop one frame. The step count bounds transitions;
+# An application or case step can push and later pop one frame. The step count bounds transitions;
 # the term-size cap in Inline.let_closed bounds substitution work.
-def Inline.source_reduce_steps(steps: Nat, fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.context, pending: List<&2, F.Pair2<F.Shape.t<F.Term.t>, F.Term.addr>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+def Inline.source_reduce_steps(steps: Nat, fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.context, pending: List<&2, Inline.source_frame>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match steps:
     case 0n: Done{None{}}
     case 1n+remaining:

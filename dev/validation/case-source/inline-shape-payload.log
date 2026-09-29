@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -8,24 +11,18 @@ INLINE-ERASE row=local-type OK
 INLINE-ERASE row=rows OK
 INLINE-ERASE row=binders OK
 INLINE-ERASE row=motive OK
-INLINE-ERASE row=shape-payload OK
 INLINE-ERASE row=redeclared OK
-INLINE-ERASE row=payload-postulates OK
 INLINE-ERASE row=local-index OK
 INLINE-ERASE row=local-dependent OK
 INLINE-ERASE row=local-let OK
 INLINE-ERASE row=local-let-alias OK
 INLINE-ERASE row=local-diagram OK
 INLINE-ERASE row=local-inherited OK
-INLINE-ERASE row=local-poison OK
-INLINE-ERASE row=local-universe OK
 INLINE-ERASE row=local-proof-let OK
-INLINE-ERASE row=local-proof-let-value OK
 INLINE-ERASE row=local-proof-let-type OK
 INLINE-ERASE row=local-proof-let-alias OK
 INLINE-ERASE row=local-proof-let-family OK
 INLINE-ERASE row=local-proof-let-universe OK
-INLINE-ERASE row=local-payload OK
 INLINE-ERASE row=local-runtime-call OK
 INLINE-ERASE row=local-hypothesis OK
 INLINE-ERASE row=branch-scope OK
@@ -110,9 +107,7 @@ INLINE-ERASE row=case-source-scope OK
 INLINE-ERASE row=case-source-fuel OK
 INLINE-ERASE row=case-source-pending OK
 INLINE-ERASE row=projection-source-syntax OK
-INLINE-ERASE row=projection-source-guards OK
 INLINE-ERASE row=projection-source-fuel OK
-INLINE-ERASE row=annotation-source-guards OK
 INLINE-ERASE row=annotation-source-fuel OK
 INLINE-ERASE row=beta-source-syntax OK
 INLINE-ERASE row=lambda-beta-global OK
@@ -121,8 +116,16 @@ INLINE-ERASE row=lambda-beta-local OK
 INLINE-ERASE row=lambda-beta-curried OK
 INLINE-ERASE row=motive-beta-dependent OK
 INLINE-ERASE row=motive-beta-curried OK
-INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
-INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=127 total=127 OK
+INLINE-ERASE pass=117 total=127 FAIL
+INLINE-ERASE row=shape-payload FAIL unbound: de Bruijn index 1 is outside the context
+INLINE-ERASE row=payload-postulates FAIL mismatch: payload postulate orphaned, missing, or duplicated
+INLINE-ERASE row=local-poison FAIL unbound: de Bruijn index 1 is outside the context
+INLINE-ERASE row=local-universe FAIL mismatch: local domain lost its declared universe
+INLINE-ERASE row=local-proof-let-value FAIL mismatch: the term has type Nat and the expected type is (Elim SMu Equal [Nat; m] p as q return Type 1 with | (ACtor refl) C z => Nat)
+INLINE-ERASE row=local-payload FAIL unbound: de Bruijn index 1 is outside the environment
+INLINE-ERASE row=projection-source-guards FAIL mismatch: free selected projection accepted
+INLINE-ERASE row=annotation-source-guards FAIL mismatch: free annotated body accepted
+INLINE-ERASE row=beta-source-guards FAIL mismatch: free beta application domain accepted
+INLINE-ERASE row=source-size-bound FAIL mismatch: source size cap ignored
