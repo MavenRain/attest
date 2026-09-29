@@ -1,5 +1,30 @@
 # M0 build log
 
+## 2026-09-29: Stage B recursive constructor source types
+
+Source recovery now reduces cases over complete, positive recursive families.
+The kernel passes only constructor fields to a case branch, so the existing
+simultaneous source substitution also handles recursive fields. Recovery does
+not introduce induction hypotheses or recursively traverse field values.
+Nested cases retain the shared 64-step limit and the 4096-node result cap.
+Family completeness, positivity, field quantities, arity, source indices, and
+whole-case scope checks remain in force.
+
+Four opaque-twin pairs cover global aliases, dependent parameters, nested local
+cases, and a parameterized indexed family. Four direct cases cover source
+syntax and capture, metadata, scope, and the 64/65-step boundary. The inline
+suite now contains 165 cases. The three unknown-scope controls use 65 source
+annotations to keep their types beyond recovery; their leak assertions remain
+unchanged, and their mutations are included in this slice's validation.
+
+`dev/validation/recursive-source-run.py` collects the test suite, default gates,
+all 200 mutation anchors, the erasure record, and 31 scoped mutants. Evidence
+is recorded in `dev/validation/recursive-source.json`. The historical full
+mutation record is retained. Builtin and provisional families, unequal source
+index payloads, and neutral scrutinees remain unsupported. Stage B stays open
+at the Acc runtime-elimination frontier.
+
+
 ## 2026-09-29: Stage B indexed constructor source types
 
 Source recovery now reduces cases over complete, positive, nonrecursive indexed

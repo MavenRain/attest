@@ -622,10 +622,18 @@ CASES += (
      "Inline.constructor_fields(M.Mu.ctor_of(name, family), binders, parameter_count, index_count)",
      "True{}",
      "INLINE-ERASE row=constructor-source-guards FAIL mismatch: unknown branch accepted"),
-    ("constructor-recursive", INLINE,
-     "case Some{F.Positivity.Ctor{name, +fields, +indices, +arity, False{}}}:",
+    ("recursive-disabled", INLINE,
      "case Some{F.Positivity.Ctor{name, +fields, +indices, +arity, recursive}}:",
-     "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: recursive constructor accepted"),
+     "case Some{F.Positivity.Ctor{name, +fields, +indices, +arity, False{}}}:",
+     "INLINE-ERASE row=lambda-recursive-global FAIL"),
+    ("recursive-metadata-bypass", INLINE,
+     "match ctor:\n    case Some{F.Positivity.Ctor{name, +fields, +indices, +arity, recursive}}:",
+     "match ctor:\n    case Some{F.Positivity.Ctor{name, fields, indices, arity, True{}}}: True{}\n    case Some{F.Positivity.Ctor{name, +fields, +indices, +arity, recursive}}:",
+     "INLINE-ERASE row=recursive-source-metadata FAIL mismatch: constructor metadata arity accepted"),
+    ("recursive-fixture-call", "erase/test/inline_test.bend",
+     'Suite.Case{"lambda-recursive-global",unit => Suite.local_sealed(LF.Fixture.lambda_recursive_global,LF.Fixture.lambda_recursive_global_opaque,layout,1n)}',
+     'Suite.Case{"lambda-recursive-global",unit => Suite.local_sealed(LF.Fixture.lambda_recursive_dependent,LF.Fixture.lambda_recursive_dependent_opaque,layout,1n)}',
+     "row=lambda-recursive-global lambda fixture call differs"),
     ("constructor-field-arity", INLINE,
      "Bool.and(Nat.is_eq(arity, (depth + Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, fields) : Nat)), Inline.branch_fields_valid(fields, binders, depth))",
      "Inline.branch_fields_valid(fields, binders, depth)",
@@ -1066,12 +1074,15 @@ def main():
                         help="independent isolated cases to run concurrently (maximum 2)")
     parser.add_argument("--case", action="append", choices=[case[0] for case in CASES],
                         help="run named cases; partial runs cannot produce release records")
+    parser.add_argument("--logs", type=Path,
+                        help="log directory for a non-recording run; relative paths use the repository root")
     parser.add_argument("--check-anchors", action="store_true",
                         help="validate all source anchors without building or running gates")
     args = parser.parse_args()
-    if args.record and (args.case or args.check_anchors):
-        parser.error("--record requires the complete mutation battery")
-    logs = ROOT / ("dev/validation/erasure-mutations" if args.record else ".gatework/erasure-mutations")
+    if args.record and (args.case or args.check_anchors or args.logs is not None):
+        parser.error("--record requires the complete mutation battery and its canonical log directory")
+    logs = ROOT / (args.logs if args.logs is not None else
+                   ("dev/validation/erasure-mutations" if args.record else ".gatework/erasure-mutations"))
     logs.mkdir(parents=True, exist_ok=True)
     scratch_root = ROOT / ".gatework/erasure-copies"
     scratch_root.mkdir(parents=True, exist_ok=True)

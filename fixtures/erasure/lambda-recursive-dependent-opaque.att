@@ -1,0 +1,12 @@
+mu Chain (0 P : Type 0) : Type 1 with
+| empty : Chain P
+| link : (0 A : Type 0) -> (tail : Chain P) -> Chain P
+
+mu Equal : (0 A : Type 0) -> (0 x : A) -> Prop with
+| refl : (0 A : Type 0) -> (0 x : A) -> Equal A x
+
+axiom sealed : (0 A : Type 0) -> (0 x : A) -> Equal A x
+def Fn : Type 1 := (0 A : Type 0) -> (case (link A (empty : Chain A) : Chain A) as chain in Chain return Type 1 with | empty => (x : A) -> Type 0 | link 0 B tail => (0 x : B) -> Type 0)
+def Alias : Type 1 := Fn
+def Layout : Alias := fun (0 A : Type 0) (0 x : A) => case sealed A x as p in Equal B z return Type 0 with | refl 0 C 0 w => prod ()
+def keep : (x : Layout Nat 0) -> Layout Nat 0 := fun (x : Layout Nat 0) => x

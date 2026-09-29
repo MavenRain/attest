@@ -897,7 +897,7 @@ def Inline.constructor_indices(indices: List<&2, F.Term.t>, +depth: Nat) -> Bool
 
 def Inline.constructor_fields(ctor: Maybe<&2, F.Positivity.ctor>, +binders: List<&2, F.Pair2<F.Quantity.t, String>>, +depth: Nat, index_count: Nat) -> Bool:
   match ctor:
-    case Some{F.Positivity.Ctor{name, +fields, +indices, +arity, False{}}}:
+    case Some{F.Positivity.Ctor{name, +fields, +indices, +arity, recursive}}:
       results = Bool.and(Nat.is_eq(Inline.length(F.Term.t, indices), index_count), Inline.constructor_indices(indices, arity))
       Bool.and(results, Bool.and(Nat.is_eq(arity, (depth + Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, fields) : Nat)), Inline.branch_fields_valid(fields, binders, depth)))
     case other: False{}
@@ -915,6 +915,7 @@ def Inline.constructor_motive(motive: Maybe<&2, F.Term.motive>, family: String, 
       Bool.and(String.eq(name, family), Nat.is_eq(Inline.length(String, indices), index_count))
     case other: Bool.and(Nat.is_eq(index_count, 0n), Inline.case_motive(other))
 
+# Recursive constructors pass only their fields, just like kernel case reduction.
 # Substitute the fields together, in de Bruijn order, followed by the outer scope.
 def Inline.constructor_substitute(valid: Bool, arguments: List<&2, F.Term.t>, body: F.Term.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match valid:

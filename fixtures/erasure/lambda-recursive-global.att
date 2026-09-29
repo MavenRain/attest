@@ -1,0 +1,12 @@
+mu Chain : Type 1 with
+| empty : Chain
+| link : (0 A : Type 0) -> (tail : Chain) -> Chain
+
+mu Equal : (0 n : Nat) -> Prop with
+| refl : (0 n : Nat) -> Equal n
+
+def Pick : Chain := link Nat (link (prod ()) empty)
+def Fn : Type 1 := case Pick as chain in Chain return Type 1 with | empty => (n : Nat) -> Type 0 | link 0 A tail => (0 n : A) -> Type 0
+def Alias : Type 1 := Fn
+def Layout : Alias := fun (0 n : Nat) => case (refl n : Equal n) as p in Equal k return Type 0 with | refl 0 j => prod ()
+def keep : (x : Layout 0) -> Layout 0 := fun (x : Layout 0) => x

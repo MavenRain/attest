@@ -1200,7 +1200,7 @@ def Suite.constructor_metadata_absent(family:Maybe<&2,F.Positivity.family>,messa
     actual:Maybe<&2,F.Term.t> <- I.Inline.constructor_family(family,"Choice","pair",[univ,univ],Suite.constructor_branches(univ,univ),None{},0n,True{},0n)
     Suite.application_absent(actual,message)
 
-def Suite.constructor_source_metadata(family:F.Positivity.family) -> Result<&2,&2,F.Error.t,Unit>:
+def Suite.constructor_source_metadata(family:F.Positivity.family,+recursive:Bool) ->Result<&2,&2,F.Error.t,Unit>:
   F.Positivity.Family{name,params,indices,level,+status,+ctors,positive} = family
   +field:F.Triple3<F.Quantity.t,String,F.Term.t> = F.Triple3{F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}}
   +binders:List<&2,F.Pair2<F.Quantity.t,String>> = [F.Pair2{F.Quantity.Zero{},"A"}]
@@ -1212,10 +1212,10 @@ def Suite.constructor_source_metadata(family:F.Positivity.family) -> Result<&2,&
     positive:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},Nil{},F.Level.one,status,ctors,False{}}},"nonpositive constructor family accepted")
     provisional:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},Nil{},F.Level.one,F.Positivity.Provisional{},ctors,True{}}},"provisional constructor family accepted")
     builtin:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},Nil{},F.Level.one,F.Positivity.Builtin{},ctors,True{}}},"builtin constructor family accepted")
-    recursive:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],Nil{},1n,True{}}},binders,0n,0n)),"recursive constructor accepted")
-    arity:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],Nil{},2n,False{}}},binders,0n,0n)),"constructor metadata arity accepted")
-    indices:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],[F.Term.Univ{F.Level.zero}],1n,False{}}},binders,0n,0n)),"constructor result index accepted")
-    T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"A",F.Term.Var{0n}}],Nil{},1n,False{}}},binders,0n,0n)),"open constructor field accepted")
+    wellformed:Unit <- T.Test.require(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],Nil{},1n,recursive}},binders,0n,0n),"well-formed constructor refused")
+    arity:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],Nil{},2n,recursive}},binders,0n,0n)),"constructor metadata arity accepted")
+    indices:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],[F.Term.Univ{F.Level.zero}],1n,recursive}},binders,0n,0n)),"constructor result index accepted")
+    T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"A",F.Term.Var{0n}}],Nil{},1n,recursive}},binders,0n,0n)),"open constructor field accepted")
 
 def Suite.constructor_tree(count:Nat,leaf:F.Term.t) -> F.Term.t:
   match count:
@@ -1483,6 +1483,53 @@ def Suite.index_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
     over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_chain(65n,univ)},context)
     Suite.application_absent(over,"indexed shared fuel exceeded")
 
+def Suite.recursive_ctors(ctors:List<&2,F.Positivity.ctor>) -> List<&2,F.Positivity.ctor>:
+  match ctors:
+    case Nil{}: Nil{}
+    case F.Positivity.Ctor{+name,fields,indices,arity,recursive} <> rest:
+      F.Positivity.Ctor{name,fields,indices,arity,String.eq(name,"pair")} <> Suite.recursive_ctors(rest)
+
+def Suite.recursive_family(family:F.Positivity.family) -> F.Positivity.family:
+  F.Positivity.Family{name,params,indices,level,status,ctors,positive} = family
+  F.Positivity.Family{name,params,indices,level,status,Suite.recursive_ctors(ctors),positive}
+
+def Suite.recursive_context(family:F.Positivity.family,depth:Nat) -> I.Inline.context:
+  globals:F.Global.t = F.Global.add_family("Choice",Suite.recursive_family(family),F.Global.empty)
+  I.Inline.Context{C.Check.Ctx{globals,Nil{},Nil{},depth,C.Budget.unlimited},Nil{}}
+
+def Suite.recursive_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.recursive_context(Suite.constructor_family,2n)
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{4n},univ}}
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{2n},univ}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    selected:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.constructor_term("pair",[F.Term.Var{1n},F.Term.Var{0n}],univ,body)},context)
+    selected_ok:Unit <- Suite.application_equal(selected,ty)
+    unused:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.constructor_term("empty",Nil{},univ,body)},context)
+    unused_ok:Unit <- Suite.application_equal(unused,univ)
+    indexed:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_term("pair",[F.Term.Var{1n},F.Term.Var{0n}],univ,body,Suite.index_motive(["A","a"]))},Suite.recursive_context(Suite.index_family,2n))
+    Suite.application_equal(indexed,ty)
+
+def Suite.recursive_source_scope() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.recursive_context(Suite.constructor_family,0n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    unused:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.constructor_term("pair",[univ,univ],F.Term.Var{0n},univ)},context)
+    unused_ok:Unit <- Suite.application_absent(unused,"open recursive unused branch accepted")
+    selected:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.constructor_term("pair",[univ,univ],univ,F.Term.Var{2n})},context)
+    Suite.application_absent(selected,"open recursive selected branch accepted")
+
+def Suite.recursive_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.recursive_context(Suite.index_family,0n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_chain(64n,univ)},context)
+    exact_ok:Unit <- Suite.application_equal(exact,univ)
+    over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_chain(65n,univ)},context)
+    over_ok:Unit <- Suite.application_absent(over,"recursive shared fuel exceeded")
+    ignored:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_term("pair",[univ,Suite.index_chain(64n,univ)],univ,univ,Suite.index_motive(["A","a"]))},context)
+    Suite.application_equal(ignored,univ)
+
 def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
   [
       Suite.Case{"let-body",unit => Suite.poisoned(X.Fixture.let_proof,False{})},
@@ -1593,6 +1640,14 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"index-source-shapes",unit => Suite.index_source_shapes},
       Suite.Case{"index-source-scope",unit => Suite.index_source_scope},
       Suite.Case{"index-source-fuel",unit => Suite.index_source_fuel},
+      Suite.Case{"lambda-recursive-global",unit => Suite.local_sealed(LF.Fixture.lambda_recursive_global,LF.Fixture.lambda_recursive_global_opaque,layout,1n)},
+      Suite.Case{"lambda-recursive-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_recursive_dependent,LF.Fixture.lambda_recursive_dependent_opaque,layout,1n)},
+      Suite.Case{"lambda-recursive-local",unit => Suite.local_sealed(LF.Fixture.lambda_recursive_local,LF.Fixture.lambda_recursive_local_opaque,layout,1n)},
+      Suite.Case{"lambda-recursive-indexed",unit => Suite.local_sealed(LF.Fixture.lambda_recursive_indexed,LF.Fixture.lambda_recursive_indexed_opaque,layout,1n)},
+      Suite.Case{"recursive-source-syntax",unit => Suite.recursive_source_syntax},
+      Suite.Case{"recursive-source-metadata",unit => Suite.constructor_source_metadata(Suite.recursive_family(Suite.constructor_family),True{})},
+      Suite.Case{"recursive-source-scope",unit => Suite.recursive_source_scope},
+      Suite.Case{"recursive-source-fuel",unit => Suite.recursive_source_fuel},
       Suite.Case{"lambda-parameter-global",unit => Suite.local_sealed(LF.Fixture.lambda_parameter_global,LF.Fixture.lambda_parameter_global_opaque,layout,1n)},
       Suite.Case{"lambda-parameter-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_parameter_dependent,LF.Fixture.lambda_parameter_dependent_opaque,layout,1n)},
       Suite.Case{"lambda-parameter-local",unit => Suite.local_sealed(LF.Fixture.lambda_parameter_local,LF.Fixture.lambda_parameter_local_opaque,layout,1n)},
@@ -1604,7 +1659,7 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"parameter-introductions",unit => Suite.parameter_introductions},
       Suite.Case{"parameter-source-fuel",unit => Suite.parameter_source_fuel},
       Suite.Case{"constructor-source-guards",unit => Suite.constructor_source_guards},
-      Suite.Case{"constructor-source-metadata",unit => Suite.constructor_source_metadata(Suite.constructor_family)},
+      Suite.Case{"constructor-source-metadata",unit => Suite.constructor_source_metadata(Suite.constructor_family,False{})},
       Suite.Case{"constructor-source-scope",unit => Suite.constructor_source_scope},
       Suite.Case{"constructor-source-fuel",unit => Suite.constructor_source_fuel},
       Suite.Case{"constructor-source-pending",unit => Suite.constructor_source_pending},

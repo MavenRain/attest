@@ -1,5 +1,33 @@
 # Mutation log
 
+## 2026-09-29: Recursive constructor source type mutations
+
+The catalog contains 200 cases. `recursive-disabled` replaces the earlier
+constructor-recursion guard mutation: it restores that refusal and must fail
+the new global recursive-family twin. `recursive-fixture-call` verifies that
+the gate binds the new suite case to its exact fixture pair.
+`recursive-metadata-bypass` accepts every recursive constructor without its
+metadata checks and must fail the recursive metadata case.
+
+Non-recording runs accept `--logs` to isolate their evidence from concurrent
+runs. Relative paths use the repository root. Release recording retains its
+canonical log directory and refuses this override. The scoped collector uses
+`.gatework/recursive-source-mutations` for its baseline and mutant logs.
+
+The scoped collector `dev/validation/recursive-source-run.py` selects 31 cases:
+the constructor controls, the three recursive controls, the proof guard, shared
+case-fuel controls, and four scope controls. Those last controls check that the
+three fixtures moved beyond the 64-step source-recovery budget still catch
+local-type, shape-payload, and lambda-scope defects.
+
+The collector keeps the harness's baseline, input snapshots, compiled mutants,
+named failure requirements, and input freshness checks. It records test and
+gate commands, mutant source hashes, and complete build and failure logs in
+`dev/validation/recursive-source.json` and its companion directory. This scoped
+record does not replace the historical full mutation record or claim a full
+200-case run.
+
+
 ## 2026-09-29: Indexed constructor source type mutations
 
 The catalog contains 198 cases. Thirteen new controls disable indexed recovery or

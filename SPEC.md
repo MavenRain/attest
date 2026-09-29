@@ -89,7 +89,7 @@ type, dependent constructor fields, nested branch scopes, and conservative
 fallback for missing family metadata or unavailable parameter syntax. They also check that a
 branch takes the fields of its own constructor, not the first constructor of
 its family, and that a lambda leg whose expected type is hidden behind an
-recursive-family case expression under an outer binder starts from the root scope. Branch contexts require
+annotation chain exceeding the source-reduction limit under an outer binder starts from the root scope. Branch contexts require
 the exact constructor binder count and quantities, and field types closed over
 earlier fields and family parameters. Parameterized branches recover the source
 type from an annotated scrutinee, a global declaration, or a typed local binder,
@@ -148,15 +148,17 @@ number of index values, with syntactically equal payloads. Unindexed families
 use bare markers. Parameters live in the scrutinee's
 type; recovery takes their count and scope from the checked family metadata.
 Each parameter type must be closed over earlier parameters. Each index type must
-be closed over parameters and earlier indices. Every constructor must be
-nonrecursive, have exactly the declared number of result indices, and report a full arity equal to its parameter
+be closed over parameters and earlier indices. Every constructor must have
+exactly the declared number of result indices and report a full arity equal to its parameter
 and field counts combined. Branches must cover each constructor exactly once, in any order, with
 the declared field quantities and count. Field types must be closed over parameters
 and earlier fields. Result indices must be closed over parameters and all fields.
 The selected injection supplies exactly that many field
 arguments. Parameters and indices do not add branch binders. Simultaneous
 source substitution maps the last field to index zero and retains the outer
-scope. Zero-field constructors are supported. The entire case, including unused
+scope. Recursive constructors are supported: a case substitutes their fields
+without adding induction hypotheses or recursively eliminating the fields.
+Nested cases still spend the shared reduction fuel. Zero-field constructors are supported. The entire case, including unused
 branches, arguments, index payloads, and the motive, must be closed. An indexed
 family requires a motive naming that family and binding exactly its index count.
 An unindexed motive remains optional and may be unnamed or name the matching
@@ -178,8 +180,8 @@ applies between reductions. Cycles through aliases, lets, function heads, or
 results return no recovered type. Substitution retains source annotations and
 universe syntax and avoids capturing outer variables.
 Opaque definitions, partial definitions, recursive definitions, and parameters
-do not unfold. Constructor cases with recursive,
-provisional, or builtin families and cases with neutral scrutinees remain
+do not unfold. Constructor cases with provisional or builtin families and
+cases with neutral scrutinees remain
 unsupported. Syntactically unequal index payloads remain unsupported even when
 definitionally equal. Missing function types,
 nonpoint function formers, nonpoint function application addresses, free codomains,
@@ -217,8 +219,13 @@ types selected by constructor cases. Six direct cases protect field order,
 source annotations and universes, outer variables, branch order, zero-field
 constructors, malformed shapes and metadata, field and argument arity, binder
 quantities, motive restrictions, whole-case closure, the result-size cap, mixed
-pending frames, and the shared 64/65-step limit. Recursive-family cases preserve
-the three existing unknown-scope controls.
+pending frames, and the shared 64/65-step limit. The three existing unknown-scope
+controls now use 65 nested annotations to keep their types unavailable to source
+recovery. Four `lambda-recursive-*` pairs
+cover a global type alias, dependent parameters, nested local cases, and a
+parameterized indexed family. Direct cases check source syntax, capture,
+metadata, unused-branch scope, and the 64/65-step boundary with recursive
+constructor metadata.
 The lambda pairs have different carried runtime outputs; the motive pairs
 share a coarse carried runtime layout. All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and
@@ -263,7 +270,7 @@ normalization or inference, remain open. Lambda bodies whose expected function
 type needs reduction beyond transparent alias hops and bounded head annotation,
 let, beta, tuple projection, finite case, and constructor case reduction remain
 conservative; closed subterms can still be sealed. Constructor cases over
-recursive, provisional, or builtin families, unequal source index payloads, and cases
+provisional or builtin families, unequal source index payloads, and cases
 with neutral scrutinees stay conservative. Local proofs without source type syntax are left intact
 because inferred readback can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and

@@ -1,0 +1,7 @@
+rec [mu<Chain>; leg<mu<Chain>,0>; leg<mu<Chain>,1,union mu<Chain>>]
+fun Pick () : union mu<Chain> := KTag mu<Chain> 1 [KTag mu<Chain> 1 [KTag mu<Chain> 0 []]]
+erased Fn
+erased Alias
+rec [any]
+fun Layout () : union any := KErased
+erased keep
