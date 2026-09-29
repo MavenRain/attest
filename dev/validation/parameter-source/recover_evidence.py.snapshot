@@ -1,0 +1,77 @@
+import hashlib
+import json
+from pathlib import Path
+import re
+import runpy
+import shutil
+import tempfile
+import time
+
+work = Path(__file__).parent
+root = Path('/Users/oobi/Documents/attest')
+module = runpy.run_path(str(root / 'dev/erasure-mutations.py'))
+catalog = {case[0]: case for case in module['CASES']}
+selected = json.loads((work / 'mutation-selection.json').read_text())
+logs = work / 'isolated-mutation-logs'
+logs.mkdir(exist_ok=True)
+inputs = module['implementation_hashes'](root)
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def valid(name, data):
+    text = data.decode()
+    totals = re.findall(r'INLINE-ERASE pass=\d+ total=(\d+)', text)
+    return catalog[name][4] in text and totals == ['147']
+
+
+pending = []
+retained = []
+for name in selected:
+    candidates = [root / 'dev/validation/parameter-source',
+                  root / '.gatework/erasure-mutations']
+    for folder in candidates:
+        source = folder / (name + '.log')
+        if not source.exists():
+            continue
+        data = source.read_bytes()
+        if not valid(name, data):
+            continue
+        build = (folder / (name + '-build.log')).read_bytes()
+        assert source.read_bytes() == data
+        (logs / (name + '.log')).write_bytes(data)
+        (logs / (name + '-build.log')).write_bytes(build)
+        retained.append(name)
+        break
+    else:
+        pending.append(name)
+
+baseline = root / 'dev/validation/parameter-source/mutation-baseline.log'
+baseline_data = baseline.read_bytes()
+assert 'INLINE-ERASE pass=147 total=147 OK' in baseline_data.decode()
+(logs / 'baseline.log').write_bytes(baseline_data)
+plan = {'retained': retained, 'rerun': pending, 'implementation_sha256': inputs}
+(work / 'evidence-recovery-plan.json').write_text(json.dumps(plan, indent=2) + '\n')
+print(f'EVIDENCE-RECOVERY retained={len(retained)} rerun={len(pending)}', flush=True)
+start = time.monotonic()
+with tempfile.TemporaryDirectory(dir=work, prefix='mutation-evidence-') as directory:
+    scratch = Path(directory)
+    snapshot = scratch / 'snapshot'
+    shutil.copytree(root, snapshot, ignore=shutil.ignore_patterns(
+        '.git', '_build', '_tools', '.lake', '.gatework', '.kanon-*', '__pycache__'))
+    shutil.copytree(root / '_build/js', snapshot / '_build/js')
+    assert module['implementation_hashes'](snapshot) == inputs
+    records = module['run_cases']([catalog[name] for name in pending], logs, scratch, snapshot, 2)
+assert module['implementation_hashes'](root) == inputs
+for name in selected:
+    assert valid(name, (logs / (name + '.log')).read_bytes()), name
+record = {
+    **plan,
+    'records': records,
+    'elapsed_seconds': round(time.monotonic() - start, 3),
+    'logs': {path.name: digest(path.read_bytes()) for path in sorted(logs.glob('*.log'))},
+}
+(work / 'evidence-recovery.json').write_text(json.dumps(record, indent=2) + '\n')
+print(f'EVIDENCE-RECOVERY current={len(selected)} total={len(selected)} OK', flush=True)

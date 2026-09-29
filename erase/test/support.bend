@@ -47,6 +47,11 @@ def Test.fails(-A:Data,value:Result<&2,&2,F.Error.t,A>,message:String) -> Result
     case Fail{error}: Done{Unit{}}
     case Done{result}: Fail{F.Error.Mismatch{message}}
 
+def Test.fails_with(-A:Data,value:Result<&2,&2,F.Error.t,A>,expected:String,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  match value:
+    case Fail{error}: Test.require(String.eq(F.Error.message(error),expected),message)
+    case Done{result}: Fail{F.Error.Mismatch{message}}
+
 def Test.axiom(name:String,globals:F.Global.t) -> Bool:
   Test.some(F.Global.axiom_entry,F.Global.find_axiom(name,globals))
 

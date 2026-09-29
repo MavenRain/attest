@@ -1,5 +1,28 @@
 # Mutation log
 
+## 2026-09-28: Parameterized constructor source type mutations
+
+The catalog now contains 185 cases. Eight new controls disable parameterized
+recovery, drop expected types from constructor applications or variables,
+accept a wrong constructor expected family, omit
+parameters from full arity, check fields in an empty parameter scope, skip
+parameter-telescope closure, or detach a fixture row from its intended pair.
+
+The existing constructor controls now use the parameter-aware helper signatures
+and full-arity invariant. The former parameter refusal control checks malformed
+metadata that omits parameters from full arity. No parameter binders are added
+to branch bodies, and the shared 64-step and 4096-node limits remain in force.
+
+Scoped validation selects all eight of these controls, the 21 existing constructor
+controls, and `proof-guard`, `beta-work-bound`, `case-exhausted`, `case-disabled`,
+and `case-fixture-binding`, for 34 cases. Each selected mutant must compile
+and produce its required named failure. Evidence is recorded in
+`dev/validation/parameter-source.json`. This scoped run does not replace the
+historical full mutation record.
+
+All 34 selected mutants compile and produce their required named failures.
+The baseline erasure gate and all 185 mutation anchors also pass.
+
 ## 2026-09-28: Constructor case source type mutations
 
 Twenty-one new cases bring the catalog to 177. They disable recovery or remove

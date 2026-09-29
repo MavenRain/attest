@@ -1,0 +1,57 @@
+import hashlib
+import json
+from pathlib import Path
+import re
+import runpy
+
+work = Path(__file__).parent
+root = Path('/Users/oobi/Documents/attest')
+module = runpy.run_path(str(root / 'dev/erasure-mutations.py'))
+catalog = {case[0]: case for case in module['CASES']}
+selected = json.loads((work / 'mutation-selection.json').read_text())
+plan = json.loads((work / 'evidence-recovery-plan.json').read_text())
+assert plan['implementation_sha256'] == module['implementation_hashes'](root)
+assert set(plan['retained']) | set(plan['rerun']) == set(selected)
+assert not set(plan['retained']) & set(plan['rerun'])
+attempt = [row for row in json.loads((work / 'checks.json').read_text())
+           if row['name'] == 'evidence-refresh'][-1]
+attempt_data = Path(attempt['log']).read_bytes()
+assert hashlib.sha256(attempt_data).hexdigest() == attempt['sha256']
+attempt_text = attempt_data.decode()
+caught = re.findall(r'^ERASURE-MUTATION ([a-z-]+) caught$', attempt_text, re.M)
+assert caught == plan['rerun']
+assert attempt['exit_code'] in (0, 1)
+if attempt['exit_code'] == 1:
+    assert attempt_text.rstrip().endswith('AssertionError: proof-guard')
+    assert "assert valid(name, (logs / (name + '.log')).read_bytes()), name" in attempt_text
+
+logs = work / 'isolated-mutation-logs'
+digests = {}
+for name in selected:
+    failure = logs / (name + '.log')
+    data = failure.read_bytes()
+    text = data.decode()
+    assert catalog[name][4] in text, name
+    totals = re.findall(r'INLINE-ERASE pass=\d+ total=(\d+)', text)
+    assert all(total == '147' for total in totals), (name, totals)
+    if not totals:
+        assert name in caught, name
+    digests[failure.name] = hashlib.sha256(data).hexdigest()
+    build = logs / (name + '-build.log')
+    digests[build.name] = hashlib.sha256(build.read_bytes()).hexdigest()
+baseline = (logs / 'baseline.log').read_bytes()
+assert b'INLINE-ERASE pass=147 total=147 OK' in baseline
+digests['baseline.log'] = hashlib.sha256(baseline).hexdigest()
+record = {
+    **plan,
+    'logs': digests,
+    'refresh_attempt': attempt,
+    'refreshed_cases_caught': caught,
+    'notes': [
+        'All refresh cases compiled and reached their required named failures before artifact validation.',
+        'The first artifact validator incorrectly required an inline-suite count for the opaque proof control, which stops at OPAQUE-ERASE.',
+        'This verification accepts that exact named failure and rejects every stale inline-suite count.',
+    ],
+}
+(work / 'evidence-recovery.json').write_text(json.dumps(record, indent=2) + '\n')
+print(f'EVIDENCE-VERIFIED selected={len(selected)} refreshed={len(caught)} OK')

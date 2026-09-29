@@ -1,0 +1,877 @@
+{
+  "version": 1,
+  "recorded_at": "2026-09-29T07:19:10.003537+00:00",
+  "scope": "Parameterized constructor source recovery and expected-type introductions; scoped mutation selection.",
+  "root": "/Users/oobi/Documents/attest",
+  "base_revision": "d4fd4361e722c3a673d8b53449b107e219850fe4",
+  "checks": [
+    {
+      "name": "build",
+      "command": [
+        "make",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 43.898,
+      "log": "dev/validation/parameter-source/build.log",
+      "sha256": "df6ec87bce4102a33db5ad6b423201a3e44d1b72ffbc66fe246ccafe1bb20ac1"
+    },
+    {
+      "name": "tests",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 52.036,
+      "log": "dev/validation/parameter-source/tests.log",
+      "sha256": "e03e169b16bd1a79b455b5c925f76faf07408b069436137a017f0495d63412bf"
+    },
+    {
+      "name": "inline",
+      "command": [
+        "_build/default/erase/test/inline_test.exe"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.933,
+      "log": "dev/validation/parameter-source/inline.log",
+      "sha256": "aa6185027635cec41882265f074cff61f3871afe8ecfd9299f683ab42a3e7ee2"
+    },
+    {
+      "name": "anchors",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-mutations.py",
+        "--check-anchors"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.351,
+      "log": "dev/validation/parameter-source/anchors.log",
+      "sha256": "1353324ddd222b056b46f98bc31b6cc5be7aaa05e382ebc3aeb9828298ea5a46"
+    },
+    {
+      "name": "policy-record",
+      "command": [
+        "python3",
+        "-P",
+        "dev/update-bend-policy.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.341,
+      "log": "dev/validation/parameter-source/policy-record.log",
+      "sha256": "5ba8136d4afb86292117b1156e76de207f7adf0abcbbad94c044a11451b69f71"
+    },
+    {
+      "name": "migration-record",
+      "command": [
+        "python3",
+        "-P",
+        "dev/bend-migration.py",
+        "record"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.667,
+      "log": "dev/validation/parameter-source/migration-record.log",
+      "sha256": "961c451256aecf64c36497a091c07d37be25c7a44b264773668b70bf9552309d"
+    },
+    {
+      "name": "erasure-record",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py",
+        "--record"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 103.454,
+      "log": "dev/validation/parameter-source/erasure-record.log",
+      "sha256": "2921871b92f62f00a7bd3a0f3925f52b57aa3cae6fe53f3a485dcbd8c5514146"
+    },
+    {
+      "name": "gates",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 568.24,
+      "log": "dev/validation/parameter-source/gates.log",
+      "sha256": "1c8a2d7e37af9d09b4fc4db90e9673f07ce1b019e162df065a66d75b161f3ccd"
+    },
+    {
+      "name": "mutations",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-mutations.py",
+        "--jobs",
+        "2",
+        "--case",
+        "proof-guard",
+        "--case",
+        "constructor-disabled",
+        "--case",
+        "parameter-disabled",
+        "--case",
+        "parameter-expected-application",
+        "--case",
+        "parameter-expected-variable",
+        "--case",
+        "parameter-full-arity",
+        "--case",
+        "parameter-fixture-call",
+        "--case",
+        "parameter-field-scope",
+        "--case",
+        "parameter-metadata-scope",
+        "--case",
+        "constructor-shape",
+        "--case",
+        "constructor-coverage",
+        "--case",
+        "constructor-family-name",
+        "--case",
+        "constructor-duplicate",
+        "--case",
+        "constructor-branch-address",
+        "--case",
+        "constructor-fields",
+        "--case",
+        "constructor-recursive",
+        "--case",
+        "constructor-field-arity",
+        "--case",
+        "constructor-motive",
+        "--case",
+        "constructor-shape-indices",
+        "--case",
+        "constructor-motive-indices",
+        "--case",
+        "constructor-scope",
+        "--case",
+        "constructor-argument-arity",
+        "--case",
+        "constructor-substitution",
+        "--case",
+        "constructor-capture",
+        "--case",
+        "constructor-parameters",
+        "--case",
+        "constructor-indices",
+        "--case",
+        "constructor-positive",
+        "--case",
+        "constructor-complete",
+        "--case",
+        "constructor-size",
+        "--case",
+        "case-disabled",
+        "--case",
+        "case-exhausted",
+        "--case",
+        "case-fixture-binding",
+        "--case",
+        "beta-work-bound",
+        "--case",
+        "parameter-expected-family"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1458.011,
+      "log": "dev/validation/parameter-source/mutations.log",
+      "sha256": "4098ead318d5029ed860051bdbe54e4f11551e3b9c78ecd239d4b6b9969e7031"
+    },
+    {
+      "name": "evidence-verify",
+      "command": [
+        "python3",
+        "/Users/oobi/Documents/gpt4/attest-parameters/verify_evidence.py"
+      ],
+      "script_snapshot": "dev/validation/parameter-source/verify_evidence.py.snapshot",
+      "script_sha256": "a8a1c75c3935acc3509953ec6c674d5ea54ded874fc3d913399fe0272bac9219",
+      "exit_code": 0,
+      "elapsed_seconds": 0.306,
+      "log": "dev/validation/parameter-source/evidence-verify.log",
+      "sha256": "769cda2d35c6c571c77052ac12596d202be92deddc895a67e511bbf3429d511e"
+    }
+  ],
+  "inline_cases": 147,
+  "test_programs": 16,
+  "mutation_catalog_count": 185,
+  "mutation_selected_count": 34,
+  "mutation_baseline": {
+    "path": "dev/validation/parameter-source/mutation-baseline.log",
+    "sha256": "2921871b92f62f00a7bd3a0f3925f52b57aa3cae6fe53f3a485dcbd8c5514146"
+  },
+  "mutations": [
+    {
+      "name": "proof-guard",
+      "source": "erase/opaque.bend",
+      "before_sha256": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+      "mutated_sha256": "95e0e7e8f6cf42605a1b731ad424984f82fbe89a8cbd2241d24c155435b7e683",
+      "required_diagnostic": "OPAQUE-ERASE exit=1",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/proof-guard-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/proof-guard.log",
+        "sha256": "e7a7104c3e5a82b3910ba5d6f0ed11d6a32e836983ebd17b8dc34ab40ed960f6"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-disabled",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "ac7a7859b910a055dee2f8dc100eb73d722c235984792804a0575de47eb21b5b",
+      "required_diagnostic": "INLINE-ERASE row=lambda-constructor-global FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-disabled-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-disabled.log",
+        "sha256": "d35ca2da3745d86b3e7388527c33709ff6887767b282cf4355cb99399305ae4c"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "parameter-disabled",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "daa6b07d744ece258f3707a2e394f2b36320ca6d2f3feac0d21eaad9c0bcfd05",
+      "required_diagnostic": "INLINE-ERASE row=lambda-parameter-global FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/parameter-disabled-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/parameter-disabled.log",
+        "sha256": "2dd04b90fb0127fde1560c0f9791c6571df5a24009ea5387da8da8b15d494171"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "parameter-expected-application",
+      "source": "surface/elab_term.bend",
+      "before_sha256": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+      "mutated_sha256": "2a95a2b9d802a5761896aed4f116436d91e592937e1bef86570256ea34e304bb",
+      "required_diagnostic": "INLINE-ERASE row=lambda-parameter-global FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/parameter-expected-application-build.log",
+        "sha256": "0c4db8cbe7f3002040f885cf5ad4a10578204b41156c6abef091de4c9c8e162f"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/parameter-expected-application.log",
+        "sha256": "74df50bdbc86e57c0d854e8d9df56371ed2a0037ee148e159e04eb030e07fb7f"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "parameter-expected-variable",
+      "source": "surface/elab_term.bend",
+      "before_sha256": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+      "mutated_sha256": "2c0dbc44563951caf9f4d27bc253c33d6f41e8a4f92dab3cd0c98e4796e3f4f9",
+      "required_diagnostic": "INLINE-ERASE row=parameter-introductions FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/parameter-expected-variable-build.log",
+        "sha256": "0c4db8cbe7f3002040f885cf5ad4a10578204b41156c6abef091de4c9c8e162f"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/parameter-expected-variable.log",
+        "sha256": "95978032e6dd9100fbb3839030baec3dc561ff62fba8275d8942a22aa56065ea"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "parameter-full-arity",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "80606f96fc99c787cdad0ae70cd9218566dbe8d0bbfe1ecfba49262d59861331",
+      "required_diagnostic": "INLINE-ERASE row=lambda-parameter-global FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/parameter-full-arity-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/parameter-full-arity.log",
+        "sha256": "d083eaefa3ac700b8c2598b47b00f213cc9573eac7997afb1ecc898ef1686d5b"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "parameter-fixture-call",
+      "source": "erase/test/inline_test.bend",
+      "before_sha256": "222c7676babaefbd1386a8a5fd68c0b757f207d30f836a71af8b7e7847080ec2",
+      "mutated_sha256": "284b34c75ed3cf8718e4652a51b3266bd73f1efe550644ff4eddc4faa7f4cdac",
+      "required_diagnostic": "row=lambda-parameter-global lambda fixture call differs",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/parameter-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/parameter-fixture-call.log",
+        "sha256": "5e3bfca1c2f7b91f20f22de6433517994f0a705ddd329ca5eab13f0522b6dd41"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "parameter-field-scope",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "90d386ba2422e7d022fc0ca01fc3b5bad87eda7c84e5328e0d46907f5670f350",
+      "required_diagnostic": "INLINE-ERASE row=lambda-parameter-global FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/parameter-field-scope-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/parameter-field-scope.log",
+        "sha256": "6302cf5dbe7fc470c4af04b42c870f6e52cb567729ca50b0ecfd1bf3c9978c2d"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "parameter-metadata-scope",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "67b4d17fbda22fcfcf3757507d26057d88546f5b5ed787861c5c4d7dc1cabba4",
+      "required_diagnostic": "INLINE-ERASE row=parameter-source-metadata FAIL mismatch: open first constructor parameter type accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/parameter-metadata-scope-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/parameter-metadata-scope.log",
+        "sha256": "bceab699992f648edee0c265d155c344d6741c978083dad7bdae6652b219e11b"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-shape",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "b415e1f371bab72b737b9b83e586b23141526878dc2617d5e519cc8eee1ca34e",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: constructor shape mismatch accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-shape-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-shape.log",
+        "sha256": "d8dc28382d689501c11269747c999499a8c0481365cd36937b27b9c925593287"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-coverage",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "6103d776f76cfad016d7eaad1478eda7e931fd41dbcbadefc3c5684c752da61c",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: missing constructor branch accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-coverage-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-coverage.log",
+        "sha256": "de288ed3ba8c37d2b581437835ce57486858c9824529a58a502a5bcfdde786da"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-family-name",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "3154042a61b8b0768eb456c18aedd5e9405118f152dff17602c775318cb4bcc8",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: wrong constructor family accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-family-name-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-family-name.log",
+        "sha256": "a67e45188886364610fd483217d2c27cf4cfc994a9ad4a38f26befc606c52eb7"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-duplicate",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "3bf9b0bd3f1d27834c0c02e06af3d70a20d3a7995874ed8240070da8a5564815",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: duplicate constructor branch accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-duplicate-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-duplicate.log",
+        "sha256": "a425beae3a95a28b99ca38bbf236fdf9a0c208574708ccde601a366a2f370a7c"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-branch-address",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "40657c8148f949e61996456533d52d03f5b7b01a20be3873050f6d8ce259e935",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: numeric constructor branch accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-branch-address-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-branch-address.log",
+        "sha256": "5004b5518a78d49c4ec3d1436488f5f3a8516ad64ed25c0e34258779b794c448"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-fields",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "f87aad5d60c4dd395b2823f0d61e61830b483eca4d96aa83e2fc567b41d7c701",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: unknown branch accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-fields-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-fields.log",
+        "sha256": "6d6c55dee9b16f22f88b154bb522c09ed30598310a335e29cc633fbf562a19ab"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-recursive",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "751f32ca0db196792040a69f261ebf64ae90fc5a1f8241ed1c457a308a47f8cb",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: recursive constructor accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-recursive-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-recursive.log",
+        "sha256": "fada6c097863299d852e36e0bb5927ed84f036cb9dd706ad142383c4b1b9b6f5"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-field-arity",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "170ebd02e42ca8a580f6719783a032f9c8557b87392e45cd3e65c719716d97fb",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: constructor full arity omits parameters",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-field-arity-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-field-arity.log",
+        "sha256": "950fb91d1ef4fc546b82fd137ef5af75c405c4ad1a2ef19c4ae08674f9759e42"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-motive",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "712fd1b2c730b8fa2bc63de48d024268d2f4a68611cc6ef2bda1b2d34009736f",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: constructor motive family accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-motive-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-motive.log",
+        "sha256": "00d5eb1857b61d7ce441f3a669887a414cb21ec1fd437ac37c4d1ff79df7cd4e"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-shape-indices",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "84043e1df26a567d36b9b0ffe32a57537ab219598b66062c0195f217b7629341",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: constructor elimination index accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-shape-indices-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-shape-indices.log",
+        "sha256": "2f6a5af171d41aa0913569b4db25ca23c25261d2479b841bb7a28e2140e189d2"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-motive-indices",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "545b380784152a320d8e57fcfba3e0cd68a776b760259b12308f1a59208a127b",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: constructor named motive index accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-motive-indices-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-motive-indices.log",
+        "sha256": "fce5ef052f0058a862e0c7757c1106341152f1db5ea521825a9194ce8f290460"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-scope",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "c2e6aac5fbf33877a4a58c826aef26b185e2171b381857e9c69e2c497b534b22",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-scope FAIL mismatch: open unused constructor branch accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-scope-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-scope.log",
+        "sha256": "7380a4477400d916e1b262e9112c5ea796952e4ed3c28547a0d056c1220b081e"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-argument-arity",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "ae4bff652db3a0ff62927f8490fdcf0b2c6f673e669dc1d7b13d27012e77a3e1",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: short constructor accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-argument-arity-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-argument-arity.log",
+        "sha256": "1c46b9bea213c623db29e2b36e24f6035e1e3fee1427f7739de237d533dec65f"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-substitution",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "98ee1ee85bee934627863e73617134dfae684c34a76009cac26c5dee8301b888",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-syntax FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-substitution-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-substitution.log",
+        "sha256": "3f04e6acddad08d7c41f70ee4248f33e07572e611612f39bc43d7c39f6f5d332"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-capture",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "dcde4c702a83b7e1d73004b418d2816ce1b5c71ba04716d44739633d7dd18799",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-syntax FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-capture-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-capture.log",
+        "sha256": "d620f5aae059cd42cff11bf72de5116a51a4e82cebdf1d5e4f3eeed03160c743"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-parameters",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "0385ec975dd4a5cb5b5be8cdfdc3ba4f5eb5b76d221aa24cea2a86920d24475a",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: constructor full arity omits parameters",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-parameters-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-parameters.log",
+        "sha256": "950fb91d1ef4fc546b82fd137ef5af75c405c4ad1a2ef19c4ae08674f9759e42"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-indices",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "d61d7053b33588e041b1a6904a38ee611958b81946350ca589e0f8af7c62202f",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: indexed constructor family accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-indices-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-indices.log",
+        "sha256": "a859ebf792ef5a049474b595f77e36c9b3ba2d25137d5bf6c74021b9538a92a7"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-positive",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "12e0c6573ad7a86631e5b40dcf7a872de7106c58ac004b07a4994e20b7011678",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: nonpositive constructor family accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-positive-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-positive.log",
+        "sha256": "b37cbf5e779c9550c8182015e244506caad0f7d470c6d6b77ece9e50601acf93"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-complete",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "d93f6927779807dec306e219477bfaa3526e6f726b09d04d5db96b6fecf57fdd",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: provisional constructor family accepted",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-complete-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-complete.log",
+        "sha256": "707f5c8427351c923f414c9b3f01418a093909635f8f2a2447f205e20bfccb16"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "constructor-size",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "a71f1d18c6387064939641f29c841726b79410091dfef5318fca9da1c1e57d15",
+      "required_diagnostic": "INLINE-ERASE row=constructor-source-scope FAIL mismatch: constructor size cap ignored",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/constructor-size-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/constructor-size.log",
+        "sha256": "da7cc5d7c7db2ba9307715ae9a742d69344abec99cd2530a3635ec0338c71881"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "case-disabled",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "5f43403ef4bf6ec4f09c593f7cba16117e4ce035cbc86afb9576a580e8ba3a81",
+      "required_diagnostic": "INLINE-ERASE row=case-source-syntax FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/case-disabled-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/case-disabled.log",
+        "sha256": "8f74fc51886673ed1cd9c555f39df1913c3fada536b74e708f36900d6655d96f"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "case-exhausted",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "48e30651db5639702888c08aabcf5c4087dddfb8c942f3fe0b3262d5c7b6dcce",
+      "required_diagnostic": "INLINE-ERASE row=case-source-fuel FAIL mismatch: case reduction bound exceeded",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/case-exhausted-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/case-exhausted.log",
+        "sha256": "7a4f0f7c68e5c94f262512bdec16791cb21704f84712b3ec8757d18e94f47e9c"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "case-fixture-binding",
+      "source": "erase/test/inline_test.bend",
+      "before_sha256": "222c7676babaefbd1386a8a5fd68c0b757f207d30f836a71af8b7e7847080ec2",
+      "mutated_sha256": "8e97c8651f65ae4863c9c0de77ec1232c91d831d30ee29eb284baeaad4daf405",
+      "required_diagnostic": "row=lambda-case-global lambda fixture call differs",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/case-fixture-binding-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/case-fixture-binding.log",
+        "sha256": "d7eadff4d2cdda533e0bc90955436213e2f58ae84e38b3481e074a6a905d5f41"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "beta-work-bound",
+      "source": "erase/inline.bend",
+      "before_sha256": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+      "mutated_sha256": "f4cc151178e693f7871f5164dab08186c2f93dab048640ec4dcacaeecdf4ac01",
+      "required_diagnostic": "INLINE-ERASE row=beta-source-fuel FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/beta-work-bound-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/beta-work-bound.log",
+        "sha256": "9ea42159588254f7d601318ec2d4618ccbb1eb85d13e9a0528d97b99790e2605"
+      },
+      "evidence_refreshed": false
+    },
+    {
+      "name": "parameter-expected-family",
+      "source": "surface/elab_refs.bend",
+      "before_sha256": "bac440f8600d395ef5ca1446a56585ca463e2231f6d6135bcb7b9b8e7f1acc31",
+      "mutated_sha256": "e335b1c8787b508f3d4af62489691db575f51f82dde68b1f3269af48ccbdc217",
+      "required_diagnostic": "INLINE-ERASE row=parameter-introductions FAIL",
+      "diagnostic_found": true,
+      "build_log": {
+        "path": "dev/validation/parameter-source/parameter-expected-family-build.log",
+        "sha256": "0c4db8cbe7f3002040f885cf5ad4a10578204b41156c6abef091de4c9c8e162f"
+      },
+      "failure_log": {
+        "path": "dev/validation/parameter-source/parameter-expected-family.log",
+        "sha256": "f3f06891bdaa8958eecf31da23a01374e8ff996d12a407f9d8e684ff360dc32c"
+      },
+      "evidence_refreshed": false
+    }
+  ],
+  "evidence_recovery": {
+    "path": "dev/validation/parameter-source/evidence-recovery.json",
+    "sha256": "eb34f658c7be34f1970146bf3193757d0bd44b55312252dcffdf23e1709a0a38"
+  },
+  "evidence_refresh_log": {
+    "path": "dev/validation/parameter-source/evidence-refresh.log",
+    "sha256": "a704d02f41b5216e59c10255285a8db4933283b44321f9f7bea11f321dd0ed76"
+  },
+  "implementation_sha256": {
+    "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
+    "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
+    "dev/bend-migration.json": "156efb54342316ce4cc23f6dc033ad6a96f131a1641347064651ff47f7345620",
+    "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
+    "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
+    "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
+    "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
+    "dev/erasure-gates.py": "fc4d75c26eb26a266056e9790272ff7fa1d5f8434e63f6de7c43bf007d5d92c7",
+    "dev/erasure-mutations.py": "cabc31cdbe9844f2fea39fbd3a8f821c8cd147baddaea1ee3a9cdd8d6ebe8aa6",
+    "erase/inline.bend": "a57d726b93618ed3d01b513b1fdfee1275816c40099e43b07630b9a4240acbe3",
+    "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
+    "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
+    "erase/test/fixtures.bend": "fa6b11f075ddfa36e0f942bf70fcd1f81b41108630d15e478f183182a048cf7e",
+    "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
+    "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
+    "erase/test/inline_test.bend": "222c7676babaefbd1386a8a5fd68c0b757f207d30f836a71af8b7e7847080ec2",
+    "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
+    "erase/test/lambda_fixtures.bend": "d8fee2b218e313b25ae6ffa59d48ac2d17e0d36f98099ce0bafeb79b266b7a23",
+    "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
+    "erase/test/opaque_core.bend": "27c3d0153f546db7e0ee2127626f03787fe7a14ce2d053c057d1a4169305938c",
+    "erase/test/opaque_test.bend": "72b2354aa5fbae943e85381a1b561a31aa41e1be49747cf07c929df169996ee7",
+    "erase/test/parameter_fixtures.bend": "cc0e2e10c80bf5c8aa6343bd3d0632e4708f501bea0833086887a9067bf2eb53",
+    "erase/test/prop_index.bend": "c826246d00aa39ed7f420bbdbd27679643db40f4b2ab643b8cfc4cc13da658d2",
+    "erase/test/refusal_test.bend": "89eda7b5d4aa7dccd2de2eb957096a288b4972475640993a5fa883c225d29c6b",
+    "erase/test/repr_test.bend": "c78c8c14b2c298de25f77f8d270c7a353a57b8d967d52fa44a122d4c83478563",
+    "erase/test/support.bend": "c4eb069dce3dc29b63ea6982249e7ac0819021ccbfea5088b5c581db3efae1aa",
+    "lib/erasure.bend": "affcab049254fbede84b55fa4093a777ad0f20c0fc833f6e0a27d095e34bcfea",
+    "lib/foundation.bend": "30dfb2d9d09081405072c49c99c50c0e5b5997dfe9447061fad2dc83cc1dcee3",
+    "lib/kernel.bend": "86511b6e597f08262370f68670e0fa2fea54bc94d783d0fb3c4afaa9d9953d86",
+    "lib/kernel_check.bend": "6c11aba82ecba68f41d242550b7001990b86eee696c80505ab12541df2233aee",
+    "lib/kernel_context.bend": "527a3d280ff45b52fe3b38ecf00f823ac91b98b89c8e26774bef21e6d3b048dd",
+    "lib/kernel_conv.bend": "82d814f65a15457f417a3c8c71d13eee9593aa2d4fb3fbb8a07b2bed2c5d65cb",
+    "lib/kernel_declarations.bend": "1f91fb7935722a5f1e13557633d3ab1967cb9269180e496639b3652fb2b3fd05",
+    "lib/kernel_eval.bend": "89c23dcc7e2c04b613058f627174aa9b6da0bcd640a6ceebcbdea4ca9ad1a160",
+    "lib/kernel_metadata.bend": "abcfd8db4e917d7759db348be1b39fbc3c7ebe4b897d60196e0e623e8f2470b7",
+    "lib/kernel_mu.bend": "6a377e0f4453136ed010aaa22f8d0ac46a1f4b8623a903c2de012e504117c9b7",
+    "lib/kernel_order.bend": "10d6df09b22d407af140fb5e67daf3b35dd46779c7a7ac12745741908034fd57",
+    "lib/kernel_pp.bend": "5ce1c182cdf90ca10ae63ce959648baf29db4b07e08e342c1ae4827b1dce269f",
+    "lib/kernel_primitives.bend": "7a2907de92080e7e987be50f1942cc6af73f2d8e8b530a6f04b7bbcf92fbe6c3",
+    "lib/kernel_program.bend": "264f989e7d2fd6f667afc8a738a532e4c2f41e344f4fcc9b65ed91f74c20a355",
+    "lib/kernel_rules.bend": "4dac67dc78b6b5943c8c3d0084effe627ad72698a3050f4a18f18f52e1e3cb22",
+    "lib/kernel_source.bend": "553669e50dd1491f8bd4d1be4e9c0466c3625e5e3bd6b5e18d7e388b605a9629",
+    "lib/kernel_util.bend": "b3b2db19257acfe2832f358aa4394addf76d3f65b3c1e346e14b7d4d9f2976fa",
+    "surface/elab.bend": "5d4899b142716d93b71eb0a8ae17964189dfef254d518949d56654378a219856",
+    "surface/elab_cases.bend": "b9a7cc0474ec12d4449fb54c44ea98107a00b1024d2c91e307a0c69d404240b8",
+    "surface/elab_common.bend": "0b2d76972ef1d09c0d7d19c7b4ea3f24bc3c6a2b6a070befe67985a0c087887f",
+    "surface/elab_forms.bend": "c4eb8a05f0b75a5fd3966dc19858db49e7e2731390a6d48caf5f2a62d27c1225",
+    "surface/elab_headers.bend": "b65cd0b475d8465a8f1d455a54233d7d421d5ab23eb1a74d0946bba3c4a73817",
+    "surface/elab_refs.bend": "bac440f8600d395ef5ca1446a56585ca463e2231f6d6135bcb7b9b8e7f1acc31",
+    "surface/elab_requests.bend": "9625a2192994dc01afc1c8675106af64375ec758494222e7ec934d7449a40c77",
+    "surface/elab_runner.bend": "efe9e39371365965dc182b548160d6b5ce5f7efab341f336f169f854f7a5094b",
+    "surface/elab_state.bend": "972ae91487e179f6734743af65b85f336b4336013e81a46b3bc731c5d374bc5b",
+    "surface/elab_term.bend": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+    "surface/io.bend": "d5fb091d66f12c51942f277cc56392e6eb1cb058b131eaaf0799acd4def3d051",
+    "surface/lexer.bend": "f884b27fefaaa0940c2f3d412f96d8df3d7267689193764c4fb360481913f497",
+    "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
+    "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
+    "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705"
+  },
+  "new_fixture_sha256": {
+    "fixtures/erasure/lambda-parameter-curried-opaque.att": "542120385ecaf31bc104fc9a2754a1f14cb34e0b5cfbd2805fc62b1ed9ae5698",
+    "fixtures/erasure/lambda-parameter-curried.att": "6c10393fc8e884f1df0214d6fdabcb0df46ee900e04be5aa950d2397935ecf10",
+    "fixtures/erasure/lambda-parameter-dependent-opaque.att": "0dd167ccae1ed8af4c129d9f447754a454191a08f622177d7d14ae3f1f99a62b",
+    "fixtures/erasure/lambda-parameter-dependent.att": "9ad69edb774eaa1336d5e941da179e9e0613f4e6ebfdf1f11fddbf5cea879234",
+    "fixtures/erasure/lambda-parameter-global-opaque.att": "c68db3e84a49459327da3aabfe416882afc998319071b4782b8c746cea4e0316",
+    "fixtures/erasure/lambda-parameter-global.att": "98d6ca9e51f05869ec00db5b6efed2358d9a236f29d3f71a8e84c2b93d56632e",
+    "fixtures/erasure/lambda-parameter-local-opaque.att": "da6d0f40c42e4f9f49c80c119d0d9b4b44b7c467a3335d34b4b1aed8398e295c",
+    "fixtures/erasure/lambda-parameter-local.att": "97661f25ad859455e66d2dad7dcfca3d642a48da9efa16a9f4742e8f660161a6"
+  },
+  "supporting_records_sha256": {
+    "dev/bend-policy.json": "9136106cbbd43e92edb677785f11358aa2cb65ab4291bdcb52406e7185a07652",
+    "dev/bend-migration.json": "156efb54342316ce4cc23f6dc033ad6a96f131a1641347064651ff47f7345620",
+    "dev/validation/erasure.json": "bf0b2114f249acc45891305fbb73ad3a8c79fe5e5e5b34decb8bcb2209dd8669"
+  },
+  "notes": [
+    "The full erasure mutation record remains historical evidence.",
+    "Each selected mutant compiled and reached its required named failure in the scoped runner.",
+    "Concurrent older mutation processes overwrote shared logs after the successful run; affected evidence was regenerated with isolated logs.",
+    "Stage B remains open at the Acc runtime-elimination frontier."
+  ]
+}

@@ -1,5 +1,42 @@
 # M0 build log
 
+## 2026-09-28: Stage B parameterized constructor source types
+
+Source recovery now reduces cases over complete, positive, unindexed families
+with parameters. Both core shapes remain bare family markers. Parameters live
+in the scrutinee's type; the reducer uses checked family metadata to validate
+the parameter telescope, field scope, and full constructor arity. Parameter
+types must be closed over earlier parameters. Field types may refer to those
+parameters and earlier fields. Full arity includes parameters and fields, while
+branches bind only fields. Simultaneous substitution preserves the outer scope.
+
+The frontend now passes expected types through constructor variables and
+applications. This supplies the context required for parameterized constructor
+introductions, including zero-field constructors, typed lets, dependent scopes,
+and function arguments. Family names must match; the kernel continues to check
+fields, quantities, and result indices. An introduction without an expected
+type still refuses, and fields needing an expected type require an annotation.
+
+Four opaque-twin pairs exercise global, dependent, local, and curried function
+types with dependent family parameters and a field whose type uses a parameter.
+Five direct cases cover syntax, malformed shapes, metadata closure, scope,
+substitution size, and shared fuel. A frontend case covers accepted introductions
+and refusals for wrong families, field types, arity, result indices, and missing
+expected types. The inline suite contains 147 cases.
+
+Validation passes `make build`, all 16 programs in `make test`, the full Stage A
+gate battery, and the erasure gate. The erasure record covers 85 identical inline
+proof pairs and 53 carried differences. All 185 mutation anchors check. All 34
+selected mutants compile and reach their required named failures.
+
+The mutation catalog contains 185 cases. Scoped validation selects all
+eight new controls, all 21 constructor controls, and five existing proof, case, budget,
+and fixture controls. Commands, hashes, logs, and outcomes are recorded in
+`dev/validation/parameter-source.json`. The prior full mutation record remains
+historical evidence. HOUSE adds one explicit nonfamily refusal site and no
+unsafe functions. Indexed, recursive, provisional, and builtin case recovery
+remain unsupported. Stage B remains open at the Acc runtime-elimination frontier.
+
 ## 2026-09-28: Stage B source types through constructor cases
 
 Source recovery now reduces cases over complete, positive constructor families

@@ -11,7 +11,7 @@ import elab_cases.bend as D
 
 def Elab.expand(term: S.Syntax.t, +ctx: C.Check.ctx, expected: Maybe<&2, F.Value.t>) -> R.Elab.Program<F.Term.t>:
   match term:
-    case S.Syntax.SVar{name}: A.Elab.variable(ctx, name)
+    case S.Syntax.SVar{name}: A.Elab.variable(ctx, name, expected)
     case S.Syntax.SNat{value}: R.Elab.Done{F.Term.Lit{F.Literal.LInt{value}}}
     case S.Syntax.SProp{}: R.Elab.Done{F.Term.Univ{F.Level.zero}}
     case S.Syntax.SType{level}: H.Elab.univ_of_bignum(F.Bignum.add(level, F.Bignum.one))
@@ -34,7 +34,7 @@ def Elab.expand(term: S.Syntax.t, +ctx: C.Check.ctx, expected: Maybe<&2, F.Value
       do R.Elab.Program<F.Term.t>:
         scrut : F.Term.t <- R.Elab.term(ctx, None{}, term)
         return F.Term.Elim{F.Term.Elimination{F.Shape.SColl{0n}, scrut, F.Quantity.One{}, None{}, Nil{}}}
-    case S.Syntax.SApp{fun, arg}: A.Elab.application(ctx, fun, arg)
+    case S.Syntax.SApp{fun, arg}: A.Elab.application(ctx, fun, arg, expected)
     case S.Syntax.SFun{binders, body}: B.Elab.function(B.Elab.FunStart{binders, body, ctx, expected})
     case S.Syntax.SArrow{binder, cod}: B.Elab.group(ctx, binder, cod, False{})
     case S.Syntax.SStar{binder, cod}: B.Elab.group(ctx, binder, cod, True{})

@@ -65,7 +65,9 @@ LAMBDA_ROWS = ("lambda-alias-global", "lambda-alias-dependent",
                "lambda-case-global", "lambda-case-dependent",
                "lambda-case-local", "lambda-case-curried",
                "lambda-constructor-global", "lambda-constructor-dependent",
-               "lambda-constructor-local", "lambda-constructor-curried")
+               "lambda-constructor-local", "lambda-constructor-curried",
+               "lambda-parameter-global", "lambda-parameter-dependent",
+               "lambda-parameter-local", "lambda-parameter-curried")
 INLINE_ROWS += LAMBDA_ROWS
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
@@ -86,6 +88,9 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "constructor-source-syntax", "constructor-source-guards",
                                "constructor-source-metadata", "constructor-source-scope",
                                "constructor-source-fuel", "constructor-source-pending",
+                               "parameter-source-syntax", "parameter-source-guards",
+                               "parameter-source-scope", "parameter-source-metadata", "parameter-source-fuel",
+                               "parameter-introductions",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",

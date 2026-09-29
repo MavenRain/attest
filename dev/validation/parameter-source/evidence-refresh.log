@@ -1,0 +1,18 @@
+EVIDENCE-RECOVERY retained=21 rerun=12
+ERASURE-MUTATION proof-guard caught
+ERASURE-MUTATION constructor-motive-indices caught
+ERASURE-MUTATION constructor-scope caught
+ERASURE-MUTATION constructor-argument-arity caught
+ERASURE-MUTATION constructor-substitution caught
+ERASURE-MUTATION constructor-capture caught
+ERASURE-MUTATION constructor-parameters caught
+ERASURE-MUTATION constructor-indices caught
+ERASURE-MUTATION constructor-positive caught
+ERASURE-MUTATION constructor-complete caught
+ERASURE-MUTATION constructor-size caught
+ERASURE-MUTATION case-disabled caught
+Traceback (most recent call last):
+  File "/Users/oobi/Documents/gpt4/attest-parameters/recover_evidence.py", line 69, in <module>
+    assert valid(name, (logs / (name + '.log')).read_bytes()), name
+           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: proof-guard

@@ -142,16 +142,27 @@ recovered case must be closed in the current scope, including unused branches,
 the motive, and the payload. Selection substitutes the payload into the branch
 body using source substitution, preserving annotations, universes, and outer
 variables. Scrutinees and selected results can require further source reductions.
-Constructor cases require matching unindexed inductive shapes and a complete,
-positive family with no parameters or indices. Every constructor must be
-nonrecursive, have no result indices, and report an arity equal to its field
-count. Branches must cover each constructor exactly once, in any order, with
-the declared field quantities and count. Field types must be closed over earlier
-fields. The selected injection supplies exactly that many arguments. Simultaneous
+Constructor cases require inductive shapes with matching family names and a
+complete, positive family with no indices. Both the elimination and injection
+use bare family markers with no index payload. Parameters live in the scrutinee's
+type; recovery takes their count and scope from the checked family metadata.
+Each parameter type must be closed over earlier parameters. Every constructor must be
+nonrecursive, have no result indices, and report a full arity equal to its parameter
+and field counts combined. Branches must cover each constructor exactly once, in any order, with
+the declared field quantities and count. Field types must be closed over parameters
+and earlier fields. The selected injection supplies exactly that many field
+arguments. Parameters do not add branch binders. Simultaneous
 source substitution maps the last field to index zero and retains the outer
 scope. Zero-field constructors are supported. The entire case, including unused
 branches, arguments, and the motive, must be closed. A motive may be unnamed or
 name the matching family, and must have no index binders.
+The frontend propagates expected types through constructor variables and
+applications. A parameterized constructor uses the matching expected family
+shape and takes only field arguments. The kernel checks field types, quantities,
+and result indices against that shape. Without an expected type, parameterized
+constructor introduction still refuses. Unparameterized introductions retain
+their existing inference path. Fields use that existing elaboration path too;
+a field expression that needs an expected type must carry an annotation.
 Annotation, let, beta, projection, and case steps share a budget of 64. An application,
 projection, or case consumes one step before recovery of its head or scrutinee.
 Its result receives only the remaining budget. Each let, beta, or case result
@@ -161,7 +172,7 @@ applies between reductions. Cycles through aliases, lets, function heads, or
 results return no recovered type. Substitution retains source annotations and
 universe syntax and avoids capturing outer variables.
 Opaque definitions, partial definitions, recursive definitions, and parameters
-do not unfold. Constructor cases with parameterized, indexed, recursive,
+do not unfold. Constructor cases with indexed, recursive,
 provisional, or builtin families and cases with neutral scrutinees remain
 unsupported. Missing function types,
 nonpoint function formers, nonpoint function application addresses, free codomains,
@@ -245,7 +256,7 @@ normalization or inference, remain open. Lambda bodies whose expected function
 type needs reduction beyond transparent alias hops and bounded head annotation,
 let, beta, tuple projection, finite case, and constructor case reduction remain
 conservative; closed subterms can still be sealed. Constructor cases over
-parameterized, indexed, recursive, provisional, or builtin families and cases
+indexed, recursive, provisional, or builtin families and cases
 with neutral scrutinees stay conservative. Local proofs without source type syntax are left intact
 because inferred readback can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and

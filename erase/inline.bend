@@ -890,17 +890,17 @@ def Inline.constructor_unique(found: Maybe<&2, F.Term.leg>, valid: Bool) -> Bool
     case Some{duplicate}: False{}
     case None{}: valid
 
-def Inline.constructor_fields(ctor: Maybe<&2, F.Positivity.ctor>, +binders: List<&2, F.Pair2<F.Quantity.t, String>>) -> Bool:
+def Inline.constructor_fields(ctor: Maybe<&2, F.Positivity.ctor>, +binders: List<&2, F.Pair2<F.Quantity.t, String>>, +depth: Nat) -> Bool:
   match ctor:
     case Some{F.Positivity.Ctor{name, +fields, Nil{}, arity, False{}}}:
-      Bool.and(Nat.is_eq(arity, Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, fields)), Inline.branch_fields_valid(fields, binders, 0n))
+      Bool.and(Nat.is_eq(arity, (depth + Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, fields) : Nat)), Inline.branch_fields_valid(fields, binders, depth))
     case other: False{}
 
-def Inline.constructor_branches(branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +family: F.Positivity.family) -> Bool:
+def Inline.constructor_branches(branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +family: F.Positivity.family, +parameter_count: Nat) -> Bool:
   match branches:
     case Nil{}: True{}
     case F.Pair2{F.Term.ACtor{+name}, F.Term.Leg{binders, body}} <> +rest:
-      Inline.constructor_unique(Inline.constructor_branch(name, rest), Bool.and(Inline.constructor_fields(M.Mu.ctor_of(name, family), binders), Inline.constructor_branches(rest, family)))
+      Inline.constructor_unique(Inline.constructor_branch(name, rest), Bool.and(Inline.constructor_fields(M.Mu.ctor_of(name, family), binders, parameter_count), Inline.constructor_branches(rest, family, parameter_count)))
     case other: False{}
 
 def Inline.constructor_motive(motive: Maybe<&2, F.Term.motive>, family: String) -> Bool:
@@ -923,13 +923,21 @@ def Inline.constructor_selected(valid: Bool, selected: Maybe<&2, F.Term.leg>, +a
       Inline.constructor_substitute(Bool.and(valid, Nat.is_eq(Inline.length(F.Term.t, arguments), Inline.length(F.Pair2<F.Quantity.t, String>, binders))), arguments, body, depth)
     case None{}: Done{None{}}
 
+def Inline.constructor_parameter_scope(parameters: F.Positivity.telescope, +depth: Nat) -> Bool:
+  match parameters:
+    case Nil{}: True{}
+    case F.Triple3{quantity, name, domain} <> rest:
+      Bool.and(Inline.closed(depth, domain), Inline.constructor_parameter_scope(rest, (depth + 1n : Nat)))
+
 def Inline.constructor_family(family: Maybe<&2, F.Positivity.family>, expected: String, name: String, arguments: List<&2, F.Term.t>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, valid: Bool, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match family:
     case Some{+value}:
       match value:
-        case F.Positivity.Family{family_name, Nil{}, Nil{}, level, F.Positivity.Complete{names}, ctors, True{}}:
+        case F.Positivity.Family{family_name, +params, Nil{}, level, F.Positivity.Complete{names}, ctors, True{}}:
+          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, params)
           covered = Bool.and(String.eq(expected, family_name), Nat.is_eq(Inline.length(F.Positivity.ctor, ctors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))
-          Inline.constructor_selected(Bool.and(valid, Bool.and(covered, Inline.constructor_branches(branches, value))), Inline.constructor_branch(name, branches), arguments, depth)
+          admitted = Bool.and(valid, Inline.constructor_parameter_scope(params, 0n))
+          Inline.constructor_selected(Bool.and(admitted, Bool.and(covered, Inline.constructor_branches(branches, value, parameter_count))), Inline.constructor_branch(name, branches), arguments, depth)
         case other: Done{None{}}
     case None{}: Done{None{}}
 

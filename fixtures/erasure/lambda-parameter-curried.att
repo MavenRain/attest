@@ -1,0 +1,12 @@
+mu Choice (0 P : Type 0) (0 p : P) : Type 1 with
+| empty : Choice P p
+| choose : (0 A : Type 0) -> (0 b : P) -> (0 B : Type 0) -> Choice P p
+
+mu Equal : (0 x : Nat) -> (0 y : Nat) -> Prop with
+| refl : (0 x : Nat) -> (0 y : Nat) -> Equal x y
+
+def MakeFn : (0 N : Type 0) -> (0 M : Type 0) -> Type 1 := fun (0 N : Type 0) (0 M : Type 0) => (0 x : N) -> (0 y : M) -> Type 0
+def Fn : Type 1 := (case (choose Nat 0 (prod ()) : Choice Nat 0) as choice in Choice return (0 M : Type 0) -> Type 1 with | empty => MakeFn (prod ()) | choose 0 N 0 b 0 P => MakeFn N) Nat
+def Alias : Type 1 := Fn
+def Layout : Alias := fun (0 x : Nat) (0 y : Nat) => case (refl x y : Equal x y) as p in Equal a b return Type 0 with | refl 0 c 0 d => prod ()
+def keep : (x : Layout 0 1) -> Layout 0 1 := fun (x : Layout 0 1) => x

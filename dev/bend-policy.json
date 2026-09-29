@@ -1121,6 +1121,11 @@
     },
     {
       "path": "surface/elab_refs.bend",
+      "function": "Elab.ctor_expected_term",
+      "pattern": "other ctor"
+    },
+    {
+      "path": "surface/elab_refs.bend",
       "function": "Elab.app_spine",
       "pattern": "_"
     },
