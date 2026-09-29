@@ -1,5 +1,36 @@
 # M0 build log
 
+## 2026-09-28: Stage B source types through constructor cases
+
+Source recovery now reduces cases over complete, positive constructor families
+without parameters, indices, or recursive constructors. Elimination and injection
+shapes must name the same family. Branches cover every constructor exactly once,
+in any order, with its declared field quantities and arity. The entire case must
+be closed, including unused branches, arguments, and the optional unindexed
+motive. A named motive must name the matching family.
+
+Simultaneous source substitution preserves field order, outer variables,
+annotations, and universes. Zero-field constructors are supported. Constructor
+cases reuse the pending case frames and share the 64-step reduction limit and
+4096-node substitution-result cap. Parameterized, indexed, recursive, provisional,
+and builtin families and neutral scrutinees remain unsupported.
+
+Four opaque-twin pairs cover global, dependent, local, and curried function types.
+Six direct cases exercise source syntax, malformed shapes and metadata, scope,
+size, mixed pending frames, and the shared reduction limit. The three existing
+unknown-scope controls now use recursive families. All 137 inline cases and all
+16 test programs pass. All 81 inline pairs match their opaque twins, while 49
+retain different carried runtime outputs.
+
+The mutation catalog has 177 cases. Scoped validation exercises all 21 new
+mutations plus 14 existing reducer, fixture-binding, and scope controls. All 35
+compile and produce their required named failures. Full gates pass, including
+all 36 Lean twins. Commands, hashes, logs, and outcomes are recorded in
+`dev/validation/constructor-source.json`. The prior full mutation record remains
+historical evidence. HOUSE adds six explicit fallback sites and no unsafe
+functions. The source manifest is refreshed. Stage B remains open at the Acc
+runtime-elimination frontier.
+
 ## 2026-09-28: Stage B source types through finite cases
 
 Source recovery now reduces finite collection cases with matching injection and

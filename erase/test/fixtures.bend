@@ -7,7 +7,7 @@ def Fixture.scrutinee_proof() -> String:
   "mu Equal : Prop with\n| refl : Equal\n\ndef Layout : Type 0 := case (refl : Equal) as p in Equal return Type 0 with | refl => prod ()\ndef keep : (x : Layout) -> Layout := fun (x : Layout) => x\n"
 
 def Fixture.payload_open_proof() -> String:
-  "mu OpenTag : Type 0 with | open_left : OpenTag | open_right : OpenTag\nmu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\n\ndef MakeFunction : (0 N : Type 0) -> Type 0 := fun (0 N : Type 0) => (0 n : N) -> Nat -> Nat\ndef Function : Type 0 := (case (open_left : OpenTag) as self in OpenTag return Type 0 with | open_left => MakeFunction Nat | open_right => MakeFunction Nat)\ndef keep : Function := fun (0 n : Nat) (x : Nat) => let p : (0 y : Equal n) -> Equal 0 := ((fun (0 y : Equal n) => refl 0) : (0 y : Equal n) -> Equal 0) in x\n"
+  "mu OpenTag : Type 0 with | open_left : OpenTag | open_right : OpenTag -> OpenTag\nmu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\n\ndef MakeFunction : (0 N : Type 0) -> Type 0 := fun (0 N : Type 0) => (0 n : N) -> Nat -> Nat\ndef Function : Type 0 := (case (open_left : OpenTag) as self in OpenTag return Type 0 with | open_left => MakeFunction Nat | open_right previous => MakeFunction Nat)\ndef keep : Function := fun (0 n : Nat) (x : Nat) => let p : (0 y : Equal n) -> Equal 0 := ((fun (0 y : Equal n) => refl 0) : (0 y : Equal n) -> Equal 0) in x\n"
 
 def Fixture.lambda_proof() -> String:
   "mu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\n\ndef Layout : Type 0 := let f : (0 n : Nat) -> Equal n := fun (0 n : Nat) => refl n in case f 0 as p in Equal k return Type 0 with | refl 0 j => prod ()\ndef keep : (x : Layout) -> Layout := fun (x : Layout) => x\n"
@@ -106,7 +106,7 @@ def Fixture.branch_local_proof_opaque() -> String:
   "mu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\nmu Box : Type 0 with\n| box : (0 n : Nat) -> Box\n\naxiom proof : (0 n : Nat) -> Equal n\ndef Layout : (b : Box) -> Type 0 := fun (b : Box) => case b as value in Box return Type 0 with | box 0 n => case proof n as p in Equal k return Type 0 with | refl 0 j => prod ()\ndef keep : (x : Layout (box 0)) -> Layout (box 0) := fun (x : Layout (box 0)) => x\n"
 
 def Fixture.source_local_type() -> String:
-  "mu OpenTag : Type 0 with | open_left : OpenTag | open_right : OpenTag\nmu Equal : Prop with | refl : Equal\ndef P : (0 n : Nat) -> Prop := fun (0 n : Nat) => Equal\ndef MakeFunction : (0 N : Type 0) -> Type 0 := fun (0 N : Type 0) => (0 n : N) -> Nat -> Nat\ndef Function : Type 0 := (case (open_left : OpenTag) as self in OpenTag return Type 0 with | open_left => MakeFunction Nat | open_right => MakeFunction Nat)\ndef keep : Function := fun (0 n : Nat) (x : Nat) =>\nlet p : P n := (refl : P n) in x"
+  "mu OpenTag : Type 0 with | open_left : OpenTag | open_right : OpenTag -> OpenTag\nmu Equal : Prop with | refl : Equal\ndef P : (0 n : Nat) -> Prop := fun (0 n : Nat) => Equal\ndef MakeFunction : (0 N : Type 0) -> Type 0 := fun (0 N : Type 0) => (0 n : N) -> Nat -> Nat\ndef Function : Type 0 := (case (open_left : OpenTag) as self in OpenTag return Type 0 with | open_left => MakeFunction Nat | open_right previous => MakeFunction Nat)\ndef keep : Function := fun (0 n : Nat) (x : Nat) =>\nlet p : P n := (refl : P n) in x"
 
 def Fixture.source_local_universe() -> String:
   "def U : Type 0 := prod ()\nmu Equal : (0 x : U) -> Prop with | refl : (0 x : U) -> Equal x\ndef keep : (x : U) -> U := fun (x : U) => let p : Equal x := (refl x : Equal x) in x"
@@ -121,7 +121,7 @@ def Fixture.source_local_hypothesis() -> String:
   "mu Same : (0 a : Nat) -> (0 b : Nat) -> Prop with | same : (0 a : Nat) -> Same a a\naxiom expected : (0 h : Same 0 1) -> Same 0 1\ndef drop : (0 e : Same 0 1) -> Nat := fun (0 e : Same 0 1) => 0\ndef g : (0 h : Same 0 1) -> Nat := fun (0 h : Same 0 1) => drop (h : Same 0 1)"
 
 # A lambda leg whose expected type is hidden behind an inductive case expression
-# takes the root fallback scope under an outer binder, because recovery does not
-# reduce inductive case expressions.
+# takes the root fallback scope under an outer binder. OpenTag is recursive because
+# recovery reduces constructor cases only over non-recursive families.
 def Fixture.alias_leg_scope() -> String:
-  "mu OpenTag : Type 0 with | open_left : OpenTag | open_right : OpenTag\nmu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\ndef MakeFunction : (0 N : Type 0) -> Type 1 := fun (0 N : Type 0) => (0 n : N) -> Type 0\ndef Function : Type 1 := (case (open_left : OpenTag) as self in OpenTag return Type 1 with | open_left => MakeFunction Nat | open_right => MakeFunction Nat)\ndef Layout : (b : Nat) -> Function := fun (b : Nat) => (fun (0 n : Nat) => case (refl n : Equal n) as p in Equal k return Type 0 with | refl 0 j => prod ())\ndef keep : (x : Layout 0 0) -> Layout 0 0 := fun (x : Layout 0 0) => x\n"
+  "mu OpenTag : Type 0 with | open_left : OpenTag | open_right : OpenTag -> OpenTag\nmu Equal : (0 n : Nat) -> Prop with\n| refl : (0 n : Nat) -> Equal n\ndef MakeFunction : (0 N : Type 0) -> Type 1 := fun (0 N : Type 0) => (0 n : N) -> Type 0\ndef Function : Type 1 := (case (open_left : OpenTag) as self in OpenTag return Type 1 with | open_left => MakeFunction Nat | open_right previous => MakeFunction Nat)\ndef Layout : (b : Nat) -> Function := fun (b : Nat) => (fun (0 n : Nat) => case (refl n : Equal n) as p in Equal k return Type 0 with | refl 0 j => prod ())\ndef keep : (x : Layout 0 0) -> Layout 0 0 := fun (x : Layout 0 0) => x\n"

@@ -361,6 +361,36 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.constructor_branch",
+      "pattern": "other <> rest"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.constructor_fields",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.constructor_branches",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.constructor_motive",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.constructor_family",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.constructor_case",
+      "pattern": "other injection"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.case_type",
       "pattern": "other"
     },

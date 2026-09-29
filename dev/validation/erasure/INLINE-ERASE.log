@@ -91,6 +91,16 @@ INLINE-ERASE row=let-source-fuel OK
 INLINE-ERASE row=lambda-let-scope OK
 INLINE-ERASE row=lambda-annotation-global OK
 INLINE-ERASE row=lambda-case-global OK
+INLINE-ERASE row=lambda-constructor-global OK
+INLINE-ERASE row=lambda-constructor-dependent OK
+INLINE-ERASE row=lambda-constructor-local OK
+INLINE-ERASE row=lambda-constructor-curried OK
+INLINE-ERASE row=constructor-source-syntax OK
+INLINE-ERASE row=constructor-source-guards OK
+INLINE-ERASE row=constructor-source-metadata OK
+INLINE-ERASE row=constructor-source-scope OK
+INLINE-ERASE row=constructor-source-fuel OK
+INLINE-ERASE row=constructor-source-pending OK
 INLINE-ERASE row=lambda-case-dependent OK
 INLINE-ERASE row=lambda-case-local OK
 INLINE-ERASE row=lambda-case-curried OK
@@ -125,4 +135,4 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=127 total=127 OK
+INLINE-ERASE pass=137 total=137 OK

@@ -1127,6 +1127,144 @@ def Suite.case_source_pending() -> Result<&2,&2,F.Error.t,Unit>:
     recovered:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Elim{F.Term.Elimination{shape,Suite.projection_pair(1n,univ,F.Term.Out{point,F.Term.APt{F.Quantity.Zero{},scrut},identity}),F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"x"}],univ}},F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"x"}],F.Term.Var{0n}}}]}}},context)
     Suite.application_equal(recovered,univ)
 
+def Suite.constructor_family() -> F.Positivity.family:
+  F.Positivity.Family{"Choice",Nil{},Nil{},F.Level.one,F.Positivity.Complete{["empty","pair"]},[
+    F.Positivity.Ctor{"empty",Nil{},Nil{},0n,False{}},
+    F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}},F.Triple3{F.Quantity.Zero{},"x",F.Term.Var{0n}}],Nil{},2n,False{}}],True{}}
+
+def Suite.constructor_context(depth:Nat) -> I.Inline.context:
+  globals:F.Global.t = F.Global.add_family("Choice",Suite.constructor_family,F.Global.empty)
+  I.Inline.Context{C.Check.Ctx{globals,Nil{},Nil{},depth,C.Budget.unlimited},Nil{}}
+
+def Suite.constructor_branches(empty:F.Term.t,body:F.Term.t) -> List<&2,F.Pair2<F.Term.addr,F.Term.leg>>:
+  [F.Pair2{F.Term.ACtor{"empty"},F.Term.Leg{Nil{},empty}},F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"A"},F.Pair2{F.Quantity.Zero{},"x"}],body}}]
+
+def Suite.constructor_term(name:String,args:List<&2,F.Term.t>,empty:F.Term.t,body:F.Term.t) -> F.Term.t:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",Nil{})
+  F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{name},args},F.Quantity.Many{},None{},Suite.constructor_branches(empty,body)}}
+
+def Suite.constructor_absent(term:F.Term.t,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{term},Suite.constructor_context(0n))
+    Suite.application_absent(actual,message)
+
+def Suite.constructor_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = Suite.constructor_context(2n)
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +args:List<&2,F.Term.t> = [F.Term.Var{1n},F.Term.Var{0n}]
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{4n},univ}}
+  +ty:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{2n},univ}}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",Nil{})
+  do Result<&2,&2,F.Error.t,Unit>:
+    first:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.constructor_term("pair",args,univ,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Var{1n}),univ})},context)
+    first_ok:Unit <- Suite.application_equal(first,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Var{1n}),univ})
+    second:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.constructor_term("pair",args,univ,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Var{0n}),univ})},context)
+    second_ok:Unit <- Suite.application_equal(second,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Var{0n}),univ})
+    empty:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.constructor_term("empty",Nil{},univ,F.Term.Var{0n})},context)
+    empty_ok:Unit <- Suite.application_equal(empty,univ)
+    syntax:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.constructor_term("pair",args,univ,body)},context)
+    syntax_ok:Unit <- Suite.application_equal(syntax,ty)
+    reversed:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"pair"},args},F.Quantity.Many{},Some{F.Term.Motive{Some{"Choice"},Nil{},"self",univ}},I.Inline.reverse(F.Pair2<F.Term.addr,F.Term.leg>,Suite.constructor_branches(univ,body),Nil{})}}},context)
+    reversed_ok:Unit <- Suite.application_equal(reversed,ty)
+    applied:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{Suite.constructor_term("pair",args,univ,body)},F.Term.APt{F.Quantity.Zero{},F.Term.Var{0n}},context)
+    Suite.application_equal(applied,F.Term.Ann{F.Term.Var{1n},univ})
+
+def Suite.constructor_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",Nil{})
+  +scrut:F.Term.t = F.Term.In{shape,F.Term.ACtor{"pair"},[univ,univ]}
+  +branches:List<&2,F.Pair2<F.Term.addr,F.Term.leg>> = Suite.constructor_branches(univ,univ)
+  +pair:F.Term.leg = F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"A"},F.Pair2{F.Quantity.Zero{},"x"}],univ}
+  +empty:F.Term.leg = F.Term.Leg{Nil{},univ}
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.constructor_absent(Suite.constructor_term("missing",[univ,univ],univ,univ),"unknown constructor accepted")
+    short:Unit <- Suite.constructor_absent(Suite.constructor_term("pair",[univ],univ,univ),"short constructor accepted")
+    long:Unit <- Suite.constructor_absent(Suite.constructor_term("pair",[univ,univ,univ],univ,univ),"long constructor accepted")
+    shape_ok:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{F.Shape.make_inductive(F.Term.t,"Other",Nil{}),F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},None{},branches}},"constructor shape mismatch accepted")
+    index:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",[univ]),F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},None{},branches}},"constructor index accepted")
+    duplicate:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"pair"},pair},F.Pair2{F.Term.ACtor{"pair"},pair}]}},"duplicate constructor branch accepted")
+    coverage:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"pair"},pair}]}},"missing constructor branch accepted")
+    unknown:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"unknown"},empty},F.Pair2{F.Term.ACtor{"pair"},pair}]}},"unknown branch accepted")
+    address:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{0n},empty},F.Pair2{F.Term.ACtor{"pair"},pair}]}},"numeric constructor branch accepted")
+    arity:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"empty"},empty},F.Pair2{F.Term.ACtor{"pair"},empty}]}},"constructor branch arity accepted")
+    quantity:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"empty"},empty},F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"A"},F.Pair2{F.Quantity.Zero{},"x"}],univ}}]}},"constructor binder quantity accepted")
+    motive:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},Some{F.Term.Motive{Some{"Other"},Nil{},"self",univ}},branches}},"constructor motive family accepted")
+    motive_index:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},Some{F.Term.Motive{None{},["index"],"self",univ}},branches}},"constructor motive index accepted")
+    shape_index:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{F.Shape.make_inductive(F.Term.t,"Choice",[univ]),scrut,F.Quantity.Many{},None{},branches}},"constructor elimination index accepted")
+    named_motive_index:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},Some{F.Term.Motive{Some{"Choice"},["index"],"self",univ}},branches}},"constructor named motive index accepted")
+    Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,F.Term.Global{"neutral"},F.Quantity.Many{},None{},branches}},"neutral constructor scrutinee accepted")
+
+def Suite.constructor_metadata_absent(family:Maybe<&2,F.Positivity.family>,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.constructor_family(family,"Choice","pair",[univ,univ],Suite.constructor_branches(univ,univ),True{},0n)
+    Suite.application_absent(actual,message)
+
+def Suite.constructor_source_metadata(family:F.Positivity.family) -> Result<&2,&2,F.Error.t,Unit>:
+  F.Positivity.Family{name,params,indices,level,+status,+ctors,positive} = family
+  +field:F.Triple3<F.Quantity.t,String,F.Term.t> = F.Triple3{F.Quantity.Zero{},"A",F.Term.Univ{F.Level.zero}}
+  +binders:List<&2,F.Pair2<F.Quantity.t,String>> = [F.Pair2{F.Quantity.Zero{},"A"}]
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.constructor_metadata_absent(None{},"missing constructor family accepted")
+    name:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Other",Nil{},Nil{},F.Level.one,status,ctors,True{}}},"wrong constructor family accepted")
+    params:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",[field],Nil{},F.Level.one,status,ctors,True{}}},"parameterized constructor family accepted")
+    indices:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},[field],F.Level.one,status,ctors,True{}}},"indexed constructor family accepted")
+    positive:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},Nil{},F.Level.one,status,ctors,False{}}},"nonpositive constructor family accepted")
+    provisional:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},Nil{},F.Level.one,F.Positivity.Provisional{},ctors,True{}}},"provisional constructor family accepted")
+    builtin:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},Nil{},F.Level.one,F.Positivity.Builtin{},ctors,True{}}},"builtin constructor family accepted")
+    recursive:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],Nil{},1n,True{}}},binders)),"recursive constructor accepted")
+    arity:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],Nil{},2n,False{}}},binders)),"constructor metadata arity accepted")
+    indices:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],[F.Term.Univ{F.Level.zero}],1n,False{}}},binders)),"constructor result index accepted")
+    T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"A",F.Term.Var{0n}}],Nil{},1n,False{}}},binders)),"open constructor field accepted")
+
+def Suite.constructor_tree(count:Nat,leaf:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: leaf
+    case 1n+n:
+      +child:F.Term.t = Suite.constructor_tree(n,leaf)
+      F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",child),child}
+
+def Suite.constructor_source_scope() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",Nil{})
+  do Result<&2,&2,F.Error.t,Unit>:
+    unused:Unit <- Suite.constructor_absent(Suite.constructor_term("pair",[univ,univ],F.Term.Var{0n},univ),"open unused constructor branch accepted")
+    body:Unit <- Suite.constructor_absent(Suite.constructor_term("pair",[univ,univ],univ,F.Term.Var{2n}),"open constructor body accepted")
+    argument:Unit <- Suite.constructor_absent(Suite.constructor_term("pair",[univ,F.Term.Var{0n}],univ,univ),"open constructor argument accepted")
+    motive:Unit <- Suite.constructor_absent(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},Some{F.Term.Motive{None{},Nil{},"self",F.Term.Var{1n}}},Suite.constructor_branches(univ,univ)}},"open constructor motive accepted")
+    Suite.constructor_absent(Suite.constructor_term("pair",[Suite.constructor_tree(11n,univ),univ],univ,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{1n}),F.Term.Var{2n}}),"constructor size cap ignored")
+
+def Suite.constructor_chain(count:Nat,body:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: body
+    case 1n+n: Suite.constructor_term("pair",[F.Term.Univ{F.Level.zero},Suite.constructor_chain(n,body)],F.Term.Univ{F.Level.zero},F.Term.Var{0n})
+
+def Suite.constructor_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(0n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.constructor_chain(64n,univ)},context)
+    exact_ok:Unit <- Suite.application_equal(exact,univ)
+    over:Unit <- Suite.constructor_absent(Suite.constructor_chain(65n,univ),"constructor reduction bound exceeded")
+    mixed:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(16n,Suite.beta_chain(16n,Suite.case_chain(16n,Suite.constructor_chain(16n,univ))))},context)
+    mixed_ok:Unit <- Suite.application_equal(mixed,univ)
+    Suite.constructor_absent(Suite.let_chain(16n,Suite.beta_chain(16n,Suite.case_chain(16n,Suite.constructor_chain(17n,univ)))),"mixed constructor reduction bound exceeded")
+
+def Suite.constructor_source_pending() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(0n)
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",Nil{})
+  +point:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",univ)
+  +identity:F.Term.t = F.Term.Sec{point,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],F.Term.Var{0n}}]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    head:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.let_chain(32n,F.Term.Elim{F.Term.Elimination{shape,Suite.beta_chain(31n,F.Term.In{shape,F.Term.ACtor{"pair"},[univ,univ]}),F.Quantity.Many{},None{},Suite.constructor_branches(univ,F.Term.Var{0n})}})},context)
+    head_ok:Unit <- Suite.application_equal(head,univ)
+    head_over:Unit <- Suite.constructor_absent(Suite.let_chain(32n,F.Term.Elim{F.Term.Elimination{shape,Suite.beta_chain(32n,F.Term.In{shape,F.Term.ACtor{"pair"},[univ,univ]}),F.Quantity.Many{},None{},Suite.constructor_branches(univ,F.Term.Var{0n})}}),"constructor head budget reset")
+    application:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{F.Term.Out{point,F.Term.APt{F.Quantity.Zero{},univ},Suite.constructor_term("pair",[univ,identity],univ,F.Term.Var{0n})}},context)
+    application_ok:Unit <- Suite.application_equal(application,univ)
+    projection:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.projection_pair(1n,univ,Suite.constructor_term("pair",[univ,univ],univ,F.Term.Var{0n}))},context)
+    Suite.application_equal(projection,univ)
+
 def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
   [
       Suite.Case{"let-body",unit => Suite.poisoned(X.Fixture.let_proof,False{})},
@@ -1222,6 +1360,16 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"lambda-let-scope",unit => Suite.lambda_let_scope},
       Suite.Case{"lambda-annotation-global",unit => Suite.local_sealed(LF.Fixture.lambda_annotation_global,LF.Fixture.lambda_annotation_global_opaque,layout,1n)},
       Suite.Case{"lambda-case-global",unit => Suite.local_sealed(LF.Fixture.lambda_case_global,LF.Fixture.lambda_case_global_opaque,layout,1n)},
+      Suite.Case{"lambda-constructor-global",unit => Suite.local_sealed(LF.Fixture.lambda_constructor_global,LF.Fixture.lambda_constructor_global_opaque,layout,1n)},
+      Suite.Case{"lambda-constructor-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_constructor_dependent,LF.Fixture.lambda_constructor_dependent_opaque,layout,1n)},
+      Suite.Case{"lambda-constructor-local",unit => Suite.local_sealed(LF.Fixture.lambda_constructor_local,LF.Fixture.lambda_constructor_local_opaque,layout,1n)},
+      Suite.Case{"lambda-constructor-curried",unit => Suite.local_sealed(LF.Fixture.lambda_constructor_curried,LF.Fixture.lambda_constructor_curried_opaque,layout,1n)},
+      Suite.Case{"constructor-source-syntax",unit => Suite.constructor_source_syntax},
+      Suite.Case{"constructor-source-guards",unit => Suite.constructor_source_guards},
+      Suite.Case{"constructor-source-metadata",unit => Suite.constructor_source_metadata(Suite.constructor_family)},
+      Suite.Case{"constructor-source-scope",unit => Suite.constructor_source_scope},
+      Suite.Case{"constructor-source-fuel",unit => Suite.constructor_source_fuel},
+      Suite.Case{"constructor-source-pending",unit => Suite.constructor_source_pending},
       Suite.Case{"lambda-case-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_case_dependent,LF.Fixture.lambda_case_dependent_opaque,layout,1n)},
       Suite.Case{"lambda-case-local",unit => Suite.local_sealed(LF.Fixture.lambda_case_local,LF.Fixture.lambda_case_local_opaque,layout,1n)},
       Suite.Case{"lambda-case-curried",unit => Suite.local_sealed(LF.Fixture.lambda_case_curried,LF.Fixture.lambda_case_curried_opaque,layout,1n)},

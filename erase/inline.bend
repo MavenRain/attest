@@ -196,7 +196,7 @@ def Inline.size_tasks(budget: Nat, tasks: List<&2, F.Pair2<Nat, F.Term.t>>) -> B
 def Inline.size_within(budget: Nat, term: F.Term.t) -> Bool:
   Inline.size_tasks(budget, [F.Pair2{0n, term}])
 
-# Let and beta substitution can copy an argument to each occurrence. The cap
+# Let, beta and constructor substitution can copy an argument to each occurrence. The cap
 # keeps each later step polynomial, because each step input is capped too.
 def Inline.size_bounded(+term: F.Term.t) -> Maybe<&2, F.Term.t>:
   Inline.keep_expected(Inline.size_within(4096n, term), term)
@@ -873,11 +873,81 @@ def Inline.case_motive(motive: Maybe<&2, F.Term.motive>) -> Bool:
     case Some{F.Term.Motive{None{}, Nil{}, self, body}}: True{}
     case other: False{}
 
-def Inline.case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, +depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+def Inline.constructor_choose(hit: Bool, leg: F.Term.leg, other: Maybe<&2, F.Term.leg>) -> Maybe<&2, F.Term.leg>:
+  match hit:
+    case True{}: Some{leg}
+    case False{}: other
+
+def Inline.constructor_branch(+name: String, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>) -> Maybe<&2, F.Term.leg>:
+  match branches:
+    case Nil{}: None{}
+    case F.Pair2{F.Term.ACtor{candidate}, leg} <> rest:
+      Inline.constructor_choose(String.eq(name, candidate), leg, Inline.constructor_branch(name, rest))
+    case other <> rest: Inline.constructor_branch(name, rest)
+
+def Inline.constructor_unique(found: Maybe<&2, F.Term.leg>, valid: Bool) -> Bool:
+  match found:
+    case Some{duplicate}: False{}
+    case None{}: valid
+
+def Inline.constructor_fields(ctor: Maybe<&2, F.Positivity.ctor>, +binders: List<&2, F.Pair2<F.Quantity.t, String>>) -> Bool:
+  match ctor:
+    case Some{F.Positivity.Ctor{name, +fields, Nil{}, arity, False{}}}:
+      Bool.and(Nat.is_eq(arity, Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, fields)), Inline.branch_fields_valid(fields, binders, 0n))
+    case other: False{}
+
+def Inline.constructor_branches(branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +family: F.Positivity.family) -> Bool:
+  match branches:
+    case Nil{}: True{}
+    case F.Pair2{F.Term.ACtor{+name}, F.Term.Leg{binders, body}} <> +rest:
+      Inline.constructor_unique(Inline.constructor_branch(name, rest), Bool.and(Inline.constructor_fields(M.Mu.ctor_of(name, family), binders), Inline.constructor_branches(rest, family)))
+    case other: False{}
+
+def Inline.constructor_motive(motive: Maybe<&2, F.Term.motive>, family: String) -> Bool:
+  match motive:
+    case Some{F.Term.Motive{Some{name}, Nil{}, self, body}}: String.eq(name, family)
+    case other: Inline.case_motive(other)
+
+# Substitute the fields together, in de Bruijn order, followed by the outer scope.
+def Inline.constructor_substitute(valid: Bool, arguments: List<&2, F.Term.t>, body: F.Term.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match valid:
+    case False{}: Done{None{}}
+    case True{}:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        reduced: F.Term.t <- S.Source.term(S.Source.Parameters{Inline.reverse(F.Term.t, arguments, Inline.source_variables(depth, 0n))}, 0n, body)
+        Done{Inline.size_bounded(reduced)}
+
+def Inline.constructor_selected(valid: Bool, selected: Maybe<&2, F.Term.leg>, +arguments: List<&2, F.Term.t>, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match selected:
+    case Some{F.Term.Leg{binders, body}}:
+      Inline.constructor_substitute(Bool.and(valid, Nat.is_eq(Inline.length(F.Term.t, arguments), Inline.length(F.Pair2<F.Quantity.t, String>, binders))), arguments, body, depth)
+    case None{}: Done{None{}}
+
+def Inline.constructor_family(family: Maybe<&2, F.Positivity.family>, expected: String, name: String, arguments: List<&2, F.Term.t>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, valid: Bool, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match family:
+    case Some{+value}:
+      match value:
+        case F.Positivity.Family{family_name, Nil{}, Nil{}, level, F.Positivity.Complete{names}, ctors, True{}}:
+          covered = Bool.and(String.eq(expected, family_name), Nat.is_eq(Inline.length(F.Positivity.ctor, ctors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))
+          Inline.constructor_selected(Bool.and(valid, Bool.and(covered, Inline.constructor_branches(branches, value))), Inline.constructor_branch(name, branches), arguments, depth)
+        case other: Done{None{}}
+    case None{}: Done{None{}}
+
+def Inline.constructor_case(shape: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, injection: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, name: String, arguments: List<&2, F.Term.t>, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, closed: Bool, globals: F.Global.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match shape injection:
+    case Some{F.Pair2{+family, Nil{}}} Some{F.Pair2{injected, Nil{}}}:
+      valid = Bool.and(closed, Bool.and(String.eq(family, injected), Inline.constructor_motive(motive, family)))
+      Inline.constructor_family(F.Global.find_family(family, globals), family, name, arguments, branches, valid, depth)
+    case other injection: Done{None{}}
+
+def Inline.case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, +depth: Nat, globals: F.Global.t) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match scrutinee:
     case Some{F.Term.In{+injection, F.Term.ALeg{+index}, +argument <> Nil{}}}:
       elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ALeg{index}, [argument]}, quantity, motive, branches}}
       Inline.case_collection(P.Rules.as_vcoll(F.Term.t, shape), P.Rules.as_vcoll(F.Term.t, injection), index, argument, branches, Bool.and(Inline.closed(depth, elimination), Inline.case_motive(motive)), depth)
+    case Some{F.Term.In{+injection, F.Term.ACtor{+name}, +arguments}}:
+      elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ACtor{name}, arguments}, quantity, motive, branches}}
+      Inline.constructor_case(F.Shape.inductive(F.Term.t, shape), F.Shape.inductive(F.Term.t, injection), name, arguments, motive, branches, Inline.closed(depth, elimination), globals, depth)
     case other: Done{None{}}
 
 type Inline.source_frame is Data:
@@ -896,9 +966,9 @@ def Inline.beta_pending(pending: List<&2, Inline.source_frame>, fuel: Nat, ty: M
         reduced: Maybe<&2, F.Term.t> <- Inline.beta_type(shape, address, ty, C.Check.size(checker))
         next(fuel, reduced, rest)
     case Inline.CaseFrame{shape, quantity, motive, branches} <> rest:
-      Inline.Context{checker, domains} = context
+      Inline.Context{+checker, domains} = context
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
-        reduced: Maybe<&2, F.Term.t> <- Inline.case_type(shape, quantity, motive, branches, ty, C.Check.size(checker))
+        reduced: Maybe<&2, F.Term.t> <- Inline.case_type(shape, quantity, motive, branches, ty, C.Check.size(checker), C.Check.global(checker))
         next(fuel, reduced, rest)
 
 def Inline.source_reduce_head(fuel: Nat, expanded: Maybe<&2, F.Term.t>, context: Inline.context, pending: List<&2, Inline.source_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.source_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
@@ -922,7 +992,7 @@ def Inline.source_reduce_head(fuel: Nat, expanded: Maybe<&2, F.Term.t>, context:
     case 1n+remaining other: Inline.beta_pending(pending, (remaining + 1n : Nat), other, context, next)
 
 # An application or case step can push and later pop one frame. The step count bounds transitions;
-# the term-size cap in Inline.let_closed bounds substitution work.
+# the 4096-node cap (Inline.size_bounded, applied by Inline.let_closed and Inline.constructor_substitute) bounds substitution work.
 def Inline.source_reduce_steps(steps: Nat, fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.context, pending: List<&2, Inline.source_frame>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match steps:
     case 0n: Done{None{}}

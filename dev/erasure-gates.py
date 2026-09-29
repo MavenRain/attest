@@ -63,7 +63,9 @@ LAMBDA_ROWS = ("lambda-alias-global", "lambda-alias-dependent",
                "lambda-projection-global", "lambda-projection-dependent",
                "lambda-projection-local", "lambda-projection-curried",
                "lambda-case-global", "lambda-case-dependent",
-               "lambda-case-local", "lambda-case-curried")
+               "lambda-case-local", "lambda-case-curried",
+               "lambda-constructor-global", "lambda-constructor-dependent",
+               "lambda-constructor-local", "lambda-constructor-curried")
 INLINE_ROWS += LAMBDA_ROWS
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
@@ -81,6 +83,9 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "projection-source-syntax", "projection-source-guards", "projection-source-fuel",
                                "case-source-syntax", "case-source-guards", "case-source-scope",
                                "case-source-fuel", "case-source-pending",
+                               "constructor-source-syntax", "constructor-source-guards",
+                               "constructor-source-metadata", "constructor-source-scope",
+                               "constructor-source-fuel", "constructor-source-pending",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",
@@ -623,7 +628,7 @@ def record(logs, rows):
             "full TRACE-ERASURE including Acc",
             "constructor branch and named motive scopes without source syntax for family parameters",
             "unnamed motive scopes without a source scrutinee type",
-            "lambda scopes whose expected type needs normalization beyond transparent alias hops and bounded head annotation, let, beta, tuple projection, and finite case reduction",
+            "lambda scopes whose expected type needs normalization beyond transparent alias hops and bounded head annotation, let, beta, tuple projection, finite case, and constructor case reduction",
             "local proofs without source type syntax",
             "unannotated proof introductions without an expected type and family metadata"],
             "implementation_sha256": {str(p.relative_to(ROOT)): digest(p.read_bytes())

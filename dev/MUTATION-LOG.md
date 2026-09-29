@@ -1,5 +1,31 @@
 # Mutation log
 
+## 2026-09-28: Constructor case source type mutations
+
+Twenty-one new cases bring the catalog to 177. They disable recovery or remove
+shape agreement, family name agreement, branch coverage, constructor branch
+addresses, uniqueness, constructor field validation,
+nonrecursion, metadata arity, motive agreement, whole-case closure, argument
+arity, family parameter/index restrictions, the elimination-shape and named-motive
+index restrictions, positivity, completeness, or the
+result-size cap. Two variants corrupt simultaneous substitution order or the
+outer-variable mapping.
+
+The 35-case scoped selection includes those cases and `case-disabled`,
+`case-duplicate`, `case-fuel`, `case-head-fuel`, `case-pending`, `case-result-fuel`, `case-exhausted`,
+`case-scope`, `case-fixture-binding`, `inline-local-type`, `inline-shape-payload`,
+`leg-scope-root`, `beta-work-bound`, and `source-size-cap`. All 177 catalog anchors are valid.
+The two existing pending-case mutations now pass the global environment to
+source recovery. The duplicate-branch and size-cap anchors are qualified to their original helpers. Their required failures are unchanged.
+
+The scope regression tests an open unused branch before open selected bodies,
+so a later substitution error cannot conceal a missing closure check. A large
+constructor result tests its own size cap. Recursive families keep the three
+unknown-scope controls outside the supported recovery fragment.
+
+All 35 selected variants compiled and produced their required named failures.
+Captured evidence is in `dev/validation/constructor-source.json`; the previous
+full 127-case mutation record is unchanged.
 ## 2026-09-28: Finite case source type mutations
 
 Seventeen new cases bring the catalog to 156. They disable recovery, remove shape

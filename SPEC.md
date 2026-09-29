@@ -40,7 +40,7 @@ final globals and declaration rows returned together by `Elab.check_in`.
 
 `erase/inline.bend` also seals inline proofs in ordinary entries when their
 type is available from an annotation, let type, or expected function type
-exposed by transparent alias hops and bounded head annotation, let, beta, tuple projection, and finite case reduction, or inferred independently for a closed term. It tracks the types of function, let,
+exposed by transparent alias hops and bounded head annotation, let, beta, tuple projection, finite case, and constructor case reduction, or inferred independently for a closed term. It tracks the types of function, let,
 and type-former binders. Each local proof becomes a closed postulate whose
 parameters are all erased, applied to the locals in their original order.
 Original domain and codomain syntax preserves declared universes; normalized
@@ -80,7 +80,7 @@ The gate requires that carried equality. Sealing for these pairs is checked
 only in the semantic suite, and the gate requires the suite copies in
 `erase/test/parameter_fixtures.bend` and `erase/test/motive_fixtures.bend` to
 equal the `.att` files byte for byte.
-One hundred and eighteen semantic
+One hundred and thirty-seven semantic
 tests cover poisoned proof bodies at known types, inherited entries, name
 collisions, runtime lets, local type annotations, and rewritten rows. They also
 check closed postulate types, dependent argument order, original universes,
@@ -89,7 +89,7 @@ type, dependent constructor fields, nested branch scopes, and conservative
 fallback for missing family metadata or unavailable parameter syntax. They also check that a
 branch takes the fields of its own constructor, not the first constructor of
 its family, and that a lambda leg whose expected type is hidden behind an
-inductive case expression under an outer binder starts from the root scope. Branch contexts require
+recursive-family case expression under an outer binder starts from the root scope. Branch contexts require
 the exact constructor binder count and quantities, and field types closed over
 earlier fields and family parameters. Parameterized branches recover the source
 type from an annotated scrutinee, a global declaration, or a typed local binder,
@@ -142,6 +142,16 @@ recovered case must be closed in the current scope, including unused branches,
 the motive, and the payload. Selection substitutes the payload into the branch
 body using source substitution, preserving annotations, universes, and outer
 variables. Scrutinees and selected results can require further source reductions.
+Constructor cases require matching unindexed inductive shapes and a complete,
+positive family with no parameters or indices. Every constructor must be
+nonrecursive, have no result indices, and report an arity equal to its field
+count. Branches must cover each constructor exactly once, in any order, with
+the declared field quantities and count. Field types must be closed over earlier
+fields. The selected injection supplies exactly that many arguments. Simultaneous
+source substitution maps the last field to index zero and retains the outer
+scope. Zero-field constructors are supported. The entire case, including unused
+branches, arguments, and the motive, must be closed. A motive may be unnamed or
+name the matching family, and must have no index binders.
 Annotation, let, beta, projection, and case steps share a budget of 64. An application,
 projection, or case consumes one step before recovery of its head or scrutinee.
 Its result receives only the remaining budget. Each let, beta, or case result
@@ -151,7 +161,9 @@ applies between reductions. Cycles through aliases, lets, function heads, or
 results return no recovered type. Substitution retains source annotations and
 universe syntax and avoids capturing outer variables.
 Opaque definitions, partial definitions, recursive definitions, and parameters
-do not unfold. Inductive cases and neutral scrutinees remain unsupported. Missing function types,
+do not unfold. Constructor cases with parameterized, indexed, recursive,
+provisional, or builtin families and cases with neutral scrutinees remain
+unsupported. Missing function types,
 nonpoint function formers, nonpoint function application addresses, free codomains,
 and free arguments are refused.
 Four `motive-application-*` pairs cover global, dependent, local, and curried
@@ -182,6 +194,13 @@ guards, free branches, payloads, scrutinee annotations, and motives, neutral
 scrutinees, cases under a pending application or a projection, and exact
 64/65-step boundaries in scrutinees, results, heads, and mixed let, beta,
 projection, and case chains.
+Four `lambda-constructor-*` pairs cover global, dependent, local, and curried
+types selected by constructor cases. Six direct cases protect field order,
+source annotations and universes, outer variables, branch order, zero-field
+constructors, malformed shapes and metadata, field and argument arity, binder
+quantities, motive restrictions, whole-case closure, the result-size cap, mixed
+pending frames, and the shared 64/65-step limit. Recursive-family cases preserve
+the three existing unknown-scope controls.
 The lambda pairs have different carried runtime outputs; the motive pairs
 share a coarse carried runtime layout. All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and
@@ -224,9 +243,10 @@ lets, globals, same-shape constructors, and a proof field at a universe. Unnamed
 motives without a source scrutinee type, and scrutinee types needing further
 normalization or inference, remain open. Lambda bodies whose expected function
 type needs reduction beyond transparent alias hops and bounded head annotation,
-let, beta, tuple projection, and finite case reduction remain conservative; closed
-subterms can still be sealed. Inductive cases and cases with neutral scrutinees
-stay conservative. Local proofs without source type syntax are left intact
+let, beta, tuple projection, finite case, and constructor case reduction remain
+conservative; closed subterms can still be sealed. Constructor cases over
+parameterized, indexed, recursive, provisional, or builtin families and cases
+with neutral scrutinees stay conservative. Local proofs without source type syntax are left intact
 because inferred readback can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and
 inline proofs in family metadata are also outside this increment.
