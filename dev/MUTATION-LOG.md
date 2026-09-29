@@ -1,5 +1,35 @@
 # Mutation log
 
+## 2026-09-29: Indexed constructor source type mutations
+
+The catalog contains 198 cases. Thirteen new controls disable indexed recovery or
+weaken index telescope scope, parameter depth, result index count and scope,
+motive presence, shape count, equality, and payload length, and the
+fixture-to-suite binding.
+Existing constructor and parameter controls are adapted to the indexed metadata
+signatures. The old indexed-family refusal control now checks inconsistent
+metadata, since valid indexed families are supported.
+
+The scoped run selects all thirteen new controls, all twenty-one constructor
+controls, the eight parameter-source controls, and five shared proof, case fuel,
+and fixture-binding controls. Each mutant must compile and produce its required
+named failure through the existing harness. The collection helper retains the
+baseline, snapshot, and input freshness checks and records their actual return
+values and log hashes in `dev/validation/index-source.json`.
+
+Only a Bun compiler segmentation fault receives one retry. Its crash log is
+retained, and the retry must pass the same compilation and named-failure checks.
+Other build failures and a second compiler crash still fail the run.
+
+Final scoped validation caught 47/47 mutants after a successful unmutated
+baseline, with all 198 source anchors valid. Each mutant compiled and produced
+its required named failure. After collection, the runner rechecked every
+recorded input hash, and `dev/validation/index-source.json` records the hash of
+each saved log.
+
+The prior full mutation record remains historical evidence. Scoped results do
+not replace it or claim a complete 198-case mutation run.
+
 ## 2026-09-28: Parameterized constructor source type mutations
 
 The catalog now contains 185 cases. Eight new controls disable parameterized

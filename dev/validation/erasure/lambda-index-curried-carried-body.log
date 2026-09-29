@@ -1,0 +1,7 @@
+rec [any]
+fun MakeFn () : union any := KErased
+erased Fn
+erased Alias
+rec [any]
+fun Layout () : union any := KErased
+erased keep

@@ -386,6 +386,11 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.constructor_index_values",
+      "pattern": "other values"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.constructor_case",
       "pattern": "other injection"
     },

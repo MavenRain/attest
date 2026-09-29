@@ -1,5 +1,41 @@
 # M0 build log
 
+## 2026-09-29: Stage B indexed constructor source types
+
+Source recovery now reduces cases over complete, positive, nonrecursive indexed
+families. Elimination and injection shapes carry the declared index count and
+syntactically equal payloads. Parameter values remain in the scrutinee's type.
+Index telescope types are closed over parameters and earlier indices. Constructor
+result indices have the declared count and are closed over parameters and fields.
+Full constructor arity still counts parameters and fields. Only fields become
+branch binders, so simultaneous substitution preserves the outer scope.
+
+Indexed motives name the matching family and bind exactly its index count.
+Unindexed motives remain optional. The kernel continues to check index types and
+conversion; source recovery does not evaluate indices or equate distinct syntax.
+Recursive, provisional, and builtin families, unequal source index payloads, and
+neutral scrutinees remain unsupported. Stage B remains open at the Acc
+runtime-elimination frontier.
+
+Four opaque-twin pairs cover global, dependent, local, and curried function types.
+They include an unparameterized family, parameter-dependent index types, and an
+index telescope whose later type depends on an earlier index. Six direct cases
+cover source syntax, motives, metadata, shape payloads, scope, size, and shared
+fuel. The inline suite contains 157 cases.
+
+Validation passed: `make test` (16 test programs and 157/157 inline cases),
+`zsh -f dev/gates.sh`, and all 198 mutation anchors. Inline equality passed for
+89/89 pairs with 57 carried differences. The Lean twin passed 24 acceptances and
+12 refusals with zero axioms. All 47 scoped mutants compiled and produced their
+required named failures.
+
+Validation evidence and exact commands are recorded in
+`dev/validation/index-source.json`, collected by the pinned in-tree helper
+`dev/validation/index-source-run.py`. The mutations row records the helper
+command and the harness argument list. The historical full mutation record is
+preserved. HOUSE adds one explicit refusal site for mismatched index payload
+lists and no unsafe functions. The source migration manifest is refreshed.
+
 ## 2026-09-28: Stage B parameterized constructor source types
 
 Source recovery now reduces cases over complete, positive, unindexed families

@@ -1,0 +1,9 @@
+mu Choice (0 P : Type 0) (0 p : P) : (0 A : Type 0) -> (0 a : A) -> Type 1 with
+| empty : Choice P p P p
+| choose : (0 A : Type 0) -> (0 b : P) -> (0 B : Type 0) -> Choice P p P b
+
+mu Equal : (0 A : Type 0) -> (0 x : A) -> Prop with
+| refl : (0 A : Type 0) -> (0 x : A) -> Equal A x
+
+def Layout : (0 A : Type 0) -> (0 x : A) -> Type 0 := fun (0 A : Type 0) (0 x : A) => let Pick : Choice A x A x := choose (prod ()) x A in let Fn : Type 1 := case Pick as choice in Choice I v return Type 1 with | empty => (y : A) -> Type 0 | choose 0 B 0 b 0 C => (0 y : C) -> Type 0 in let Alias : Type 1 := Fn in let choose : Alias := fun (0 y : A) => case (refl A y : Equal A y) as p in Equal B z return Type 0 with | refl 0 C 0 w => prod () in choose x
+def keep : (x : Layout Nat 0) -> Layout Nat 0 := fun (x : Layout Nat 0) => x

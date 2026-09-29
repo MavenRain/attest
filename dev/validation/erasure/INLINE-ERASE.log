@@ -96,6 +96,16 @@ INLINE-ERASE row=lambda-constructor-dependent OK
 INLINE-ERASE row=lambda-constructor-local OK
 INLINE-ERASE row=lambda-constructor-curried OK
 INLINE-ERASE row=constructor-source-syntax OK
+INLINE-ERASE row=lambda-index-global OK
+INLINE-ERASE row=lambda-index-dependent OK
+INLINE-ERASE row=lambda-index-local OK
+INLINE-ERASE row=lambda-index-curried OK
+INLINE-ERASE row=index-source-syntax OK
+INLINE-ERASE row=index-source-motive OK
+INLINE-ERASE row=index-source-metadata OK
+INLINE-ERASE row=index-source-shapes OK
+INLINE-ERASE row=index-source-scope OK
+INLINE-ERASE row=index-source-fuel OK
 INLINE-ERASE row=lambda-parameter-global OK
 INLINE-ERASE row=lambda-parameter-dependent OK
 INLINE-ERASE row=lambda-parameter-local OK
@@ -145,4 +155,4 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=147 total=147 OK
+INLINE-ERASE pass=157 total=157 OK

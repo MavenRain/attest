@@ -1197,7 +1197,7 @@ def Suite.constructor_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
 def Suite.constructor_metadata_absent(family:Maybe<&2,F.Positivity.family>,message:String) -> Result<&2,&2,F.Error.t,Unit>:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
   do Result<&2,&2,F.Error.t,Unit>:
-    actual:Maybe<&2,F.Term.t> <- I.Inline.constructor_family(family,"Choice","pair",[univ,univ],Suite.constructor_branches(univ,univ),True{},0n)
+    actual:Maybe<&2,F.Term.t> <- I.Inline.constructor_family(family,"Choice","pair",[univ,univ],Suite.constructor_branches(univ,univ),None{},0n,True{},0n)
     Suite.application_absent(actual,message)
 
 def Suite.constructor_source_metadata(family:F.Positivity.family) -> Result<&2,&2,F.Error.t,Unit>:
@@ -1208,14 +1208,14 @@ def Suite.constructor_source_metadata(family:F.Positivity.family) -> Result<&2,&
     missing:Unit <- Suite.constructor_metadata_absent(None{},"missing constructor family accepted")
     name:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Other",Nil{},Nil{},F.Level.one,status,ctors,True{}}},"wrong constructor family accepted")
     params:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",[field],Nil{},F.Level.one,status,ctors,True{}}},"constructor full arity omits parameters")
-    indices:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},[field],F.Level.one,status,ctors,True{}}},"indexed constructor family accepted")
+    indices:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},[field],F.Level.one,status,ctors,True{}}},"indexed metadata mismatch accepted")
     positive:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},Nil{},F.Level.one,status,ctors,False{}}},"nonpositive constructor family accepted")
     provisional:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},Nil{},F.Level.one,F.Positivity.Provisional{},ctors,True{}}},"provisional constructor family accepted")
     builtin:Unit <- Suite.constructor_metadata_absent(Some{F.Positivity.Family{"Choice",Nil{},Nil{},F.Level.one,F.Positivity.Builtin{},ctors,True{}}},"builtin constructor family accepted")
-    recursive:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],Nil{},1n,True{}}},binders,0n)),"recursive constructor accepted")
-    arity:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],Nil{},2n,False{}}},binders,0n)),"constructor metadata arity accepted")
-    indices:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],[F.Term.Univ{F.Level.zero}],1n,False{}}},binders,0n)),"constructor result index accepted")
-    T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"A",F.Term.Var{0n}}],Nil{},1n,False{}}},binders,0n)),"open constructor field accepted")
+    recursive:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],Nil{},1n,True{}}},binders,0n,0n)),"recursive constructor accepted")
+    arity:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],Nil{},2n,False{}}},binders,0n,0n)),"constructor metadata arity accepted")
+    indices:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[field],[F.Term.Univ{F.Level.zero}],1n,False{}}},binders,0n,0n)),"constructor result index accepted")
+    T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"A",F.Term.Var{0n}}],Nil{},1n,False{}}},binders,0n,0n)),"open constructor field accepted")
 
 def Suite.constructor_tree(count:Nat,leaf:F.Term.t) -> F.Term.t:
   match count:
@@ -1344,7 +1344,7 @@ def Suite.parameter_metadata_absent(family:F.Positivity.family,parameters:F.Posi
   F.Positivity.Family{name,params,indices,level,status,ctors,positive} = family
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
   do Result<&2,&2,F.Error.t,Unit>:
-    actual:Maybe<&2,F.Term.t> <- I.Inline.constructor_family(Some{F.Positivity.Family{name,parameters,indices,level,status,ctors,positive}},"Choice","pair",[univ,univ],Suite.constructor_branches(univ,univ),True{},2n)
+    actual:Maybe<&2,F.Term.t> <- I.Inline.constructor_family(Some{F.Positivity.Family{name,parameters,indices,level,status,ctors,positive}},"Choice","pair",[univ,univ],Suite.constructor_branches(univ,univ),None{},0n,True{},2n)
     Suite.application_absent(actual,message)
 
 def Suite.parameter_source_metadata() -> Result<&2,&2,F.Error.t,Unit>:
@@ -1352,8 +1352,8 @@ def Suite.parameter_source_metadata() -> Result<&2,&2,F.Error.t,Unit>:
   do Result<&2,&2,F.Error.t,Unit>:
     first:Unit <- Suite.parameter_metadata_absent(Suite.parameter_family(Suite.constructor_family),[F.Triple3{F.Quantity.Zero{},"A",F.Term.Var{0n}},F.Triple3{F.Quantity.Zero{},"a",F.Term.Var{0n}}],"open first constructor parameter type accepted")
     later:Unit <- Suite.parameter_metadata_absent(Suite.parameter_family(Suite.constructor_family),[F.Triple3{F.Quantity.Zero{},"A",univ},F.Triple3{F.Quantity.Zero{},"a",F.Term.Var{1n}}],"open later constructor parameter type accepted")
-    field:Unit <- T.Test.require(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"x",F.Term.Var{1n}}],Nil{},3n,False{}}},[F.Pair2{F.Quantity.Zero{},"x"}],2n),"parameter-typed constructor field refused")
-    T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"x",F.Term.Var{2n}}],Nil{},3n,False{}}},[F.Pair2{F.Quantity.Zero{},"x"}],2n)),"open parameterized constructor field accepted")
+    field:Unit <- T.Test.require(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"x",F.Term.Var{1n}}],Nil{},3n,False{}}},[F.Pair2{F.Quantity.Zero{},"x"}],2n,0n),"parameter-typed constructor field refused")
+    T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"x",F.Term.Var{2n}}],Nil{},3n,False{}}},[F.Pair2{F.Quantity.Zero{},"x"}],2n,0n)),"open parameterized constructor field accepted")
 
 def Suite.parameter_introductions() -> Result<&2,&2,F.Error.t,Unit>:
   +prefix:String = "mu Packet (0 A : Type 0) (0 a : A) : Type 0 with\n| vacant : Packet A a\n| packet : (b : A) -> Packet A a\nmu Other (0 A : Type 0) : Type 0 with\n| other : Other A\nmu Witness (0 A : Type 0) : (0 x : A) -> Prop with\n| witness : (0 x : A) -> Witness A x\n"
@@ -1365,6 +1365,123 @@ def Suite.parameter_introductions() -> Result<&2,&2,F.Error.t,Unit>:
     expected:Unit <- T.Test.fails_with(E.Elab.checked,E.Elab.check_in(G.Global.initial,prefix ++ "def bad : Nat := packet 1\n"),"constructor expected an inductive family","nonfamily constructor expected type accepted")
     index:Unit <- T.Test.fails(E.Elab.checked,E.Elab.check_in(G.Global.initial,prefix ++ "def bad : Witness Nat 1 := witness 0\n"),"parameterized constructor result index ignored")
     T.Test.fails(E.Elab.checked,E.Elab.check_in(G.Global.initial,prefix ++ "def bad : Nat := case packet 1 as value in Packet return Nat with | vacant => 0 | packet b => b\n"),"parameterized constructor inferred without expected type")
+
+def Suite.index_family() -> F.Positivity.family:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  params:F.Positivity.telescope = [F.Triple3{F.Quantity.Zero{},"P",univ},F.Triple3{F.Quantity.Zero{},"p",F.Term.Var{0n}}]
+  F.Positivity.Family{"Choice",params,[F.Triple3{F.Quantity.Zero{},"A",univ},F.Triple3{F.Quantity.Zero{},"a",F.Term.Var{0n}}],F.Level.one,F.Positivity.Complete{["empty","pair"]},[
+    F.Positivity.Ctor{"empty",Nil{},[F.Term.Var{1n},F.Term.Var{0n}],2n,False{}},
+    F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"A",univ},F.Triple3{F.Quantity.Zero{},"x",F.Term.Var{0n}}],[F.Term.Var{1n},F.Term.Var{0n}],4n,False{}}],True{}}
+
+def Suite.index_context(depth:Nat) -> I.Inline.context:
+  globals:F.Global.t = F.Global.add_family("Choice",Suite.index_family,F.Global.empty)
+  I.Inline.Context{C.Check.Ctx{globals,Nil{},Nil{},depth,C.Budget.unlimited},Nil{}}
+
+def Suite.index_motive(names:List<&2,String>) -> Maybe<&2,F.Term.motive>:
+  Some{F.Term.Motive{Some{"Choice"},names,"self",F.Term.Univ{F.Level.one}}}
+
+def Suite.index_term(name:String,args:List<&2,F.Term.t>,empty:F.Term.t,body:F.Term.t,motive:Maybe<&2,F.Term.motive>) -> F.Term.t:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",[F.Term.Univ{F.Level.zero},F.Term.Univ{F.Level.zero}])
+  F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{name},args},F.Quantity.Many{},motive,Suite.constructor_branches(empty,body)}}
+
+def Suite.index_absent(term:F.Term.t,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{term},Suite.index_context(0n))
+    Suite.application_absent(actual,message)
+
+def Suite.index_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = Suite.index_context(2n)
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +motive:Maybe<&2,F.Term.motive> = Suite.index_motive(["A","a"])
+  +args:List<&2,F.Term.t> = [F.Term.Var{0n},F.Term.Var{1n}]
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{4n},univ}}
+  +expected:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Ann{F.Term.Var{0n},univ}),F.Term.Ann{F.Term.Var{2n},univ}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_term("pair",args,univ,body,motive)},context)
+    actual_ok:Unit <- Suite.application_equal(actual,expected)
+    empty:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_term("empty",Nil{},univ,body,motive)},context)
+    empty_ok:Unit <- Suite.application_equal(empty,univ)
+    applied:Maybe<&2,F.Term.t> <- I.Inline.application_source_type(Some{Suite.index_term("pair",args,univ,body,motive)},F.Term.APt{F.Quantity.Zero{},F.Term.Var{0n}},context)
+    Suite.application_equal(applied,F.Term.Ann{F.Term.Var{1n},univ})
+
+def Suite.index_source_motive() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +args:List<&2,F.Term.t> = [univ,univ]
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.index_absent(Suite.index_term("pair",args,univ,univ,None{}),"indexed missing motive accepted")
+    short:Unit <- Suite.index_absent(Suite.index_term("pair",args,univ,univ,Suite.index_motive(["a"])),"indexed short motive accepted")
+    extra:Unit <- Suite.index_absent(Suite.index_term("pair",args,univ,univ,Suite.index_motive(["A","a","b"])),"indexed extra motive accepted")
+    unnamed:Unit <- Suite.index_absent(Suite.index_term("pair",args,univ,univ,Some{F.Term.Motive{None{},["A","a"],"self",univ}}),"indexed unnamed motive accepted")
+    bare:Unit <- Suite.index_absent(Suite.index_term("pair",args,univ,univ,Some{F.Term.Motive{None{},Nil{},"self",univ}}),"indexed unnamed bare motive accepted")
+    Suite.index_absent(Suite.index_term("pair",args,univ,univ,Some{F.Term.Motive{Some{"Other"},["A","a"],"self",univ}}),"indexed wrong motive family accepted")
+
+def Suite.index_metadata_absent(family:F.Positivity.family,indices:F.Positivity.telescope,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  F.Positivity.Family{name,params,old,level,status,ctors,positive} = family
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.constructor_family(Some{F.Positivity.Family{name,params,indices,level,status,ctors,positive}},"Choice","pair",[univ,univ],Suite.constructor_branches(univ,univ),Suite.index_motive(["A","a"]),2n,True{},2n)
+    Suite.application_absent(actual,message)
+
+def Suite.index_source_metadata() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +binders:List<&2,F.Pair2<F.Quantity.t,String>> = [F.Pair2{F.Quantity.Zero{},"x"}]
+  +fields:F.Positivity.telescope = [F.Triple3{F.Quantity.Zero{},"x",F.Term.Var{1n}}]
+  do Result<&2,&2,F.Error.t,Unit>:
+    first:Unit <- Suite.index_metadata_absent(Suite.index_family,[F.Triple3{F.Quantity.Zero{},"A",F.Term.Var{2n}},F.Triple3{F.Quantity.Zero{},"a",F.Term.Var{0n}}],"open first index accepted")
+    later:Unit <- Suite.index_metadata_absent(Suite.index_family,[F.Triple3{F.Quantity.Zero{},"A",univ},F.Triple3{F.Quantity.Zero{},"a",F.Term.Var{3n}}],"open later index accepted")
+    valid:Unit <- T.Test.require(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",fields,[F.Term.Var{2n},F.Term.Var{0n}],3n,False{}}},binders,2n,2n),"scoped result indices refused")
+    missing:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",fields,[univ],3n,False{}}},binders,2n,2n)),"short result indices accepted")
+    extra:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",fields,[univ,univ,univ],3n,False{}}},binders,2n,2n)),"extra result indices accepted")
+    open:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",fields,[F.Term.Var{3n},univ],3n,False{}}},binders,2n,2n)),"open result index accepted")
+    last:Unit <- T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",fields,[univ,F.Term.Var{3n}],3n,False{}}},binders,2n,2n)),"open later result index accepted")
+    T.Test.require(Bool.not(I.Inline.constructor_fields(Some{F.Positivity.Ctor{"pair",fields,[univ,univ],5n,False{}}},binders,2n,2n)),"indices counted in constructor arity")
+
+def Suite.index_shape_absent(indices:List<&2,F.Term.t>,values:List<&2,F.Term.t>,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",indices)
+  injected:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",values)
+  Suite.index_absent(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{injected,F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},Suite.index_motive(["A","a"]),Suite.constructor_branches(univ,univ)}},message)
+
+def Suite.index_source_shapes() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +upper:F.Term.t = F.Term.Univ{F.Level.one}
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.index_shape_absent(Nil{},Nil{},"indexed shape arity ignored")
+    short:Unit <- Suite.index_shape_absent([univ],[univ],"indexed short shapes accepted")
+    extra:Unit <- Suite.index_shape_absent([univ,univ,univ],[univ,univ,univ],"indexed extra shapes accepted")
+    injection:Unit <- Suite.index_shape_absent([univ,univ],[univ],"indexed short injection shape accepted")
+    prefix:Unit <- Suite.index_shape_absent([univ],[univ,univ],"indexed unequal shape arities accepted")
+    unequal:Unit <- Suite.index_shape_absent([univ,univ],[upper,univ],"indexed shape values differ")
+    tail:Unit <- Suite.index_shape_absent([univ,univ],[univ,upper],"indexed later shape values differ")
+    definitional:Unit <- Suite.index_shape_absent([F.Term.Ann{univ,upper},univ],[univ,univ],"indexed definitionally equal shape values accepted")
+    Suite.index_shape_absent([univ,F.Term.Var{0n}],[univ,F.Term.Var{0n}],"indexed open shape value accepted")
+
+def Suite.index_source_scope() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +motive:Maybe<&2,F.Term.motive> = Suite.index_motive(["A","a"])
+  do Result<&2,&2,F.Error.t,Unit>:
+    body:Unit <- Suite.index_absent(Suite.index_term("pair",[univ,univ],univ,F.Term.Var{2n},motive),"open indexed constructor body accepted")
+    binders:Unit <- Suite.index_absent(F.Term.Elim{F.Term.Elimination{F.Shape.make_inductive(F.Term.t,"Choice",[univ,univ]),F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",[univ,univ]),F.Term.ACtor{"pair"},[univ,univ,univ,univ]},F.Quantity.Many{},motive,[F.Pair2{F.Term.ACtor{"empty"},F.Term.Leg{Nil{},univ}},F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"A"},F.Pair2{F.Quantity.Zero{},"x"},F.Pair2{F.Quantity.Zero{},"i"},F.Pair2{F.Quantity.Zero{},"j"}],F.Term.Var{3n}}}]}},"indices counted as branch binders")
+    unused:Unit <- Suite.index_absent(Suite.index_term("pair",[univ,univ],F.Term.Var{0n},univ,motive),"open indexed unused branch accepted")
+    short:Unit <- Suite.index_absent(Suite.index_term("pair",[univ],univ,univ,motive),"indexed short constructor accepted")
+    argument:Unit <- Suite.index_absent(Suite.index_term("pair",[univ,F.Term.Var{0n}],univ,univ,motive),"open indexed field accepted")
+    Suite.index_absent(Suite.index_term("pair",[Suite.constructor_tree(11n,univ),univ],univ,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{1n}),F.Term.Var{2n}},motive),"indexed constructor size cap ignored")
+
+def Suite.index_chain(count:Nat,body:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: body
+    case 1n+n:
+      +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+      Suite.index_term("pair",[univ,Suite.index_chain(n,body)],univ,F.Term.Var{0n},Suite.index_motive(["A","a"]))
+
+def Suite.index_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_context(0n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_chain(64n,univ)},context)
+    exact_ok:Unit <- Suite.application_equal(exact,univ)
+    over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_chain(65n,univ)},context)
+    Suite.application_absent(over,"indexed shared fuel exceeded")
 
 def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
   [
@@ -1466,6 +1583,16 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"lambda-constructor-local",unit => Suite.local_sealed(LF.Fixture.lambda_constructor_local,LF.Fixture.lambda_constructor_local_opaque,layout,1n)},
       Suite.Case{"lambda-constructor-curried",unit => Suite.local_sealed(LF.Fixture.lambda_constructor_curried,LF.Fixture.lambda_constructor_curried_opaque,layout,1n)},
       Suite.Case{"constructor-source-syntax",unit => Suite.constructor_source_syntax},
+      Suite.Case{"lambda-index-global",unit => Suite.local_sealed(LF.Fixture.lambda_index_global,LF.Fixture.lambda_index_global_opaque,layout,1n)},
+      Suite.Case{"lambda-index-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_index_dependent,LF.Fixture.lambda_index_dependent_opaque,layout,1n)},
+      Suite.Case{"lambda-index-local",unit => Suite.local_sealed(LF.Fixture.lambda_index_local,LF.Fixture.lambda_index_local_opaque,layout,1n)},
+      Suite.Case{"lambda-index-curried",unit => Suite.local_sealed(LF.Fixture.lambda_index_curried,LF.Fixture.lambda_index_curried_opaque,layout,1n)},
+      Suite.Case{"index-source-syntax",unit => Suite.index_source_syntax},
+      Suite.Case{"index-source-motive",unit => Suite.index_source_motive},
+      Suite.Case{"index-source-metadata",unit => Suite.index_source_metadata},
+      Suite.Case{"index-source-shapes",unit => Suite.index_source_shapes},
+      Suite.Case{"index-source-scope",unit => Suite.index_source_scope},
+      Suite.Case{"index-source-fuel",unit => Suite.index_source_fuel},
       Suite.Case{"lambda-parameter-global",unit => Suite.local_sealed(LF.Fixture.lambda_parameter_global,LF.Fixture.lambda_parameter_global_opaque,layout,1n)},
       Suite.Case{"lambda-parameter-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_parameter_dependent,LF.Fixture.lambda_parameter_dependent_opaque,layout,1n)},
       Suite.Case{"lambda-parameter-local",unit => Suite.local_sealed(LF.Fixture.lambda_parameter_local,LF.Fixture.lambda_parameter_local_opaque,layout,1n)},

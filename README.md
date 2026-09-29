@@ -34,21 +34,22 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and eighty-five inline proof
+increment compares four global proof pairs and eighty-nine inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences for the four global pairs and fifty-three inline pairs, including
-thirty-two lambda alias, let, beta, annotation, projection, finite case, and constructor case pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
+differences for the four global pairs and fifty-seven inline pairs, including
+thirty-six lambda alias, let, beta, annotation, projection, finite case, and constructor case pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
 with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 185 isolated mutations. The full mutation record covers the preceding
+contains 198 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
 [scoped validation evidence](dev/validation/annotation-source.json), as does
 [tuple projection recovery](dev/validation/projection-source.json) and
 [finite case recovery](dev/validation/case-source.json) and
 [constructor case recovery](dev/validation/constructor-source.json) and
-[parameterized constructor case recovery](dev/validation/parameter-source.json).
+[parameterized constructor case recovery](dev/validation/parameter-source.json) and
+[indexed constructor case recovery](dev/validation/index-source.json).
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -87,10 +88,12 @@ bind one variable. Recovery substitutes the payload into the selected branch
 without capturing outer variables. The whole recovered case must be closed,
 including unused branches and its optional unnamed, unindexed motive.
 Constructor cases recover types from complete, positive families without
-indices or recursive constructors. Both shapes must name the same
-family and carry no indices. Parameter values live in the scrutinee's type.
-Parameter types must be closed over earlier parameters;
-field types may depend on parameters and earlier fields.
+recursive constructors. Both shapes must name the same family and carry the
+declared number of syntactically equal index values. Parameter values live in
+the scrutinee's type. Parameter types must be closed over earlier parameters;
+index types may depend on parameters and earlier indices, while field types
+may depend on parameters and earlier fields. Constructor result indices must
+have the declared count and be closed over parameters and fields.
 Parameterized constructor introductions use their expected family type, including
 annotations, typed lets, and function arguments. Constructor calls supply only
 fields. The kernel checks their field types and result indices. An introduction
@@ -98,12 +101,13 @@ without an expected type remains unsupported.
 Every constructor must have exactly one branch with matching field
 quantities and arity. Recovery substitutes all fields together while preserving
 outer variables. The whole case must be closed, including unused branches and
-its optional unindexed motive, which may name the matching family.
+its motive. Indexed families require a motive naming the matching family with
+the declared number of index binders. Unindexed motives remain optional.
 Annotation, let, beta, projection, and case steps share a limit of 64 reductions
 per recovery, including reductions in heads, scrutinees, and selected results. A let, beta, or case
 result with more than 4096 syntax nodes gives no type. Each alias chain
 retains its declaration-count bound. Source recovery through
-indexed, recursive, and builtin constructor families, or neutral scrutinees,
+recursive and builtin constructor families, unequal source index payloads, or neutral scrutinees,
 remains open.
 Alias bodies must be closed in their declaration scope; opaque, recursive,
 partial, and cyclic aliases remain unsupported. The source type must be closed
@@ -119,7 +123,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-One hundred and forty-seven semantic tests protect this boundary. Scrutinee types that need
+One hundred and fifty-seven semantic tests protect this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

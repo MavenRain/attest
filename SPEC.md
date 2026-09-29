@@ -143,19 +143,25 @@ the motive, and the payload. Selection substitutes the payload into the branch
 body using source substitution, preserving annotations, universes, and outer
 variables. Scrutinees and selected results can require further source reductions.
 Constructor cases require inductive shapes with matching family names and a
-complete, positive family with no indices. Both the elimination and injection
-use bare family markers with no index payload. Parameters live in the scrutinee's
+complete, positive family. Both the elimination and injection carry the declared
+number of index values, with syntactically equal payloads. Unindexed families
+use bare markers. Parameters live in the scrutinee's
 type; recovery takes their count and scope from the checked family metadata.
-Each parameter type must be closed over earlier parameters. Every constructor must be
-nonrecursive, have no result indices, and report a full arity equal to its parameter
+Each parameter type must be closed over earlier parameters. Each index type must
+be closed over parameters and earlier indices. Every constructor must be
+nonrecursive, have exactly the declared number of result indices, and report a full arity equal to its parameter
 and field counts combined. Branches must cover each constructor exactly once, in any order, with
 the declared field quantities and count. Field types must be closed over parameters
-and earlier fields. The selected injection supplies exactly that many field
-arguments. Parameters do not add branch binders. Simultaneous
+and earlier fields. Result indices must be closed over parameters and all fields.
+The selected injection supplies exactly that many field
+arguments. Parameters and indices do not add branch binders. Simultaneous
 source substitution maps the last field to index zero and retains the outer
 scope. Zero-field constructors are supported. The entire case, including unused
-branches, arguments, and the motive, must be closed. A motive may be unnamed or
-name the matching family, and must have no index binders.
+branches, arguments, index payloads, and the motive, must be closed. An indexed
+family requires a motive naming that family and binding exactly its index count.
+An unindexed motive remains optional and may be unnamed or name the matching
+family, with no index binders. The kernel remains responsible for typing the
+indices; recovery checks their metadata and source scope without evaluating them.
 The frontend propagates expected types through constructor variables and
 applications. A parameterized constructor uses the matching expected family
 shape and takes only field arguments. The kernel checks field types, quantities,
@@ -172,9 +178,10 @@ applies between reductions. Cycles through aliases, lets, function heads, or
 results return no recovered type. Substitution retains source annotations and
 universe syntax and avoids capturing outer variables.
 Opaque definitions, partial definitions, recursive definitions, and parameters
-do not unfold. Constructor cases with indexed, recursive,
+do not unfold. Constructor cases with recursive,
 provisional, or builtin families and cases with neutral scrutinees remain
-unsupported. Missing function types,
+unsupported. Syntactically unequal index payloads remain unsupported even when
+definitionally equal. Missing function types,
 nonpoint function formers, nonpoint function application addresses, free codomains,
 and free arguments are refused.
 Four `motive-application-*` pairs cover global, dependent, local, and curried
@@ -256,7 +263,7 @@ normalization or inference, remain open. Lambda bodies whose expected function
 type needs reduction beyond transparent alias hops and bounded head annotation,
 let, beta, tuple projection, finite case, and constructor case reduction remain
 conservative; closed subterms can still be sealed. Constructor cases over
-indexed, recursive, provisional, or builtin families and cases
+recursive, provisional, or builtin families, unequal source index payloads, and cases
 with neutral scrutinees stay conservative. Local proofs without source type syntax are left intact
 because inferred readback can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and
