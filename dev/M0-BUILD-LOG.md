@@ -1,5 +1,33 @@
 # M0 build log
 
+## 2026-09-29: Stage B source indices through transparent aliases
+
+Constructor source recovery compares index payloads after transparent head
+aliases unfold, when their original syntax differs. Global and local alias
+bodies reuse the existing scope, opacity, recursion, and partiality guards.
+Neutral globals and parameters retain their source syntax. Local alias values
+shift into the use scope, and each alias chain has a declaration-count bound.
+The original case remains subject to its whole-term scope and metadata checks.
+The shared 64-step case limit and 4096-node substitution cap still apply.
+
+Two opaque-twin pairs cover a global index alias and a local let alias. Each
+also rewrites an elaborated constructor index to an equivalent alias spelling,
+then checks the modified definition and its use with the kernel before sealing.
+The variants must seal one proof and preserve their opaque twins' runtime.
+The disabled-recovery mutant must fail both checked-core variants. Four
+direct regression cases cover syntax preservation, comparison direction,
+neutral endpoints, width and later-index mismatches, local shifting, capture,
+scope, refused unfoldings, cycles, and the 64/65-step boundary. The inline suite
+contains 171 cases, and the mutation catalog has 213 checked anchors.
+
+`dev/validation/index-alias-source-run.py` collects the full tests and default
+gates, the erasure record, and 40 scoped mutations into
+`dev/validation/index-alias-source.json`. The historical full mutation record
+is retained. Compound index reductions, builtin and provisional families,
+and neutral scrutinees remain unsupported. Stage B stays open at the Acc
+runtime-elimination frontier.
+
+
 ## 2026-09-29: Stage B recursive constructor source types
 
 Source recovery now reduces cases over complete, positive recursive families.

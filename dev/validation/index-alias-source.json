@@ -1,0 +1,1497 @@
+{
+  "version": 1,
+  "recorded_at": "2026-09-30T00:29:01.650374+00:00",
+  "root": "/Users/oobi/Documents/attest",
+  "scope": "Transparent head aliases in constructor source indices; scoped mutation selection.",
+  "base_revision": "00efc718abbf4ec310779ad281720aa9832dd256",
+  "implementation_sha256": {
+    "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
+    "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
+    "dev/bend-migration.json": "4ab6e32415dc7c98219a4ac7124974689cc4b3167bdf0f3e890c485240d93b46",
+    "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
+    "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
+    "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
+    "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
+    "dev/erasure-gates.py": "cbff9650e4046e142e2b001039c4d9ec18a6b2f781310a53a3e5ac30def6c9e4",
+    "dev/erasure-mutations.py": "723056ab31b5a935ee7198ed705f80919fda5201b55436015da55d099455fcd6",
+    "erase/inline.bend": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+    "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
+    "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
+    "erase/test/fixtures.bend": "137be14552beaeccf7aef497a3b49cf891e4de74b8fdd486ed8ce22ab39deb52",
+    "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
+    "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
+    "erase/test/inline_test.bend": "fdd43c51cea159cd0ab2badcf0a8fff26855d3e6f802e4ab721075998619c3bc",
+    "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
+    "erase/test/lambda_fixtures.bend": "df70ac5411316986935193f370d8527185f02e9aa8ae45443886461f884ec075",
+    "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
+    "erase/test/opaque_core.bend": "27c3d0153f546db7e0ee2127626f03787fe7a14ce2d053c057d1a4169305938c",
+    "erase/test/opaque_test.bend": "72b2354aa5fbae943e85381a1b561a31aa41e1be49747cf07c929df169996ee7",
+    "erase/test/parameter_fixtures.bend": "cc0e2e10c80bf5c8aa6343bd3d0632e4708f501bea0833086887a9067bf2eb53",
+    "erase/test/prop_index.bend": "c826246d00aa39ed7f420bbdbd27679643db40f4b2ab643b8cfc4cc13da658d2",
+    "erase/test/refusal_test.bend": "89eda7b5d4aa7dccd2de2eb957096a288b4972475640993a5fa883c225d29c6b",
+    "erase/test/repr_test.bend": "c78c8c14b2c298de25f77f8d270c7a353a57b8d967d52fa44a122d4c83478563",
+    "erase/test/support.bend": "c4eb069dce3dc29b63ea6982249e7ac0819021ccbfea5088b5c581db3efae1aa",
+    "lib/erasure.bend": "affcab049254fbede84b55fa4093a777ad0f20c0fc833f6e0a27d095e34bcfea",
+    "lib/foundation.bend": "30dfb2d9d09081405072c49c99c50c0e5b5997dfe9447061fad2dc83cc1dcee3",
+    "lib/kernel.bend": "86511b6e597f08262370f68670e0fa2fea54bc94d783d0fb3c4afaa9d9953d86",
+    "lib/kernel_check.bend": "6c11aba82ecba68f41d242550b7001990b86eee696c80505ab12541df2233aee",
+    "lib/kernel_context.bend": "527a3d280ff45b52fe3b38ecf00f823ac91b98b89c8e26774bef21e6d3b048dd",
+    "lib/kernel_conv.bend": "82d814f65a15457f417a3c8c71d13eee9593aa2d4fb3fbb8a07b2bed2c5d65cb",
+    "lib/kernel_declarations.bend": "1f91fb7935722a5f1e13557633d3ab1967cb9269180e496639b3652fb2b3fd05",
+    "lib/kernel_eval.bend": "89c23dcc7e2c04b613058f627174aa9b6da0bcd640a6ceebcbdea4ca9ad1a160",
+    "lib/kernel_metadata.bend": "abcfd8db4e917d7759db348be1b39fbc3c7ebe4b897d60196e0e623e8f2470b7",
+    "lib/kernel_mu.bend": "6a377e0f4453136ed010aaa22f8d0ac46a1f4b8623a903c2de012e504117c9b7",
+    "lib/kernel_order.bend": "10d6df09b22d407af140fb5e67daf3b35dd46779c7a7ac12745741908034fd57",
+    "lib/kernel_pp.bend": "5ce1c182cdf90ca10ae63ce959648baf29db4b07e08e342c1ae4827b1dce269f",
+    "lib/kernel_primitives.bend": "7a2907de92080e7e987be50f1942cc6af73f2d8e8b530a6f04b7bbcf92fbe6c3",
+    "lib/kernel_program.bend": "264f989e7d2fd6f667afc8a738a532e4c2f41e344f4fcc9b65ed91f74c20a355",
+    "lib/kernel_rules.bend": "4dac67dc78b6b5943c8c3d0084effe627ad72698a3050f4a18f18f52e1e3cb22",
+    "lib/kernel_source.bend": "553669e50dd1491f8bd4d1be4e9c0466c3625e5e3bd6b5e18d7e388b605a9629",
+    "lib/kernel_util.bend": "b3b2db19257acfe2832f358aa4394addf76d3f65b3c1e346e14b7d4d9f2976fa",
+    "surface/elab.bend": "5d4899b142716d93b71eb0a8ae17964189dfef254d518949d56654378a219856",
+    "surface/elab_cases.bend": "b9a7cc0474ec12d4449fb54c44ea98107a00b1024d2c91e307a0c69d404240b8",
+    "surface/elab_common.bend": "0b2d76972ef1d09c0d7d19c7b4ea3f24bc3c6a2b6a070befe67985a0c087887f",
+    "surface/elab_forms.bend": "c4eb8a05f0b75a5fd3966dc19858db49e7e2731390a6d48caf5f2a62d27c1225",
+    "surface/elab_headers.bend": "b65cd0b475d8465a8f1d455a54233d7d421d5ab23eb1a74d0946bba3c4a73817",
+    "surface/elab_refs.bend": "bac440f8600d395ef5ca1446a56585ca463e2231f6d6135bcb7b9b8e7f1acc31",
+    "surface/elab_requests.bend": "9625a2192994dc01afc1c8675106af64375ec758494222e7ec934d7449a40c77",
+    "surface/elab_runner.bend": "efe9e39371365965dc182b548160d6b5ce5f7efab341f336f169f854f7a5094b",
+    "surface/elab_state.bend": "972ae91487e179f6734743af65b85f336b4336013e81a46b3bc731c5d374bc5b",
+    "surface/elab_term.bend": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+    "surface/io.bend": "d5fb091d66f12c51942f277cc56392e6eb1cb058b131eaaf0799acd4def3d051",
+    "surface/lexer.bend": "f884b27fefaaa0940c2f3d412f96d8df3d7267689193764c4fb360481913f497",
+    "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
+    "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
+    "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
+    "dev/validation/index-alias-source-run.py": "0ef317541d3f4fd382bd3f0eab4fa61e845586d879558bc32b09282e38551fcc",
+    "dev/bend-policy.json": "924cac36bacbea3c99fabc1521ebc2e1d1c1f96460ea30f107ff44631413ac2d",
+    "fixtures/erasure/lambda-index-alias-global-opaque.att": "626356f333f1abdd03a8efa291f6d74a3900d8ad44286a3691fbc3041aa667d1",
+    "fixtures/erasure/lambda-index-alias-global.att": "640f284c0e755ec3bf008b428bd661fa382123cd783b9171811eb778bb5a7978",
+    "fixtures/erasure/lambda-index-alias-local-opaque.att": "9709948fa1e35ac24410d10dab9190fa3a9d6b3cccf5f3667fa2a53b310ce9c5",
+    "fixtures/erasure/lambda-index-alias-local.att": "efca6c47480faeca32cbb904ea33c6b45aabe82556f7c78c5dbd1bbe91ded463"
+  },
+  "checks": [
+    {
+      "name": "tests",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 46.78,
+      "log": {
+        "path": "dev/validation/index-alias-source/tests.log",
+        "sha256": "c73cb382d928b4d454fcb922b28584db6dc5315d2ec36b9fabfaef838c7a9ad1"
+      }
+    },
+    {
+      "name": "gates",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 408.119,
+      "log": {
+        "path": "dev/validation/index-alias-source/gates.log",
+        "sha256": "8afe55d38c541efa71bb59705b16eb9ebfc876cac468a19e1a08509889802c74"
+      }
+    },
+    {
+      "name": "anchors",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-mutations.py",
+        "--check-anchors"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.184,
+      "log": {
+        "path": "dev/validation/index-alias-source/anchors.log",
+        "sha256": "00d5a52f9aef2e07433bd239942d1c6d4111f4182cd720ee99078127e8ac6b4d"
+      }
+    },
+    {
+      "name": "erasure-record",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py",
+        "--record"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 79.79,
+      "log": {
+        "path": "dev/validation/index-alias-source/erasure-record.log",
+        "sha256": "140b8234ffb16cda3f91e57ab89a55575ac3d0aa13203b1ecde67e52803c43e6"
+      }
+    },
+    {
+      "name": "mutations",
+      "command": [
+        "python3",
+        "-P",
+        "dev/validation/index-alias-source-run.py"
+      ],
+      "harness_argv": [
+        "dev/erasure-mutations.py",
+        "--jobs",
+        "2",
+        "--logs",
+        "/Users/oobi/Documents/attest/.gatework/index-alias-source-mutations",
+        "--case",
+        "proof-guard",
+        "--case",
+        "inline-local-type",
+        "--case",
+        "inline-leg-binders",
+        "--case",
+        "inline-shape-payload",
+        "--case",
+        "leg-scope-root",
+        "--case",
+        "index-disabled",
+        "--case",
+        "index-telescope-scope",
+        "--case",
+        "index-telescope-offset",
+        "--case",
+        "index-telescope-parameters",
+        "--case",
+        "index-result-count",
+        "--case",
+        "index-result-scope",
+        "--case",
+        "index-result-tail",
+        "--case",
+        "index-motive-missing",
+        "--case",
+        "index-fixture-call",
+        "--case",
+        "index-shape-count",
+        "--case",
+        "index-shape-value",
+        "--case",
+        "index-shape-tail",
+        "--case",
+        "index-shape-length",
+        "--case",
+        "case-head-fuel",
+        "--case",
+        "case-result-fuel",
+        "--case",
+        "case-fuel",
+        "--case",
+        "alias-global-scope",
+        "--case",
+        "alias-local-scope",
+        "--case",
+        "alias-local-shift",
+        "--case",
+        "alias-opaque",
+        "--case",
+        "alias-recursive",
+        "--case",
+        "alias-partial",
+        "--case",
+        "index-alias-disabled",
+        "--case",
+        "index-alias-neutral",
+        "--case",
+        "index-alias-equality",
+        "--case",
+        "index-alias-tail",
+        "--case",
+        "index-alias-width",
+        "--case",
+        "index-alias-bound",
+        "--case",
+        "index-alias-local-neutral",
+        "--case",
+        "index-alias-fixture-call"
+      ],
+      "harness_invocation": "in-process main() with the one-retry Bun segmentation fault run_case wrapper and the ordered run_cases collector",
+      "log": {
+        "path": "dev/validation/index-alias-source/mutations.log",
+        "sha256": "f2c39e48c23d646af92040f3709f24669395b87cf442412c65bc3fa4efbf4b57"
+      },
+      "exit_code": 0,
+      "elapsed_seconds": 824.275,
+      "baseline": {
+        "path": "dev/validation/index-alias-source/mutation-baseline.log",
+        "sha256": "140b8234ffb16cda3f91e57ab89a55575ac3d0aa13203b1ecde67e52803c43e6"
+      }
+    }
+  ],
+  "supporting_records_sha256": {
+    "dev/validation/erasure.json": "0a5f4a8ec51d1e9a4d9e8a2591f4f8896674e5bf1a41e659526c9bff83a36628"
+  },
+  "catalog_total": 208,
+  "selected": [
+    "proof-guard",
+    "inline-local-type",
+    "inline-leg-binders",
+    "inline-shape-payload",
+    "leg-scope-root",
+    "index-disabled",
+    "index-telescope-scope",
+    "index-telescope-offset",
+    "index-telescope-parameters",
+    "index-result-count",
+    "index-result-scope",
+    "index-result-tail",
+    "index-motive-missing",
+    "index-fixture-call",
+    "index-shape-count",
+    "index-shape-value",
+    "index-shape-tail",
+    "index-shape-length",
+    "case-head-fuel",
+    "case-result-fuel",
+    "case-fuel",
+    "alias-global-scope",
+    "alias-local-scope",
+    "alias-local-shift",
+    "alias-opaque",
+    "alias-recursive",
+    "alias-partial",
+    "index-alias-disabled",
+    "index-alias-neutral",
+    "index-alias-equality",
+    "index-alias-tail",
+    "index-alias-width",
+    "index-alias-bound",
+    "index-alias-local-neutral",
+    "index-alias-fixture-call"
+  ],
+  "mutations": [
+    {
+      "name": "index-alias-disabled",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "de4f5628214db623febb09cd9768358b0f5443dcce6feb3d223fa7a9c67d672e",
+      "log_sha256": "1c3fe72adb5b0a33bc819300530fbc260214599afe3b92ceb23500253822d012",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-alias-source-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-alias-disabled.log",
+        "sha256": "1c3fe72adb5b0a33bc819300530fbc260214599afe3b92ceb23500253822d012"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-alias-disabled-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-alias-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "fdd43c51cea159cd0ab2badcf0a8fff26855d3e6f802e4ab721075998619c3bc",
+      "mutated_sha256": "2a4416dbe4ae6c153206c04f3d44f695d6ee15e929f1750918da137e9bf232a4",
+      "log_sha256": "201da898399756d8bfe2cb73c0ffa237278e391f26a8eefeeb209cfc61cddac9",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=lambda-index-alias-global lambda fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-alias-fixture-call.log",
+        "sha256": "201da898399756d8bfe2cb73c0ffa237278e391f26a8eefeeb209cfc61cddac9"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-alias-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "proof-guard",
+      "path": "erase/opaque.bend",
+      "before_sha256": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+      "mutated_sha256": "95e0e7e8f6cf42605a1b731ad424984f82fbe89a8cbd2241d24c155435b7e683",
+      "log_sha256": "e7a7104c3e5a82b3910ba5d6f0ed11d6a32e836983ebd17b8dc34ab40ed960f6",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "OPAQUE-ERASE exit=1",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/proof-guard.log",
+        "sha256": "e7a7104c3e5a82b3910ba5d6f0ed11d6a32e836983ebd17b8dc34ab40ed960f6"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/proof-guard-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "inline-local-type",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "acf6294abec8cfa2a7d7ad8d9db61e0fa0eb80c36c53b161c594f1d643c9e778",
+      "log_sha256": "69463df4aa15d68795b331776d2853523ece33e05e8a7fe50f4f05b9ee52084e",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=local-type FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/inline-local-type.log",
+        "sha256": "69463df4aa15d68795b331776d2853523ece33e05e8a7fe50f4f05b9ee52084e"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/inline-local-type-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "inline-leg-binders",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "afad661816eb6c1cf6aade92350e5f6835765f6f4b3f3bb23cce1c5c7354a8a1",
+      "log_sha256": "0fe4cb8b524f54521817cb8819d5b7e83d0e2a50bd2975f451ee056074c2208b",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=binders FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/inline-leg-binders.log",
+        "sha256": "0fe4cb8b524f54521817cb8819d5b7e83d0e2a50bd2975f451ee056074c2208b"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/inline-leg-binders-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "inline-shape-payload",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "22e22f680516eeeeb86650224e9ea4d99fccd8201cf86c95a682a6449e699ed8",
+      "log_sha256": "fe05c7f5a39f74747a8ade1ac8c1aa7eaa866959cfc24b1d8e79922afe9cca0e",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=shape-payload FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/inline-shape-payload.log",
+        "sha256": "fe05c7f5a39f74747a8ade1ac8c1aa7eaa866959cfc24b1d8e79922afe9cca0e"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/inline-shape-payload-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "leg-scope-root",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "74dd8a7051bacdc005f700082e2a48ab581f212c454aaae40e2b39b3dac72267",
+      "log_sha256": "89652307ecf60416dad8baed0a013aefd885629b9662bc16d09746ea54ab8614",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=alias-leg-scope FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/leg-scope-root.log",
+        "sha256": "89652307ecf60416dad8baed0a013aefd885629b9662bc16d09746ea54ab8614"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/leg-scope-root-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-disabled",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "b99a99ec1d9ad0cd5c5d932d8a0e282a32e97daff58d02bf432f8ea9ab6e5efa",
+      "log_sha256": "bf1669b0a3f7b7d20350ced4e0f3b000553c02beea3d6efa565f768fcab24228",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-index-global FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-disabled.log",
+        "sha256": "bf1669b0a3f7b7d20350ced4e0f3b000553c02beea3d6efa565f768fcab24228"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-disabled-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-telescope-scope",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "80309b04e403097ee0689b1839eb373ef5871ffaa901b696c2d33b4382e002b8",
+      "log_sha256": "b369c38905d3dc35b90c83afb184b88e9e0b81288f2bdd44991aaf06f72803c1",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-source-metadata FAIL mismatch: open first index accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-telescope-scope.log",
+        "sha256": "b369c38905d3dc35b90c83afb184b88e9e0b81288f2bdd44991aaf06f72803c1"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-telescope-scope-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-telescope-offset",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "c883009e6fe55a1dc0968ec6b4864485cc11efdfb22d48379aecb8128b61d00b",
+      "log_sha256": "b369c38905d3dc35b90c83afb184b88e9e0b81288f2bdd44991aaf06f72803c1",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-source-metadata FAIL mismatch: open first index accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-telescope-offset.log",
+        "sha256": "b369c38905d3dc35b90c83afb184b88e9e0b81288f2bdd44991aaf06f72803c1"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-telescope-offset-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-telescope-parameters",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "41a62ab5e67734d37758cade6c22dbe3065d7df657bbd250730e53f0ebda2c8c",
+      "log_sha256": "e1154fd06ea39bef65900cc800b9440c785321989636a78bc8798e55d0414473",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-index-curried FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-telescope-parameters.log",
+        "sha256": "e1154fd06ea39bef65900cc800b9440c785321989636a78bc8798e55d0414473"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-telescope-parameters-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-result-count",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "c770d55e87198fe86b0bf622f34e560b3bad2d487c6ff95dde29d02be40cbcf1",
+      "log_sha256": "c65eaf91d2b69676dbdf77cc4bb6392cc5a4e4ee7f1c571e312421f69a384444",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-source-metadata FAIL mismatch: short result indices accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-result-count.log",
+        "sha256": "c65eaf91d2b69676dbdf77cc4bb6392cc5a4e4ee7f1c571e312421f69a384444"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-result-count-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-result-scope",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "e415677be6154adbee9236445805f34007b67087117c4335a280e1fd05e5c933",
+      "log_sha256": "c0dedef9cac2bc081da379044e2599eb6b1d4b156793254523a3584f842e1da2",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-source-metadata FAIL mismatch: open result index accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-result-scope.log",
+        "sha256": "c0dedef9cac2bc081da379044e2599eb6b1d4b156793254523a3584f842e1da2"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-result-scope-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-result-tail",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "1a9cb4a07e955d6a4d0cf96515993bb7478d84112de442cc3cf5a4391e73663c",
+      "log_sha256": "9464cbde390c7816d075249cff9db7b1172193bce40602ad53f2f8e77db569ab",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-source-metadata FAIL mismatch: open later result index accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-result-tail.log",
+        "sha256": "9464cbde390c7816d075249cff9db7b1172193bce40602ad53f2f8e77db569ab"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-result-tail-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-motive-missing",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "321449a85f4fe7d91e870d1a234e94a4dc55dc38618fe387481d8e7f7b0bd4df",
+      "log_sha256": "5729c7127b04adb51529331b21e31843b8eb6ab459c486d43a40bf4d8b7d3666",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-source-motive FAIL mismatch: indexed missing motive accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-motive-missing.log",
+        "sha256": "5729c7127b04adb51529331b21e31843b8eb6ab459c486d43a40bf4d8b7d3666"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-motive-missing-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "fdd43c51cea159cd0ab2badcf0a8fff26855d3e6f802e4ab721075998619c3bc",
+      "mutated_sha256": "b866e10a2d36dd4be69315d874e5246773423a6326818687051bdaf1511d49ff",
+      "log_sha256": "f461d4f5fc25503140c568e2edb359159b435e63549bb69f38cbe4b5fe2ca92b",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=lambda-index-global lambda fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-fixture-call.log",
+        "sha256": "f461d4f5fc25503140c568e2edb359159b435e63549bb69f38cbe4b5fe2ca92b"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "index-shape-count",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "486c5c9200d3caffc75596f6e1e306c901d0b1ea1cc3924a1bb3b9ffe1cb38bf",
+      "log_sha256": "d00afa40ed3c71bcead484b5c500d2e4c16a0c4f7bcaf4f16493a50f7b236817",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-source-shapes FAIL mismatch: indexed shape arity ignored",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-shape-count.log",
+        "sha256": "d00afa40ed3c71bcead484b5c500d2e4c16a0c4f7bcaf4f16493a50f7b236817"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-shape-count-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-shape-value",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "41891b5be4dd55d1f760a8911a71191cfbce8eba07554c9caf0c486fba579a79",
+      "log_sha256": "f5cc3f5506f590391315821f98f99998c7d69473e2996267dcd5d34fc524f072",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-source-shapes FAIL mismatch: indexed shape values differ",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-shape-value.log",
+        "sha256": "f5cc3f5506f590391315821f98f99998c7d69473e2996267dcd5d34fc524f072"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-shape-value-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-shape-tail",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "adc8e04fbf5467c59a330c5d49d0c439d3cadd08eaab75a3dd536bedf52f6129",
+      "log_sha256": "a41dcccee04de4b7bf51d57caf6fad31d5c5610358f4923a7c25403ed3323d79",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-source-shapes FAIL mismatch: indexed short injection shape accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-shape-tail.log",
+        "sha256": "a41dcccee04de4b7bf51d57caf6fad31d5c5610358f4923a7c25403ed3323d79"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-shape-tail-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-shape-length",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "a010a4b3c0637f09d776f1322c262d4a256c57da0363806fc9821360f0e333c6",
+      "log_sha256": "7f96897146a549c0d29135adb2b1bcdc08de195789b53654b712391ad79d1fe5",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-source-shapes FAIL mismatch: indexed short injection shape accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-shape-length.log",
+        "sha256": "7f96897146a549c0d29135adb2b1bcdc08de195789b53654b712391ad79d1fe5"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-shape-length-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "case-head-fuel",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "821aa52922a6ee934a751c6b41b3bd3ca9df29136251c0f7a23f5e0a1ff1bd08",
+      "log_sha256": "bc01705fde888f263728b2ee0e4e9fd1db5b0b1a36ed23572f0266b80456ddff",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=case-source-fuel FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/case-head-fuel.log",
+        "sha256": "bc01705fde888f263728b2ee0e4e9fd1db5b0b1a36ed23572f0266b80456ddff"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/case-head-fuel-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "case-result-fuel",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "4b122269981e94d3276fff37c48e463e91001a6b09019be6e69ca7e8e1dc99c9",
+      "log_sha256": "4a1f1fc48a7fc272265a26d04df30743a8ced2a3f8c59353907100f0c40bb4f9",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=case-source-fuel FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/case-result-fuel.log",
+        "sha256": "4a1f1fc48a7fc272265a26d04df30743a8ced2a3f8c59353907100f0c40bb4f9"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/case-result-fuel-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "case-fuel",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "f2abd59ccfe005112102ab7d08b66cc9cbaecb0958f445c20fc90bd04d0b283f",
+      "log_sha256": "d38cf1f0d079fdaa9933985f091c0d3f94da0202918b0fc2b7ad42760fc9416b",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=case-source-fuel FAIL mismatch: mixed case reduction bound exceeded",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/case-fuel.log",
+        "sha256": "d38cf1f0d079fdaa9933985f091c0d3f94da0202918b0fc2b7ad42760fc9416b"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/case-fuel-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "alias-global-scope",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "cc55880462fd1be6ec37b6671b2e8688e8c3328e6a12c1eb437024f9aae29f8d",
+      "log_sha256": "dc7a41c995456196a2a823250a49560d99cde8404862b0329548b020a87ca528",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: free global alias accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/alias-global-scope.log",
+        "sha256": "dc7a41c995456196a2a823250a49560d99cde8404862b0329548b020a87ca528"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/alias-global-scope-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "alias-local-scope",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "969e3a87419178f15152759a27fca990a433e25faa4789e782bc25fe3a634319",
+      "log_sha256": "e3ad7515e9b62c72b1b1d1a8fd2d9e1c70f98473f78f9bfac31713cf5d3daabd",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: self-referencing local alias accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/alias-local-scope.log",
+        "sha256": "e3ad7515e9b62c72b1b1d1a8fd2d9e1c70f98473f78f9bfac31713cf5d3daabd"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/alias-local-scope-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "alias-local-shift",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "5a918402053f7f1fc941c7dd75c600d8b0ef44ba89853cf80f97384d1eeef1d6",
+      "log_sha256": "7bbdafff9373b80ba5af8ca4fdbe3ac3989827706aead30277797e637ba9abb8",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=alias-local FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/alias-local-shift.log",
+        "sha256": "7bbdafff9373b80ba5af8ca4fdbe3ac3989827706aead30277797e637ba9abb8"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/alias-local-shift-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "alias-opaque",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "19dafc5f7f814d4c97943d2fce173623ba9015d56bfcebc237225f67674edaa4",
+      "log_sha256": "29dfce90440a8d9a3bd30f62fd84a4df0cb225cf9b97cfaabf6123cc3e8cda5c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: opaque alias unfolded",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/alias-opaque.log",
+        "sha256": "29dfce90440a8d9a3bd30f62fd84a4df0cb225cf9b97cfaabf6123cc3e8cda5c"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/alias-opaque-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "alias-recursive",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "df6767215ca8f6da8350f198e5757207a23e028f54ff802489e938842d2c831a",
+      "log_sha256": "b3cd4175a4e0926effecdf0f1dac3a17589e9d5c4b09ad43bcf4dc9a7e6debc3",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: recursive alias unfolded",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/alias-recursive.log",
+        "sha256": "b3cd4175a4e0926effecdf0f1dac3a17589e9d5c4b09ad43bcf4dc9a7e6debc3"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/alias-recursive-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "alias-partial",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "d6e60d61dc9cc1c43d8badb9aac9436a379ee6ea01f0c6576e4387c523543ad0",
+      "log_sha256": "8caafb6a29448fe2add332a2ab8104c7fd8db0bf87180a901e597508e454856c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: partial alias unfolded",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/alias-partial.log",
+        "sha256": "8caafb6a29448fe2add332a2ab8104c7fd8db0bf87180a901e597508e454856c"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/alias-partial-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-alias-neutral",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "954e83740e638920ef75a0b665ebd1efc24401504fb84bd639fc94c0f78f1e62",
+      "log_sha256": "86b7b578bf5b0cd773c0ab5238977c661585e35c99d57c6395a0312c26295ca8",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-alias-source-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-alias-neutral.log",
+        "sha256": "86b7b578bf5b0cd773c0ab5238977c661585e35c99d57c6395a0312c26295ca8"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-alias-neutral-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-alias-equality",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "8ecd673b181881873958f666f4254a687de422b6eb9a6bbd840351f9fe5a21ff",
+      "log_sha256": "f5cc3f5506f590391315821f98f99998c7d69473e2996267dcd5d34fc524f072",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-alias-source-guards FAIL mismatch: opaque index alias unfolded",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-alias-equality.log",
+        "sha256": "f5cc3f5506f590391315821f98f99998c7d69473e2996267dcd5d34fc524f072"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-alias-equality-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-alias-tail",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "7305b77068a08841ff659ec7ffd9982c9003284b595e9de7d27b43d6f6358552",
+      "log_sha256": "7c99258e903ef2262838e99f59842aeb5bb1615e6cb5062ac1a062a8eafee21e",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-alias-source-syntax FAIL mismatch: later alias index differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-alias-tail.log",
+        "sha256": "7c99258e903ef2262838e99f59842aeb5bb1615e6cb5062ac1a062a8eafee21e"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-alias-tail-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-alias-width",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "fe12bbf794667a6725f2ef1fdd8c7d40f657acfdbc7de60281ea4c732d5f0d2f",
+      "log_sha256": "e11a827a7fc0b63ebb8062576fec3cfbe15d62f45a66934acbd7b852aae3b3d9",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-alias-source-syntax FAIL mismatch: alias index widths differ",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-alias-width.log",
+        "sha256": "e11a827a7fc0b63ebb8062576fec3cfbe15d62f45a66934acbd7b852aae3b3d9"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-alias-width-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-alias-bound",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "9f0b0456e3e15f1b3c021af4930308cb01f91e4df749b93e002591dfc764cb6a",
+      "log_sha256": "1c3fe72adb5b0a33bc819300530fbc260214599afe3b92ceb23500253822d012",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-alias-source-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-alias-bound.log",
+        "sha256": "1c3fe72adb5b0a33bc819300530fbc260214599afe3b92ceb23500253822d012"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-alias-bound-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-alias-local-neutral",
+      "path": "erase/inline.bend",
+      "before_sha256": "5379d0924e4b61c62f66b93415a23f082eddbc65eb349cfe9d9b21c34cad721d",
+      "mutated_sha256": "a7427ab280e40ff6fb9174b9abddb26e9200f311c7eaa9bf0b585b89c642cdcd",
+      "log_sha256": "b66bc335dcea2d7909f6426d849f1b59500a3450c711bacfd774cc11c551e94f",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-alias-source-local FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-alias-source/index-alias-local-neutral.log",
+        "sha256": "b66bc335dcea2d7909f6426d849f1b59500a3450c711bacfd774cc11c551e94f"
+      },
+      "build_log": {
+        "path": "dev/validation/index-alias-source/index-alias-local-neutral-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    }
+  ]
+}

@@ -1,19 +1,19 @@
 {
   "version": 1,
-  "recorded_at": "2026-09-29T19:54:08.712101+00:00",
+  "recorded_at": "2026-09-29T22:26:40.530514+00:00",
   "root": "/Users/oobi/Documents/attest",
   "scope": "Recursive constructor source recovery; scoped mutation selection.",
-  "base_revision": "3edf0e7db1e25cb883cc39e463b03b7aafc66d18",
+  "base_revision": "00efc718abbf4ec310779ad281720aa9832dd256",
   "implementation_sha256": {
     "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
     "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
-    "dev/bend-migration.json": "97e471de363d93bf76894e9c7ffd50c73eef122203c2fa83e4f890373c60e3de",
+    "dev/bend-migration.json": "f064c0b7feb9250bff62055ff4edf6253ab2282d6a40a305aef48e7b0eb4477b",
     "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
     "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
     "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
     "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
     "dev/erasure-gates.py": "45e752182a69d79bf7d05633db62cbd1be2e6ce9b899f7eddcb6055410b1952d",
-    "dev/erasure-mutations.py": "9e5fc68966414f12fbc10fe5307728469274d0cc959cde8646a6810f047ebd2c",
+    "dev/erasure-mutations.py": "d3d8120c9b6b3afd9842c1a42c722548a5c502df9b8103fa1029978c44ea4d83",
     "erase/inline.bend": "b355af6d470784dfe6c9e159712f1a60f87690359280a0e8996e4a68efc1db5e",
     "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
     "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
@@ -21,7 +21,7 @@
     "erase/test/fixtures.bend": "137be14552beaeccf7aef497a3b49cf891e4de74b8fdd486ed8ce22ab39deb52",
     "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
     "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
-    "erase/test/inline_test.bend": "79e96de251e78b2a94f49205ebfa82155c96009dfe70b11adc6526aeef7d4189",
+    "erase/test/inline_test.bend": "63e4a3a90a56a11aae228a9a9f6d1168b2aa66145c8732ca6ae405ebfd499792",
     "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
     "erase/test/lambda_fixtures.bend": "e230f936c51f8921a031312d488c5119479617b8479e90ad95e7d2bd0a34503a",
     "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
@@ -83,7 +83,7 @@
         "test"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 47.325,
+      "elapsed_seconds": 67.746,
       "log": {
         "path": "dev/validation/recursive-source/tests.log",
         "sha256": "7878f2f45b76a1d0519d34a3502a02cd77096632fe630777c55c0a5474bfe646"
@@ -97,10 +97,10 @@
         "dev/gates.sh"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 702.959,
+      "elapsed_seconds": 613.43,
       "log": {
         "path": "dev/validation/recursive-source/gates.log",
-        "sha256": "ea992c1b163d7b584fde3534c1e772b65f53886ef1a55e1f7469df14da606a8c"
+        "sha256": "143e62262d24ae861a06daa862291265895c9657475c9d470d1670c18d436e4d"
       }
     },
     {
@@ -112,10 +112,10 @@
         "--check-anchors"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 0.264,
+      "elapsed_seconds": 0.282,
       "log": {
         "path": "dev/validation/recursive-source/anchors.log",
-        "sha256": "0068753a7ef6b79a1b784f0946f6bde437db78572eb20280c86b34a8b2a687e2"
+        "sha256": "0144fe31262617fd596bae26e1a956b3f3155cef6cfb8103f27e1b8ea196fd3c"
       }
     },
     {
@@ -127,7 +127,7 @@
         "--record"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 153.285,
+      "elapsed_seconds": 173.272,
       "log": {
         "path": "dev/validation/recursive-source/erasure-record.log",
         "sha256": "b90dd32d6ca9e3bffaba523a5182a4b192a063b4f3bb65232b2a50e45a400f93"
@@ -173,6 +173,8 @@
         "--case",
         "recursive-disabled",
         "--case",
+        "recursive-metadata-bypass",
+        "--case",
         "recursive-fixture-call",
         "--case",
         "constructor-field-arity",
@@ -210,10 +212,10 @@
       "harness_invocation": "in-process main() with the one-retry Bun segmentation fault run_case wrapper and the ordered run_cases collector",
       "log": {
         "path": "dev/validation/recursive-source/mutations.log",
-        "sha256": "b918a676af65fdf4a4866c41fd9528385e87429e052323060815b64bfa5f4fbb"
+        "sha256": "aaa75d39a1dccfe09ed9e160af090e6b1c3657ac4987c2e4daef5408b573b4aa"
       },
       "exit_code": 0,
-      "elapsed_seconds": 1657.633,
+      "elapsed_seconds": 2574.83,
       "baseline": {
         "path": "dev/validation/recursive-source/mutation-baseline.log",
         "sha256": "b90dd32d6ca9e3bffaba523a5182a4b192a063b4f3bb65232b2a50e45a400f93"
@@ -221,9 +223,9 @@
     }
   ],
   "supporting_records_sha256": {
-    "dev/validation/erasure.json": "50c6df91891ba920bc4b0924f83539b593e4f17d0c72a782f1a245359024face"
+    "dev/validation/erasure.json": "f876e50dde52d6f839fe84da362930243d3e93232d467389b25293ac39256809"
   },
-  "catalog_total": 199,
+  "catalog_total": 200,
   "selected": [
     "proof-guard",
     "inline-local-type",
@@ -238,6 +240,7 @@
     "constructor-branch-address",
     "constructor-fields",
     "recursive-disabled",
+    "recursive-metadata-bypass",
     "recursive-fixture-call",
     "constructor-field-arity",
     "constructor-motive",
@@ -262,7 +265,7 @@
       "path": "erase/inline.bend",
       "before_sha256": "b355af6d470784dfe6c9e159712f1a60f87690359280a0e8996e4a68efc1db5e",
       "mutated_sha256": "c30695ef6b8f89489c4f3dba2b11747f29bea9716f7a947ade99c115dfbbc722",
-      "log_sha256": "24b356c47dea7031c4ee416f2ef211dca3edd1a07f9231d5d715984f638f288f",
+      "log_sha256": "6436b44b91e6379a2b5e78d57461611ec07239a67035675e3c6e3b49dec3df55",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=lambda-recursive-global FAIL",
@@ -285,7 +288,7 @@
       ],
       "log": {
         "path": "dev/validation/recursive-source/recursive-disabled.log",
-        "sha256": "24b356c47dea7031c4ee416f2ef211dca3edd1a07f9231d5d715984f638f288f"
+        "sha256": "6436b44b91e6379a2b5e78d57461611ec07239a67035675e3c6e3b49dec3df55"
       },
       "build_log": {
         "path": "dev/validation/recursive-source/recursive-disabled-build.log",
@@ -295,8 +298,8 @@
     {
       "name": "recursive-fixture-call",
       "path": "erase/test/inline_test.bend",
-      "before_sha256": "79e96de251e78b2a94f49205ebfa82155c96009dfe70b11adc6526aeef7d4189",
-      "mutated_sha256": "95f26ee213ff858ea1defac2d1905cee53a5380093f4ff406c9a5a4844f12fa6",
+      "before_sha256": "63e4a3a90a56a11aae228a9a9f6d1168b2aa66145c8732ca6ae405ebfd499792",
+      "mutated_sha256": "ced7787fd6cfeb7b2a654f49b88167c5bfc896e19820bce90e3b77c99c831123",
       "log_sha256": "0ca40841014b8254769d850431a61b85fa7e66e0f781ca838f8193c8fab8b7af",
       "build_exit": 0,
       "gate_exit": 1,
@@ -744,6 +747,41 @@
       },
       "build_log": {
         "path": "dev/validation/recursive-source/constructor-fields-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "recursive-metadata-bypass",
+      "path": "erase/inline.bend",
+      "before_sha256": "b355af6d470784dfe6c9e159712f1a60f87690359280a0e8996e4a68efc1db5e",
+      "mutated_sha256": "6c5a8d7ce64d98b8cfa62788b412df8458457fa57dc46d6cca534e0c52ace255",
+      "log_sha256": "f836596de3d7c790c2ac952553deb59c8504e37383b855a388cd3e96e15d8106",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=recursive-source-metadata FAIL mismatch: constructor metadata arity accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/recursive-source/recursive-metadata-bypass.log",
+        "sha256": "f836596de3d7c790c2ac952553deb59c8504e37383b855a388cd3e96e15d8106"
+      },
+      "build_log": {
+        "path": "dev/validation/recursive-source/recursive-metadata-bypass-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },

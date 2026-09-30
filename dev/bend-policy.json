@@ -1893,6 +1893,36 @@
       "path": "test/surface.bend",
       "function": "SurfaceTest.budget_spent",
       "pattern": "_"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_alias_equal",
+      "pattern": "other right"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_alias_type",
+      "pattern": "0n term"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_alias_type",
+      "pattern": "1n+remaining other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_alias_values",
+      "pattern": "other values"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.index_alias_in",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.index_alias_local",
+      "pattern": "other"
     }
   ],
   "unsafe": [

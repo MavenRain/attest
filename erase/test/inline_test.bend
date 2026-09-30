@@ -171,6 +171,72 @@ def Suite.local_sealed(+source:String,twin:String,host:Maybe<&2,F.Pair2<Bool,Str
     prepared:E.Elab.checked <- T.Test.prepare(original)
     Suite.sealed_count(prepared,expected)
 
+def Suite.index_alias_in(term:F.Term.t,index:F.Term.t) -> Result<&2,&2,F.Error.t,F.Term.t>:
+  match term:
+    case F.Term.In{shape,address,args}:
+      do Result<&2,&2,F.Error.t,F.Term.t>:
+        unit:Unit <- T.Test.require(Suite.family_name(shape,"Choice"),"index alias variant lost its constructor family")
+        Done{F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",[index]),address,args}}
+    case other: Fail{F.Error.Mismatch{"index alias variant lost its constructor"}}
+
+def Suite.index_alias_local(term:F.Term.t) -> Result<&2,&2,F.Error.t,F.Term.t>:
+  match term:
+    case F.Term.Let{name,ty,value,F.Term.Let{pick,pick_ty,pick_value,body}}:
+      do Result<&2,&2,F.Error.t,F.Term.t>:
+        revised:F.Term.t <- Suite.index_alias_in(pick_value,F.Term.Var{0n})
+        Done{F.Term.Let{name,ty,value,F.Term.Let{pick,pick_ty,revised,body}}}
+    case other: Fail{F.Error.Mismatch{"index alias variant lost its local aliases"}}
+
+def Suite.index_alias_body(local:Bool,body:F.Term.t) -> Result<&2,&2,F.Error.t,F.Term.t>:
+  match local:
+    case False{}: Suite.index_alias_in(body,F.Term.Global{"Index"})
+    case True{}: Suite.index_alias_local(body)
+
+def Suite.index_alias_entry(same:Bool,entry:F.Global.entry,old:F.Global.entry) -> F.Global.entry:
+  match same:
+    case False{}: old
+    case True{}: entry
+
+def Suite.index_alias_name(local:Bool) -> String:
+  match local:
+    case False{}: "Pick"
+    case True{}: "Layout"
+
+def Suite.index_alias_rows(rows:E.Elab.rows,+name:String,+entry:F.Global.entry) -> E.Elab.rows:
+  match rows:
+    case Nil{}: Nil{}
+    case F.Pair2{+found,old} <> rest:
+      replacement:F.Global.entry = Suite.index_alias_entry(String.eq(found,name),entry,old)
+      F.Pair2{found,replacement} <> Suite.index_alias_rows(rest,name,entry)
+
+def Suite.index_alias_variant(checked:E.Elab.checked,+local:Bool) -> Result<&2,&2,F.Error.t,E.Elab.checked>:
+  F.Pair2{+globals,rows} = checked
+  +name:String = Suite.index_alias_name(local)
+  do Result<&2,&2,F.Error.t,E.Elab.checked>:
+    +definition:F.Global.def_entry <- T.Test.definition(name,globals)
+    +body:F.Term.t <- Suite.index_alias_body(local,T.Test.def_body(definition))
+    changed:Unit <- T.Test.require(Bool.not(I.Inline.term_equal(body,T.Test.def_body(definition))),"index alias variant did not change the index spelling")
+    +entry:F.Global.entry = T.Test.replace_body(definition,body)
+    +revised:F.Global.t = F.Global.add(name,entry,globals)
+    +revised_rows:E.Elab.rows = Suite.index_alias_rows(rows,name,entry)
+    consistent:Unit <- T.Test.require(Suite.consistent(revised_rows,revised),"index alias variant rows differ")
+    typed:Unit <- Suite.recheck(revised,name)
+    keep:Unit <- Suite.recheck(revised,"keep")
+    Done{F.Pair2{revised,revised_rows}}
+
+def Suite.index_alias_sealed(+source:String,+twin:String,+host:Maybe<&2,F.Pair2<Bool,String>>,+expected:Nat,local:Bool) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    source_checked:Unit <- Suite.local_sealed(source,twin,host,expected)
+    original:E.Elab.checked <- E.Elab.check_in(G.Global.initial,source)
+    +variant:E.Elab.checked <- Suite.index_alias_variant(original,local)
+    +prepared:E.Elab.checked <- T.Test.prepare(variant)
+    typed:Unit <- Suite.local_prepared(prepared,host)
+    sealed:Unit <- Suite.sealed_count(prepared,expected)
+    opaque:E.Elab.checked <- E.Elab.check_in(G.Global.initial,twin)
+    before:List<&2,F.Pair2<String,R.Erase.entry>> <- Suite.erase(variant)
+    after:List<&2,F.Pair2<String,R.Erase.entry>> <- Suite.erase(opaque)
+    T.Test.require(String.eq(R.Erase.print(Suite.runtime_rows(before)),R.Erase.print(Suite.runtime_rows(after))),"index alias variant runtime differs from its sealed twin")
+
 # Two constructors have the same field shape and different proof types.
 # The proof is in the first constructor, then in the last constructor.
 def Suite.parameter_ctors(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> Result<&2,&2,F.Error.t,Unit>:
@@ -1530,6 +1596,92 @@ def Suite.recursive_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
     ignored:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_term("pair",[univ,Suite.index_chain(64n,univ)],univ,univ,Suite.index_motive(["A","a"]))},context)
     Suite.application_equal(ignored,univ)
 
+def Suite.index_alias_context(entry:F.Global.entry,locals:List<&2,I.Inline.local>,depth:Nat) -> I.Inline.context:
+  globals:F.Global.t = F.Global.add("Index",entry,F.Global.add_family("Choice",Suite.index_family,F.Global.empty))
+  I.Inline.Context{C.Check.Ctx{globals,Nil{},Nil{},depth,C.Budget.unlimited},locals}
+
+def Suite.index_alias_term(indices:List<&2,F.Term.t>,values:List<&2,F.Term.t>,body:F.Term.t) -> F.Term.t:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  F.Term.Elim{F.Term.Elimination{F.Shape.make_inductive(F.Term.t,"Choice",indices),F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",values),F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},Suite.index_motive(["A","a"]),Suite.constructor_branches(univ,body)}}
+
+def Suite.index_alias_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +neutral:F.Term.t = F.Term.Global{"Neutral"}
+  +entry:F.Global.entry = F.Global.Def{F.Global.DefEntry{univ,neutral,True{},None{},False{}}}
+  +context:I.Inline.context = Suite.index_alias_context(entry,Nil{},0n)
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{univ,F.Term.Univ{F.Level.one}}),F.Term.Univ{F.Level.zero}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Global{"Index"},univ],[neutral,univ],body)},context)
+    syntax:Unit <- Suite.application_equal(actual,body)
+    reverse:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([neutral,univ],[F.Term.Global{"Index"},univ],body)},context)
+    reverse_ok:Unit <- Suite.application_equal(reverse,body)
+    tail:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([univ,F.Term.Global{"Index"}],[univ,neutral],body)},context)
+    tail_ok:Unit <- Suite.application_equal(tail,body)
+    unequal:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Global{"Index"},univ],[neutral,F.Term.Univ{F.Level.one}],body)},context)
+    unequal_ok:Unit <- Suite.application_absent(unequal,"later alias index differs")
+    neutral_globals:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Global{"Index"},univ],[F.Term.Global{"Other"},univ],body)},context)
+    neutral_globals_ok:Unit <- Suite.application_absent(neutral_globals,"distinct neutral index globals accepted")
+    short:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Global{"Index"},univ],[neutral],body)},context)
+    Suite.application_absent(short,"alias index widths differ")
+
+def Suite.index_alias_source_local() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +entry:F.Global.entry = F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},False{}}}
+  +locals:List<&2,I.Inline.local> = [I.Inline.Local{"alias",univ,F.Term.Var{0n}},I.Inline.Param{"outer",univ},I.Inline.Param{"older",univ}]
+  +context:I.Inline.context = Suite.index_alias_context(entry,locals,3n)
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{3n}),F.Term.Var{5n}}
+  +expected:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{1n}),F.Term.Var{3n}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Var{0n},univ],[F.Term.Var{1n},univ],body)},context)
+    shifted:Unit <- Suite.application_equal(actual,expected)
+    parameter:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Var{1n},univ],[univ,univ],univ)},context)
+    parameter_ok:Unit <- Suite.application_absent(parameter,"neutral index parameter unfolded")
+    neutral_params:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Var{0n},univ],[F.Term.Var{2n},univ],univ)},context)
+    neutral_params_ok:Unit <- Suite.application_absent(neutral_params,"distinct neutral index parameters accepted")
+    open_context:I.Inline.context = Suite.index_alias_context(entry,[I.Inline.Local{"a",univ,F.Term.Var{1n}},I.Inline.Local{"b",univ,F.Term.Var{0n}}],2n)
+    open:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Var{0n},univ],[F.Term.Var{1n},univ],univ)},open_context)
+    Suite.application_absent(open,"open local index alias unfolded")
+
+def Suite.index_alias_refused(entry:F.Global.entry,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Global{"Index"},univ],[univ,univ],univ)},Suite.index_alias_context(entry,Nil{},0n))
+    Suite.application_absent(actual,message)
+
+def Suite.index_alias_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  do Result<&2,&2,F.Error.t,Unit>:
+    opaque:Unit <- Suite.index_alias_refused(F.Global.Def{F.Global.DefEntry{univ,univ,False{},None{},False{}}},"opaque index alias unfolded")
+    recursive:Unit <- Suite.index_alias_refused(F.Global.Def{F.Global.DefEntry{univ,univ,True{},Some{0n},False{}}},"recursive index alias unfolded")
+    partial:Unit <- Suite.index_alias_refused(F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},True{}}},"partial index alias unfolded")
+    open_global:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Global{"Index"},univ],[F.Term.Var{0n},univ],univ)},Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,F.Term.Var{0n},True{},None{},False{}}},[I.Inline.Param{"p",univ}],1n))
+    open:Unit <- Suite.application_absent(open_global,"open global index alias unfolded")
+    cycle_context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,F.Term.Global{"Index"},True{},None{},False{}}},[I.Inline.Local{"u",univ,univ}],1n)
+    cycle_term:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Global{"Index"},F.Term.Var{0n}],[F.Term.Global{"Index"},univ],univ)},cycle_context)
+    cycle:Unit <- Suite.application_absent(cycle_term,"cyclic index alias unfolded")
+    unequal:Unit <- Suite.index_alias_refused(F.Global.Def{F.Global.DefEntry{univ,F.Term.Univ{F.Level.one},True{},None{},False{}}},"unequal index alias accepted")
+    wrapped:Unit <- Suite.index_alias_refused(F.Global.Def{F.Global.DefEntry{univ,F.Term.Ann{univ,F.Term.Univ{F.Level.one}},True{},None{},False{}}},"index annotation reduced")
+    +context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},False{}}},Nil{},0n)
+    term:F.Term.t = Suite.index_alias_term([F.Term.Global{"Index"},univ],[univ,univ],F.Term.Var{2n})
+    free:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{term},context)
+    Suite.application_absent(free,"open aliased constructor result accepted")
+
+def Suite.index_alias_chain(count:Nat,body:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: body
+    case 1n+n:
+      +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+      F.Term.Elim{F.Term.Elimination{F.Shape.make_inductive(F.Term.t,"Choice",[F.Term.Global{"Index"},univ]),F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",[univ,univ]),F.Term.ACtor{"pair"},[univ,Suite.index_alias_chain(n,body)]},F.Quantity.Many{},Suite.index_motive(["A","a"]),Suite.constructor_branches(univ,F.Term.Var{0n})}}
+
+def Suite.index_alias_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},False{}}},Nil{},0n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_chain(64n,univ)},context)
+    exact_ok:Unit <- Suite.application_equal(exact,univ)
+    over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_chain(65n,univ)},context)
+    Suite.application_absent(over,"aliased index shared fuel exceeded")
+
 def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
   [
       Suite.Case{"let-body",unit => Suite.poisoned(X.Fixture.let_proof,False{})},
@@ -1648,6 +1800,12 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"recursive-source-metadata",unit => Suite.constructor_source_metadata(Suite.recursive_family(Suite.constructor_family),True{})},
       Suite.Case{"recursive-source-scope",unit => Suite.recursive_source_scope},
       Suite.Case{"recursive-source-fuel",unit => Suite.recursive_source_fuel},
+      Suite.Case{"index-alias-source-syntax",unit => Suite.index_alias_source_syntax},
+      Suite.Case{"index-alias-source-local",unit => Suite.index_alias_source_local},
+      Suite.Case{"index-alias-source-guards",unit => Suite.index_alias_source_guards},
+      Suite.Case{"index-alias-source-fuel",unit => Suite.index_alias_source_fuel},
+      Suite.Case{"lambda-index-alias-global",unit => Suite.index_alias_sealed(LF.Fixture.lambda_index_alias_global,LF.Fixture.lambda_index_alias_global_opaque,layout,1n,False{})},
+      Suite.Case{"lambda-index-alias-local",unit => Suite.index_alias_sealed(LF.Fixture.lambda_index_alias_local,LF.Fixture.lambda_index_alias_local_opaque,layout,1n,True{})},
       Suite.Case{"lambda-parameter-global",unit => Suite.local_sealed(LF.Fixture.lambda_parameter_global,LF.Fixture.lambda_parameter_global_opaque,layout,1n)},
       Suite.Case{"lambda-parameter-dependent",unit => Suite.local_sealed(LF.Fixture.lambda_parameter_dependent,LF.Fixture.lambda_parameter_dependent_opaque,layout,1n)},
       Suite.Case{"lambda-parameter-local",unit => Suite.local_sealed(LF.Fixture.lambda_parameter_local,LF.Fixture.lambda_parameter_local_opaque,layout,1n)},

@@ -114,6 +114,12 @@ INLINE-ERASE row=recursive-source-syntax OK
 INLINE-ERASE row=recursive-source-metadata OK
 INLINE-ERASE row=recursive-source-scope OK
 INLINE-ERASE row=recursive-source-fuel OK
+INLINE-ERASE row=index-alias-source-syntax OK
+INLINE-ERASE row=index-alias-source-local OK
+INLINE-ERASE row=index-alias-source-guards OK
+INLINE-ERASE row=index-alias-source-fuel OK
+INLINE-ERASE row=lambda-index-alias-global OK
+INLINE-ERASE row=lambda-index-alias-local OK
 INLINE-ERASE row=lambda-parameter-global OK
 INLINE-ERASE row=lambda-parameter-dependent OK
 INLINE-ERASE row=lambda-parameter-local OK
@@ -163,4 +169,4 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=165 total=165 OK
+INLINE-ERASE pass=171 total=171 OK

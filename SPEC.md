@@ -144,7 +144,12 @@ body using source substitution, preserving annotations, universes, and outer
 variables. Scrutinees and selected results can require further source reductions.
 Constructor cases require inductive shapes with matching family names and a
 complete, positive family. Both the elimination and injection carry the declared
-number of index values, with syntactically equal payloads. Unindexed families
+number of index values. Payloads must match syntactically, directly or after
+transparent head aliases unfold under the declaration-count bound. Global and
+local alias bodies reuse the existing closedness checks. Neutral globals and
+parameters retain their source syntax; local values shift into the current
+scope. Alias unfolding does not consume an annotation, let, beta, or case step.
+Unindexed families
 use bare markers. Parameters live in the scrutinee's
 type; recovery takes their count and scope from the checked family metadata.
 Each parameter type must be closed over earlier parameters. Each index type must
@@ -182,8 +187,9 @@ universe syntax and avoids capturing outer variables.
 Opaque definitions, partial definitions, recursive definitions, and parameters
 do not unfold. Constructor cases with provisional or builtin families and
 cases with neutral scrutinees remain
-unsupported. Syntactically unequal index payloads remain unsupported even when
-definitionally equal. Missing function types,
+unsupported. Index payloads that remain syntactically unequal after transparent
+head alias unfolding remain unsupported. This includes annotation, let, beta,
+and nested constructor reductions inside an index. Missing function types,
 nonpoint function formers, nonpoint function application addresses, free codomains,
 and free arguments are refused.
 Four `motive-application-*` pairs cover global, dependent, local, and curried
@@ -225,7 +231,12 @@ recovery. Four `lambda-recursive-*` pairs
 cover a global type alias, dependent parameters, nested local cases, and a
 parameterized indexed family. Direct cases check source syntax, capture,
 metadata, unused-branch scope, and the 64/65-step boundary with recursive
-constructor metadata.
+constructor metadata. Two `lambda-index-alias-*` pairs cover global and local
+index aliases, including constructor index spellings rewritten after elaboration
+and rechecked by the kernel before sealing. The variants must retain one generated
+proof and the runtime of their opaque twins. Four direct cases check neutral endpoints, comparison direction,
+index widths, later mismatches, local shifting and capture, scope, refused
+unfoldings, cycles, and the shared 64/65-step case boundary.
 The lambda pairs have different carried runtime outputs; the motive pairs
 share a coarse carried runtime layout. All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and

@@ -121,6 +121,7 @@ INLINE-ERASE row=parameter-source-metadata OK
 INLINE-ERASE row=parameter-introductions OK
 INLINE-ERASE row=parameter-source-fuel OK
 INLINE-ERASE row=constructor-source-guards OK
+INLINE-ERASE row=constructor-source-metadata OK
 INLINE-ERASE row=constructor-source-scope OK
 INLINE-ERASE row=constructor-source-fuel OK
 INLINE-ERASE row=constructor-source-pending OK
@@ -158,13 +159,12 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=157 total=165 FAIL
+INLINE-ERASE pass=158 total=165 FAIL
 INLINE-ERASE row=lambda-recursive-global FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-recursive-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-recursive-local FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-recursive-indexed FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=recursive-source-syntax FAIL mismatch: application source type missing
-INLINE-ERASE row=recursive-source-metadata FAIL mismatch: recursive constructor refused
+INLINE-ERASE row=recursive-source-metadata FAIL mismatch: well-formed constructor refused
 INLINE-ERASE row=recursive-source-fuel FAIL mismatch: application source type missing
-INLINE-ERASE row=constructor-source-metadata FAIL mismatch: recursive constructor refused
 

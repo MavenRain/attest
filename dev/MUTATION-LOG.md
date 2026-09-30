@@ -1,5 +1,25 @@
 # Mutation log
 
+## 2026-09-29: Transparent index alias mutations
+
+The thirteen new mutants cover disabled alias comparison, lost neutral endpoints,
+vacuous equality, omitted later-index checks, unequal widths, an alias bound
+one declaration short, disabled local alias unfolding, an exhausted alias
+chain that is not refused, parameter and global endpoints that lose their
+syntax, open global and local index aliases, and a swapped fixture call. They
+require named semantic failures or the existing exact fixture-call gate failure.
+The collector also requires disabled alias recovery to fail both kernel-checked
+constructor index variants, whose alias spellings are introduced after elaboration.
+
+`dev/validation/index-alias-source-run.py` selects 40 mutants: these thirteen,
+the indexed-constructor guards, global and local alias scope and unfolding
+guards, and the existing proof, case-fuel, and unknown-scope controls. All 213
+catalog anchors are checked. The collector retains the harness's unmutated
+baseline, snapshots, compilation, named failure, and input freshness checks.
+Complete build and failure logs accompany `dev/validation/index-alias-source.json`.
+This scoped record does not claim a complete 213-mutant run.
+
+
 ## 2026-09-29: Recursive constructor source type mutations
 
 The catalog contains 200 cases. `recursive-disabled` replaces the earlier

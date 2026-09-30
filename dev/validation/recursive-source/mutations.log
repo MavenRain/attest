@@ -12,6 +12,7 @@ ERASURE-MUTATION constructor-family-name caught
 ERASURE-MUTATION constructor-duplicate caught
 ERASURE-MUTATION constructor-branch-address caught
 ERASURE-MUTATION constructor-fields caught
+ERASURE-MUTATION recursive-metadata-bypass caught
 ERASURE-MUTATION constructor-field-arity caught
 ERASURE-MUTATION constructor-motive caught
 ERASURE-MUTATION constructor-shape-indices caught
@@ -28,4 +29,4 @@ ERASURE-MUTATION constructor-size caught
 ERASURE-MUTATION case-head-fuel caught
 ERASURE-MUTATION case-result-fuel caught
 ERASURE-MUTATION case-fuel caught
-ERASURE-MUTATIONS caught=30 total=199 PARTIAL
+ERASURE-MUTATIONS caught=31 total=200 PARTIAL

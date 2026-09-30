@@ -958,21 +958,69 @@ def Inline.constructor_index_values(indices: List<&2, F.Term.t>, values: List<&2
       Bool.and(Inline.term_equal(index, value), Inline.constructor_index_values(rest, tail))
     case other values: False{}
 
-def Inline.constructor_case(shape: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, injection: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, name: String, arguments: List<&2, F.Term.t>, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, closed: Bool, globals: F.Global.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+# Index aliases stop at neutral globals and parameters, retaining their syntax.
+# Reuse the normal unfolding guards and declaration bound without semantic readback.
+def Inline.index_alias_expand(expanded: Maybe<&2, F.Term.t>, original: F.Term.t, next: F.Term.t -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match expanded:
+    case None{}: Done{Some{original}}
+    case Some{body}: next(body)
+
+def Inline.index_alias_type(fuel: Nat, term: F.Term.t, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match fuel term:
+    case 0n term: Done{None{}}
+    case 1n+remaining F.Term.Global{+name}:
+      Inline.Context{checker, domains} = context
+      Inline.index_alias_expand(Inline.global_alias(F.Global.find(name, C.Check.global(checker))), F.Term.Global{name}, body => Inline.index_alias_type(remaining, body, context))
+    case 1n+remaining F.Term.Var{+index}:
+      Inline.Context{checker, domains} = context
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        body: Maybe<&2, F.Term.t> <- Inline.local_alias(domains, index, 0n)
+        Inline.index_alias_expand(body, F.Term.Var{index}, value => Inline.index_alias_type(remaining, value, context))
+    case 1n+remaining other: Done{Some{other}}
+
+def Inline.index_alias_head(term: F.Term.t, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  Inline.Context{checker, domains} = context
+  aliases = (Inline.length(F.Pair2<String, F.Global.entry>, F.Global.entries(C.Check.global(checker))) + Inline.length(Inline.local, domains) : Nat)
+  Inline.index_alias_type((aliases + 1n : Nat), term, context)
+
+def Inline.index_alias_equal(left: Maybe<&2, F.Term.t>, right: Maybe<&2, F.Term.t>) -> Bool:
+  match left right:
+    case Some{index} Some{value}: Inline.term_equal(value, index)
+    case other right: False{}
+
+def Inline.index_alias_values(indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, +context: Inline.context) -> Result<&2,&2,F.Error.t,Bool>:
+  match indices values:
+    case Nil{} Nil{}: Done{True{}}
+    case index <> rest value <> tail:
+      do Result<&2,&2,F.Error.t,Bool>:
+        left: Maybe<&2, F.Term.t> <- Inline.index_alias_head(index, context)
+        right: Maybe<&2, F.Term.t> <- Inline.index_alias_head(value, context)
+        later: Bool <- Inline.index_alias_values(rest, tail, context)
+        Done{Bool.and(Inline.index_alias_equal(left, right), later)}
+    case other values: Done{False{}}
+
+def Inline.index_alias_agree(same: Bool, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, context: Inline.context) -> Result<&2,&2,F.Error.t,Bool>:
+  match same:
+    case True{}: Done{True{}}
+    case False{}: Inline.index_alias_values(indices, values, context)
+
+def Inline.constructor_case(shape: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, injection: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, name: String, arguments: List<&2, F.Term.t>, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, closed: Bool, globals: F.Global.t, depth: Nat, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match shape injection:
-    case Some{F.Pair2{+family, +indices}} Some{F.Pair2{injected, values}}:
-      valid = Bool.and(closed, Bool.and(String.eq(family, injected), Inline.constructor_index_values(indices, values)))
-      Inline.constructor_family(F.Global.find_family(family, globals), family, name, arguments, branches, motive, Inline.length(F.Term.t, indices), valid, depth)
+    case Some{F.Pair2{+family, +indices}} Some{F.Pair2{injected, +values}}:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        equal: Bool <- Inline.index_alias_agree(Inline.constructor_index_values(indices, values), indices, values, context)
+        valid: Bool = Bool.and(closed, Bool.and(String.eq(family, injected), equal))
+        Inline.constructor_family(F.Global.find_family(family, globals), family, name, arguments, branches, motive, Inline.length(F.Term.t, indices), valid, depth)
     case other injection: Done{None{}}
 
-def Inline.case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, +depth: Nat, globals: F.Global.t) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+def Inline.case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, +depth: Nat, globals: F.Global.t, context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match scrutinee:
     case Some{F.Term.In{+injection, F.Term.ALeg{+index}, +argument <> Nil{}}}:
       elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ALeg{index}, [argument]}, quantity, motive, branches}}
       Inline.case_collection(P.Rules.as_vcoll(F.Term.t, shape), P.Rules.as_vcoll(F.Term.t, injection), index, argument, branches, Bool.and(Inline.closed(depth, elimination), Inline.case_motive(motive)), depth)
     case Some{F.Term.In{+injection, F.Term.ACtor{+name}, +arguments}}:
       elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ACtor{name}, arguments}, quantity, motive, branches}}
-      Inline.constructor_case(F.Shape.inductive(F.Term.t, shape), F.Shape.inductive(F.Term.t, injection), name, arguments, motive, branches, Inline.closed(depth, elimination), globals, depth)
+      Inline.constructor_case(F.Shape.inductive(F.Term.t, shape), F.Shape.inductive(F.Term.t, injection), name, arguments, motive, branches, Inline.closed(depth, elimination), globals, depth, context)
     case other: Done{None{}}
 
 type Inline.source_frame is Data:
@@ -993,7 +1041,7 @@ def Inline.beta_pending(pending: List<&2, Inline.source_frame>, fuel: Nat, ty: M
     case Inline.CaseFrame{shape, quantity, motive, branches} <> rest:
       Inline.Context{+checker, domains} = context
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
-        reduced: Maybe<&2, F.Term.t> <- Inline.case_type(shape, quantity, motive, branches, ty, C.Check.size(checker), C.Check.global(checker))
+        reduced: Maybe<&2, F.Term.t> <- Inline.case_type(shape, quantity, motive, branches, ty, C.Check.size(checker), C.Check.global(checker), context)
         next(fuel, reduced, rest)
 
 def Inline.source_reduce_head(fuel: Nat, expanded: Maybe<&2, F.Term.t>, context: Inline.context, pending: List<&2, Inline.source_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.source_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:

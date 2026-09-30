@@ -71,7 +71,8 @@ LAMBDA_ROWS = ("lambda-alias-global", "lambda-alias-dependent",
                "lambda-index-global", "lambda-index-dependent",
                "lambda-index-local", "lambda-index-curried",
                "lambda-recursive-global", "lambda-recursive-dependent",
-               "lambda-recursive-local", "lambda-recursive-indexed")
+               "lambda-recursive-local", "lambda-recursive-indexed",
+               "lambda-index-alias-global", "lambda-index-alias-local")
 INLINE_ROWS += LAMBDA_ROWS
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
@@ -100,6 +101,8 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "index-source-scope", "index-source-fuel",
                                "recursive-source-syntax", "recursive-source-metadata",
                                "recursive-source-scope", "recursive-source-fuel",
+                               "index-alias-source-syntax", "index-alias-source-local",
+                               "index-alias-source-guards", "index-alias-source-fuel",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",
@@ -337,7 +340,14 @@ def fixture_call_table():
     parameter = [(name, "parameter", special.get(name, sealed_call("PF", name, "layout")))
                  for name in PARAMETER_ROWS]
     motive = [(name, "motive", sealed_call("MF", name, "None{}")) for name in MOTIVE_ROWS]
-    lambdas = [(name, "lambda", sealed_call("LF", name, "layout")) for name in LAMBDA_ROWS]
+    alias_calls = {
+        name: (f'Suite.Case{{"{name}",unit=>Suite.index_alias_sealed('
+               f'LF.{fixture_name(name)},LF.{fixture_name(name)}_opaque,layout,1n,{local})}}')
+        for name, local in (("lambda-index-alias-global", "False{}"),
+                            ("lambda-index-alias-local", "True{}"))
+    }
+    lambdas = [(name, "lambda", alias_calls.get(name, sealed_call("LF", name, "layout")))
+               for name in LAMBDA_ROWS]
     return parameter + motive + lambdas
 
 
