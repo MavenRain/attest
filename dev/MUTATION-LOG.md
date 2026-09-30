@@ -1,5 +1,35 @@
 # Mutation log
 
+## 2026-09-29: Compound index source mutations
+
+The catalog adds seventeen isolated mutations for bounded constructor index
+recovery. They disable compound reduction, skip either comparison direction,
+drop the head alias comparison of a payload pair, admit a case payload, move
+the 64-step boundary by one in either direction, make applications free,
+reset the budget after an application, drop the refund of an unspent step
+when reduction stops, lower the step bound alone by one, skip an index let,
+skip a pending application, or replace one of the four fixture calls with an
+unrelated existing pair.
+Each mutation must compile and hit its named regression or fixture-binding
+failure. The disabled-recovery mutation must fail all four kernel-checked
+let, beta, annotation, and projection index variants.
+
+`python3 -P dev/erasure-mutations.py --check-anchors` checks all 230 catalog
+anchors. `python3 -P dev/validation/index-reduction-source-run.py` records the
+full tests, default gates, erasure record, and 57 scoped mutations in
+`dev/validation/index-reduction-source.json`, retaining the complete logs and
+input hashes. The selection includes the preceding index and alias mutations
+plus the existing case, scope, alias, and proof controls. The historical full
+mutation record is retained; the scoped evidence does not claim a complete
+230-mutation run.
+
+The existing `index-alias-local-scope` mutation still disables the common
+local unfolding scope check. Its named witness remains `index-alias-source-local`,
+because the head alias comparison of a payload pair has no exit scope check.
+The index reducer additionally refuses open results in their use scope.
+The collector pins the scoped index names and fails when the selection changes.
+
+
 ## 2026-09-29: Transparent index alias mutations
 
 The thirteen new mutants cover disabled alias comparison, lost neutral endpoints,

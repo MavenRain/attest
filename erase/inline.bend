@@ -983,6 +983,61 @@ def Inline.index_alias_head(term: F.Term.t, +context: Inline.context) -> Result<
   aliases = (Inline.length(F.Pair2<String, F.Global.entry>, F.Global.entries(C.Check.global(checker))) + Inline.length(Inline.local, domains) : Nat)
   Inline.index_alias_type((aliases + 1n : Nat), term, context)
 
+# Index payloads keep neutral syntax and use a separate bounded reduction pass.
+# Cases stay unsupported here, so index recovery cannot reenter constructor comparison.
+def Inline.index_source_alias(term: Maybe<&2, F.Term.t>, context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match term:
+    case None{}: Done{None{}}
+    case Some{value}: Inline.index_alias_head(value, context)
+
+type Inline.index_frame is Data:
+  Inline.IndexApplication{shape: F.Shape.t<F.Term.t>, address: F.Term.addr}
+
+def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fuel: Nat, index_ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match index_pending:
+    case Nil{}: Done{index_ty}
+    case Inline.IndexApplication{index_shape, index_address} <> rest:
+      Inline.Context{checker, domains} = context
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        index_reduced: Maybe<&2, F.Term.t> <- Inline.beta_type(index_shape, index_address, index_ty, C.Check.size(checker))
+        next(fuel, index_reduced, rest)
+
+# Charge applications before their heads, and share the remainder with the result.
+# The existing substitution and projection helpers enforce scope and node bounds.
+# index_source_head checks payload scope on entry and exit; the annotation check is defensive.
+def Inline.index_source_reduce(fuel: Nat, index_expanded: Maybe<&2, F.Term.t>, context: Inline.context, index_pending: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match fuel index_expanded:
+    case 0n index_expanded:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        stopped: Maybe<&2, F.Term.t> <- Inline.let_exhausted(index_expanded)
+        Inline.index_source_pending(index_pending, 0n, stopped, context, next)
+    case 1n+index_remaining Some{F.Term.Ann{+index_body, index_annotation}}:
+      Inline.Context{checker, domains} = context
+      +depth: Nat = C.Check.size(checker)
+      next(index_remaining, Inline.keep_expected(Bool.and(Inline.closed(depth, index_body), Inline.closed(depth, index_annotation)), index_body), index_pending)
+    case 1n+index_remaining Some{F.Term.Let{index_name, index_annotation, index_value, index_body}}:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        index_reduced: Maybe<&2, F.Term.t> <- Inline.let_type(Some{F.Term.Let{index_name, index_annotation, index_value, index_body}}, context, index_reduced => Done{index_reduced})
+        next(index_remaining, index_reduced, index_pending)
+    case 1n+index_remaining Some{F.Term.Out{index_shape, index_address, head}}:
+      next(index_remaining, Some{head}, Inline.IndexApplication{index_shape, index_address} <> index_pending)
+    case 1n+index_remaining Some{F.Term.Elim{elimination}}: Done{None{}}
+    case 1n+index_remaining other: Inline.index_source_pending(index_pending, (index_remaining + 1n : Nat), other, context, next)
+
+def Inline.index_source_steps(steps: Nat, fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.context, pending: List<&2, Inline.index_frame>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match steps:
+    case 0n: Done{None{}}
+    case 1n+remaining:
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        expanded: Maybe<&2, F.Term.t> <- Inline.index_source_alias(ty, context)
+        Inline.index_source_reduce(fuel, expanded, context, pending, left => reduced => rest => Inline.index_source_steps(remaining, left, reduced, context, rest))
+
+def Inline.index_source_head(term: F.Term.t, +context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  Inline.Context{+checker, domains} = context
+  do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+    reduced: Maybe<&2, F.Term.t> <- Inline.index_source_steps(129n, 64n, Inline.source_expected(Some{term}, C.Check.size(checker)), context, Nil{})
+    Done{Inline.source_expected(reduced, C.Check.size(checker))}
+
 def Inline.index_alias_equal(left: Maybe<&2, F.Term.t>, right: Maybe<&2, F.Term.t>) -> Bool:
   match left right:
     case Some{index} Some{value}: Inline.term_equal(value, index)
@@ -991,12 +1046,14 @@ def Inline.index_alias_equal(left: Maybe<&2, F.Term.t>, right: Maybe<&2, F.Term.
 def Inline.index_alias_values(indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, +context: Inline.context) -> Result<&2,&2,F.Error.t,Bool>:
   match indices values:
     case Nil{} Nil{}: Done{True{}}
-    case index <> rest value <> tail:
+    case +index <> rest +value <> tail:
       do Result<&2,&2,F.Error.t,Bool>:
-        left: Maybe<&2, F.Term.t> <- Inline.index_alias_head(index, context)
-        right: Maybe<&2, F.Term.t> <- Inline.index_alias_head(value, context)
+        alias_left: Maybe<&2, F.Term.t> <- Inline.index_alias_head(index, context)
+        alias_right: Maybe<&2, F.Term.t> <- Inline.index_alias_head(value, context)
+        left: Maybe<&2, F.Term.t> <- Inline.index_source_head(index, context)
+        right: Maybe<&2, F.Term.t> <- Inline.index_source_head(value, context)
         later: Bool <- Inline.index_alias_values(rest, tail, context)
-        Done{Bool.and(Inline.index_alias_equal(left, right), later)}
+        Done{Bool.and(Bool.or(Inline.index_alias_equal(alias_left, alias_right), Inline.index_alias_equal(left, right)), later)}
     case other values: Done{False{}}
 
 def Inline.index_alias_agree(same: Bool, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, context: Inline.context) -> Result<&2,&2,F.Error.t,Bool>:

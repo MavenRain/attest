@@ -1,0 +1,13 @@
+mu Choice : (0 n : Nat) -> Type 1 with
+| empty : Choice 0
+| choose : (0 A : Type 0) -> (0 b : Nat) -> (0 B : Type 0) -> Choice b
+
+mu Equal : (0 n : Nat) -> Prop with
+| refl : (0 n : Nat) -> Equal n
+
+def Index : Nat := let n : Nat := 0 in n
+def Pick : Choice Index := choose Nat 0 Nat
+def Fn : Type 1 := case (Pick : Choice 0) as choice in Choice k return Type 1 with | empty => (n : Nat) -> Type 0 | choose 0 A 0 b 0 B => (0 n : B) -> Type 0
+def Alias : Type 1 := Fn
+def Layout : Alias := fun (0 n : Nat) => case (refl n : Equal n) as p in Equal k return Type 0 with | refl 0 j => prod ()
+def keep : (x : Layout 0) -> Layout 0 := fun (x : Layout 0) => x

@@ -1,5 +1,43 @@
 # M0 build log
 
+## 2026-09-29: Stage B compound constructor source indices
+
+Constructor source recovery compares unequal index spellings after bounded
+head let, beta, annotation, and tuple projection reductions. Each payload pair
+also keeps the earlier comparison after transparent head aliases, so a payload
+whose reduction reaches a neutral application, projection, or case still
+matches its own spelling. Neutral globals
+and parameters retain their syntax; transparent global and local aliases keep
+their scope, opacity, recursion, partiality, shifting, and declaration-count
+guards. Each index payload has a separate 64-reduction budget. Applications
+spend a step before their head and share the remainder with their result.
+Substitution keeps the existing 4096-node cap. Case expressions in index
+payloads do not reduce, which prevents index recovery from reentering
+constructor comparison. The surrounding source recovery keeps its shared
+64-step case budget and whole-term scope and metadata checks.
+
+Four opaque-twin pairs declare let, beta, annotation, and projection indices
+in a constructor's declared type. Recovery compares their raw sources
+syntactically, so only a suite variant reaches the reducer. Each variant
+changes an elaborated constructor index to an equivalent compound
+spelling and rechecks the definition and its use with the kernel before
+sealing. Each variant seals one proof and preserves its opaque twin's runtime.
+Four direct regression cases cover both comparison directions, preserved
+result syntax, mixed aliases and reductions, local shifting and capture,
+unequal later indices, open payloads, neutral applications kept by the head
+alias comparison, refused cases, alias cycles, the 64/65-step boundary, and
+the budget that lets and applications share.
+
+The inline suite contains 179 cases, and the mutation catalog has 230 checked
+anchors. `dev/validation/index-reduction-source-run.py` collects the full
+tests, default gates, erasure record, and 57 scoped mutations into
+`dev/validation/index-reduction-source.json`. The disabled-recovery mutant
+must fail all four checked-core variants. The historical full mutation record
+is retained. Case reductions in index payloads, builtin and provisional
+families, and neutral scrutinees remain unsupported. Stage B stays open at
+the Acc runtime-elimination frontier.
+
+
 ## 2026-09-29: Stage B source indices through transparent aliases
 
 Constructor source recovery compares index payloads after transparent head

@@ -34,15 +34,15 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and ninety-five inline proof
+increment compares four global proof pairs and ninety-nine inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences for the four global pairs and sixty-three inline pairs, including
-forty-two lambda alias, let, beta, annotation, projection, finite case, and constructor case pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
+differences for the four global pairs and sixty-seven inline pairs, including
+forty-six lambda alias, let, beta, annotation, projection, finite case, and constructor case pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
 with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 213 isolated mutations. The full mutation record covers the preceding
+contains 230 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
 [scoped validation evidence](dev/validation/annotation-source.json), as does
 [tuple projection recovery](dev/validation/projection-source.json) and
@@ -51,7 +51,8 @@ contains 213 isolated mutations. The full mutation record covers the preceding
 [parameterized constructor case recovery](dev/validation/parameter-source.json) and
 [indexed constructor case recovery](dev/validation/index-source.json) and
 [recursive constructor case recovery](dev/validation/recursive-source.json) and
-[index alias recovery](dev/validation/index-alias-source.json).
+[index alias recovery](dev/validation/index-alias-source.json) and
+[compound index recovery](dev/validation/index-reduction-source.json).
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -92,7 +93,11 @@ including unused branches and its optional unnamed, unindexed motive.
 Constructor cases recover types from complete, positive families, including
 recursive constructors. Both shapes must name the same family and carry the
 declared number of index values. Payloads must match directly or after
-transparent head aliases unfold. Neutral globals and parameters retain their
+transparent head aliases, lets, beta steps, annotations, and tuple projections
+expose matching syntax. Each index payload has a separate 64-step budget;
+case expressions in index payloads do not reduce. A payload whose reduction reaches a
+neutral application, projection, or case matches only directly or after transparent head
+aliases. Neutral globals and parameters retain their
 source syntax, and local aliases shift into the current scope. Parameter values live in
 the scrutinee's type. Parameter types must be closed over earlier parameters;
 index types may depend on parameters and earlier indices, while field types
@@ -110,11 +115,12 @@ cases use the same shared reduction limit. The whole case must be closed, includ
 its motive. Indexed families require a motive naming the matching family with
 the declared number of index binders. Unindexed motives remain optional.
 Annotation, let, beta, projection, and case steps share a limit of 64 reductions
-per recovery, including reductions in heads, scrutinees, and selected results. A let, beta, or case
-result with more than 4096 syntax nodes gives no type. Each alias chain
+per recovery outside index payloads, which have their own 64-reduction budget
+each, including reductions in heads, scrutinees, and selected results. A let,
+beta, or case result with more than 4096 syntax nodes gives no type. Each alias chain
 retains its declaration-count bound. Source recovery through
 provisional or builtin constructor families, index payloads that remain unequal
-after alias unfolding, or neutral scrutinees remains open.
+after bounded head recovery, or neutral scrutinees remains open.
 Alias bodies must be closed in their declaration scope; opaque, recursive,
 partial, and cyclic aliases remain unsupported. The source type must be closed
 in the current scope; unnamed motives

@@ -145,7 +145,13 @@ variables. Scrutinees and selected results can require further source reductions
 Constructor cases require inductive shapes with matching family names and a
 complete, positive family. Both the elimination and injection carry the declared
 number of index values. Payloads must match syntactically, directly or after
-transparent head aliases unfold under the declaration-count bound. Global and
+transparent head aliases, lets, beta steps, annotations, and tuple projections
+expose matching source syntax. Each index payload has a separate budget of 64
+reductions, with the declaration-count alias bound between reductions. Index
+applications spend a step before their head and pass the remainder to their
+result. Case expressions in index payloads do not reduce. A payload whose
+reduction reaches a neutral application, projection, or case matches only
+directly or after transparent head aliases. Global and
 local alias bodies reuse the existing closedness checks. Neutral globals and
 parameters retain their source syntax; local values shift into the current
 scope. Alias unfolding does not consume an annotation, let, beta, or case step.
@@ -168,7 +174,8 @@ branches, arguments, index payloads, and the motive, must be closed. An indexed
 family requires a motive naming that family and binding exactly its index count.
 An unindexed motive remains optional and may be unnamed or name the matching
 family, with no index binders. The kernel remains responsible for typing the
-indices; recovery checks their metadata and source scope without evaluating them.
+indices; recovery checks their metadata and source scope without semantic
+evaluation or readback.
 The frontend propagates expected types through constructor variables and
 applications. A parameterized constructor uses the matching expected family
 shape and takes only field arguments. The kernel checks field types, quantities,
@@ -176,7 +183,8 @@ and result indices against that shape. Without an expected type, parameterized
 constructor introduction still refuses. Unparameterized introductions retain
 their existing inference path. Fields use that existing elaboration path too;
 a field expression that needs an expected type must carry an annotation.
-Annotation, let, beta, projection, and case steps share a budget of 64. An application,
+Annotation, let, beta, projection, and case steps share a budget of 64 outside index
+payloads, which have their own 64-reduction budget each. An application,
 projection, or case consumes one step before recovery of its head or scrutinee.
 Its result receives only the remaining budget. Each let, beta, or case result
 must have at most 4096 syntax nodes, or
@@ -187,9 +195,9 @@ universe syntax and avoids capturing outer variables.
 Opaque definitions, partial definitions, recursive definitions, and parameters
 do not unfold. Constructor cases with provisional or builtin families and
 cases with neutral scrutinees remain
-unsupported. Index payloads that remain syntactically unequal after transparent
-head alias unfolding remain unsupported. This includes annotation, let, beta,
-and nested constructor reductions inside an index. Missing function types,
+unsupported. Index payloads that remain syntactically unequal after bounded
+head recovery remain unsupported. Case reductions inside an index remain
+unsupported. Missing function types,
 nonpoint function formers, nonpoint function application addresses, free codomains,
 and free arguments are refused.
 Four `motive-application-*` pairs cover global, dependent, local, and curried
@@ -237,6 +245,11 @@ and rechecked by the kernel before sealing. The variants must retain one generat
 proof and the runtime of their opaque twins. Four direct cases check neutral endpoints, comparison direction,
 index widths, later mismatches, local shifting and capture, scope, refused
 unfoldings, cycles, and the shared 64/65-step case boundary.
+Four `lambda-index-reduction-*` pairs declare let, beta, annotation, and
+projection indices; the raw pairs compare syntactically, and only the suite
+variants reach the reducer. Four direct cases check both comparison directions,
+local shifting and capture, open payloads, refused cases, and the 64/65-step
+boundary with the budget that lets and applications share.
 The lambda pairs have different carried runtime outputs; the motive pairs
 share a coarse carried runtime layout. All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and
@@ -281,8 +294,9 @@ normalization or inference, remain open. Lambda bodies whose expected function
 type needs reduction beyond transparent alias hops and bounded head annotation,
 let, beta, tuple projection, finite case, and constructor case reduction remain
 conservative; closed subterms can still be sealed. Constructor cases over
-provisional or builtin families, unequal source index payloads, and cases
-with neutral scrutinees stay conservative. Local proofs without source type syntax are left intact
+provisional or builtin families, source index payloads that remain unequal
+after bounded head recovery, and cases with
+neutral scrutinees stay conservative. Local proofs without source type syntax are left intact
 because inferred readback can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and
 inline proofs in family metadata are also outside this increment.

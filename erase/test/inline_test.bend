@@ -237,6 +237,45 @@ def Suite.index_alias_sealed(+source:String,+twin:String,+host:Maybe<&2,F.Pair2<
     after:List<&2,F.Pair2<String,R.Erase.entry>> <- Suite.erase(opaque)
     T.Test.require(String.eq(R.Erase.print(Suite.runtime_rows(before)),R.Erase.print(Suite.runtime_rows(after))),"index alias variant runtime differs from its sealed twin")
 
+def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
+  match mode:
+    case 0n: F.Term.Let{"n",F.Term.Global{"Nat"},term,F.Term.Var{0n}}
+    case 1n:
+      +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Many{},"n",F.Term.Global{"Nat"})
+      F.Term.Out{shape,F.Term.APt{F.Quantity.Many{},term},F.Term.Ann{F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}]},F.Term.Ran{shape,F.Term.Global{"Nat"}}}}
+    case 2n: F.Term.Ann{term,F.Term.Global{"Nat"}}
+    case other:
+      +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+      tuple:F.Term.t = F.Term.Ann{F.Term.Sec{shape,[F.Term.Leg{Nil{},term},F.Term.Leg{Nil{},term}]},F.Term.Ran{shape,G.Rules.diagram_of([F.Term.Global{"Nat"},F.Term.Global{"Nat"}])}}
+      F.Term.Out{shape,F.Term.ALeg{0n},tuple}
+
+def Suite.index_reduction_variant(checked:E.Elab.checked,mode:Nat) -> Result<&2,&2,F.Error.t,E.Elab.checked>:
+  F.Pair2{+globals,rows} = checked
+  do Result<&2,&2,F.Error.t,E.Elab.checked>:
+    +definition:F.Global.def_entry <- T.Test.definition("Pick",globals)
+    +body:F.Term.t <- Suite.index_alias_in(T.Test.def_body(definition),Suite.index_reduction_expression(mode,F.Term.Global{"Index"}))
+    changed:Unit <- T.Test.require(Bool.not(I.Inline.term_equal(body,T.Test.def_body(definition))),"index reduction variant did not change the index spelling")
+    +entry:F.Global.entry = T.Test.replace_body(definition,body)
+    +revised:F.Global.t = F.Global.add("Pick",entry,globals)
+    +revised_rows:E.Elab.rows = Suite.index_alias_rows(rows,"Pick",entry)
+    consistent:Unit <- T.Test.require(Suite.consistent(revised_rows,revised),"index reduction variant rows differ")
+    typed:Unit <- Suite.recheck(revised,"Pick")
+    keep:Unit <- Suite.recheck(revised,"keep")
+    Done{F.Pair2{revised,revised_rows}}
+
+def Suite.index_reduction_sealed(+source:String,+twin:String,+host:Maybe<&2,F.Pair2<Bool,String>>,mode:Nat) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    source_checked:Unit <- Suite.local_sealed(source,twin,host,1n)
+    original:E.Elab.checked <- E.Elab.check_in(G.Global.initial,source)
+    +variant:E.Elab.checked <- Suite.index_reduction_variant(original,mode)
+    +prepared:E.Elab.checked <- T.Test.prepare(variant)
+    typed:Unit <- Suite.local_prepared(prepared,host)
+    sealed:Unit <- Suite.sealed_count(prepared,1n)
+    opaque:E.Elab.checked <- E.Elab.check_in(G.Global.initial,twin)
+    before:List<&2,F.Pair2<String,R.Erase.entry>> <- Suite.erase(variant)
+    after:List<&2,F.Pair2<String,R.Erase.entry>> <- Suite.erase(opaque)
+    T.Test.require(String.eq(R.Erase.print(Suite.runtime_rows(before)),R.Erase.print(Suite.runtime_rows(after))),"index reduction variant runtime differs from its sealed twin")
+
 # Two constructors have the same field shape and different proof types.
 # The proof is in the first constructor, then in the last constructor.
 def Suite.parameter_ctors(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> Result<&2,&2,F.Error.t,Unit>:
@@ -1519,7 +1558,7 @@ def Suite.index_source_shapes() -> Result<&2,&2,F.Error.t,Unit>:
     prefix:Unit <- Suite.index_shape_absent([univ],[univ,univ],"indexed unequal shape arities accepted")
     unequal:Unit <- Suite.index_shape_absent([univ,univ],[upper,univ],"indexed shape values differ")
     tail:Unit <- Suite.index_shape_absent([univ,univ],[univ,upper],"indexed later shape values differ")
-    definitional:Unit <- Suite.index_shape_absent([F.Term.Ann{univ,upper},univ],[univ,univ],"indexed definitionally equal shape values accepted")
+    definitional:Unit <- Suite.index_shape_absent([F.Term.Ann{upper,univ},univ],[univ,univ],"indexed unequal annotated shape values accepted")
     Suite.index_shape_absent([univ,F.Term.Var{0n}],[univ,F.Term.Var{0n}],"indexed open shape value accepted")
 
 def Suite.index_source_scope() -> Result<&2,&2,F.Error.t,Unit>:
@@ -1660,7 +1699,7 @@ def Suite.index_alias_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
     cycle_term:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Global{"Index"},F.Term.Var{0n}],[F.Term.Global{"Index"},univ],univ)},cycle_context)
     cycle:Unit <- Suite.application_absent(cycle_term,"cyclic index alias unfolded")
     unequal:Unit <- Suite.index_alias_refused(F.Global.Def{F.Global.DefEntry{univ,F.Term.Univ{F.Level.one},True{},None{},False{}}},"unequal index alias accepted")
-    wrapped:Unit <- Suite.index_alias_refused(F.Global.Def{F.Global.DefEntry{univ,F.Term.Ann{univ,F.Term.Univ{F.Level.one}},True{},None{},False{}}},"index annotation reduced")
+    wrapped:Unit <- Suite.index_alias_refused(F.Global.Def{F.Global.DefEntry{univ,F.Term.Ann{F.Term.Univ{F.Level.one},univ},True{},None{},False{}}},"reduced unequal index alias accepted")
     +context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},False{}}},Nil{},0n)
     term:F.Term.t = Suite.index_alias_term([F.Term.Global{"Index"},univ],[univ,univ],F.Term.Var{2n})
     free:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{term},context)
@@ -1681,6 +1720,84 @@ def Suite.index_alias_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
     exact_ok:Unit <- Suite.application_equal(exact,univ)
     over:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_chain(65n,univ)},context)
     Suite.application_absent(over,"aliased index shared fuel exceeded")
+
+def Suite.index_reduction_context() -> I.Inline.context:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},False{}}},Nil{},0n)
+
+def Suite.index_reduction_compare(+index:F.Term.t,+value:F.Term.t,+context:I.Inline.context,+expected:F.Term.t) -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  do Result<&2,&2,F.Error.t,Unit>:
+    left:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([index,univ],[value,univ],expected)},context)
+    left_ok:Unit <- Suite.application_equal(left,expected)
+    right:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([value,univ],[index,univ],expected)},context)
+    Suite.application_equal(right,expected)
+
+def Suite.index_reduction_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +neutral:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{univ,F.Term.Univ{F.Level.one}}),univ}
+  do Result<&2,&2,F.Error.t,Unit>:
+    let_ok:Unit <- Suite.index_reduction_compare(F.Term.Let{"T",univ,neutral,F.Term.Var{0n}},neutral,context,body)
+    beta_ok:Unit <- Suite.index_reduction_compare(Suite.beta_term(neutral,F.Term.Var{0n}),neutral,context,body)
+    annotation_ok:Unit <- Suite.index_reduction_compare(F.Term.Ann{neutral,univ},neutral,context,body)
+    projection_ok:Unit <- Suite.index_reduction_compare(Suite.projection_pair(1n,univ,neutral),neutral,context,body)
+    mixed:Unit <- Suite.index_reduction_compare(F.Term.Ann{Suite.beta_term(F.Term.Global{"Index"},F.Term.Let{"T",univ,F.Term.Var{0n},F.Term.Var{0n}}),univ},univ,context,body)
+    later:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Ann{univ,univ},univ],[univ,F.Term.Univ{F.Level.one}],body)},context)
+    Suite.application_absent(later,"later reduced index differs")
+
+def Suite.index_reduction_source_local() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},False{}}},[I.Inline.Local{"a",univ,F.Term.Ann{F.Term.Var{0n},univ}},I.Inline.Param{"outer",univ},I.Inline.Param{"older",univ}],3n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    shifted:Unit <- Suite.index_reduction_compare(F.Term.Ann{F.Term.Var{0n},univ},F.Term.Var{1n},context,univ)
+    capture:Unit <- Suite.index_reduction_compare(Suite.beta_term(F.Term.Var{2n},F.Term.Let{"T",univ,univ,F.Term.Var{1n}}),F.Term.Var{2n},context,univ)
+    distinct:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Ann{F.Term.Var{0n},univ},univ],[F.Term.Var{2n},univ],univ)},context)
+    Suite.application_absent(distinct,"reduced local index captured a parameter")
+
+def Suite.index_reduction_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +application:F.Term.t = F.Term.Out{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",univ),F.Term.APt{F.Quantity.Zero{},univ},F.Term.Global{"Neutral"}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    open_annotation:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Ann{univ,F.Term.Var{0n}},context)
+    annotation_ok:Unit <- Suite.application_absent(open_annotation,"open annotated index payload accepted")
+    open_let:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Let{"T",F.Term.Var{0n},univ,F.Term.Var{0n}},context)
+    let_ok:Unit <- Suite.application_absent(open_let,"open let index payload accepted")
+    unused:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.projection_pair(0n,univ,F.Term.Var{0n}),context)
+    unused_ok:Unit <- Suite.application_absent(unused,"open projection index payload accepted")
+    neutral:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(application,context)
+    neutral_ok:Unit <- Suite.application_absent(neutral,"neutral index application reduced")
+    kept:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([application,F.Term.Global{"Index"}],[application,univ],univ)},context)
+    kept_ok:Unit <- Suite.application_equal(kept,univ)
+    aliased_context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,application,True{},None{},False{}}},Nil{},0n)
+    aliased:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Global{"Index"},univ],[application,univ],univ)},aliased_context)
+    aliased_ok:Unit <- Suite.application_equal(aliased,univ)
+    case_term:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.index_alias_term([univ,univ],[univ,univ],univ),context)
+    case_ok:Unit <- Suite.application_absent(case_term,"index case reduced")
+    cycle_context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,F.Term.Ann{F.Term.Global{"Index"},univ},True{},None{},False{}}},Nil{},0n)
+    cycle:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Global{"Index"},cycle_context)
+    Suite.application_absent(cycle,"index reduction alias cycle accepted")
+
+def Suite.index_reduction_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_reduction_context
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.let_chain(64n,univ),context)
+    exact_ok:Unit <- Suite.application_equal(exact,univ)
+    over:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.let_chain(65n,univ),context)
+    over_ok:Unit <- Suite.application_absent(over,"index let fuel exceeded")
+    beta:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.beta_chain(64n,univ),context)
+    beta_ok:Unit <- Suite.application_equal(beta,univ)
+    beta_over:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.beta_chain(65n,univ),context)
+    beta_over_ok:Unit <- Suite.application_absent(beta_over,"index beta fuel exceeded")
+    shared:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.let_chain(32n,Suite.beta_chain(32n,univ)),context)
+    shared_ok:Unit <- Suite.application_equal(shared,univ)
+    shared_over:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.let_chain(32n,Suite.beta_chain(33n,univ)),context)
+    shared_over_ok:Unit <- Suite.application_absent(shared_over,"index let and beta fuel not shared")
+    mixed:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Ann{Suite.let_chain(64n,univ),univ},context)
+    Suite.application_absent(mixed,"index annotation and let fuel not shared")
 
 def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
   [
@@ -1804,6 +1921,14 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"index-alias-source-local",unit => Suite.index_alias_source_local},
       Suite.Case{"index-alias-source-guards",unit => Suite.index_alias_source_guards},
       Suite.Case{"index-alias-source-fuel",unit => Suite.index_alias_source_fuel},
+      Suite.Case{"index-reduction-source-syntax",unit => Suite.index_reduction_source_syntax},
+      Suite.Case{"index-reduction-source-local",unit => Suite.index_reduction_source_local},
+      Suite.Case{"index-reduction-source-guards",unit => Suite.index_reduction_source_guards},
+      Suite.Case{"index-reduction-source-fuel",unit => Suite.index_reduction_source_fuel},
+      Suite.Case{"lambda-index-reduction-let",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_index_reduction_let,LF.Fixture.lambda_index_reduction_let_opaque,layout,0n)},
+      Suite.Case{"lambda-index-reduction-beta",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_index_reduction_beta,LF.Fixture.lambda_index_reduction_beta_opaque,layout,1n)},
+      Suite.Case{"lambda-index-reduction-annotation",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_index_reduction_annotation,LF.Fixture.lambda_index_reduction_annotation_opaque,layout,2n)},
+      Suite.Case{"lambda-index-reduction-projection",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_index_reduction_projection,LF.Fixture.lambda_index_reduction_projection_opaque,layout,3n)},
       Suite.Case{"lambda-index-alias-global",unit => Suite.index_alias_sealed(LF.Fixture.lambda_index_alias_global,LF.Fixture.lambda_index_alias_global_opaque,layout,1n,False{})},
       Suite.Case{"lambda-index-alias-local",unit => Suite.index_alias_sealed(LF.Fixture.lambda_index_alias_local,LF.Fixture.lambda_index_alias_local_opaque,layout,1n,True{})},
       Suite.Case{"lambda-parameter-global",unit => Suite.local_sealed(LF.Fixture.lambda_parameter_global,LF.Fixture.lambda_parameter_global_opaque,layout,1n)},

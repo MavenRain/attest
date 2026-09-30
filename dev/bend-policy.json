@@ -391,6 +391,36 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.index_alias_type",
+      "pattern": "0n term"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_alias_type",
+      "pattern": "1n+remaining other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_source_reduce",
+      "pattern": "0n index_expanded"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_source_reduce",
+      "pattern": "1n+index_remaining other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_alias_equal",
+      "pattern": "other right"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_alias_values",
+      "pattern": "other values"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.constructor_case",
       "pattern": "other injection"
     },
@@ -512,6 +542,21 @@
     {
       "path": "erase/test/inline_test.bend",
       "function": "Suite.check_generated_entry",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.index_alias_in",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.index_alias_local",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.index_reduction_expression",
       "pattern": "other"
     },
     {
@@ -1893,36 +1938,6 @@
       "path": "test/surface.bend",
       "function": "SurfaceTest.budget_spent",
       "pattern": "_"
-    },
-    {
-      "path": "erase/inline.bend",
-      "function": "Inline.index_alias_equal",
-      "pattern": "other right"
-    },
-    {
-      "path": "erase/inline.bend",
-      "function": "Inline.index_alias_type",
-      "pattern": "0n term"
-    },
-    {
-      "path": "erase/inline.bend",
-      "function": "Inline.index_alias_type",
-      "pattern": "1n+remaining other"
-    },
-    {
-      "path": "erase/inline.bend",
-      "function": "Inline.index_alias_values",
-      "pattern": "other values"
-    },
-    {
-      "path": "erase/test/inline_test.bend",
-      "function": "Suite.index_alias_in",
-      "pattern": "other"
-    },
-    {
-      "path": "erase/test/inline_test.bend",
-      "function": "Suite.index_alias_local",
-      "pattern": "other"
     }
   ],
   "unsafe": [

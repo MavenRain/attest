@@ -72,7 +72,9 @@ LAMBDA_ROWS = ("lambda-alias-global", "lambda-alias-dependent",
                "lambda-index-local", "lambda-index-curried",
                "lambda-recursive-global", "lambda-recursive-dependent",
                "lambda-recursive-local", "lambda-recursive-indexed",
-               "lambda-index-alias-global", "lambda-index-alias-local")
+               "lambda-index-alias-global", "lambda-index-alias-local",
+               "lambda-index-reduction-let", "lambda-index-reduction-beta",
+               "lambda-index-reduction-annotation", "lambda-index-reduction-projection")
 INLINE_ROWS += LAMBDA_ROWS
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
@@ -103,6 +105,8 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "recursive-source-scope", "recursive-source-fuel",
                                "index-alias-source-syntax", "index-alias-source-local",
                                "index-alias-source-guards", "index-alias-source-fuel",
+                               "index-reduction-source-syntax", "index-reduction-source-local",
+                               "index-reduction-source-guards", "index-reduction-source-fuel",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",
@@ -346,6 +350,13 @@ def fixture_call_table():
         for name, local in (("lambda-index-alias-global", "False{}"),
                             ("lambda-index-alias-local", "True{}"))
     }
+    alias_calls.update({
+        f"lambda-index-reduction-{kind}":
+            (f'Suite.Case{{"lambda-index-reduction-{kind}",unit=>Suite.index_reduction_sealed('
+             f'LF.{fixture_name(f"lambda-index-reduction-{kind}")},'
+             f'LF.{fixture_name(f"lambda-index-reduction-{kind}")}_opaque,layout,{mode}n)}}')
+        for mode, kind in enumerate(("let", "beta", "annotation", "projection"))
+    })
     lambdas = [(name, "lambda", alias_calls.get(name, sealed_call("LF", name, "layout")))
                for name in LAMBDA_ROWS]
     return parameter + motive + lambdas

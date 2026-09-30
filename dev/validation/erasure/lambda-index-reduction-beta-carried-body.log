@@ -1,0 +1,10 @@
+rec [nat]
+fun Index$0 (union nat) : union nat := KVar 0
+fun Index () : union nat := KTail (KClos Index$0 1 []) [KLit 0]
+rec [mu<Choice>; leg<mu<Choice>,0>; leg<mu<Choice>,1>]
+fun Pick () : union mu<Choice> := KTag mu<Choice> 1 []
+erased Fn
+erased Alias
+rec [any]
+fun Layout () : union any := KErased
+erased keep
