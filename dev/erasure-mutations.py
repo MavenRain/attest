@@ -1126,8 +1126,8 @@ CASES += (
      'right: Maybe<&2, F.Term.t> <- Inline.index_alias_head(value, context)',
      'INLINE-ERASE row=index-reduction-source-syntax FAIL'),
     ('index-reduction-cases', 'erase/inline.bend',
-     'case 1n+index_remaining Some{F.Term.Elim{elimination}}: Done{None{}}',
-     'case 1n+index_remaining Some{F.Term.Elim{elimination}}: next(index_remaining, Some{F.Term.Univ{F.Level.zero}}, index_pending)',
+     '    case other: Done{None{}}\n\ndef Inline.index_source_pending',
+     '    case other: Done{Some{F.Term.Univ{F.Level.zero}}}\n\ndef Inline.index_source_pending',
      'INLINE-ERASE row=index-reduction-source-guards FAIL mismatch: index case reduced'),
     ('index-reduction-fuel', 'erase/inline.bend',
      'Inline.index_source_steps(129n, 64n,',
@@ -1251,6 +1251,42 @@ def main():
     except (OSError, ValueError, subprocess.TimeoutExpired) as error:
         print(f"ERASURE-MUTATIONS FAIL: {error}")
         return 1
+
+
+CASES += (
+    ('sum-index-disabled', 'erase/inline.bend',
+     'next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)',
+     'Done{None{}}',
+     'INLINE-ERASE row=sum-index-source-syntax FAIL'),
+    ('sum-index-head-fuel', 'erase/inline.bend',
+     'next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)',
+     'next((index_remaining + 1n : Nat), Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)',
+     'INLINE-ERASE row=sum-index-source-fuel FAIL mismatch: sum index head fuel exceeded'),
+    ('sum-index-result-fuel', 'erase/inline.bend',
+     'Inline.index_case_type(index_shape, index_quantity, index_motive, index_branches, index_ty, C.Check.size(checker))\n        next(fuel, case_reduced, rest)',
+     'Inline.index_case_type(index_shape, index_quantity, index_motive, index_branches, index_ty, C.Check.size(checker))\n        next(64n, case_reduced, rest)',
+     'INLINE-ERASE row=sum-index-source-fuel FAIL mismatch: sum index result fuel exceeded'),
+    ('sum-index-pop-skip', 'erase/inline.bend',
+     'case_reduced: Maybe<&2, F.Term.t> <- Inline.index_case_type(index_shape, index_quantity, index_motive, index_branches, index_ty, C.Check.size(checker))',
+     'case_reduced: Maybe<&2, F.Term.t> <- Done{index_ty}',
+     'INLINE-ERASE row=sum-index-source-syntax FAIL'),
+    ('sum-index-shape', 'erase/inline.bend',
+     'Inline.case_collection(P.Rules.as_vcoll(F.Term.t, shape), P.Rules.as_vcoll(F.Term.t, injection), index, argument, branches, index_valid, depth)',
+     'Inline.case_collection(P.Rules.as_vcoll(F.Term.t, shape), P.Rules.as_vcoll(F.Term.t, shape), index, argument, branches, index_valid, depth)',
+     'INLINE-ERASE row=sum-index-source-guards FAIL mismatch: sum index shape mismatch accepted'),
+    ('sum-index-motive', 'erase/inline.bend',
+     'index_valid: Bool = Bool.and(Inline.closed(depth, index_elimination), Inline.case_motive(motive))',
+     'index_valid: Bool = Inline.closed(depth, index_elimination)',
+     'INLINE-ERASE row=sum-index-source-guards FAIL mismatch: named sum index motive accepted'),
+    ('sum-index-fixture-left', 'erase/test/inline_test.bend',
+     'Suite.Case{"lambda-sum-index-left",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_sum_index_left,LF.Fixture.lambda_sum_index_left_opaque,layout,4n)}',
+     'Suite.Case{"lambda-sum-index-left",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_index_reduction_let,LF.Fixture.lambda_index_reduction_let_opaque,layout,0n)}',
+     'row=lambda-sum-index-left lambda fixture call differs'),
+    ('sum-index-fixture-right', 'erase/test/inline_test.bend',
+     'Suite.Case{"lambda-sum-index-right",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_sum_index_right,LF.Fixture.lambda_sum_index_right_opaque,layout,5n)}',
+     'Suite.Case{"lambda-sum-index-right",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_index_reduction_let,LF.Fixture.lambda_index_reduction_let_opaque,layout,0n)}',
+     'row=lambda-sum-index-right lambda fixture call differs'),
+)
 
 
 if __name__ == "__main__":

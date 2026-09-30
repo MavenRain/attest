@@ -401,6 +401,11 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.index_case_type",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.index_source_reduce",
       "pattern": "0n index_expanded"
     },
@@ -552,6 +557,11 @@
     {
       "path": "erase/test/inline_test.bend",
       "function": "Suite.index_alias_local",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
+      "function": "Suite.sum_index_branch",
       "pattern": "other"
     },
     {

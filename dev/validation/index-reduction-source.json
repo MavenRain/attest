@@ -1,27 +1,27 @@
 {
   "version": 1,
-  "recorded_at": "2026-09-30T05:32:43.651555+00:00",
+  "recorded_at": "2026-09-30T08:25:34.820807+00:00",
   "root": "/Users/oobi/Documents/attest",
   "scope": "Bounded let, beta, annotation and projection reductions in constructor source indices; scoped mutation selection.",
-  "base_revision": "f3dc70d919d49340bc047323b5ba1706e70db797",
+  "base_revision": "1499ac4616c635a2f4d43c654ad6882f5d7c1c28",
   "implementation_sha256": {
     "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
     "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
-    "dev/bend-migration.json": "447f766710861d0bfb01cf292661de4a462f464005f053293082f7f311451dd3",
+    "dev/bend-migration.json": "09d5661ddb4e3073009c98f35aff80dd8d36d38f059d4cfbf281397f10e439a7",
     "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
     "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
     "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
     "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
     "dev/erasure-gates.py": "7121955ab238aa76830e823c2cfd97f21da4e119bb51dbdce99585dc5bae90cc",
-    "dev/erasure-mutations.py": "c70aaab0012eaa75656813d5d8772549d892630e06d3909bda3fc238f59a2917",
-    "erase/inline.bend": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
+    "dev/erasure-mutations.py": "463ee9e4ecd395945b23fcbaaecfff411ad642f0774ac3b3aec7ff2e166720ee",
+    "erase/inline.bend": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
     "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
     "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
     "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
     "erase/test/fixtures.bend": "137be14552beaeccf7aef497a3b49cf891e4de74b8fdd486ed8ce22ab39deb52",
     "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
     "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
-    "erase/test/inline_test.bend": "62123deb2669a116a13e4084f1e13d919277de96572320487c53fdbcc638e098",
+    "erase/test/inline_test.bend": "bed95d2ef74ce8f26137320f348eca961460239dba4597f4a552cff056d0277b",
     "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
     "erase/test/lambda_fixtures.bend": "9f33c40d5326b45f17ffbae9ae26f86bd8e37c8d1308998bfbf8657e53ab8a10",
     "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
@@ -64,7 +64,7 @@
     "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
     "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
     "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
-    "dev/validation/index-reduction-source-run.py": "0c51190ab7a552a7ed7274032e23372ff07c3155f8d8b96cec920afefb7817ce",
+    "dev/validation/index-reduction-source-run.py": "37f4426839b7d0d7f1f6a3aa09b23c356bd480f4163cf9b27076556c3a06421f",
     "dev/bend-policy.json": "6a9202f39045da42d3e3133ccfa22a53afc35a3d295748b6c376063864dc0b97",
     "fixtures/erasure/lambda-index-reduction-annotation-opaque.att": "341801d972a18b22a8ac8ca3951271692e13f2392e25702b39c239a152eac70d",
     "fixtures/erasure/lambda-index-reduction-annotation.att": "7a9f511bba40070e9cd8036a7851d505034e1ff54dee24d73cb32d06e33c6b24",
@@ -83,7 +83,7 @@
         "test"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 68.042,
+      "elapsed_seconds": 58.774,
       "log": {
         "path": "dev/validation/index-reduction-source/tests.log",
         "sha256": "803c442c2ca81de479b7b325b8529343ee2d02c5f54050a2f9427eb501a879e1"
@@ -97,10 +97,10 @@
         "dev/gates.sh"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 426.58,
+      "elapsed_seconds": 475.264,
       "log": {
         "path": "dev/validation/index-reduction-source/gates.log",
-        "sha256": "6e6ca1856def03fecc668d58df8e1e2f23f097b62a45ef4ff3bd3b8230f2b34d"
+        "sha256": "7420da60094dd526fd958cd25c7eb29df5f9fe1f5a86fa4f76bfcc62ed0598e7"
       }
     },
     {
@@ -112,10 +112,10 @@
         "--check-anchors"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 0.124,
+      "elapsed_seconds": 0.168,
       "log": {
         "path": "dev/validation/index-reduction-source/anchors.log",
-        "sha256": "975f3dc393a58b546efdacbbac8a5a700b1d3089093c7abf271f6153ffb65220"
+        "sha256": "8aa1a51ea09a93d48d40e8034563903bd6eba4b81bfae57e40e0dc65e759bf2a"
       }
     },
     {
@@ -127,7 +127,7 @@
         "--record"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 82.008,
+      "elapsed_seconds": 126.847,
       "log": {
         "path": "dev/validation/index-reduction-source/erasure-record.log",
         "sha256": "fce63408afeec9b02d609c22e511a9adcccfa146b02ba9c748ab15a0003b7cb0"
@@ -239,6 +239,20 @@
         "--case",
         "index-reduction-short",
         "--case",
+        "index-reduction-free-application",
+        "--case",
+        "index-reduction-reset",
+        "--case",
+        "index-reduction-alias-pair",
+        "--case",
+        "index-reduction-refund",
+        "--case",
+        "index-reduction-step-bound",
+        "--case",
+        "index-reduction-let-skip",
+        "--case",
+        "index-reduction-pop-skip",
+        "--case",
         "index-reduction-fixture-let",
         "--case",
         "index-reduction-fixture-beta",
@@ -250,10 +264,10 @@
       "harness_invocation": "in-process main() with the one-retry Bun segmentation fault run_case wrapper and the ordered run_cases collector",
       "log": {
         "path": "dev/validation/index-reduction-source/mutations.log",
-        "sha256": "552f9151e426e558f84a2fc02bba94db7d5ff402b6095fe143bcbc5fa1accc2d"
+        "sha256": "a42840210bfe88a4fc9d19e4a1e6679fe2555443eef315bf430edce5632dbac1"
       },
       "exit_code": 0,
-      "elapsed_seconds": 2708.266,
+      "elapsed_seconds": 2117.425,
       "baseline": {
         "path": "dev/validation/index-reduction-source/mutation-baseline.log",
         "sha256": "fce63408afeec9b02d609c22e511a9adcccfa146b02ba9c748ab15a0003b7cb0"
@@ -261,9 +275,9 @@
     }
   ],
   "supporting_records_sha256": {
-    "dev/validation/erasure.json": "4ce512d663c82213805276eafe2e7b3549a8eafc14dda3644292dcb5175a7cad"
+    "dev/validation/erasure.json": "bc7fe26f54a17027914d2f5646dbd920b4924b73c0ac01d081875908ca8f29ef"
   },
-  "catalog_total": 223,
+  "catalog_total": 230,
   "selected": [
     "proof-guard",
     "inline-local-type",
@@ -311,6 +325,13 @@
     "index-reduction-cases",
     "index-reduction-fuel",
     "index-reduction-short",
+    "index-reduction-free-application",
+    "index-reduction-reset",
+    "index-reduction-alias-pair",
+    "index-reduction-refund",
+    "index-reduction-step-bound",
+    "index-reduction-let-skip",
+    "index-reduction-pop-skip",
     "index-reduction-fixture-let",
     "index-reduction-fixture-beta",
     "index-reduction-fixture-annotation",
@@ -320,8 +341,8 @@
     {
       "name": "index-reduction-disabled",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "b20c1847aac29b5a30fee05a0c21bd0816b7dc2a513fb612205b399e76ea74ce",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "3a8d540a409689da533229bbb0e50860d92552225b8cd09b0f587bc28c8a9977",
       "log_sha256": "8afbd0a13f6671a83e84c8b3461abd4451c5e1e01e3a4c895ef8f7f7585094dd",
       "build_exit": 0,
       "gate_exit": 1,
@@ -355,8 +376,8 @@
     {
       "name": "index-reduction-fixture-let",
       "path": "erase/test/inline_test.bend",
-      "before_sha256": "62123deb2669a116a13e4084f1e13d919277de96572320487c53fdbcc638e098",
-      "mutated_sha256": "d1e97047059fc3933bb5b126ca4ff9e5331f5595c1dd153fb0c13cc42681da35",
+      "before_sha256": "bed95d2ef74ce8f26137320f348eca961460239dba4597f4a552cff056d0277b",
+      "mutated_sha256": "bc1915c73814bc3c58cb4a4842fb8807104b9cbcf2e9676a2ea79784120cfe56",
       "log_sha256": "b0e2e5ce0dc96051eafe2223d48bf2ab5822eab2a3fb18be80f8d72f0a1edb49",
       "build_exit": 0,
       "gate_exit": 1,
@@ -390,8 +411,8 @@
     {
       "name": "index-reduction-fixture-beta",
       "path": "erase/test/inline_test.bend",
-      "before_sha256": "62123deb2669a116a13e4084f1e13d919277de96572320487c53fdbcc638e098",
-      "mutated_sha256": "7f0fbfb9f0497d595d66a7e3005e56e8d2c603ec5996c6060e24cf97a015f08c",
+      "before_sha256": "bed95d2ef74ce8f26137320f348eca961460239dba4597f4a552cff056d0277b",
+      "mutated_sha256": "4fb07d7a528d9560ee5cddf161edbdc94563ebc3292a830d961522e39db7d3dd",
       "log_sha256": "1a9e31c9c3a6fa60dd6c2703dbb096b46d933f270868fffadf60842d0d8cdc95",
       "build_exit": 0,
       "gate_exit": 1,
@@ -425,8 +446,8 @@
     {
       "name": "index-reduction-fixture-annotation",
       "path": "erase/test/inline_test.bend",
-      "before_sha256": "62123deb2669a116a13e4084f1e13d919277de96572320487c53fdbcc638e098",
-      "mutated_sha256": "2e719b2a3c593239ee99bcafcec8a5dbc1e2a9f720953f9da731faeb46746237",
+      "before_sha256": "bed95d2ef74ce8f26137320f348eca961460239dba4597f4a552cff056d0277b",
+      "mutated_sha256": "c2f0f0aa05f53cd14f48c82f68df6ccc2490e9a6bd9e5dc80278aca42a8d4248",
       "log_sha256": "4ba4f0af386509ec6838dfbf8d03c53e448793c06ce5b3c5399a53c15de87145",
       "build_exit": 0,
       "gate_exit": 1,
@@ -460,8 +481,8 @@
     {
       "name": "index-reduction-fixture-projection",
       "path": "erase/test/inline_test.bend",
-      "before_sha256": "62123deb2669a116a13e4084f1e13d919277de96572320487c53fdbcc638e098",
-      "mutated_sha256": "8aab410fd00c99fadc167ae3d2d5405b3d61bc26d153f80401ea7d73dc01d7cc",
+      "before_sha256": "bed95d2ef74ce8f26137320f348eca961460239dba4597f4a552cff056d0277b",
+      "mutated_sha256": "385ce144d4c9613e0fdc00f5169937440a5e8b8695261067500202231cbb0426",
       "log_sha256": "235a239c2a371bfa87643a3f0638a72a1d2595446884d1feac7e00b225f71246",
       "build_exit": 0,
       "gate_exit": 1,
@@ -530,8 +551,8 @@
     {
       "name": "inline-local-type",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "93723555dbbe3c9fb8a241e5e99860a5fbb69738f19ee23f4e8b488ed8a9993e",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "d9aed5cb5202eea8d00c1b353e52322e5f79055f884eb921eb91215ed7ddd1a9",
       "log_sha256": "237465f301ce4942a68cd98bf973009a1ebdb96a5135d41317662794e8268d56",
       "build_exit": 0,
       "gate_exit": 1,
@@ -565,8 +586,8 @@
     {
       "name": "inline-leg-binders",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "b6cf2724fa51d64248132646ded399e67f3617c80be9a35028443fc0d8a1e7e2",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "855b95a1362c427dbc62f526835ccd37d9d9d73964f19e1f1c7b540260ab2365",
       "log_sha256": "eb0f9eb9312e88ad0353a5f8754134f3aad943700590e39e1a71232c163dcdb6",
       "build_exit": 0,
       "gate_exit": 1,
@@ -600,8 +621,8 @@
     {
       "name": "inline-shape-payload",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "a792b52499bb5a875afd28c2afccb848b49bce10c8162b1078b7198f3446f207",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "1b0aa61464e5bc8f93bb81855f179e23f81b03e1c4c6afc6d12f88597804ef1c",
       "log_sha256": "00dfc534bb42fb34c203088babb652589393e974fa51e719ce168637b08f897b",
       "build_exit": 0,
       "gate_exit": 1,
@@ -635,8 +656,8 @@
     {
       "name": "leg-scope-root",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "766eb187c698d27249b88d598f5b4e2908c3f4dcf65ccc7d15dbaa7fc5b5ee8f",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "1a6ae7deb0ffa0e3b8a074947ed9862b7eea45fa4433309c88fabded8775d438",
       "log_sha256": "eedd8e44f5d1e00c3927c75c99f9286e67fb033aacfc31282a9d7f8f2bd0f821",
       "build_exit": 0,
       "gate_exit": 1,
@@ -670,9 +691,9 @@
     {
       "name": "index-disabled",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "30a282dcbae413b309ffd7a6c776088e1db926a42ecf76dc4d7a97ecec7b04ed",
-      "log_sha256": "1d70d4bb4a6c64b30ada5e1cd247d23ef3da1c12c4e2fdd3c359320f983bc0ad",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "2330131bb9e589f03af47077be05f8388213a2103fa853831b20a7a8178a424e",
+      "log_sha256": "688177f47135870351a65e9391c9bb4d4ba0a0371a04a84d7f579eb658b02ef6",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=lambda-index-global FAIL",
@@ -695,7 +716,7 @@
       ],
       "log": {
         "path": "dev/validation/index-reduction-source/index-disabled.log",
-        "sha256": "1d70d4bb4a6c64b30ada5e1cd247d23ef3da1c12c4e2fdd3c359320f983bc0ad"
+        "sha256": "688177f47135870351a65e9391c9bb4d4ba0a0371a04a84d7f579eb658b02ef6"
       },
       "build_log": {
         "path": "dev/validation/index-reduction-source/index-disabled-build.log",
@@ -705,8 +726,8 @@
     {
       "name": "index-telescope-scope",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "cfc6e1032cafd762bf3c0aab656a75eead9858073db0fe413112419d0ffa097e",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "f94b1579e712b344c312bb53ffac786b2cd8b43537e126dd525bafd2470329aa",
       "log_sha256": "f4d4280241338db15dc31d408e2d6c1caf185bbb6121270d71f488b211af0c26",
       "build_exit": 0,
       "gate_exit": 1,
@@ -740,8 +761,8 @@
     {
       "name": "index-telescope-offset",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "3d4ff33db3d482bcd6ba5436241c355036a9f4ff1255db0017cd139e5c384842",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "6378cde2f8924babce12f8d9dcd3bcefccbf1583f25e5683818cdee9d8514d88",
       "log_sha256": "f4d4280241338db15dc31d408e2d6c1caf185bbb6121270d71f488b211af0c26",
       "build_exit": 0,
       "gate_exit": 1,
@@ -775,8 +796,8 @@
     {
       "name": "index-telescope-parameters",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "048c2baf3d63305727bbeed029ecf1f0cf83c7234e3e7560a0a7ebc20fa6c054",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "692bc55be0eb99935dbcb24d17b8e503ca60fae68b9373daa1f93f3097496bb0",
       "log_sha256": "1a045e35e30bbaca0f03690b27ec44f81f81f340de7ceaecb086922cc72d2b71",
       "build_exit": 0,
       "gate_exit": 1,
@@ -810,8 +831,8 @@
     {
       "name": "index-result-count",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "03b7fcc5b3f1e0357710b59b55821cc8e0723d68f2b6b5c6fc2693c3870c20f3",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "616535e44bced2760d40e767db9468e81a62bb32527cff02bc91e34db4b274d1",
       "log_sha256": "6a1fe14ce0ee4f0f2a4bfacf447ae520e812fab9e56b00f1e39d7de39ba25d14",
       "build_exit": 0,
       "gate_exit": 1,
@@ -845,8 +866,8 @@
     {
       "name": "index-result-scope",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "22df5f91810655c7d7225b82b0b251418c74d99343b24aa9f321f06ab5c71a96",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "4a618a1a74a4753f906631b8b8a1414d4a86466f64819e47e0ff0ecc0657328b",
       "log_sha256": "79b56df9216c858bb0b365294954f91a6b0fc9ac1ccfcede18ec34b1c551ea77",
       "build_exit": 0,
       "gate_exit": 1,
@@ -880,8 +901,8 @@
     {
       "name": "index-result-tail",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "21a7338cf40c2563cb20b101845638ddf9101434823631e09f7ad965690b4ef0",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "7ecb6e0502018374b57a7482604fd76581e9c6761126286a18a4a1e4437ac9e2",
       "log_sha256": "602da3933d3efd4e48f815834ba1cee8cd1be5be1edb2f0aa5a9ba7263e3f725",
       "build_exit": 0,
       "gate_exit": 1,
@@ -915,8 +936,8 @@
     {
       "name": "index-motive-missing",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "a70f7774db520bc1dbdd41b6f4f8c7f270596fd0548e7d7a10f5984d6ed5def4",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "2c96603951f3178678f7bd516cafe580a8a20ef318eb3c26708b590d8aa04c0a",
       "log_sha256": "dc6d00ec46d0100ed1512bbba374ccaf75f50a207ce10321c0b684ec0e126a27",
       "build_exit": 0,
       "gate_exit": 1,
@@ -950,8 +971,8 @@
     {
       "name": "index-fixture-call",
       "path": "erase/test/inline_test.bend",
-      "before_sha256": "62123deb2669a116a13e4084f1e13d919277de96572320487c53fdbcc638e098",
-      "mutated_sha256": "7030b521c5ad33c7aee90e047f81ff8398aaaafcfbfc9dfadf184e4c2e798c91",
+      "before_sha256": "bed95d2ef74ce8f26137320f348eca961460239dba4597f4a552cff056d0277b",
+      "mutated_sha256": "61ccfcd2383a6974e8f82384151357f3c2fa95655975fdfd44062b72d6bf6426",
       "log_sha256": "f3ddbed6d5baa4cbf9e44f659a32c778e09671ee7983ad763a7abe0605119809",
       "build_exit": 0,
       "gate_exit": 1,
@@ -985,8 +1006,8 @@
     {
       "name": "index-shape-count",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "8c5df4b25ec185cd183e7d12d9c1fdeb972c6ca1986a248ca5d880335cb07af8",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "2908318d25cc5589bfb6f4250f182cc3e0daf1677872ed11f595ccc67b47bded",
       "log_sha256": "176c3355f9d1b8b25fc74136383660ee568cc1de7eee568f3e6a220a0f7344b7",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1020,8 +1041,8 @@
     {
       "name": "index-shape-value",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "29ea757cbc702830620e8b589d8cbdc413f80108f7b81a0d7b180476c1b7b7d6",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "807ae844b7ce85c39294b643450c99847d82c44fe2a286fb8be18d9187807fcb",
       "log_sha256": "ca569b75922ef2e0385fc1abf1776eec2ec3fd9f8b4bf72255ab66dddad567c0",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1055,8 +1076,8 @@
     {
       "name": "index-shape-tail",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "3c235f005e3f913681b95a80a9003566ad476e5ca0a124a961de3711fae1e0c1",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "7169e41de895bac270b82d27dea52dc3892d2b5f52dd5aac6d9b474cb48c1925",
       "log_sha256": "065bc362760b11879a1232d472ac7fd24153da9f3e2bbea156f8888a7ee1decc",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1090,8 +1111,8 @@
     {
       "name": "index-shape-length",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "0dfc3c684b2d7f66641bd7af44b145a5db38783e0c59bd8298421305bbbc1d4f",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "d4639c159a5aeb415658e06602871fa76b837829f6c3e452c03c97e27d78c33d",
       "log_sha256": "387275c0cba22c44fc55ffaba76fc4c3093364efff84d3667a63821743c949c8",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1125,8 +1146,8 @@
     {
       "name": "case-head-fuel",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "a4e1bfbe2fe6e1149dea00d7ea9776a39ed34b6033e68d16686db93bace2c97b",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "5129306c7fbfe3701c5fe55ab1f774944abf3098688105a0d0f185274a8a64b6",
       "log_sha256": "2a575564b74c8dfdffee1aaf097f3751396329513dd081ef9d2dd77c746ed03c",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1160,8 +1181,8 @@
     {
       "name": "case-result-fuel",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "a765ba7b7780256e6d273026273e23465748c5c6d4e5a3091733dd656a3dd290",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "9425ff60076b8280d15e03b5d7ee34745cd256d89845ba10f73cabc7d31eb331",
       "log_sha256": "7893bebb9cbd601b2df8d4d59136db33db0967fd99da0e8768da1963bab6ecde",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1195,8 +1216,8 @@
     {
       "name": "case-fuel",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "f4f7f73467b8b27dca95b3f960019b709db27c851ef7f87ca920e041aad0b2f5",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "cfba7b07a26ce892183c64bf1d2039e895a4c96c519a430a29d63947b3cc8938",
       "log_sha256": "ada7ff5c2281f1e97af72ee8b912a01d32bf06c369967f692cbd01faacebf718",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1230,8 +1251,8 @@
     {
       "name": "alias-global-scope",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "dde8bbe2b9bbe08f9955ed089c188daa261a3e94e463431192249f8f89da2028",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "aab891d039778980b37c10ead3faa5a9360afa294a4df6baab75c96d33934817",
       "log_sha256": "4ebe033311f51c470de2878648168fbe56734e453f39f74836b2e49772c416b1",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1265,9 +1286,9 @@
     {
       "name": "alias-local-scope",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "746b5d746e9fbfd860bf201388a3e4a263eca545591e0d35e851ec2849b4bbb8",
-      "log_sha256": "736ae5a85d3b63ed38085620e2de6be8cf13402a9ac5c17d8c1bafe39d57f462",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "9b928706b9c41f40b69e843571d9cc4141c388128cf7023df3423fe2b88fb62c",
+      "log_sha256": "0529494f4aa528d907422a636f24a5104b9fc2b0e0d6528eb0da10a8a2810ae2",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: self-referencing local alias accepted",
@@ -1290,7 +1311,7 @@
       ],
       "log": {
         "path": "dev/validation/index-reduction-source/alias-local-scope.log",
-        "sha256": "736ae5a85d3b63ed38085620e2de6be8cf13402a9ac5c17d8c1bafe39d57f462"
+        "sha256": "0529494f4aa528d907422a636f24a5104b9fc2b0e0d6528eb0da10a8a2810ae2"
       },
       "build_log": {
         "path": "dev/validation/index-reduction-source/alias-local-scope-build.log",
@@ -1300,8 +1321,8 @@
     {
       "name": "alias-local-shift",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "47e76bd2643c098a5cf4d264478a8f896e1834c2e5aad75759dbaa996aab7ff4",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "83f1efb532ec18e5430eccdbe2a52c38b5a590e81dd05e8b96bd9086c55054a3",
       "log_sha256": "f6e6d9f528df30770b379e2533afd8b75434905e9d44825dff30432646af8feb",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1335,8 +1356,8 @@
     {
       "name": "alias-opaque",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "65b377d1372ec181d543d82c58693872d8c448eeb6dd042f6dbce69a365ca7d6",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "4991d7fcb4c92eb39c7cbe50a124f98275f612168011682a995931821c6b3ceb",
       "log_sha256": "0dc45eb37c00cdbb0223419b9d9f41f58d7cbd011663ddc53daefc970c648268",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1370,8 +1391,8 @@
     {
       "name": "alias-recursive",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "4afd1a3e2b5a46553cdd04954609b90020a9f0ac497186cd9a8565ed897f49ec",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "09bcce6decdc21e6fdb329116448fa0540e569573c78cb3a80b6f910235c1f76",
       "log_sha256": "d9e19df212a46eb98e5fcd4ce1f732458c36724d215a845d4ab41ed914079b11",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1405,8 +1426,8 @@
     {
       "name": "alias-partial",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "4cb77316526467690be63f8b19e0fbd288f1169758cc293e55da02a1cb97ae57",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "76972ad71413dfefa8ea04eb0b5fdc51e780b9b7e2aee35f3eb017b7ce8a754e",
       "log_sha256": "8c18c043e40aad12226fa94739f5d3cfa43a8b022eebd178981e3f6662d4aef4",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1440,9 +1461,9 @@
     {
       "name": "index-alias-disabled",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "49f272413879fe442a25d18944e5115d15d78da4003ad2a028a0ccd69aeb4d49",
-      "log_sha256": "9f3a831c8e7a30ea19a7310959d92c7337b0adcf7defecbf36d3302fb20b5bc9",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "ecd0bc52e4e1576f38c914b56d7fd9a8654b153d924caf67895135c6cadd39e1",
+      "log_sha256": "9bb92a7c4fccfb8d2b43328228c7165985036daca3a08be5e051cea9f56c3255",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=index-alias-source-syntax FAIL",
@@ -1465,7 +1486,7 @@
       ],
       "log": {
         "path": "dev/validation/index-reduction-source/index-alias-disabled.log",
-        "sha256": "9f3a831c8e7a30ea19a7310959d92c7337b0adcf7defecbf36d3302fb20b5bc9"
+        "sha256": "9bb92a7c4fccfb8d2b43328228c7165985036daca3a08be5e051cea9f56c3255"
       },
       "build_log": {
         "path": "dev/validation/index-reduction-source/index-alias-disabled-build.log",
@@ -1475,8 +1496,8 @@
     {
       "name": "index-alias-neutral",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "671fdc4fbadd72268e13c5b4bde68fa2db77707ad62e2d6c9d875efe3107d16f",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "5625177eea29d706db941cb63c79c8bcc3b8b773123b39282457d5bc5c9cc240",
       "log_sha256": "23c4bf13256c3ca318028ecf7e76f96bfdd1e309da37891677dc840b9a03f997",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1510,8 +1531,8 @@
     {
       "name": "index-alias-equality",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "61b8afb1b516579524015ca6b89a76d54e60e48232310ee0e56520645159eabb",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "cbd658eb993a3c35e6d6b198d550498b1ff9fed7ef0efa32d331ae332bf63470",
       "log_sha256": "ca569b75922ef2e0385fc1abf1776eec2ec3fd9f8b4bf72255ab66dddad567c0",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1545,8 +1566,8 @@
     {
       "name": "index-alias-tail",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "22c9a0f75f8b0ff4d2cb7b9b8e438536974589e12b8443e2044a33ead76bc939",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "b3d29fda126ddaff8d3840cce906e040d05f140c6bfab855c16cc260eb19f389",
       "log_sha256": "9d60d35c27dfeb4c66969b8e9fabd735d050521d3afad868f3326f70b3b3009c",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1580,8 +1601,8 @@
     {
       "name": "index-alias-width",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "5ca7ca8938bbe9c399667c0fcfb82a50195af5b3a51d7aa3fcedfc47202691e6",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "6570fa3bd8395e0a975012a19d3824785006bf277f6eedab885db08d96b86c76",
       "log_sha256": "528326c1e561784c6706c9e28b8660a25bdd0e81e0bbebbb2c3c1e100e462e2c",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1615,9 +1636,9 @@
     {
       "name": "index-alias-bound",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "91f9c3971f17102efc6ffa30442a7e6e55df140fbc783973f04f08c64ba22853",
-      "log_sha256": "854c34c7d9f17661092779270d6a5a7b2c99133247db162c24e3447b9d1c921b",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "a9127042e1bf4966e5df0bbd8ecb765b32735e4f58521300c07164323e1d58e3",
+      "log_sha256": "3c6477e9285437dde3ecd5cd0d6a94bd4a1f5b83099380004c4738952150a536",
       "build_exit": 0,
       "gate_exit": 1,
       "diagnostic": "INLINE-ERASE row=index-alias-source-syntax FAIL",
@@ -1640,7 +1661,7 @@
       ],
       "log": {
         "path": "dev/validation/index-reduction-source/index-alias-bound.log",
-        "sha256": "854c34c7d9f17661092779270d6a5a7b2c99133247db162c24e3447b9d1c921b"
+        "sha256": "3c6477e9285437dde3ecd5cd0d6a94bd4a1f5b83099380004c4738952150a536"
       },
       "build_log": {
         "path": "dev/validation/index-reduction-source/index-alias-bound-build.log",
@@ -1650,8 +1671,8 @@
     {
       "name": "index-alias-local-neutral",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "4024e97d2d779f15852d15d22c0c50063fb6af2bc8259633fb787a47ceb7ec60",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "16d534cdc0bd0e2c9c45f9d185d016da98b6572d573c02ab9b2e278c6a313b05",
       "log_sha256": "49fce3a42b3dfde14649351e3c506ee26b0b686441839e90123c6f62f210dc51",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1685,8 +1706,8 @@
     {
       "name": "index-alias-exhausted",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "93ceb86d899af0a98e336f9cd94d91c89e49fddb6444a7ba45651ce560b96041",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "d9eb3f89c6a3f428028b7474ecd042fadfe248d2300271440a56753fb1281db6",
       "log_sha256": "b58b1dfa87b8ce49d7ab2567118fa8461077903289a4f6b1b614065d87a2a818",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1720,8 +1741,8 @@
     {
       "name": "index-alias-parameter-endpoint",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "6c7553d61ae83699ec82a5f1ee72faac39ebbb111f593cba7b3f631874e4ef92",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "0885b4a392a29a5c1dba221471dc8f4e684b26433f7e9bb2d5e17ddee4edfc7b",
       "log_sha256": "907f9f57ae00c57498915c87a36fddb07355836f9c10b8f522348a00cc489adb",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1755,8 +1776,8 @@
     {
       "name": "index-alias-global-endpoint",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "46e337d1ef673dec5ec6535fed80b515d38ae662b5d667688f4b7af659bdf4ba",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "895a8c73c856892e306af96baaf193dcc29cd0fbc5959c32c49d6b5f768cd8e7",
       "log_sha256": "2e88a612df7980a979555400fb002916d2689ef638a16a1ec381deef17204198",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1790,8 +1811,8 @@
     {
       "name": "index-alias-global-scope",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "dde8bbe2b9bbe08f9955ed089c188daa261a3e94e463431192249f8f89da2028",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "aab891d039778980b37c10ead3faa5a9360afa294a4df6baab75c96d33934817",
       "log_sha256": "4ebe033311f51c470de2878648168fbe56734e453f39f74836b2e49772c416b1",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1825,12 +1846,12 @@
     {
       "name": "index-alias-local-scope",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "746b5d746e9fbfd860bf201388a3e4a263eca545591e0d35e851ec2849b4bbb8",
-      "log_sha256": "736ae5a85d3b63ed38085620e2de6be8cf13402a9ac5c17d8c1bafe39d57f462",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "9b928706b9c41f40b69e843571d9cc4141c388128cf7023df3423fe2b88fb62c",
+      "log_sha256": "0529494f4aa528d907422a636f24a5104b9fc2b0e0d6528eb0da10a8a2810ae2",
       "build_exit": 0,
       "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: self-referencing local alias accepted",
+      "diagnostic": "INLINE-ERASE row=index-alias-source-local FAIL mismatch: open local index alias unfolded",
       "build_command": [
         "python3",
         "-P",
@@ -1850,7 +1871,7 @@
       ],
       "log": {
         "path": "dev/validation/index-reduction-source/index-alias-local-scope.log",
-        "sha256": "736ae5a85d3b63ed38085620e2de6be8cf13402a9ac5c17d8c1bafe39d57f462"
+        "sha256": "0529494f4aa528d907422a636f24a5104b9fc2b0e0d6528eb0da10a8a2810ae2"
       },
       "build_log": {
         "path": "dev/validation/index-reduction-source/index-alias-local-scope-build.log",
@@ -1860,8 +1881,8 @@
     {
       "name": "index-alias-fixture-call",
       "path": "erase/test/inline_test.bend",
-      "before_sha256": "62123deb2669a116a13e4084f1e13d919277de96572320487c53fdbcc638e098",
-      "mutated_sha256": "f13220ca27ba9a9f7dccb683985be33f838871e77a3b1ca4350108d3ec9a9e7d",
+      "before_sha256": "bed95d2ef74ce8f26137320f348eca961460239dba4597f4a552cff056d0277b",
+      "mutated_sha256": "2254811f42cafb83ab41d7106775962d1c06684415d9767593eb18339a678f80",
       "log_sha256": "659788fcc3838ae72e47f9213cca7edb7a3c296e40a5baf51ae59da739688d97",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1895,8 +1916,8 @@
     {
       "name": "index-reduction-left",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "a6819cd121e999c658cb9793def32cdc28a7413b1709729f4d0307f2c9435c70",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "90edd897d51c2f84d29179c7b96f39c04acde4d269912cbaa82992359f8b3194",
       "log_sha256": "731b69e41e94639e338ab00d050fc8bfaa9ebaef8e4419b5fcbb0bb8327e432b",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1930,8 +1951,8 @@
     {
       "name": "index-reduction-right",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "8cf1587a7dcb9f4d811fcae9448105f2b2c980a096cc086f008218755d023b5e",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "0fe6490826f4580c975110b01110e3dd189ebe0c207e2309c5a44a399fdd4a24",
       "log_sha256": "47c6bdc8fd2ca125cff25778bb0e4e2827f89f95dcdb7deb49dcb6f87216b4a5",
       "build_exit": 0,
       "gate_exit": 1,
@@ -1965,8 +1986,8 @@
     {
       "name": "index-reduction-cases",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "360980bae705e479d2deda2d1c43dd9a9cc87023daede2c7421955c643bb16d0",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "ec90a6f2349394dce6402c601dc67f28cf94f9d58a300975d4a928719d054b87",
       "log_sha256": "6021ea8c606a828844c9de45c840ebcc91742a1f73037a70825c2903a8453295",
       "build_exit": 0,
       "gate_exit": 1,
@@ -2000,8 +2021,8 @@
     {
       "name": "index-reduction-fuel",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "d895a688bdbbb8994a531c1b0addc182f7f9aa23a57d556f5bbf2288ae392d37",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "5fd5e1cfb12c08134c2014fbb2084c04c15a5ecd25a1ce94f0e153122fafa789",
       "log_sha256": "3fdd38835af186bd45f629ee03cc5285b58ad4ef90bcd3ffab880e165e59f73e",
       "build_exit": 0,
       "gate_exit": 1,
@@ -2035,8 +2056,8 @@
     {
       "name": "index-reduction-short",
       "path": "erase/inline.bend",
-      "before_sha256": "688e9a99a4ff47d202fdd8338e2a7f02f6af41efa5c2d87a7c62fe3287e89c2f",
-      "mutated_sha256": "c19c6dfceb671904d1b4a58dee8401e773a2e18c2d0dae1f648381e46110d8b2",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "9ba9c26842bbdc2c7021f9f3f8fea1a18f83bc7bffe145e84b6ebb9979afc969",
       "log_sha256": "3a9ec7d1d9bf0ed48b773b4acde019e9b27b385304f4593f2175a88d5ce42025",
       "build_exit": 0,
       "gate_exit": 1,
@@ -2064,6 +2085,251 @@
       },
       "build_log": {
         "path": "dev/validation/index-reduction-source/index-reduction-short-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-reduction-free-application",
+      "path": "erase/inline.bend",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "99db8d66bd7d49c93d982c3f08f2ba50d4ebf821e2707f7665ee1deb51821453",
+      "log_sha256": "82ecc16f35bd63ac6d6db4276bddb669d16d7e1904d92b0ad553c13dc4c3f914",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: index let and beta fuel not shared",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-free-application.log",
+        "sha256": "82ecc16f35bd63ac6d6db4276bddb669d16d7e1904d92b0ad553c13dc4c3f914"
+      },
+      "build_log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-free-application-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-reduction-reset",
+      "path": "erase/inline.bend",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "1968cdd687e985618093ef7c16f0733c2f024cf68997127b09a051980bd7014c",
+      "log_sha256": "82ecc16f35bd63ac6d6db4276bddb669d16d7e1904d92b0ad553c13dc4c3f914",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: index let and beta fuel not shared",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-reset.log",
+        "sha256": "82ecc16f35bd63ac6d6db4276bddb669d16d7e1904d92b0ad553c13dc4c3f914"
+      },
+      "build_log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-reset-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-reduction-alias-pair",
+      "path": "erase/inline.bend",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "7c9a6f4a692b9e820a17f5dae5ca0e5d2ceca34120ad3aee01b371c01fedbaca",
+      "log_sha256": "1dfb3219866d857501012b1a1b4929bb5a732fe7e6387f285aef7b3a48641a7e",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-reduction-source-guards FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-alias-pair.log",
+        "sha256": "1dfb3219866d857501012b1a1b4929bb5a732fe7e6387f285aef7b3a48641a7e"
+      },
+      "build_log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-alias-pair-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-reduction-refund",
+      "path": "erase/inline.bend",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "c6a70631cda17a6465e64e97eafbe585b7cb305f5ba056d06a5383e91c777129",
+      "log_sha256": "3a9ec7d1d9bf0ed48b773b4acde019e9b27b385304f4593f2175a88d5ce42025",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: application source type missing",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-refund.log",
+        "sha256": "3a9ec7d1d9bf0ed48b773b4acde019e9b27b385304f4593f2175a88d5ce42025"
+      },
+      "build_log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-refund-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-reduction-step-bound",
+      "path": "erase/inline.bend",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "56f283912d17fa6056fc65716fd826e86a653fa1bc8c2e523a83afbb9e554d5c",
+      "log_sha256": "3a9ec7d1d9bf0ed48b773b4acde019e9b27b385304f4593f2175a88d5ce42025",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: application source type missing",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-step-bound.log",
+        "sha256": "3a9ec7d1d9bf0ed48b773b4acde019e9b27b385304f4593f2175a88d5ce42025"
+      },
+      "build_log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-step-bound-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-reduction-let-skip",
+      "path": "erase/inline.bend",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "4660e9ec5cb2bfc2cab8acdf140fffb3bde1e24602dc47c15c6d641fac0a7296",
+      "log_sha256": "bcaf0e794e7791362919ac7247e634974dfe8653bc9135b526d49b05cae25ab8",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: application source type missing",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-let-skip.log",
+        "sha256": "bcaf0e794e7791362919ac7247e634974dfe8653bc9135b526d49b05cae25ab8"
+      },
+      "build_log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-let-skip-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-reduction-pop-skip",
+      "path": "erase/inline.bend",
+      "before_sha256": "faf28ed79fa7c4d207ced9593c72be15c0afb86db3d6df2eb3e4a7d9573f098f",
+      "mutated_sha256": "6aad6fab505069f5f9cc2347253c74bc5507c924170372c6c32eae487f13f198",
+      "log_sha256": "719d5e2b6d675ccd71331e12d32c691a4297a684b4d1244ce3ad67fba35dadbf",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: application substitution captured an outer variable",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-pop-skip.log",
+        "sha256": "719d5e2b6d675ccd71331e12d32c691a4297a684b4d1244ce3ad67fba35dadbf"
+      },
+      "build_log": {
+        "path": "dev/validation/index-reduction-source/index-reduction-pop-skip-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     }

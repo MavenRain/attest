@@ -74,7 +74,8 @@ LAMBDA_ROWS = ("lambda-alias-global", "lambda-alias-dependent",
                "lambda-recursive-local", "lambda-recursive-indexed",
                "lambda-index-alias-global", "lambda-index-alias-local",
                "lambda-index-reduction-let", "lambda-index-reduction-beta",
-               "lambda-index-reduction-annotation", "lambda-index-reduction-projection")
+               "lambda-index-reduction-annotation", "lambda-index-reduction-projection",
+               "lambda-sum-index-left", "lambda-sum-index-right")
 INLINE_ROWS += LAMBDA_ROWS
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
@@ -107,6 +108,8 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "index-alias-source-guards", "index-alias-source-fuel",
                                "index-reduction-source-syntax", "index-reduction-source-local",
                                "index-reduction-source-guards", "index-reduction-source-fuel",
+                               "sum-index-source-syntax", "sum-index-source-local",
+                               "sum-index-source-guards", "sum-index-source-fuel",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",
@@ -356,6 +359,13 @@ def fixture_call_table():
              f'LF.{fixture_name(f"lambda-index-reduction-{kind}")},'
              f'LF.{fixture_name(f"lambda-index-reduction-{kind}")}_opaque,layout,{mode}n)}}')
         for mode, kind in enumerate(("let", "beta", "annotation", "projection"))
+    })
+    alias_calls.update({
+        f"lambda-sum-index-{side}":
+            (f'Suite.Case{{"lambda-sum-index-{side}",unit=>Suite.index_reduction_sealed('
+             f'LF.{fixture_name(f"lambda-sum-index-{side}")},'
+             f'LF.{fixture_name(f"lambda-sum-index-{side}")}_opaque,layout,{mode}n)}}')
+        for mode, side in ((4, "left"), (5, "right"))
     })
     lambdas = [(name, "lambda", alias_calls.get(name, sealed_call("LF", name, "layout")))
                for name in LAMBDA_ROWS]

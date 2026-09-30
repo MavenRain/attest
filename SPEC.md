@@ -145,11 +145,13 @@ variables. Scrutinees and selected results can require further source reductions
 Constructor cases require inductive shapes with matching family names and a
 complete, positive family. Both the elimination and injection carry the declared
 number of index values. Payloads must match syntactically, directly or after
-transparent head aliases, lets, beta steps, annotations, and tuple projections
-expose matching source syntax. Each index payload has a separate budget of 64
+transparent head aliases, lets, beta steps, annotations, tuple projections,
+and concrete collection cases expose matching source syntax. Each index payload has a separate budget of 64
 reductions, with the declaration-count alias bound between reductions. Index
 applications spend a step before their head and pass the remainder to their
-result. Case expressions in index payloads do not reduce. A payload whose
+result. Concrete collection cases spend a step before their scrutinee and share
+the remainder with the selected result; constructor cases in index payloads do
+not reduce. A payload whose
 reduction reaches a neutral application, projection, or case matches only
 directly or after transparent head aliases. Global and
 local alias bodies reuse the existing closedness checks. Neutral globals and
@@ -196,8 +198,12 @@ Opaque definitions, partial definitions, recursive definitions, and parameters
 do not unfold. Constructor cases with provisional or builtin families and
 cases with neutral scrutinees remain
 unsupported. Index payloads that remain syntactically unequal after bounded
-head recovery remain unsupported. Case reductions inside an index remain
-unsupported. Missing function types,
+head recovery remain unsupported. Concrete collection cases reduce inside
+index payloads using the same width, branch coverage, single-binder, motive,
+scope, and substitution checks as collection source cases. They share each
+payload's 64-step budget with scrutinee and result reductions. Constructor
+cases inside an index do not reduce, preventing index recovery from reentering
+constructor comparison. Missing function types,
 nonpoint function formers, nonpoint function application addresses, free codomains,
 and free arguments are refused.
 Four `motive-application-*` pairs cover global, dependent, local, and curried

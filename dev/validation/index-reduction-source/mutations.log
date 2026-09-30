@@ -48,4 +48,11 @@ ERASURE-MUTATION index-reduction-right caught
 ERASURE-MUTATION index-reduction-cases caught
 ERASURE-MUTATION index-reduction-fuel caught
 ERASURE-MUTATION index-reduction-short caught
-ERASURE-MUTATIONS caught=50 total=223 PARTIAL
+ERASURE-MUTATION index-reduction-free-application caught
+ERASURE-MUTATION index-reduction-reset caught
+ERASURE-MUTATION index-reduction-alias-pair caught
+ERASURE-MUTATION index-reduction-refund caught
+ERASURE-MUTATION index-reduction-step-bound caught
+ERASURE-MUTATION index-reduction-let-skip caught
+ERASURE-MUTATION index-reduction-pop-skip caught
+ERASURE-MUTATIONS caught=57 total=230 PARTIAL

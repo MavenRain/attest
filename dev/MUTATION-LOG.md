@@ -1,5 +1,33 @@
 # Mutation log
 
+## 2026-09-30: Sum index source mutations
+
+Eight isolated mutations cover sum cases inside constructor source indices:
+disabling case recovery, refunding the scrutinee step, resetting the selected
+result's budget, skipping the pending case, ignoring the injection width,
+ignoring motive metadata, and replacing either new fixture call with an
+existing let fixture. Each must produce its named failure.
+The existing `index-reduction-cases` mutation now changes the index case
+helper's fallback to admit a constructor scrutinee, retaining its previous
+constructor-case refusal check.
+
+The disabled sum recovery mutant must also fail both new fixture rows.
+Their unmutated execution includes kernel-rechecked constructor index variants.
+Fixture-call mutations are checked against the
+gate's exact fixture pair and mode. The unmutated suite passes all 185 rows,
+and all 238 mutation anchors match exactly once.
+
+`dev/validation/sum-index-source-run.py` runs the full tests, default gates,
+anchor check, and refreshed erasure record before the existing harness's
+baseline and 65 scoped mutants. Its record pins implementation inputs,
+fixture files, the source policy, collector, supporting erasure record, and
+kept logs. The harness's freshness checks remain in effect. The historical
+full mutation record remains unchanged; this scoped run does not claim a
+full 238-mutant run.
+
+New logs replace the kept evidence only after every check passes. A Bun
+compiler segmentation fault may retry once, preserving its crash log.
+
 ## 2026-09-29: Compound index source mutations
 
 The catalog adds seventeen isolated mutations for bounded constructor index

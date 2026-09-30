@@ -120,7 +120,6 @@ INLINE-ERASE row=recursive-source-fuel OK
 INLINE-ERASE row=index-alias-source-local OK
 INLINE-ERASE row=index-alias-source-guards OK
 INLINE-ERASE row=index-reduction-source-local OK
-INLINE-ERASE row=index-reduction-source-guards OK
 INLINE-ERASE row=index-reduction-source-fuel OK
 INLINE-ERASE row=lambda-index-reduction-let OK
 INLINE-ERASE row=lambda-index-reduction-beta OK
@@ -177,8 +176,9 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=176 total=179 FAIL
+INLINE-ERASE pass=175 total=179 FAIL
 INLINE-ERASE row=index-alias-source-syntax FAIL mismatch: application source type missing
 INLINE-ERASE row=index-alias-source-fuel FAIL mismatch: application source type missing
 INLINE-ERASE row=index-reduction-source-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=index-reduction-source-guards FAIL mismatch: application source type missing
 

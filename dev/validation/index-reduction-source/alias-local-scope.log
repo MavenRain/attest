@@ -117,7 +117,6 @@ INLINE-ERASE row=recursive-source-metadata OK
 INLINE-ERASE row=recursive-source-scope OK
 INLINE-ERASE row=recursive-source-fuel OK
 INLINE-ERASE row=index-alias-source-syntax OK
-INLINE-ERASE row=index-alias-source-local OK
 INLINE-ERASE row=index-alias-source-guards OK
 INLINE-ERASE row=index-alias-source-fuel OK
 INLINE-ERASE row=index-reduction-source-syntax OK
@@ -179,6 +178,7 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=178 total=179 FAIL
+INLINE-ERASE pass=177 total=179 FAIL
 INLINE-ERASE row=alias-guards FAIL mismatch: self-referencing local alias accepted
+INLINE-ERASE row=index-alias-source-local FAIL mismatch: open local index alias unfolded
 

@@ -1,5 +1,44 @@
 # M0 build log
 
+## 2026-09-30: Stage B sum cases in constructor source indices
+
+Index source recovery now reduces a case over a concrete sum injection.
+Recovery checks matching collection widths, complete and unique numeric
+branches, one binder per branch, and an optional unnamed, unindexed motive.
+The whole payload must be closed, including unused branches, scrutinee
+annotations, and the motive. Substitution retains the 4096-node cap and
+preserves outer variables. Transparent global and local aliases keep their
+existing scope and unfolding guards. Constructor cases inside an index
+still do not reduce, so index recovery does not reenter constructor comparison.
+
+A case consumes one of the payload's 64 steps before its scrutinee.
+Its scrutinee and selected result share the remaining budget with lets,
+annotations, applications, and projections. Pending case and application
+frames share the existing 129-transition limit.
+
+Two opaque-twin pairs cover both sum injections. Each also changes an
+elaborated constructor index to an equivalent case expression, rechecks the
+definition and its use with the kernel, seals one proof, and compares its
+runtime output with the opaque twin. Four direct suite rows cover both
+comparison directions, preserved result syntax, reordered branches, mixed
+reductions, global and local aliases, shifting, capture, unequal later
+indices, malformed and open cases, refused constructor cases, substitution
+size, and exact versus excessive head, result, shared, and mixed reduction
+budgets. Let prefixes keep the excessive head, result, and shared budget rows
+inside the 129-transition limit, so only the 64-step budget refuses them.
+
+The inline suite has 185 cases in 16 test programs. Eight new mutations
+bring the catalog to 238 checked anchors. The collector
+`dev/validation/sum-index-source-run.py` records the full tests, default
+gates, erasure record, and 65 scoped mutations in
+`dev/validation/sum-index-source.json`. The historical full mutation
+record remains unchanged. The two new catchall policy entries are the
+index case helper's explicit refusal and the fixture's scalar branch dispatch.
+
+Stage B stays open at the Acc runtime-elimination frontier. Constructor cases
+inside indices, builtin and provisional constructor families, unequal
+payloads after bounded recovery, and neutral scrutinees remain open.
+
 ## 2026-09-29: Stage B compound constructor source indices
 
 Constructor source recovery compares unequal index spellings after bounded

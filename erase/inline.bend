@@ -984,7 +984,7 @@ def Inline.index_alias_head(term: F.Term.t, +context: Inline.context) -> Result<
   Inline.index_alias_type((aliases + 1n : Nat), term, context)
 
 # Index payloads keep neutral syntax and use a separate bounded reduction pass.
-# Cases stay unsupported here, so index recovery cannot reenter constructor comparison.
+# Collection cases use the same bounded pass without reentering constructor comparison.
 def Inline.index_source_alias(term: Maybe<&2, F.Term.t>, context: Inline.context) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match term:
     case None{}: Done{None{}}
@@ -992,6 +992,15 @@ def Inline.index_source_alias(term: Maybe<&2, F.Term.t>, context: Inline.context
 
 type Inline.index_frame is Data:
   Inline.IndexApplication{shape: F.Shape.t<F.Term.t>, address: F.Term.addr}
+  Inline.IndexCase{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>}
+
+def Inline.index_case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, +depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match scrutinee:
+    case Some{F.Term.In{+injection, F.Term.ALeg{+index}, +argument <> Nil{}}}:
+      index_elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ALeg{index}, [argument]}, quantity, motive, branches}}
+      index_valid: Bool = Bool.and(Inline.closed(depth, index_elimination), Inline.case_motive(motive))
+      Inline.case_collection(P.Rules.as_vcoll(F.Term.t, shape), P.Rules.as_vcoll(F.Term.t, injection), index, argument, branches, index_valid, depth)
+    case other: Done{None{}}
 
 def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fuel: Nat, index_ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match index_pending:
@@ -1001,10 +1010,15 @@ def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fue
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
         index_reduced: Maybe<&2, F.Term.t> <- Inline.beta_type(index_shape, index_address, index_ty, C.Check.size(checker))
         next(fuel, index_reduced, rest)
+    case Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest:
+      Inline.Context{checker, domains} = context
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        case_reduced: Maybe<&2, F.Term.t> <- Inline.index_case_type(index_shape, index_quantity, index_motive, index_branches, index_ty, C.Check.size(checker))
+        next(fuel, case_reduced, rest)
 
-# Charge applications before their heads, and share the remainder with the result.
+# Charge applications and cases before their heads, and share the remainder with the result.
 # The existing substitution and projection helpers enforce scope and node bounds.
-# index_source_head checks payload scope on entry and exit; the annotation check is defensive.
+# index_source_head checks payload scope on entry and exit; the annotation check and the index_case_type closedness check are defensive.
 def Inline.index_source_reduce(fuel: Nat, index_expanded: Maybe<&2, F.Term.t>, context: Inline.context, index_pending: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match fuel index_expanded:
     case 0n index_expanded:
@@ -1021,7 +1035,8 @@ def Inline.index_source_reduce(fuel: Nat, index_expanded: Maybe<&2, F.Term.t>, c
         next(index_remaining, index_reduced, index_pending)
     case 1n+index_remaining Some{F.Term.Out{index_shape, index_address, head}}:
       next(index_remaining, Some{head}, Inline.IndexApplication{index_shape, index_address} <> index_pending)
-    case 1n+index_remaining Some{F.Term.Elim{elimination}}: Done{None{}}
+    case 1n+index_remaining Some{F.Term.Elim{F.Term.Elimination{index_shape, index_scrutinee, index_quantity, index_motive, index_branches}}}:
+      next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)
     case 1n+index_remaining other: Inline.index_source_pending(index_pending, (index_remaining + 1n : Nat), other, context, next)
 
 def Inline.index_source_steps(steps: Nat, fuel: Nat, ty: Maybe<&2, F.Term.t>, +context: Inline.context, pending: List<&2, Inline.index_frame>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:

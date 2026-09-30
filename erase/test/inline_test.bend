@@ -237,6 +237,11 @@ def Suite.index_alias_sealed(+source:String,+twin:String,+host:Maybe<&2,F.Pair2<
     after:List<&2,F.Pair2<String,R.Erase.entry>> <- Suite.erase(opaque)
     T.Test.require(String.eq(R.Erase.print(Suite.runtime_rows(before)),R.Erase.print(Suite.runtime_rows(after))),"index alias variant runtime differs from its sealed twin")
 
+def Suite.sum_index_branch(mode:Nat) -> Nat:
+  match mode:
+    case 4n: 0n
+    case other: 1n
+
 def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
   match mode:
     case 0n: F.Term.Let{"n",F.Term.Global{"Nat"},term,F.Term.Var{0n}}
@@ -244,10 +249,17 @@ def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Many{},"n",F.Term.Global{"Nat"})
       F.Term.Out{shape,F.Term.APt{F.Quantity.Many{},term},F.Term.Ann{F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}]},F.Term.Ran{shape,F.Term.Global{"Nat"}}}}
     case 2n: F.Term.Ann{term,F.Term.Global{"Nat"}}
-    case other:
+    case 3n:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
       tuple:F.Term.t = F.Term.Ann{F.Term.Sec{shape,[F.Term.Leg{Nil{},term},F.Term.Leg{Nil{},term}]},F.Term.Ran{shape,G.Rules.diagram_of([F.Term.Global{"Nat"},F.Term.Global{"Nat"}])}}
       F.Term.Out{shape,F.Term.ALeg{0n},tuple}
+    case other:
+      +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+      +nat:F.Term.t = F.Term.Global{"Nat"}
+      +index:Nat = Suite.sum_index_branch(mode)
+      scrutinee:F.Term.t = F.Term.Ann{F.Term.In{shape,F.Term.ALeg{index},[term]},F.Term.Lan{shape,G.Rules.diagram_of([nat,nat])}}
+      +leg:F.Term.leg = F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}
+      F.Term.Elim{F.Term.Elimination{shape,scrutinee,F.Quantity.Many{},Some{F.Term.Motive{None{},Nil{},"choice",nat}},[F.Pair2{F.Term.ALeg{0n},leg},F.Pair2{F.Term.ALeg{1n},leg}]}}
 
 def Suite.index_reduction_variant(checked:E.Elab.checked,mode:Nat) -> Result<&2,&2,F.Error.t,E.Elab.checked>:
   F.Pair2{+globals,rows} = checked
@@ -1799,6 +1811,96 @@ def Suite.index_reduction_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
     mixed:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Ann{Suite.let_chain(64n,univ),univ},context)
     Suite.application_absent(mixed,"index annotation and let fuel not shared")
 
+def Suite.sum_index_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +neutral:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{univ,F.Term.Univ{F.Level.one}}),univ}
+  +two:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +binder:F.Pair2<F.Quantity.t,String> = F.Pair2{F.Quantity.Many{},"payload"}
+  +scrut:F.Term.t = F.Term.In{two,F.Term.ALeg{1n},[neutral]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    first:Unit <- Suite.index_reduction_compare(Suite.case_pair(0n,neutral,F.Term.Var{0n},univ),neutral,context,body)
+    second:Unit <- Suite.index_reduction_compare(Suite.case_pair(1n,neutral,univ,F.Term.Var{0n}),neutral,context,body)
+    reversed:Unit <- Suite.index_reduction_compare(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},Some{F.Term.Motive{None{},Nil{},"self",univ}},[F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[binder],F.Term.Var{0n}}},F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[binder],univ}}]}},neutral,context,body)
+    head:Unit <- Suite.index_reduction_compare(Suite.case_head_chain(2n,neutral),neutral,context,body)
+    mixed:Unit <- Suite.index_reduction_compare(F.Term.Ann{Suite.beta_term(univ,Suite.case_pair(1n,F.Term.Var{0n},univ,Suite.projection_pair(1n,univ,F.Term.Var{0n}))),univ},univ,context,body)
+    applied:Unit <- Suite.index_reduction_compare(Suite.beta_term(univ,Suite.case_pair(1n,F.Term.Var{0n},univ,F.Term.Var{0n})),univ,context,body)
+    later:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.case_pair(1n,univ,univ,F.Term.Var{0n}),univ],[univ,F.Term.Univ{F.Level.one}],body)},context)
+    Suite.application_absent(later,"later sum index differs")
+
+def Suite.sum_index_source_local() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +two:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +binder:F.Pair2<F.Quantity.t,String> = F.Pair2{F.Quantity.Many{},"payload"}
+  +branches:List<&2,F.Pair2<F.Term.addr,F.Term.leg>> = [F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[binder],univ}},F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[binder],F.Term.Var{0n}}}]
+  +context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,F.Term.Ann{F.Term.In{two,F.Term.ALeg{1n},[univ]},univ},True{},None{},False{}}},[I.Inline.Local{"sum",univ,F.Term.In{two,F.Term.ALeg{1n},[F.Term.Var{0n}]}},I.Inline.Param{"outer",univ},I.Inline.Param{"older",univ}],3n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    global:Unit <- Suite.index_reduction_compare(F.Term.Elim{F.Term.Elimination{two,F.Term.Global{"Index"},F.Quantity.Many{},None{},branches}},univ,context,univ)
+    local:Unit <- Suite.index_reduction_compare(F.Term.Elim{F.Term.Elimination{two,F.Term.Var{0n},F.Quantity.Many{},None{},branches}},F.Term.Var{1n},context,univ)
+    capture:Unit <- Suite.index_reduction_compare(Suite.case_pair(1n,F.Term.Var{2n},univ,F.Term.Let{"T",univ,univ,F.Term.Var{1n}}),F.Term.Var{2n},context,univ)
+    distinct:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.case_pair(1n,F.Term.Var{1n},univ,F.Term.Var{0n}),univ],[F.Term.Var{2n},univ],univ)},context)
+    Suite.application_absent(distinct,"sum index captured a parameter")
+
+def Suite.sum_index_refused(term:F.Term.t,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(term,Suite.index_reduction_context)
+    Suite.application_absent(actual,message)
+
+def Suite.sum_index_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +one:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,1n)
+  +two:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +binder:F.Pair2<F.Quantity.t,String> = F.Pair2{F.Quantity.Many{},"payload"}
+  +leg:F.Term.leg = F.Term.Leg{[binder],univ}
+  +branches:List<&2,F.Pair2<F.Term.addr,F.Term.leg>> = [F.Pair2{F.Term.ALeg{0n},leg},F.Pair2{F.Term.ALeg{1n},leg}]
+  +scrut:F.Term.t = F.Term.In{two,F.Term.ALeg{1n},[univ]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    shape:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.In{one,F.Term.ALeg{1n},[univ]},F.Quantity.Many{},None{},branches}},"sum index shape mismatch accepted")
+    short:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{1n},leg}]}},"short sum index branches accepted")
+    duplicate:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{1n},leg},F.Pair2{F.Term.ALeg{1n},leg}]}},"duplicate sum index branch accepted")
+    outside:Unit <- Suite.sum_index_refused(Suite.case_pair(2n,univ,univ,univ),"missing sum index branch accepted")
+    empty:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.In{two,F.Term.ALeg{1n},Nil{}},F.Quantity.Many{},None{},branches}},"empty sum index payload accepted")
+    extra:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.In{two,F.Term.ALeg{1n},[univ,univ]},F.Quantity.Many{},None{},branches}},"extra sum index payload accepted")
+    arity:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[binder,binder],univ}},F.Pair2{F.Term.ALeg{1n},leg}]}},"extra unused sum index binder accepted")
+    motive:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},Some{F.Term.Motive{Some{"Named"},Nil{},"self",univ}},branches}},"named sum index motive accepted")
+    indexed:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},Some{F.Term.Motive{None{},["index"],"self",univ}},branches}},"indexed sum index motive accepted")
+    unused:Unit <- Suite.sum_index_refused(Suite.case_pair(1n,univ,F.Term.Var{1n},univ),"open unused sum index branch accepted")
+    selected:Unit <- Suite.sum_index_refused(Suite.case_pair(1n,univ,univ,F.Term.Var{1n}),"open selected sum index branch accepted")
+    payload:Unit <- Suite.sum_index_refused(Suite.case_pair(1n,F.Term.Var{0n},univ,univ),"open sum index payload accepted")
+    annotation:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.Ann{scrut,F.Term.Var{0n}},F.Quantity.Many{},None{},branches}},"open sum index annotation accepted")
+    open_motive:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},Some{F.Term.Motive{None{},Nil{},"self",F.Term.Var{1n}}},branches}},"open sum index motive accepted")
+    neutral:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.Global{"Neutral"},F.Quantity.Many{},None{},branches}},"neutral sum index scrutinee accepted")
+    large_let:Unit <- Suite.sum_index_refused(Suite.case_pair(1n,univ,univ,Suite.size_chain(14n)),"sum index let size cap ignored")
+    large:Unit <- Suite.sum_index_refused(Suite.case_pair(1n,Suite.constructor_tree(11n,univ),univ,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{0n}),F.Term.Var{1n}}),"sum index size cap ignored")
+    Suite.sum_index_refused(Suite.index_alias_term([univ,univ],[univ,univ],univ),"constructor index case reduced")
+
+def Suite.sum_index_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_reduction_context
+  do Result<&2,&2,F.Error.t,Unit>:
+    head:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.case_head_chain(64n,univ),context)
+    head_ok:Unit <- Suite.application_equal(head,univ)
+    head_steps:Unit <- Suite.sum_index_refused(Suite.case_head_chain(65n,univ),"sum index head transitions exceeded")
+    head_fuel:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.let_chain(32n,Suite.case_head_chain(32n,univ)),context)
+    head_fuel_ok:Unit <- Suite.application_equal(head_fuel,univ)
+    head_over:Unit <- Suite.sum_index_refused(Suite.let_chain(33n,Suite.case_head_chain(32n,univ)),"sum index head fuel exceeded")
+    result:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.case_result_chain(64n,univ),context)
+    result_ok:Unit <- Suite.application_equal(result,univ)
+    result_steps:Unit <- Suite.sum_index_refused(Suite.case_result_chain(65n,univ),"sum index result transitions exceeded")
+    result_fuel:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.let_chain(32n,Suite.case_result_chain(32n,univ)),context)
+    result_fuel_ok:Unit <- Suite.application_equal(result_fuel,univ)
+    result_over:Unit <- Suite.sum_index_refused(Suite.let_chain(33n,Suite.case_result_chain(32n,univ)),"sum index result fuel exceeded")
+    shared:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.case_head_chain(32n,Suite.case_result_chain(32n,univ)),context)
+    shared_ok:Unit <- Suite.application_equal(shared,univ)
+    shared_steps:Unit <- Suite.sum_index_refused(Suite.case_head_chain(32n,Suite.case_result_chain(33n,univ)),"sum index head and result transitions exceeded")
+    shared_fuel:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.let_chain(32n,Suite.case_head_chain(16n,Suite.case_result_chain(16n,univ))),context)
+    shared_fuel_ok:Unit <- Suite.application_equal(shared_fuel,univ)
+    shared_over:Unit <- Suite.sum_index_refused(Suite.let_chain(32n,Suite.case_head_chain(16n,Suite.case_result_chain(17n,univ))),"sum index head and result fuel not shared")
+    mixed:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.let_chain(16n,Suite.beta_chain(16n,Suite.case_result_chain(32n,univ))),context)
+    mixed_ok:Unit <- Suite.application_equal(mixed,univ)
+    Suite.sum_index_refused(Suite.let_chain(16n,Suite.beta_chain(16n,Suite.case_result_chain(33n,univ))),"sum index let and beta fuel not shared")
+
 def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
   [
       Suite.Case{"let-body",unit => Suite.poisoned(X.Fixture.let_proof,False{})},
@@ -1925,6 +2027,12 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"index-reduction-source-local",unit => Suite.index_reduction_source_local},
       Suite.Case{"index-reduction-source-guards",unit => Suite.index_reduction_source_guards},
       Suite.Case{"index-reduction-source-fuel",unit => Suite.index_reduction_source_fuel},
+      Suite.Case{"sum-index-source-syntax",unit => Suite.sum_index_source_syntax},
+      Suite.Case{"sum-index-source-local",unit => Suite.sum_index_source_local},
+      Suite.Case{"sum-index-source-guards",unit => Suite.sum_index_source_guards},
+      Suite.Case{"sum-index-source-fuel",unit => Suite.sum_index_source_fuel},
+      Suite.Case{"lambda-sum-index-left",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_sum_index_left,LF.Fixture.lambda_sum_index_left_opaque,layout,4n)},
+      Suite.Case{"lambda-sum-index-right",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_sum_index_right,LF.Fixture.lambda_sum_index_right_opaque,layout,5n)},
       Suite.Case{"lambda-index-reduction-let",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_index_reduction_let,LF.Fixture.lambda_index_reduction_let_opaque,layout,0n)},
       Suite.Case{"lambda-index-reduction-beta",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_index_reduction_beta,LF.Fixture.lambda_index_reduction_beta_opaque,layout,1n)},
       Suite.Case{"lambda-index-reduction-annotation",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_index_reduction_annotation,LF.Fixture.lambda_index_reduction_annotation_opaque,layout,2n)},

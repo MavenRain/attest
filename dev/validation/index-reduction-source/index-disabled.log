@@ -109,7 +109,6 @@ INLINE-ERASE row=lambda-recursive-local OK
 INLINE-ERASE row=recursive-source-metadata OK
 INLINE-ERASE row=recursive-source-scope OK
 INLINE-ERASE row=index-alias-source-guards OK
-INLINE-ERASE row=index-reduction-source-guards OK
 INLINE-ERASE row=index-reduction-source-fuel OK
 INLINE-ERASE row=lambda-parameter-global OK
 INLINE-ERASE row=lambda-parameter-dependent OK
@@ -160,7 +159,7 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=159 total=179 FAIL
+INLINE-ERASE pass=158 total=179 FAIL
 INLINE-ERASE row=lambda-index-global FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-index-dependent FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-index-local FAIL mismatch: local proof has no postulate
@@ -175,6 +174,7 @@ INLINE-ERASE row=index-alias-source-local FAIL mismatch: application source type
 INLINE-ERASE row=index-alias-source-fuel FAIL mismatch: application source type missing
 INLINE-ERASE row=index-reduction-source-syntax FAIL mismatch: application source type missing
 INLINE-ERASE row=index-reduction-source-local FAIL mismatch: application source type missing
+INLINE-ERASE row=index-reduction-source-guards FAIL mismatch: application source type missing
 INLINE-ERASE row=lambda-index-reduction-let FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-index-reduction-beta FAIL mismatch: local proof has no postulate
 INLINE-ERASE row=lambda-index-reduction-annotation FAIL mismatch: local proof has no postulate
