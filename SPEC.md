@@ -153,9 +153,11 @@ result. Concrete collection cases spend a step before their scrutinee and share
 the remainder with the selected result. Constructor cases inside a payload
 use the same complete, positive family, branch, field, motive, scope, and
 substitution checks as outer cases. Their elimination and injection shapes
-must have directly equal index payloads. Their comparison does not unfold
-aliases or reduce nested shape payloads, so it cannot restart index recovery.
-Constructor cases share the payload budget with their scrutinee and result.
+may expose equal index payloads through bounded source recovery. Syntactically
+equal payload lists take the direct path. Otherwise, explicit pending frames
+recover and compare both sides of each payload in order. All sides, later
+payloads, the scrutinee, and the selected result share the enclosing 64 reductions
+and 129 transitions. Nested comparison never restarts either budget.
 A payload whose
 reduction reaches a neutral application, projection, or case matches only
 directly or after transparent head aliases. Global and
@@ -207,8 +209,8 @@ head recovery remain unsupported. Concrete collection cases reduce inside
 index payloads using the same width, branch coverage, single-binder, motive,
 scope, and substitution checks as collection source cases. They share each
 payload's 64-step budget with scrutinee and result reductions. Constructor
-cases inside an index reduce with the checks above; their nested shape payloads
-must be syntactically equal, so recovery does not reenter constructor comparison. Missing function types,
+cases inside an index reduce with the checks above; nested shape payloads share
+the enclosing reduction and transition limits. Missing function types,
 nonpoint function formers, nonpoint function application addresses, free codomains,
 and free arguments are refused.
 Four `motive-application-*` pairs cover global, dependent, local, and curried
@@ -266,8 +268,14 @@ constructors inside indices. Their checked-core variants change the index
 spelling, recheck it with the kernel, seal one proof, and preserve the opaque
 twin's runtime. Five direct cases cover both comparison directions, outer
 scope and substitution limits, malformed metadata, indexed and recursive
-families, refusal of further shape-index recovery, pending applications,
+families, bounded shape-index recovery, pending applications,
 and exact versus excessive shared reduction budgets.
+Two `lambda-nested-index-*` pairs cover nested shape payloads on either side
+of an indexed constructor case. Their checked-core variants recheck the changed
+index and its use with the kernel, seal one proof, and preserve the opaque twin's
+runtime. Four direct cases cover both payload directions, multiple payloads,
+sum and constructor cases, projections, scope, mismatches, and shared reduction
+and transition boundaries.
 The lambda pairs have different carried runtime outputs; the motive pairs
 share a coarse carried runtime layout. All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and

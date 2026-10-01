@@ -76,7 +76,8 @@ LAMBDA_ROWS = ("lambda-alias-global", "lambda-alias-dependent",
                "lambda-index-reduction-let", "lambda-index-reduction-beta",
                "lambda-index-reduction-annotation", "lambda-index-reduction-projection",
                "lambda-sum-index-left", "lambda-sum-index-right",
-               "lambda-constructor-index-empty", "lambda-constructor-index-value")
+               "lambda-constructor-index-empty", "lambda-constructor-index-value",
+               "lambda-nested-index-empty", "lambda-nested-index-value")
 INLINE_ROWS += LAMBDA_ROWS
 # Suite rows the slice relies on; the count comes from the suite summary.
 INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-collision",
@@ -114,6 +115,8 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "constructor-index-source-syntax", "constructor-index-source-scope",
                                "constructor-index-source-guards", "constructor-index-source-metadata",
                                "constructor-index-source-fuel",
+                               "nested-index-source-syntax", "nested-index-source-guards",
+                               "nested-index-source-fuel", "nested-index-source-steps",
                                "motive", "shape-payload", "redeclared", "payload-postulates",
                                "local-index", "local-dependent", "local-let", "local-diagram",
                                "local-inherited", "local-poison", "local-universe", "local-payload",
@@ -377,6 +380,13 @@ def fixture_call_table():
              f'LF.{fixture_name(f"lambda-constructor-index-{kind}")},'
              f'LF.{fixture_name(f"lambda-constructor-index-{kind}")}_opaque,layout,{mode}n)}}')
         for mode, kind in ((6, "empty"), (7, "value"))
+    })
+    alias_calls.update({
+        f"lambda-nested-index-{kind}":
+            (f'Suite.Case{{"lambda-nested-index-{kind}",unit=>Suite.index_reduction_sealed('
+             f'LF.{fixture_name(f"lambda-nested-index-{kind}")},'
+             f'LF.{fixture_name(f"lambda-nested-index-{kind}")}_opaque,layout,{mode}n)}}')
+        for kind, mode in (("empty", 8), ("value", 9))
     })
     lambdas = [(name, "lambda", alias_calls.get(name, sealed_call("LF", name, "layout")))
                for name in LAMBDA_ROWS]

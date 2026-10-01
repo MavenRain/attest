@@ -128,6 +128,12 @@ INLINE-ERASE row=constructor-index-source-scope OK
 INLINE-ERASE row=constructor-index-source-guards OK
 INLINE-ERASE row=constructor-index-source-metadata OK
 INLINE-ERASE row=constructor-index-source-fuel OK
+INLINE-ERASE row=nested-index-source-syntax OK
+INLINE-ERASE row=nested-index-source-guards OK
+INLINE-ERASE row=nested-index-source-fuel OK
+INLINE-ERASE row=nested-index-source-steps OK
+INLINE-ERASE row=lambda-nested-index-empty OK
+INLINE-ERASE row=lambda-nested-index-value OK
 INLINE-ERASE row=lambda-constructor-index-empty OK
 INLINE-ERASE row=lambda-constructor-index-value OK
 INLINE-ERASE row=sum-index-source-local OK
@@ -190,4 +196,4 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=192 total=192 OK
+INLINE-ERASE pass=198 total=198 OK

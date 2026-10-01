@@ -1,5 +1,34 @@
 # M0 build log
 
+## 2026-09-30: Stage B nested constructor shape payloads in source indices
+
+Constructor cases inside source indices can now recover equivalent nested
+shape payloads. Equal payload lists retain the direct path. Otherwise, two
+pending frames recover and compare each side in order. Both sides, later
+payloads, the scrutinee, and the selected result share the enclosing 64
+reductions and 129 transitions. Metadata, branch, motive, closedness, and
+4096-node substitution checks remain in force. No unsafe function is added.
+
+Two indexed `IndexBox` fixture pairs exercise payload changes on opposite
+sides of a constructor case. Their checked-core variants recheck the index
+and its use with the kernel, seal one proof, and preserve their opaque twins'
+runtime. Four direct suite cases cover mixed reductions, multiple payloads,
+outer variables, mismatches, and exact versus excessive shared budgets.
+The nested transition test accepts depth 21 and refuses depth 22 while both
+are below the reduction bound. The inline suite contains 198 cases in 16
+test programs.
+
+The collector `dev/validation/nested-index-source-run.py` records full tests,
+default gates, the erasure record, and 39 scoped mutations in
+`dev/validation/nested-index-source.json`. Seven new mutations bring the
+catalog to 254 anchors. Existing constructor and sum mutation anchors follow
+their live paths. The historical complete mutation record remains unchanged.
+Three new catchall entries record explicit refusal or sum-case dispatch.
+
+Stage B remains open at Acc runtime elimination, neutral scrutinees, builtin
+and provisional families, and payloads that remain unequal after recovery.
+
+
 ## 2026-09-30: Stage B constructor cases in source indices
 
 Index source recovery now selects a branch of a concrete constructor case.

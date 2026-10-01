@@ -1,0 +1,59 @@
+[
+  {
+    "name": "anchors",
+    "command": [
+      "python3",
+      "-P",
+      "dev/erasure-mutations.py",
+      "--check-anchors"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.103,
+    "log": {
+      "path": "dev/validation/nested-index-source/anchors.log",
+      "sha256": "9af2d4c1ea489d771633eb8b1abe3a66e801533cf969e40734c71fb3701a2636"
+    }
+  },
+  {
+    "name": "tests",
+    "command": [
+      "make",
+      "test"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 76.238,
+    "log": {
+      "path": "dev/validation/nested-index-source/tests.log",
+      "sha256": "39e657b5ca466f595f25684dee79a4447ef1c3c6537642b13b971dfbb45e7101"
+    }
+  },
+  {
+    "name": "gates",
+    "command": [
+      "zsh",
+      "-f",
+      "dev/gates.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 280.414,
+    "log": {
+      "path": "dev/validation/nested-index-source/gates.log",
+      "sha256": "d3f664b207a00f3aa9803f792899c2c084abdce19876167150fb403ee32ca998"
+    }
+  },
+  {
+    "name": "erasure-record",
+    "command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py",
+      "--record"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 73.964,
+    "log": {
+      "path": "dev/validation/nested-index-source/erasure-record.log",
+      "sha256": "a4ae8226ba2dada2e16269ff43b00402be21ccc07da615904f67964f80ced1c3"
+    }
+  }
+]

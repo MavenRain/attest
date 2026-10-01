@@ -242,6 +242,9 @@ def Suite.sum_index_branch(mode:Nat) -> Nat:
     case 4n: 0n
     case other: 1n
 
+def Suite.nested_index_expression(shape_index:F.Term.t,injection_index:F.Term.t,+term:F.Term.t) -> F.Term.t:
+  F.Term.Elim{F.Term.Elimination{F.Shape.make_inductive(F.Term.t,"IndexBox",[shape_index]),F.Term.In{F.Shape.make_inductive(F.Term.t,"IndexBox",[injection_index]),F.Term.ACtor{"value"},[term]},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},["k"],"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
+
 def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
   match mode:
     case 0n: F.Term.Let{"n",F.Term.Global{"Nat"},term,F.Term.Var{0n}}
@@ -259,6 +262,8 @@ def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
     case 7n:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{})
       F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"value"},[term]},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},Nil{},"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
+    case 8n: Suite.nested_index_expression(F.Term.Ann{term,F.Term.Global{"Nat"}},term,term)
+    case 9n: Suite.nested_index_expression(term,F.Term.Ann{term,F.Term.Global{"Nat"}},term)
     case other:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
       +nat:F.Term.t = F.Term.Global{"Nat"}
@@ -1903,12 +1908,62 @@ def Suite.constructor_index_source_metadata(family:F.Positivity.family) -> Resul
     indexed:Unit <- Suite.constructor_index_equal(term,context,univ)
     motive:Unit <- Suite.constructor_index_refused(Suite.index_term("pair",[univ,univ],univ,univ,None{}),context,"constructor index indexed motive missing")
     different:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",[F.Term.Univ{F.Level.one},univ]),F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},Suite.index_motive(["A","a"]),Suite.constructor_branches(univ,univ)}},context,"constructor index unequal shape payload accepted")
-    reentry:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",[F.Term.Ann{univ,univ},univ]),F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},Suite.index_motive(["A","a"]),Suite.constructor_branches(univ,univ)}},context,"constructor index shape recovery reentered")
+    reentry:Unit <- Suite.constructor_index_equal(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",[F.Term.Ann{univ,univ},univ]),F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},Suite.index_motive(["A","a"]),Suite.constructor_branches(univ,univ)}},context,univ)
     nonpositive:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,univ],univ,univ),bad_context,"nonpositive constructor index family accepted")
     provisional:F.Global.t = F.Global.add_family("Choice",F.Positivity.Family{name,params,indices,level,F.Positivity.Provisional{},ctors,positive},F.Global.empty)
     provisional_ok:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,univ],univ,univ),I.Inline.Context{C.Check.Ctx{provisional,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},"provisional constructor index family accepted")
     recursive:F.Global.t = F.Global.add_family("Choice",Suite.recursive_family(Suite.constructor_family),F.Global.empty)
     Suite.constructor_index_equal(Suite.constructor_term("pair",[univ,F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",Nil{}),F.Term.ACtor{"empty"},Nil{}}],univ,F.Term.Var{1n}),I.Inline.Context{C.Check.Ctx{recursive,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},univ)
+
+def Suite.nested_index_case(indices:List<&2,F.Term.t>,values:List<&2,F.Term.t>,body:F.Term.t) -> F.Term.t:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  F.Term.Elim{F.Term.Elimination{F.Shape.make_inductive(F.Term.t,"Choice",indices),F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",values),F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},Suite.index_motive(["A","a"]),Suite.constructor_branches(univ,body)}}
+
+def Suite.nested_index_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_index_context(Suite.index_context(0n))
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{univ,F.Term.Univ{F.Level.one}}),univ}
+  do Result<&2,&2,F.Error.t,Unit>:
+    annotation:Unit <- Suite.index_reduction_compare(Suite.nested_index_case([F.Term.Ann{univ,univ},univ],[univ,univ],univ),univ,context,body)
+    both:Unit <- Suite.constructor_index_equal(Suite.nested_index_case([Suite.let_chain(1n,univ),Suite.beta_chain(1n,univ)],[Suite.beta_chain(1n,univ),Suite.let_chain(1n,univ)],univ),context,univ)
+    sum:Unit <- Suite.constructor_index_equal(Suite.nested_index_case([Suite.case_chain(1n,univ),univ],[univ,univ],univ),context,univ)
+    projection:Unit <- Suite.constructor_index_equal(Suite.nested_index_case([Suite.projection_chain(1n,univ),univ],[univ,univ],univ),context,univ)
+    constructor:Unit <- Suite.constructor_index_equal(Suite.nested_index_case([Suite.constructor_index_term("empty",Nil{},univ,univ),univ],[univ,univ],univ),context,univ)
+    Suite.constructor_index_equal(Suite.nested_index_case([univ,univ],[F.Term.Ann{univ,univ},univ],body),context,body)
+
+def Suite.nested_index_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_context(0n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    unequal:Unit <- Suite.constructor_index_refused(Suite.nested_index_case([F.Term.Ann{univ,univ},univ],[F.Term.Univ{F.Level.one},univ],univ),context,"nested payload mismatch accepted")
+    later:Unit <- Suite.constructor_index_refused(Suite.nested_index_case([F.Term.Ann{univ,univ},univ],[univ,F.Term.Univ{F.Level.one}],univ),context,"later nested payload mismatch accepted")
+    arity:Unit <- Suite.constructor_index_refused(Suite.nested_index_case([F.Term.Ann{univ,univ},univ],[univ],univ),context,"nested payload arity mismatch accepted")
+    open:Unit <- Suite.constructor_index_refused(Suite.nested_index_case([F.Term.Ann{univ,F.Term.Var{0n}},univ],[univ,univ],univ),context,"open nested payload annotation accepted")
+    neutral:Unit <- Suite.constructor_index_refused(Suite.nested_index_case([F.Term.Ann{F.Term.Global{"Neutral"},univ},univ],[univ,univ],univ),context,"neutral nested payload mismatch accepted")
+    scoped:Unit <- Suite.constructor_index_equal(Suite.nested_index_case([F.Term.Ann{F.Term.Var{1n},univ},univ],[F.Term.Var{1n},univ],F.Term.Var{3n}),Suite.index_context(2n),F.Term.Var{1n})
+    Suite.constructor_index_refused(Suite.nested_index_case([F.Term.Ann{F.Term.Var{2n},univ},univ],[F.Term.Var{2n},univ],univ),Suite.index_context(2n),"open nested outer variable accepted")
+
+def Suite.nested_index_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_context(0n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Unit <- Suite.constructor_index_equal(Suite.nested_index_case([Suite.let_chain(31n,univ),univ],[Suite.beta_chain(31n,univ),univ],Suite.let_chain(1n,univ)),context,univ)
+    over:Unit <- Suite.constructor_index_refused(Suite.nested_index_case([Suite.let_chain(32n,univ),univ],[Suite.beta_chain(31n,univ),univ],Suite.let_chain(1n,univ)),context,"nested payload comparison fuel reset")
+    later:Unit <- Suite.constructor_index_refused(Suite.nested_index_case([Suite.let_chain(32n,univ),Suite.beta_chain(32n,univ)],[univ,univ],univ),context,"nested payload list fuel reset")
+    head:Unit <- Suite.constructor_index_refused(Suite.let_chain(32n,Suite.nested_index_case([Suite.beta_chain(32n,univ),univ],[univ,univ],univ)),context,"nested payload and head fuel reset")
+    Suite.constructor_index_refused(Suite.nested_index_case([Suite.constructor_index_term("empty",Nil{},univ,univ),univ],[univ,univ],univ),Suite.index_context(0n),"nested payload missing family accepted")
+
+def Suite.nested_index_tree(count:Nat,+leaf:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: F.Term.Ann{leaf,F.Term.Univ{F.Level.zero}}
+    case 1n+remaining: Suite.nested_index_case([Suite.nested_index_tree(remaining,leaf),leaf],[leaf,leaf],leaf)
+
+def Suite.nested_index_source_steps() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_context(0n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Unit <- Suite.constructor_index_equal(Suite.nested_index_tree(21n,univ),context,univ)
+    Suite.constructor_index_refused(Suite.nested_index_tree(22n,univ),context,"nested payload transition bound reset")
 
 def Suite.constructor_index_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
@@ -2147,6 +2202,12 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"constructor-index-source-guards",unit => Suite.constructor_index_source_guards},
       Suite.Case{"constructor-index-source-metadata",unit => Suite.constructor_index_source_metadata(Suite.constructor_family)},
       Suite.Case{"constructor-index-source-fuel",unit => Suite.constructor_index_source_fuel},
+      Suite.Case{"nested-index-source-syntax",unit => Suite.nested_index_source_syntax},
+      Suite.Case{"nested-index-source-guards",unit => Suite.nested_index_source_guards},
+      Suite.Case{"nested-index-source-fuel",unit => Suite.nested_index_source_fuel},
+      Suite.Case{"nested-index-source-steps",unit => Suite.nested_index_source_steps},
+      Suite.Case{"lambda-nested-index-empty",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_nested_index_empty,LF.Fixture.lambda_nested_index_empty_opaque,layout,8n)},
+      Suite.Case{"lambda-nested-index-value",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_nested_index_value,LF.Fixture.lambda_nested_index_value_opaque,layout,9n)},
       Suite.Case{"lambda-constructor-index-empty",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_index_empty,LF.Fixture.lambda_constructor_index_empty_opaque,layout,6n)},
       Suite.Case{"lambda-constructor-index-value",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_index_value,LF.Fixture.lambda_constructor_index_value_opaque,layout,7n)},
       Suite.Case{"sum-index-source-local",unit => Suite.sum_index_source_local},

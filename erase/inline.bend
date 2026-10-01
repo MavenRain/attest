@@ -993,6 +993,8 @@ def Inline.index_source_alias(term: Maybe<&2, F.Term.t>, context: Inline.context
 type Inline.index_frame is Data:
   Inline.IndexApplication{shape: F.Shape.t<F.Term.t>, address: F.Term.addr}
   Inline.IndexCase{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>}
+  Inline.IndexPayloadLeft{right: F.Term.t, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>}
+  Inline.IndexPayloadRight{left: Maybe<&2, F.Term.t>, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>}
 
 # Keep constructor shape comparison syntactic here. Calling constructor_case
 # would restart index reduction while this payload still has pending frames.
@@ -1014,6 +1016,52 @@ def Inline.index_case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, 
       Inline.index_constructor_case(F.Shape.inductive(F.Term.t, shape), F.Shape.inductive(F.Term.t, injection), name, arguments, motive, branches, Inline.closed(depth, index_constructor_elimination), globals, depth)
     case other: Done{None{}}
 
+# Nested payloads share the enclosing continuation's reduction and transition limits.
+def Inline.index_alias_equal(left: Maybe<&2, F.Term.t>, right: Maybe<&2, F.Term.t>) -> Bool:
+  match left right:
+    case Some{index} Some{value}: Inline.term_equal(value, index)
+    case other right: False{}
+
+def Inline.index_payload_pending(indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>, fuel: Nat, context: Inline.context, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match indices values selected:
+    case Nil{} Nil{} Some{selected}: next(fuel, Some{selected}, rest)
+    case Nil{} Nil{} None{}: next(fuel, None{}, rest)
+    case index <> indices value <> values Some{selected}:
+      next(fuel, Some{index}, Inline.IndexPayloadLeft{value, indices, values, Some{selected}} <> rest)
+    case other values selected: next(fuel, None{}, rest)
+
+def Inline.index_payload_agree(equal: Bool, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>, fuel: Nat, context: Inline.context, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match equal:
+    case True{}: Inline.index_payload_pending(indices, values, selected, fuel, context, rest, next)
+    case False{}: next(fuel, None{}, rest)
+
+def Inline.index_constructor_agree(equal: Bool, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>, fuel: Nat, context: Inline.context, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match equal:
+    case True{}: next(fuel, selected, rest)
+    case False{}: Inline.index_payload_pending(indices, values, selected, fuel, context, rest, next)
+
+def Inline.index_constructor_pending(shape: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, injection: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, name: String, arguments: List<&2, F.Term.t>, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, closed: Bool, fuel: Nat, +context: Inline.context, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match shape injection:
+    case Some{F.Pair2{+family, +nested_indices}} Some{F.Pair2{injected, +nested_values}}:
+      Inline.Context{+checker, domains} = context
+      valid: Bool = Bool.and(closed, String.eq(family, injected))
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        selected: Maybe<&2, F.Term.t> <- Inline.constructor_family(F.Global.find_family(family, C.Check.global(checker)), family, name, arguments, branches, motive, Inline.length(F.Term.t, nested_indices), valid, C.Check.size(checker))
+        Inline.index_constructor_agree(Inline.constructor_index_values(nested_indices, nested_values), nested_indices, nested_values, selected, fuel, context, rest, next)
+    case other injection: next(fuel, None{}, rest)
+
+def Inline.index_case_pending(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, index_ty: Maybe<&2, F.Term.t>, fuel: Nat, +context: Inline.context, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match index_ty:
+    case Some{F.Term.In{+injection, F.Term.ACtor{+name}, +arguments}}:
+      Inline.Context{checker, domains} = context
+      elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ACtor{name}, arguments}, quantity, motive, branches}}
+      Inline.index_constructor_pending(F.Shape.inductive(F.Term.t, shape), F.Shape.inductive(F.Term.t, injection), name, arguments, motive, branches, Inline.closed(C.Check.size(checker), elimination), fuel, context, rest, next)
+    case other:
+      Inline.Context{+checker, domains} = context
+      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+        reduced: Maybe<&2, F.Term.t> <- Inline.index_case_type(shape, quantity, motive, branches, other, C.Check.size(checker), C.Check.global(checker))
+        next(fuel, reduced, rest)
+
 def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fuel: Nat, index_ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match index_pending:
     case Nil{}: Done{index_ty}
@@ -1023,10 +1071,11 @@ def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fue
         index_reduced: Maybe<&2, F.Term.t> <- Inline.beta_type(index_shape, index_address, index_ty, C.Check.size(checker))
         next(fuel, index_reduced, rest)
     case Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest:
-      Inline.Context{+checker, domains} = context
-      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
-        case_reduced: Maybe<&2, F.Term.t> <- Inline.index_case_type(index_shape, index_quantity, index_motive, index_branches, index_ty, C.Check.size(checker), C.Check.global(checker))
-        next(fuel, case_reduced, rest)
+      Inline.index_case_pending(index_shape, index_quantity, index_motive, index_branches, index_ty, fuel, context, rest, next)
+    case Inline.IndexPayloadLeft{right, indices, values, selected} <> rest:
+      next(fuel, Some{right}, Inline.IndexPayloadRight{index_ty, indices, values, selected} <> rest)
+    case Inline.IndexPayloadRight{left, indices, values, selected} <> rest:
+      Inline.index_payload_agree(Inline.index_alias_equal(left, index_ty), indices, values, selected, fuel, context, rest, next)
 
 # Charge applications and cases before their heads, and share the remainder with the result.
 # The existing substitution and projection helpers enforce scope and node bounds.
@@ -1064,11 +1113,6 @@ def Inline.index_source_head(term: F.Term.t, +context: Inline.context) -> Result
   do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
     reduced: Maybe<&2, F.Term.t> <- Inline.index_source_steps(129n, 64n, Inline.source_expected(Some{term}, C.Check.size(checker)), context, Nil{})
     Done{Inline.source_expected(reduced, C.Check.size(checker))}
-
-def Inline.index_alias_equal(left: Maybe<&2, F.Term.t>, right: Maybe<&2, F.Term.t>) -> Bool:
-  match left right:
-    case Some{index} Some{value}: Inline.term_equal(value, index)
-    case other right: False{}
 
 def Inline.index_alias_values(indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, +context: Inline.context) -> Result<&2,&2,F.Error.t,Bool>:
   match indices values:

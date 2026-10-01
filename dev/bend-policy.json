@@ -411,6 +411,26 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.index_alias_equal",
+      "pattern": "other right"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_payload_pending",
+      "pattern": "other values selected"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_constructor_pending",
+      "pattern": "other injection"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_case_pending",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.index_source_reduce",
       "pattern": "0n index_expanded"
     },
@@ -418,11 +438,6 @@
       "path": "erase/inline.bend",
       "function": "Inline.index_source_reduce",
       "pattern": "1n+index_remaining other"
-    },
-    {
-      "path": "erase/inline.bend",
-      "function": "Inline.index_alias_equal",
-      "pattern": "other right"
     },
     {
       "path": "erase/inline.bend",

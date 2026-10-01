@@ -1,5 +1,22 @@
 # Mutation log
 
+## 2026-09-30: Nested constructor shape payload mutations
+
+Seven new mutations disable nested recovery, reset either payload side's
+fuel, accept a mismatched payload count, bypass the shared transition bound,
+or disconnect either checked-core fixture from its exact source pair.
+The catalog contains 254 unique anchors. Existing constructor and sum case
+anchors follow the new pending-frame path.
+
+`python3 -P dev/validation/nested-index-source-run.py` records 39 scoped
+mutations with successful isolated builds and named behavior failures. It
+also runs full tests, default gates, and the erasure record collector, checks
+input freshness, and requires disabled nested recovery to fail both proof
+sealing variants. Evidence is in `dev/validation/nested-index-source.json`
+and `dev/validation/nested-index-source/`. The historical complete mutation
+record is retained as its original snapshot.
+
+
 ## 2026-09-30: Constructor index source mutations
 
 Nine isolated mutations cover constructor cases inside source indices:
