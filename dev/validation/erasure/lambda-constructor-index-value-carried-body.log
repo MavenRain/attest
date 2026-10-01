@@ -1,0 +1,9 @@
+rec [nat; mu<IndexBox>; leg<mu<IndexBox>,0>; leg<mu<IndexBox>,1,union nat>]
+fun Index () : union nat := KCase mu<IndexBox> (KTag mu<IndexBox> 1 [KLit 0]) [{0 0 (KLit 0)}; {1 1 (KVar 0)}]
+rec [mu<Choice>; leg<mu<Choice>,0>; leg<mu<Choice>,1>]
+fun Pick () : union mu<Choice> := KTag mu<Choice> 1 []
+erased Fn
+erased Alias
+rec [any]
+fun Layout () : union any := KErased
+erased keep

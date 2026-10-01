@@ -1,5 +1,28 @@
 # Mutation log
 
+## 2026-09-30: Constructor index source mutations
+
+Nine isolated mutations cover constructor cases inside source indices:
+disabling recovery, ignoring the injection shape, accepting unequal shape
+payloads, ignoring the family name, using the wrong shape index count,
+refunding the scrutinee step, resetting result fuel, and replacing either
+new fixture call. Each mutation must produce its named failure.
+The disabled-recovery mutant must also fail both checked-core fixture variants.
+
+The previous unsupported-case control now uses a non-injection scrutinee.
+The old sum index control now admits a valid indexed constructor case.
+The existing sum mutation anchors include the new globals argument.
+
+`dev/validation/constructor-index-source-run.py` collects full tests,
+default gates, erasure evidence, and 66 scoped mutations: nine new cases,
+28 existing constructor and sum cases, and 29 index, binder, scope, alias,
+and budget controls. It retains the existing mutation harness's baseline,
+snapshot, isolated compilation, named failures, freshness checks, and
+single retry for a recorded Bun compiler segmentation fault.
+
+The catalog contains 247 anchors. Scoped evidence does not claim a new
+complete mutation run; the historical full mutation record is preserved.
+
 ## 2026-09-30: Sum index source mutations
 
 Eight isolated mutations cover sum cases inside constructor source indices:

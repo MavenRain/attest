@@ -1,0 +1,75 @@
+[
+  {
+    "name": "anchors",
+    "command": [
+      "python3",
+      "-P",
+      "dev/erasure-mutations.py",
+      "--check-anchors"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": null,
+    "log": {
+      "path": "dev/validation/constructor-index-source/anchors.log",
+      "sha256": "81986738d8b99a59063a36771cd40dc6a75d78bf7cfc361fa554b62a39993d08"
+    },
+    "reused_completed_check": {
+      "reason": "original collector passed run_check before starting the completed harness",
+      "original_job": ".kanon-wait/job-7ZwWsM"
+    }
+  },
+  {
+    "name": "tests",
+    "command": [
+      "make",
+      "test"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": null,
+    "log": {
+      "path": "dev/validation/constructor-index-source/tests.log",
+      "sha256": "8482feb9210421ea7ec93919ccbe0e32043290b23fb1d09a1f374d8aee2e59a2"
+    },
+    "reused_completed_check": {
+      "reason": "original collector passed run_check before starting the completed harness",
+      "original_job": ".kanon-wait/job-7ZwWsM"
+    }
+  },
+  {
+    "name": "gates",
+    "command": [
+      "zsh",
+      "-f",
+      "dev/gates.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": null,
+    "log": {
+      "path": "dev/validation/constructor-index-source/gates.log",
+      "sha256": "3bc93242541d05812866158d7235a1adaa43f672de1e9907cafe8e8a2961f9f8"
+    },
+    "reused_completed_check": {
+      "reason": "original collector passed run_check before starting the completed harness",
+      "original_job": ".kanon-wait/job-7ZwWsM"
+    }
+  },
+  {
+    "name": "erasure-record",
+    "command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py",
+      "--record"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": null,
+    "log": {
+      "path": "dev/validation/constructor-index-source/erasure-record.log",
+      "sha256": "600d041c05efc3b47b91411958694d86c838aad7cd7e4fc8df0a227acd216e9b"
+    },
+    "reused_completed_check": {
+      "reason": "original collector passed run_check before starting the completed harness",
+      "original_job": ".kanon-wait/job-7ZwWsM"
+    }
+  }
+]

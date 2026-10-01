@@ -123,6 +123,13 @@ INLINE-ERASE row=index-reduction-source-local OK
 INLINE-ERASE row=index-reduction-source-guards OK
 INLINE-ERASE row=index-reduction-source-fuel OK
 INLINE-ERASE row=sum-index-source-syntax OK
+INLINE-ERASE row=constructor-index-source-syntax OK
+INLINE-ERASE row=constructor-index-source-scope OK
+INLINE-ERASE row=constructor-index-source-guards OK
+INLINE-ERASE row=constructor-index-source-metadata OK
+INLINE-ERASE row=constructor-index-source-fuel OK
+INLINE-ERASE row=lambda-constructor-index-empty OK
+INLINE-ERASE row=lambda-constructor-index-value OK
 INLINE-ERASE row=sum-index-source-local OK
 INLINE-ERASE row=sum-index-source-guards OK
 INLINE-ERASE row=sum-index-source-fuel OK
@@ -183,4 +190,4 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=185 total=185 OK
+INLINE-ERASE pass=192 total=192 OK

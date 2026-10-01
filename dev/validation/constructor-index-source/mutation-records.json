@@ -1,0 +1,2013 @@
+[
+  {
+    "name": "constructor-index-disabled",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "0354e53e63182f73b6620fc739edf8f5c12b77263ae25798e18b5643942661c1",
+    "log_sha256": "5d446d338093fa0760dab5d61e548da94f9c967931f4e7af64b7582285aa3685",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-index-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-index-shape",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "8251cd2b2c09fd6e589f812de37f2a2015e42ae46b8446f18568dfe83ceef6e1",
+    "log_sha256": "99d295b0d017750244f76bec5a7b8c099aa07a91645201949642190371a9c746",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-index-source-guards FAIL mismatch: constructor index shape mismatch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-index-values",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "0865fdf774a39b68975866562ad6caca6da263582ebba1bdf49307f0f9349944",
+    "log_sha256": "03fc09dc5954fe00ac6f1da40f824f04ab656bc85ca7ed399f571240585bd7c7",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-index-source-metadata FAIL mismatch: constructor index unequal shape payload accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-index-family",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "c19f32d18287804c03251da1ce372df5d4ff0cbc240ab336af7514f30d490178",
+    "log_sha256": "3b7a5879167e2aa1ea1e08f3a2cd8e65ac284b278202438fd1a1f63ca68b152a",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-index-source-guards FAIL mismatch: constructor index shape mismatch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-index-count",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "37dd53016d561b67d9680730014f7d9eff1bf47415179f827b6595ad5b4cb50c",
+    "log_sha256": "a0de162c18e344f7a5a0b6e02cc4b6096dcc356336d5bc4e80269832d1106f53",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-index-source-metadata FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-index-head-fuel",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "e4b5115303c6f92ce033201ae054d4de52bc8660431072395e52745a402e7e80",
+    "log_sha256": "1bf9a3fa0006e3eb9aa2acdcaff70a8982c27d120fb79f62d12bd1b4e7f6f25e",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-index-source-fuel FAIL mismatch: constructor index result fuel exceeded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-index-result-fuel",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "00d99cca00bd936bf59bdd85c0918881fd73ef69e9f85e291d7523bdd5104721",
+    "log_sha256": "3123bf97b969687957a4e6a27ad6c0768793b41380c9494f23a776a0bca51064",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-index-source-fuel FAIL mismatch: constructor index result fuel exceeded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-index-fixture-empty",
+    "path": "erase/test/inline_test.bend",
+    "before_sha256": "51d57388abd178c7457fbc99b64e780581e951fe1bd8eac4696cba27f1a85117",
+    "mutated_sha256": "9a0b9e673acd0cd961eb983dd140c9ebe528dfa7f0be8817c36fbc1f4ebadbda",
+    "log_sha256": "d1d70d74a6b08c7e071dd7c5df83dcc0c5c4813fa9c3abe205dc147c44b75ccf",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "row=lambda-constructor-index-empty lambda fixture call differs",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-index-fixture-value",
+    "path": "erase/test/inline_test.bend",
+    "before_sha256": "51d57388abd178c7457fbc99b64e780581e951fe1bd8eac4696cba27f1a85117",
+    "mutated_sha256": "581d09791df8288ff3db5c53288dd90e98af9054a415e49077d7fa6c7c0e078e",
+    "log_sha256": "31bcf05f5cc1ecb92a73eeeb0ad275aedc8660fc7c0174385c2b25c0eaec182f",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "row=lambda-constructor-index-value lambda fixture call differs",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "proof-guard",
+    "path": "erase/opaque.bend",
+    "before_sha256": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "mutated_sha256": "95e0e7e8f6cf42605a1b731ad424984f82fbe89a8cbd2241d24c155435b7e683",
+    "log_sha256": "e7a7104c3e5a82b3910ba5d6f0ed11d6a32e836983ebd17b8dc34ab40ed960f6",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "OPAQUE-ERASE exit=1",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "inline-local-type",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "b0da7c0556bbe36d36f963239a65d856f55386338aab29cd7ab7c2ea48325a6c",
+    "log_sha256": "dd621337fa6c04e346ee3fec49a7bf96f42f6b8954ed82f047aa64e6687d308c",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=local-type FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "inline-leg-binders",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "869ccdef71da4eabe93fff0d102c100d8664dd3998c2d745b69f00d23ae960d0",
+    "log_sha256": "a539390c27483ccb28140fa3533bb5eaa09498af46e7a20d49c07c2066176f26",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=binders FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "inline-shape-payload",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "8d4f070c7d5b6ec1058917f71134123c43dc8ec101ee15260bf98a4e29101117",
+    "log_sha256": "9f5bc0e9736a18b8c9b06ee5e4a98b3d925f7e1ea023668bec353ae468af88ed",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=shape-payload FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "leg-scope-root",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "7221f856c30e1d53d1078af73a5022c7dd85686ada418dd3934138dd1bd239de",
+    "log_sha256": "64f9c14f92e8c12958da0a44f5e9e27f43ef9a0c52d5c242db504f9b6060f1b6",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=alias-leg-scope FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-disabled",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "bf31f2ba33d634c2225fdade117fc76a041d3fac2ea691861a6b7d1edb8204b5",
+    "log_sha256": "19bc448fd766933fb224083cefa1996ad84a9547d95ea20d21935a789d4c63f0",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=lambda-constructor-global FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-disabled",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "c9125aeb2d3d32f36c9a7ec8675d0514b05903bd493acbf0db60006570d54ce9",
+    "log_sha256": "69ea956adfcec84ac948dd79c0fbf1b8978bd7743230d41496f967931230f64c",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=lambda-index-global FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-result-count",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "1c5bb42e736462d1f91330a98d276f5201167c32fc91fae4d41bd172d00f1251",
+    "log_sha256": "c8f2fed14253aab8cbb81e5956f6a3c310f00f93bee88ea56cb3fd2b1f6f5292",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-source-metadata FAIL mismatch: short result indices accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-result-scope",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "fa10d0783c3b150e061d150c5546bad38b1eed9e79934e4ef610b6957f295ace",
+    "log_sha256": "ac20c7df5ccfbbad5c540459f8bd05ed3b15fd54286243b0412a09b7361a7312",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-source-metadata FAIL mismatch: open result index accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-result-tail",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "9ae4405bcfcff5c65be6fd492e070555cad14624542ad1d716d948742a69d98d",
+    "log_sha256": "20cfed6224fe7d88cd159cd89777335432f187dcff389fe5d14d246806fe6d86",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-source-metadata FAIL mismatch: open later result index accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-shape-count",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "70d46fbe36950efdb4262bb993b6a812144a75975c718d325281c74efe37ed4d",
+    "log_sha256": "e102b68ae8243d3a633469454929f99b5eff9a4ece5fd83329f8916418095313",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-source-shapes FAIL mismatch: indexed shape arity ignored",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-shape-value",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "9c23ad1a7bc208b73ba84915debe5c95a83fa945491ee23f7335b27e4735203c",
+    "log_sha256": "75d8f9f952ad4b826fbde6c393d0efde293bdd32b53d434e0519598b75f199a8",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-source-shapes FAIL mismatch: indexed shape values differ",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-shape-tail",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "bdaad04f69f472476abdf91fc2ee283f0eb5b523b78c0173c91afa77bcece766",
+    "log_sha256": "2dd9942fef157a20d6bd3721878a2049957e50c15fbade75f11ec40f24d78815",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-source-shapes FAIL mismatch: indexed short injection shape accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-shape-length",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "0d86141d65bd31b5c157873ed5ad7abbbebd7fa25d2996adf063f334af9965b2",
+    "log_sha256": "9267ca1380ece0c7149c8a0cd60e22e78abe4e9e91f85af37ffdfcaf3bf17f5e",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-source-shapes FAIL mismatch: indexed short injection shape accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-shape",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "010698588264219049158de936047f5b236569841992cf0d65070535560aab10",
+    "log_sha256": "a6868d28585a20909d204df50e2250f5f105c94094b8f2e51aff089a83f0dc56",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: constructor shape mismatch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-coverage",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "904b7dfec288bc7f91a19fa09853d6c25aff2457c1779ce1bd8b770498868ab6",
+    "log_sha256": "b7a6cbb39b6a8a37e4d7d6c1fd57b528dc977a3496d785c3eda69fc4d7f23e31",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: missing constructor branch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-family-name",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "9078197f6896daa98cbb083baba9f2fa39bf21ba05d98c8a215a20f7f06c8d90",
+    "log_sha256": "05da91797547e210f0fdfad72fc1dc1e7487a870110f44a0037ef0a56c013c02",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: wrong constructor family accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-duplicate",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "ca3655f29472d7242d8afb2397c916b05689ea5ddc92b44bcdb95ca8b831741c",
+    "log_sha256": "25ca8a32021d6107d11b2bb8977c4d341fc2b4bd1ca8f6a9105bd872b2630340",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: duplicate constructor branch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-branch-address",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "3e79877e03ec78fba4f39a278b507f1d365f9c8719c79d6cc7283a5d591bea04",
+    "log_sha256": "05525e64cb1a1a1064e122b8309ae78ec98081ca3ce86923b7d81724b0e5f14d",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: numeric constructor branch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-fields",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "1ad42c349311ffbe7a2468076816fe928ffda81d0838092d62fb7b4324a643f0",
+    "log_sha256": "8e620dbed45f1510e02e58029bd81e1efa6e433efb2b7eb3b9fc73e470329956",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: unknown branch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-field-arity",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "f9008e1e2a75394fe917f87a4ab8ce27c80cc67f664d9e49340e5cabed08f756",
+    "log_sha256": "1b5f8641ed82613a655c247e394ef613c97bdf00514f9187bea28adc05c45896",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: constructor full arity omits parameters",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-motive",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "109675bfba4653c06646afe88c0db970951a12c9f758a6c89a5d9a786d86beb8",
+    "log_sha256": "d109892abbae419bc55d166184230cbcb028437684e73bbe55a69694024cba45",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: constructor motive family accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-shape-indices",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "98f0b95a2b1918e8e7ee6766c2d1e4f11903d508b427c24176a1807f04186be8",
+    "log_sha256": "b7cb82a4e756fb1255ed4c6a37d84430e52bbf90c95f50514186475651297c61",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: constructor elimination index accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-motive-indices",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "b26bbad68eb34e4293e4b1d8b3b44d37775d3cdee0a2444c6e5695bc9eabab55",
+    "log_sha256": "ddaf155c5839efb1b31169e1c37d6b83932fdd66070bfaf273432e8168997566",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: constructor named motive index accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-scope",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "94dc7d00abbd88ef014b7f908d168a7e542c70c5821a5263f2a468bf7a5c32a7",
+    "log_sha256": "62160b51a1600a95b581da83ab8af370a9919de9eba56332c393e00eeb3e8f77",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-scope FAIL mismatch: open unused constructor branch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-argument-arity",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "bd799cd8db13b70845518797957fa785bc141b523379a59bd6d63aeb169d4baf",
+    "log_sha256": "52c783cb66f2b7671ba84553c45583bbbaaa0fd8368ba8ad3d5fc4e05f769cce",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-guards FAIL mismatch: short constructor accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-substitution",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "7ebcb8d95dbf9c9302d2ef0413be783f8a02173ff59015abfec2620003d1b01f",
+    "log_sha256": "e49f290d9a3875b9ff6a5a241ad82f6e39e6eb1701005f807815191534bf12c9",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-capture",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "1604349a6af590bd05e4121eb9244a4400e848c5b8aba9c1e42ea37ab5548994",
+    "log_sha256": "b54e4ed4a032c92571242229333320d45c0368425c54d3a7eb8e779554aaa244",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-parameters",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "f6cf3f1bf064e776c3addd95bc94c461929325d49b62a47ae4a9d770b47923c8",
+    "log_sha256": "1b5f8641ed82613a655c247e394ef613c97bdf00514f9187bea28adc05c45896",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: constructor full arity omits parameters",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-indices",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "0df49b376c1bedbf11a090467e946fecefd4e960b301008df1a7524e513ea52c",
+    "log_sha256": "9f71a5e6512e434d1fba1b3bc1c816cdf96835a0d4c8ede738ab30e4667bd359",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: indexed metadata mismatch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-positive",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "ee92475ae78eda014b4e95311f293e3068a0d9f84858f74f984f967e66649a29",
+    "log_sha256": "fd798d0bdc2ac78e88bb0cd51d3fc0e8a6d06c0d17e3ddc880ba9af3a2e9c91e",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: nonpositive constructor family accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-complete",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "66493c7a97afc08aab830e2efe0b72d2156cf93069e59732d955d26d6fd702d4",
+    "log_sha256": "1e1bd2a86cb934774b59f13d7eb693db8613e4fdd1cc769295c5d091d34eadd9",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-metadata FAIL mismatch: provisional constructor family accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "constructor-size",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "ce52a4844a81eba1ea9f3888965bd9226d0b96d9c1b75969626fec0a1560671a",
+    "log_sha256": "a11ef6702cbfaaebc51cf6d6bd39b82dd0b57fe3a68855ad088741c336f9345e",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-source-scope FAIL mismatch: constructor size cap ignored",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "case-head-fuel",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "096c2c4ae42f5399dd4b8e23abb2c1a97eecdd64f7ea160e37d1b9723156c9be",
+    "log_sha256": "8b8f9d36155668ade8da2600cff2870b808692f27302c74d87f36856757d0d32",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=case-source-fuel FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "case-result-fuel",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "4f020268618bb0c760bec1d0dcadbb61a36f5f89a7577f62cba160d485cd83ee",
+    "log_sha256": "e282d28055649aac08fbb6f33c3dc7b846814310d77438e7d16db9aa1aff7644",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=case-source-fuel FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "case-fuel",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "7487d1015e615955cf7943e10912d285384a7efd2f9f667bf27966f2a24f13be",
+    "log_sha256": "34b6559b906e44e3811a5982d65ab7b3f393db39c60022bcb6f9bf29afe15f1e",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=case-source-fuel FAIL mismatch: mixed case reduction bound exceeded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "alias-global-scope",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "2ed5a3001c42c6738b8be6ddff72d3208a3ba7ed9735fa8a014f5b06f927102d",
+    "log_sha256": "4b08a87aa8848d8fd5969d2266617646c03cf5ac249ea4fe613bd5243f4555b4",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: free global alias accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "alias-local-scope",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "27624f51289abf7a581c1fe17823f9539b38fb30783e31fb8ff84f23873c8d0a",
+    "log_sha256": "8215c2ebd2c210ee2171b89950b14228b96a0ad7342504f7ad0b7d5d3cc53b92",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: self-referencing local alias accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "alias-local-shift",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "9f26459e964a1b6ffe494e64902be2bc8a083ee8eb4bf95f64540e4b1f45f575",
+    "log_sha256": "a295ebdd69e547b9db07b17805f4a73b098f5d3a39fe07f240d321ed877a3e76",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=alias-local FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "alias-opaque",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "90c486808c97cf6d44913ba5247aadb42634f41c1ee50f67d3dacffc6878acda",
+    "log_sha256": "57dfe95e85a390b77723c6c9e2d38938b3f590bc6f01b672f3f49a94f466c89d",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: opaque alias unfolded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "alias-recursive",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "584ddde011b16802df1d67007605509bbc5de0b641a9aaafd012a9838c32e8c1",
+    "log_sha256": "d39590be05a8b0893e707c326187027feaede18bfd354768518c7ea394aae1e0",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: recursive alias unfolded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "alias-partial",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "d5a5042270d7573cf9a2397e81060d41d956700bb7bbb1206ce3eac81a6ae0b4",
+    "log_sha256": "85a657d60c57bdec66c801a5f58e67d9a9511488ecc7fc41080d4ad7fcf5f798",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: partial alias unfolded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-alias-disabled",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "f29389ebe051d3eefff4f10b886827d6c62ceccdd523eb8b75e6c58db1e2b664",
+    "log_sha256": "a6eb63a8f4da7c0b0e9d4fbfb4796db238ddb796c4f9cf89eb2f5f2fa1cf470b",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-alias-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-reduction-disabled",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "b7b17cae2185d6df9112fd90172527bb0740d9865357ef660d31420080d1beb8",
+    "log_sha256": "6db3300d808fcfb6d0dca492ea5b59d747f77902962c52286a48832a872301ca",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-reduction-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-reduction-fuel",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "c79b2bd1a14adf8c4c8bee152e95275eceedab1fb4162dce73d2de73833cfa66",
+    "log_sha256": "5106a486ca208a281b67fa877c62d4eff5351fd4a083e466ed248c8798a4893f",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: index let fuel exceeded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-reduction-free-application",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "8ec21a62d8e3686c7c67db58ffd3b1e070555f753633fc054a3f4403e0357894",
+    "log_sha256": "2ca92088791c21f1d5ff6b55449dd0ad852085934dd633ed6fe44decbf5778df",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: index let and beta fuel not shared",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-reduction-alias-pair",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "d08c11143ae057bdfbf8e3ab93c7f08971246229331cf314677c65ab2972f47b",
+    "log_sha256": "8791c53316b7f9777819b3bd4cc5064dc9c801880ff2ebae10cb98f3d8c1c8a8",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-reduction-source-guards FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "index-reduction-step-bound",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "5a54c43749b6e9ea1f9884e8c29881964f60277330c9d187fce8a71ffa0685c2",
+    "log_sha256": "58a76bd4e204e150a3056ff9928cdce4f1261acdd481f84c6aacc13faa5200f8",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: application source type missing",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "sum-index-disabled",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "ae0e7b895cc27865d5e985f06996ead986d1931b39fdc9598188605eebec93cc",
+    "log_sha256": "cdfc59242cf8a23e2be0750917777cb0052925726d3ad59817e02fd4a2948a5b",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=sum-index-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ]
+  },
+  {
+    "name": "sum-index-head-fuel",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "e4b5115303c6f92ce033201ae054d4de52bc8660431072395e52745a402e7e80",
+    "log_sha256": "1bf9a3fa0006e3eb9aa2acdcaff70a8982c27d120fb79f62d12bd1b4e7f6f25e",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=sum-index-source-fuel FAIL mismatch: sum index head fuel exceeded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "sum-index-result-fuel",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "00d99cca00bd936bf59bdd85c0918881fd73ef69e9f85e291d7523bdd5104721",
+    "log_sha256": "3123bf97b969687957a4e6a27ad6c0768793b41380c9494f23a776a0bca51064",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=sum-index-source-fuel FAIL mismatch: sum index result fuel exceeded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "sum-index-pop-skip",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "b19e5101344e1a8f1c376d874570eea61f796977d6a8fdd93d0a98c60c13bf78",
+    "log_sha256": "56c061be85193afb1ecbc6b58fb7d4946f4bcd12f2ce88cde95f9a086b6d520e",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=sum-index-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "sum-index-shape",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "2fdb0fdb0da8749c3360994414130d80391bfb8445a427646caeaea0b288464e",
+    "log_sha256": "b8a9a13d59c7b5bc97c086404467850279ab56c3bfc4c8a471f3266079e2e875",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=sum-index-source-guards FAIL mismatch: sum index shape mismatch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "sum-index-motive",
+    "path": "erase/inline.bend",
+    "before_sha256": "6e345bb581e54103aa475f2347b506acdec335e6b78d2a847966144bbcd38b01",
+    "mutated_sha256": "fd3c622a2e35067cdd5df909899956fe420dc604e23817dc62a3e6fb10bc6145",
+    "log_sha256": "ac1a8e49f165b40248b46a4d2515cf279b886bb610f862d12c4a52de28017e37",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=sum-index-source-guards FAIL mismatch: named sum index motive accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "sum-index-fixture-left",
+    "path": "erase/test/inline_test.bend",
+    "before_sha256": "51d57388abd178c7457fbc99b64e780581e951fe1bd8eac4696cba27f1a85117",
+    "mutated_sha256": "583ca4fbda5384d60e4be9832021298360f5f95af3c45866ebf53eff5aeeb623",
+    "log_sha256": "56a3e1229698be590dcccd9a240eb9085048bc5db6aa0c0777d3b85b8f185a0d",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "row=lambda-sum-index-left lambda fixture call differs",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  },
+  {
+    "name": "sum-index-fixture-right",
+    "path": "erase/test/inline_test.bend",
+    "before_sha256": "51d57388abd178c7457fbc99b64e780581e951fe1bd8eac4696cba27f1a85117",
+    "mutated_sha256": "0c3779cb45461f53e0e24dbcb35cad3afe1ab32618af9c697963a411e61029a8",
+    "log_sha256": "ff2ce56f70f01008561b9bbbbd781e82b3e005938aadf1a1ae5b8315c5269b61",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "row=lambda-sum-index-right lambda fixture call differs",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "reused_completed_harness": {
+      "caught_stdout_sha256": "019b8cbac6a03d737880fcc7e94ba9d124842f01574babbf4a21f52a89cf2bff",
+      "reason": "original harness returned zero before collector publication failed"
+    }
+  }
+]

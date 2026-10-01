@@ -253,6 +253,12 @@ def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
       tuple:F.Term.t = F.Term.Ann{F.Term.Sec{shape,[F.Term.Leg{Nil{},term},F.Term.Leg{Nil{},term}]},F.Term.Ran{shape,G.Rules.diagram_of([F.Term.Global{"Nat"},F.Term.Global{"Nat"}])}}
       F.Term.Out{shape,F.Term.ALeg{0n},tuple}
+    case 6n:
+      +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{})
+      F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"zero"},Nil{}},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},Nil{},"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
+    case 7n:
+      +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{})
+      F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"value"},[term]},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},Nil{},"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
     case other:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
       +nat:F.Term.t = F.Term.Global{"Nat"}
@@ -1786,7 +1792,7 @@ def Suite.index_reduction_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
     aliased_context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,application,True{},None{},False{}}},Nil{},0n)
     aliased:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([F.Term.Global{"Index"},univ],[application,univ],univ)},aliased_context)
     aliased_ok:Unit <- Suite.application_equal(aliased,univ)
-    case_term:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.index_alias_term([univ,univ],[univ,univ],univ),context)
+    case_term:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Elim{F.Term.Elimination{F.Shape.make_collection(F.Term.t,2n),univ,F.Quantity.Many{},None{},Nil{}}},context)
     case_ok:Unit <- Suite.application_absent(case_term,"index case reduced")
     cycle_context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,F.Term.Ann{F.Term.Global{"Index"},univ},True{},None{},False{}}},Nil{},0n)
     cycle:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Global{"Index"},cycle_context)
@@ -1810,6 +1816,114 @@ def Suite.index_reduction_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
     shared_over_ok:Unit <- Suite.application_absent(shared_over,"index let and beta fuel not shared")
     mixed:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Ann{Suite.let_chain(64n,univ),univ},context)
     Suite.application_absent(mixed,"index annotation and let fuel not shared")
+
+def Suite.constructor_index_family(family:F.Positivity.family) -> F.Positivity.family:
+  F.Positivity.Family{name,params,indices,level,status,ctors,positive} = family
+  F.Positivity.Family{"Inner",params,indices,level,status,ctors,positive}
+
+def Suite.constructor_index_term(name:String,args:List<&2,F.Term.t>,empty:F.Term.t,body:F.Term.t) -> F.Term.t:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Inner",Nil{})
+  F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{name},args},F.Quantity.Many{},None{},Suite.constructor_branches(empty,body)}}
+
+def Suite.constructor_index_context(context:I.Inline.context) -> I.Inline.context:
+  I.Inline.Context{checker,domains} = context
+  globals:F.Global.t = F.Global.add_family("Inner",Suite.constructor_index_family(Suite.constructor_family),C.Check.global(checker))
+  I.Inline.Context{C.Check.Ctx{globals,Nil{},Nil{},0n,C.Budget.unlimited},domains}
+
+def Suite.constructor_index_equal(term:F.Term.t,context:I.Inline.context,expected:F.Term.t) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(term,context)
+    Suite.application_equal(actual,expected)
+
+def Suite.constructor_index_refused(term:F.Term.t,context:I.Inline.context,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    actual:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(term,context)
+    Suite.application_absent(actual,message)
+
+def Suite.constructor_index_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_index_context(Suite.index_reduction_context)
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{univ,F.Term.Univ{F.Level.one}}),univ}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Inner",Nil{})
+  +point:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",univ)
+  +identity:F.Term.t = F.Term.Sec{point,[F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"T"}],F.Term.Var{0n}}]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    empty:Unit <- Suite.index_reduction_compare(Suite.constructor_index_term("empty",Nil{},univ,univ),univ,context,body)
+    pair:Unit <- Suite.index_reduction_compare(Suite.constructor_index_term("pair",[univ,univ],univ,F.Term.Var{0n}),univ,context,body)
+    alias:Unit <- Suite.index_reduction_compare(Suite.constructor_index_term("pair",[univ,F.Term.Global{"Index"}],univ,F.Term.Var{0n}),univ,context,body)
+    reordered:Unit <- Suite.constructor_index_equal(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},Some{F.Term.Motive{Some{"Inner"},Nil{},"self",univ}},I.Inline.reverse(F.Pair2<F.Term.addr,F.Term.leg>,Suite.constructor_branches(univ,F.Term.Var{0n}),Nil{})}},context,univ)
+    mixed:Unit <- Suite.index_reduction_compare(Suite.case_pair(1n,Suite.projection_pair(1n,univ,Suite.beta_term(univ,Suite.constructor_index_term("pair",[univ,F.Term.Var{0n}],univ,F.Term.Var{0n}))),univ,F.Term.Var{0n}),univ,context,body)
+    application:Unit <- Suite.constructor_index_equal(F.Term.Out{point,F.Term.APt{F.Quantity.Zero{},univ},Suite.constructor_index_term("pair",[univ,identity],univ,F.Term.Var{0n})},context,univ)
+    later:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.constructor_index_term("empty",Nil{},univ,univ),univ],[univ,F.Term.Univ{F.Level.one}],body)},context)
+    Suite.application_absent(later,"later constructor index differs")
+
+def Suite.constructor_index_source_scope() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(2n)
+  +body:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{4n},univ}}
+  +expected:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"y",F.Term.Ann{F.Term.Var{1n},univ}),F.Term.Ann{F.Term.Var{2n},univ}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    scoped:Unit <- Suite.constructor_index_equal(Suite.constructor_term("pair",[F.Term.Var{1n},F.Term.Var{0n}],univ,body),context,expected)
+    unused:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,univ],F.Term.Var{0n},univ),Suite.constructor_context(0n),"open unused constructor index branch accepted")
+    selected:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,univ],univ,F.Term.Var{2n}),Suite.constructor_context(0n),"open selected constructor index branch accepted")
+    payload:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,F.Term.Var{0n}],univ,univ),Suite.constructor_context(0n),"open constructor index payload accepted")
+    large:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,Suite.constructor_tree(11n,univ)],univ,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{0n}),F.Term.Var{1n}}),Suite.constructor_context(0n),"constructor index size cap ignored")
+    Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,univ],univ,Suite.size_chain(14n)),Suite.constructor_context(0n),"constructor index let size cap ignored")
+
+def Suite.constructor_index_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(0n)
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",Nil{})
+  +scrut:F.Term.t = F.Term.In{shape,F.Term.ACtor{"pair"},[univ,univ]}
+  +branches:List<&2,F.Pair2<F.Term.addr,F.Term.leg>> = Suite.constructor_branches(univ,univ)
+  +pair:F.Term.leg = F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"A"},F.Pair2{F.Quantity.Zero{},"x"}],univ}
+  +empty:F.Term.leg = F.Term.Leg{Nil{},univ}
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.constructor_index_refused(Suite.constructor_term("missing",[univ,univ],univ,univ),context,"unknown constructor index constructor accepted")
+    short:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ],univ,univ),context,"short constructor index payload accepted")
+    long:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,univ,univ],univ,univ),context,"long constructor index payload accepted")
+    shape_ok:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{F.Shape.make_inductive(F.Term.t,"Other",Nil{}),F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},None{},branches}},context,"constructor index shape mismatch accepted")
+    absent:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,univ],univ,univ),I.Inline.Context{C.Check.Ctx{F.Global.empty,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},"missing constructor index family accepted")
+    duplicate:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"pair"},pair},F.Pair2{F.Term.ACtor{"pair"},pair}]}},context,"duplicate constructor index branch accepted")
+    coverage:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"pair"},pair}]}},context,"missing constructor index branch accepted")
+    quantity:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"empty"},empty},F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"A"},F.Pair2{F.Quantity.Zero{},"x"}],univ}}]}},context,"constructor index quantity mismatch accepted")
+    motive:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},Some{F.Term.Motive{Some{"Other"},Nil{},"self",univ}},branches}},context,"constructor index motive mismatch accepted")
+    open_motive:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},Some{F.Term.Motive{Some{"Choice"},Nil{},"self",F.Term.Var{1n}}},branches}},context,"open constructor index motive accepted")
+    Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,F.Term.Global{"neutral"},F.Quantity.Many{},None{},branches}},context,"neutral constructor index scrutinee accepted")
+
+def Suite.constructor_index_source_metadata(family:F.Positivity.family) -> Result<&2,&2,F.Error.t,Unit>:
+  F.Positivity.Family{+name,+params,+indices,+level,status,+ctors,positive} = family
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_context(0n)
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",[univ,univ])
+  +term:F.Term.t = Suite.index_term("pair",[univ,univ],univ,F.Term.Var{0n},Suite.index_motive(["A","a"]))
+  +invalid:F.Global.t = F.Global.add_family("Choice",F.Positivity.Family{name,params,indices,level,status,ctors,False{}},F.Global.empty)
+  +bad_context:I.Inline.context = I.Inline.Context{C.Check.Ctx{invalid,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    indexed:Unit <- Suite.constructor_index_equal(term,context,univ)
+    motive:Unit <- Suite.constructor_index_refused(Suite.index_term("pair",[univ,univ],univ,univ,None{}),context,"constructor index indexed motive missing")
+    different:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",[F.Term.Univ{F.Level.one},univ]),F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},Suite.index_motive(["A","a"]),Suite.constructor_branches(univ,univ)}},context,"constructor index unequal shape payload accepted")
+    reentry:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",[F.Term.Ann{univ,univ},univ]),F.Term.ACtor{"pair"},[univ,univ]},F.Quantity.Many{},Suite.index_motive(["A","a"]),Suite.constructor_branches(univ,univ)}},context,"constructor index shape recovery reentered")
+    nonpositive:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,univ],univ,univ),bad_context,"nonpositive constructor index family accepted")
+    provisional:F.Global.t = F.Global.add_family("Choice",F.Positivity.Family{name,params,indices,level,F.Positivity.Provisional{},ctors,positive},F.Global.empty)
+    provisional_ok:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,univ],univ,univ),I.Inline.Context{C.Check.Ctx{provisional,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},"provisional constructor index family accepted")
+    recursive:F.Global.t = F.Global.add_family("Choice",Suite.recursive_family(Suite.constructor_family),F.Global.empty)
+    Suite.constructor_index_equal(Suite.constructor_term("pair",[univ,F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",Nil{}),F.Term.ACtor{"empty"},Nil{}}],univ,F.Term.Var{1n}),I.Inline.Context{C.Check.Ctx{recursive,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},univ)
+
+def Suite.constructor_index_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(0n)
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",Nil{})
+  +scrut:F.Term.t = F.Term.In{shape,F.Term.ACtor{"pair"},[univ,univ]}
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Unit <- Suite.constructor_index_equal(Suite.constructor_chain(64n,univ),context,univ)
+    over:Unit <- Suite.constructor_index_refused(Suite.let_chain(32n,Suite.constructor_chain(33n,univ)),context,"constructor index result fuel exceeded")
+    head:Unit <- Suite.constructor_index_equal(Suite.let_chain(32n,F.Term.Elim{F.Term.Elimination{shape,Suite.beta_chain(31n,scrut),F.Quantity.Many{},None{},Suite.constructor_branches(univ,F.Term.Var{0n})}}),context,univ)
+    head_over:Unit <- Suite.constructor_index_refused(Suite.let_chain(32n,F.Term.Elim{F.Term.Elimination{shape,Suite.beta_chain(32n,scrut),F.Quantity.Many{},None{},Suite.constructor_branches(univ,F.Term.Var{0n})}}),context,"constructor index head fuel exceeded")
+    shared:Unit <- Suite.constructor_index_equal(Suite.let_chain(32n,F.Term.Elim{F.Term.Elimination{shape,Suite.beta_chain(15n,scrut),F.Quantity.Many{},None{},Suite.constructor_branches(univ,Suite.constructor_chain(16n,univ))}}),context,univ)
+    shared_over:Unit <- Suite.constructor_index_refused(Suite.let_chain(32n,F.Term.Elim{F.Term.Elimination{shape,Suite.beta_chain(15n,scrut),F.Quantity.Many{},None{},Suite.constructor_branches(univ,Suite.constructor_chain(17n,univ))}}),context,"constructor index head and result fuel not shared")
+    mixed:Unit <- Suite.constructor_index_equal(Suite.let_chain(16n,Suite.beta_chain(16n,Suite.case_chain(16n,Suite.constructor_chain(16n,univ)))),context,univ)
+    Suite.constructor_index_refused(Suite.let_chain(16n,Suite.beta_chain(16n,Suite.case_chain(16n,Suite.constructor_chain(17n,univ)))),context,"constructor index mixed fuel not shared")
 
 def Suite.sum_index_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
@@ -1873,7 +1987,7 @@ def Suite.sum_index_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
     neutral:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.Global{"Neutral"},F.Quantity.Many{},None{},branches}},"neutral sum index scrutinee accepted")
     large_let:Unit <- Suite.sum_index_refused(Suite.case_pair(1n,univ,univ,Suite.size_chain(14n)),"sum index let size cap ignored")
     large:Unit <- Suite.sum_index_refused(Suite.case_pair(1n,Suite.constructor_tree(11n,univ),univ,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{0n}),F.Term.Var{1n}}),"sum index size cap ignored")
-    Suite.sum_index_refused(Suite.index_alias_term([univ,univ],[univ,univ],univ),"constructor index case reduced")
+    Suite.constructor_index_equal(Suite.index_alias_term([univ,univ],[univ,univ],univ),Suite.index_reduction_context,univ)
 
 def Suite.sum_index_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
@@ -2028,6 +2142,13 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"index-reduction-source-guards",unit => Suite.index_reduction_source_guards},
       Suite.Case{"index-reduction-source-fuel",unit => Suite.index_reduction_source_fuel},
       Suite.Case{"sum-index-source-syntax",unit => Suite.sum_index_source_syntax},
+      Suite.Case{"constructor-index-source-syntax",unit => Suite.constructor_index_source_syntax},
+      Suite.Case{"constructor-index-source-scope",unit => Suite.constructor_index_source_scope},
+      Suite.Case{"constructor-index-source-guards",unit => Suite.constructor_index_source_guards},
+      Suite.Case{"constructor-index-source-metadata",unit => Suite.constructor_index_source_metadata(Suite.constructor_family)},
+      Suite.Case{"constructor-index-source-fuel",unit => Suite.constructor_index_source_fuel},
+      Suite.Case{"lambda-constructor-index-empty",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_index_empty,LF.Fixture.lambda_constructor_index_empty_opaque,layout,6n)},
+      Suite.Case{"lambda-constructor-index-value",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_index_value,LF.Fixture.lambda_constructor_index_value_opaque,layout,7n)},
       Suite.Case{"sum-index-source-local",unit => Suite.sum_index_source_local},
       Suite.Case{"sum-index-source-guards",unit => Suite.sum_index_source_guards},
       Suite.Case{"sum-index-source-fuel",unit => Suite.sum_index_source_fuel},

@@ -1,5 +1,40 @@
 # M0 build log
 
+## 2026-09-30: Stage B constructor cases in source indices
+
+Index source recovery now selects a branch of a concrete constructor case.
+It reuses the existing complete, positive family checks, branch coverage,
+field arity and quantities, motive metadata, closedness, and simultaneous
+substitution. Parameterized, indexed, and recursive constructor metadata
+remain supported. Nested elimination and injection shape payloads must
+match syntactically; recovery does not restart index comparison inside an
+index payload. This keeps nested case recovery within the existing budget.
+
+Each constructor case spends one of its payload's 64 steps before its
+scrutinee. The scrutinee and selected result share the remainder with sum
+cases, lets, annotations, applications, and projections. Substitution retains
+the 4096-node cap, and pending frames retain the 129-transition limit.
+
+Two opaque-twin pairs cover zero-field and field-bearing constructors.
+Each suite variant changes an elaborated constructor index to an equivalent
+case, rechecks the definition and its use with the kernel, seals one proof,
+and compares runtime output with the opaque twin. Five direct cases cover
+comparison direction, retained source syntax, mixed pending frames, aliases,
+outer variables, malformed and open cases, indexed and recursive metadata,
+unequal nested shape payloads, substitution size, and reduction boundaries.
+
+The inline suite contains 192 cases in 16 test programs. Nine new mutations
+bring the catalog to 247 anchors. The collector
+`dev/validation/constructor-index-source-run.py` records the full tests,
+default gates, erasure record, and 66 scoped mutations in
+`dev/validation/constructor-index-source.json`. The historical complete
+mutation record remains unchanged. The only new catchall policy entry is
+the index constructor helper's explicit refusal. No unsafe function is added.
+
+Stage B stays open at the Acc runtime-elimination frontier. Further recovery
+of nested constructor shape payloads, builtin and provisional families,
+unequal payloads after bounded recovery, and neutral scrutinees remain open.
+
 ## 2026-09-30: Stage B sum cases in constructor source indices
 
 Index source recovery now reduces a case over a concrete sum injection.

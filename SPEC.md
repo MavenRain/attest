@@ -146,12 +146,17 @@ Constructor cases require inductive shapes with matching family names and a
 complete, positive family. Both the elimination and injection carry the declared
 number of index values. Payloads must match syntactically, directly or after
 transparent head aliases, lets, beta steps, annotations, tuple projections,
-and concrete collection cases expose matching source syntax. Each index payload has a separate budget of 64
+and concrete collection or constructor cases expose matching source syntax. Each index payload has a separate budget of 64
 reductions, with the declaration-count alias bound between reductions. Index
 applications spend a step before their head and pass the remainder to their
 result. Concrete collection cases spend a step before their scrutinee and share
-the remainder with the selected result; constructor cases in index payloads do
-not reduce. A payload whose
+the remainder with the selected result. Constructor cases inside a payload
+use the same complete, positive family, branch, field, motive, scope, and
+substitution checks as outer cases. Their elimination and injection shapes
+must have directly equal index payloads. Their comparison does not unfold
+aliases or reduce nested shape payloads, so it cannot restart index recovery.
+Constructor cases share the payload budget with their scrutinee and result.
+A payload whose
 reduction reaches a neutral application, projection, or case matches only
 directly or after transparent head aliases. Global and
 local alias bodies reuse the existing closedness checks. Neutral globals and
@@ -202,8 +207,8 @@ head recovery remain unsupported. Concrete collection cases reduce inside
 index payloads using the same width, branch coverage, single-binder, motive,
 scope, and substitution checks as collection source cases. They share each
 payload's 64-step budget with scrutinee and result reductions. Constructor
-cases inside an index do not reduce, preventing index recovery from reentering
-constructor comparison. Missing function types,
+cases inside an index reduce with the checks above; their nested shape payloads
+must be syntactically equal, so recovery does not reenter constructor comparison. Missing function types,
 nonpoint function formers, nonpoint function application addresses, free codomains,
 and free arguments are refused.
 Four `motive-application-*` pairs cover global, dependent, local, and curried
@@ -256,6 +261,13 @@ projection indices; the raw pairs compare syntactically, and only the suite
 variants reach the reducer. Four direct cases check both comparison directions,
 local shifting and capture, open payloads, refused cases, and the 64/65-step
 boundary with the budget that lets and applications share.
+Two `lambda-constructor-index-*` pairs cover zero-field and field-bearing
+constructors inside indices. Their checked-core variants change the index
+spelling, recheck it with the kernel, seal one proof, and preserve the opaque
+twin's runtime. Five direct cases cover both comparison directions, outer
+scope and substitution limits, malformed metadata, indexed and recursive
+families, refusal of further shape-index recovery, pending applications,
+and exact versus excessive shared reduction budgets.
 The lambda pairs have different carried runtime outputs; the motive pairs
 share a coarse carried runtime layout. All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and

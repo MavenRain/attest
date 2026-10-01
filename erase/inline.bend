@@ -994,12 +994,24 @@ type Inline.index_frame is Data:
   Inline.IndexApplication{shape: F.Shape.t<F.Term.t>, address: F.Term.addr}
   Inline.IndexCase{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>}
 
-def Inline.index_case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, +depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+# Keep constructor shape comparison syntactic here. Calling constructor_case
+# would restart index reduction while this payload still has pending frames.
+def Inline.index_constructor_case(shape: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, injection: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, name: String, arguments: List<&2, F.Term.t>, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, closed: Bool, globals: F.Global.t, depth: Nat) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match shape injection:
+    case Some{F.Pair2{+family, +indices}} Some{F.Pair2{injected, values}}:
+      index_constructor_valid: Bool = Bool.and(closed, Bool.and(String.eq(family, injected), Inline.constructor_index_values(indices, values)))
+      Inline.constructor_family(F.Global.find_family(family, globals), family, name, arguments, branches, motive, Inline.length(F.Term.t, indices), index_constructor_valid, depth)
+    case other injection: Done{None{}}
+
+def Inline.index_case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, +depth: Nat, globals: F.Global.t) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match scrutinee:
     case Some{F.Term.In{+injection, F.Term.ALeg{+index}, +argument <> Nil{}}}:
       index_elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ALeg{index}, [argument]}, quantity, motive, branches}}
       index_valid: Bool = Bool.and(Inline.closed(depth, index_elimination), Inline.case_motive(motive))
       Inline.case_collection(P.Rules.as_vcoll(F.Term.t, shape), P.Rules.as_vcoll(F.Term.t, injection), index, argument, branches, index_valid, depth)
+    case Some{F.Term.In{+injection, F.Term.ACtor{+name}, +arguments}}:
+      index_constructor_elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ACtor{name}, arguments}, quantity, motive, branches}}
+      Inline.index_constructor_case(F.Shape.inductive(F.Term.t, shape), F.Shape.inductive(F.Term.t, injection), name, arguments, motive, branches, Inline.closed(depth, index_constructor_elimination), globals, depth)
     case other: Done{None{}}
 
 def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fuel: Nat, index_ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
@@ -1011,9 +1023,9 @@ def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fue
         index_reduced: Maybe<&2, F.Term.t> <- Inline.beta_type(index_shape, index_address, index_ty, C.Check.size(checker))
         next(fuel, index_reduced, rest)
     case Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest:
-      Inline.Context{checker, domains} = context
+      Inline.Context{+checker, domains} = context
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
-        case_reduced: Maybe<&2, F.Term.t> <- Inline.index_case_type(index_shape, index_quantity, index_motive, index_branches, index_ty, C.Check.size(checker))
+        case_reduced: Maybe<&2, F.Term.t> <- Inline.index_case_type(index_shape, index_quantity, index_motive, index_branches, index_ty, C.Check.size(checker), C.Check.global(checker))
         next(fuel, case_reduced, rest)
 
 # Charge applications and cases before their heads, and share the remainder with the result.
