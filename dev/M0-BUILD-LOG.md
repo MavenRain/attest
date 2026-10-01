@@ -1,5 +1,44 @@
 # M0 build log
 
+## 2026-10-01: Stage B numeric sum payloads in source indices
+
+Numeric sum injection indices now recover their single payload while retaining
+their collection shape and address. Recovery requires an address within the
+collection width, one argument, closed source syntax, and a reconstructed term
+within 4096 nodes. A pending frame rebuilds the injection without reducing the
+completed term again. Concrete case scrutinees retain their original case path
+and recover the selected result after substitution.
+
+Payload recovery consumes one enclosing reduction. Nested injections, outer
+head reductions, neutral applications, and projections share the existing
+64 reductions and 129 transitions. Six semantic cases cover both comparison
+directions, aliases, lets, annotations, beta steps, projections, concrete cases,
+nested payloads, shifted local aliases, scope, malformed shapes and addresses,
+argument counts, distinct values, and exact versus excessive budgets. The size
+case accepts a 4096-node reconstruction and refuses one with 4097 nodes. The
+transition case separates 129 from 131 transitions beneath 42 point
+applications. The inline suite contains 218 cases in 16 test programs.
+
+Nine new mutations bring the catalog to 282 anchors. Three new policy sites
+disclose the explicit payload refusal, case frame dispatch, and numeric
+injection dispatch. No unsafe function is added.
+
+The collector `dev/validation/sum-payload-source-run.py` records the full tests,
+default gates, erasure record, and 13 scoped mutations in
+`dev/validation/sum-payload-source.json`. The four controls cover both enclosing
+payload comparison directions, neutral projections, and concrete case fuel.
+
+Commit 8fcc478 kept a projection record from before its collector fixes, and
+its gate log was later overwritten by a failed Lean build. The projection
+collector ran again on this tree, so
+`dev/validation/neutral-projection-source.json` and its logs match the current
+sources.
+
+Stage B stays open at Acc runtime elimination, neutral scrutinees, builtin and
+provisional constructor families, constructor injection arguments requiring
+recovery, and index payloads unequal after bounded recovery.
+
+
 ## 2026-10-01: Stage B neutral collection projections in source indices
 
 Neutral numeric collection projections now retain their recovered heads and

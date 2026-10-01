@@ -137,6 +137,12 @@ INLINE-ERASE row=nested-index-source-fuel OK
 INLINE-ERASE row=nested-index-source-steps OK
 INLINE-ERASE row=neutral-projection-syntax OK
 INLINE-ERASE row=neutral-projection-local OK
+INLINE-ERASE row=sum-payload-syntax OK
+INLINE-ERASE row=sum-payload-local OK
+INLINE-ERASE row=sum-payload-guards OK
+INLINE-ERASE row=sum-payload-fuel OK
+INLINE-ERASE row=sum-payload-steps OK
+INLINE-ERASE row=sum-payload-size OK
 INLINE-ERASE row=neutral-index-source-syntax OK
 INLINE-ERASE row=neutral-index-source-local OK
 INLINE-ERASE row=neutral-index-source-guards OK
@@ -209,7 +215,7 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=208 total=212 FAIL
+INLINE-ERASE pass=214 total=218 FAIL
 INLINE-ERASE row=neutral-projection-guards FAIL mismatch: neutral projection address changed
 INLINE-ERASE row=neutral-projection-fuel FAIL mismatch: application substitution captured an outer variable
 INLINE-ERASE row=neutral-projection-size FAIL mismatch: application substitution captured an outer variable

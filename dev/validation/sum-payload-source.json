@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "recorded_at": "2026-10-01T18:49:56.909300+00:00",
+  "recorded_at": "2026-10-01T19:06:28.641838+00:00",
   "root": "/Users/oobi/Documents/attest",
   "base_revision": "8fcc4781ee10665df7620d14e8b22fd21d8f9da7",
-  "scope": "Neutral numeric collection projections in constructor source indices; shared reduction and transition budgets, address, shape, scope and reconstruction size guards.",
+  "scope": "Numeric sum injection payloads in constructor source indices; shared reduction and transition budgets, address, shape, arity, scope and reconstruction size guards. Concrete case scrutinees keep their existing path.",
   "implementation_sha256": {
     "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
     "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
@@ -65,7 +65,7 @@
     "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
     "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
     "dev/bend-policy.json": "c5a2b085dc8354286bf9ee6dca9299842fb382f12ef0f60183685e8ca808676c",
-    "dev/validation/neutral-projection-source-run.py": "8a138f1aceac032fbce67c69989b8886e5e7d1fae80e905b60eb325e10429d89"
+    "dev/validation/sum-payload-source-run.py": "f0bffc5ec61680d649de12d7676152974fe0c98d39802065d92e90ce1d8bbdd6"
   },
   "checks": [
     {
@@ -78,10 +78,10 @@
       ],
       "exit_code": 0,
       "log": {
-        "path": "dev/validation/neutral-projection-source/anchors.log",
+        "path": "dev/validation/sum-payload-source/anchors.log",
         "sha256": "3443ce36695e6d8bf3c57abd436bbf6c17af83650343182e977defaba757a381"
       },
-      "elapsed_seconds": 0.496
+      "elapsed_seconds": 0.129
     },
     {
       "name": "tests",
@@ -91,10 +91,10 @@
       ],
       "exit_code": 0,
       "log": {
-        "path": "dev/validation/neutral-projection-source/tests.log",
+        "path": "dev/validation/sum-payload-source/tests.log",
         "sha256": "e404fac356dd39d4191391dcb168ed305f5a59d4f61a341420791643506b06f8"
       },
-      "elapsed_seconds": 403.234
+      "elapsed_seconds": 51.059
     },
     {
       "name": "gates",
@@ -105,10 +105,10 @@
       ],
       "exit_code": 0,
       "log": {
-        "path": "dev/validation/neutral-projection-source/gates.log",
-        "sha256": "4c41d7fea45d8c1d9799e5d8933ae6dae11b5d3cba283bda6f6b115ab7108c0c"
+        "path": "dev/validation/sum-payload-source/gates.log",
+        "sha256": "2ec4b4072ee7f87b94314f834c168e47566d5711bddc3f6d5afe2eca91f40bbf"
       },
-      "elapsed_seconds": 847.235
+      "elapsed_seconds": 463.95
     },
     {
       "name": "erasure-record",
@@ -120,10 +120,10 @@
       ],
       "exit_code": 0,
       "log": {
-        "path": "dev/validation/neutral-projection-source/erasure-record.log",
+        "path": "dev/validation/sum-payload-source/erasure-record.log",
         "sha256": "f6a8151c93ca11d314a8a6ae32bf8da0b7e535a104d3b5cc2fb81160ab402bb0"
       },
-      "elapsed_seconds": 159.362
+      "elapsed_seconds": 93.824
     },
     {
       "name": "mutations",
@@ -132,42 +132,42 @@
         "--jobs",
         "2",
         "--logs",
-        "/Users/oobi/Documents/attest/.gatework/neutral-projection-mutations",
+        "/Users/oobi/Documents/attest/.gatework/sum-payload-mutations",
         "--case",
         "index-reduction-left",
         "--case",
         "index-reduction-right",
         "--case",
-        "neutral-index-disabled",
-        "--case",
-        "neutral-index-curried",
+        "sum-index-result-fuel",
         "--case",
         "neutral-projection-disabled",
         "--case",
-        "neutral-projection-range",
+        "sum-payload-disabled",
         "--case",
-        "neutral-projection-head",
+        "sum-payload-range",
         "--case",
-        "neutral-projection-scope",
+        "sum-payload-scope",
         "--case",
-        "neutral-projection-address",
+        "sum-payload-arity",
         "--case",
-        "neutral-projection-size",
+        "sum-payload-shape",
         "--case",
-        "neutral-projection-fuel",
+        "sum-payload-address",
         "--case",
-        "neutral-projection-steps",
+        "sum-payload-size",
         "--case",
-        "neutral-projection-shape"
+        "sum-payload-fuel",
+        "--case",
+        "sum-payload-steps"
       ],
       "exit_code": 0,
       "log": {
-        "path": "dev/validation/neutral-projection-source/mutations.log",
-        "sha256": "fd815dc04a389b948f80ee3e87069a9fa5175ec92d0fbf4c824a81845a86c20b"
+        "path": "dev/validation/sum-payload-source/mutations.log",
+        "sha256": "3e652a36896f4da9ad838a8b938d228a5e8bd410b013c693fce306ff4c386e2e"
       },
-      "elapsed_seconds": 587.002,
+      "elapsed_seconds": 382.613,
       "baseline": {
-        "path": "dev/validation/neutral-projection-source/mutation-baseline.log",
+        "path": "dev/validation/sum-payload-source/mutation-baseline.log",
         "sha256": "f6a8151c93ca11d314a8a6ae32bf8da0b7e535a104d3b5cc2fb81160ab402bb0"
       }
     }
@@ -179,17 +179,17 @@
   "selected": [
     "index-reduction-left",
     "index-reduction-right",
-    "neutral-index-disabled",
-    "neutral-index-curried",
+    "sum-index-result-fuel",
     "neutral-projection-disabled",
-    "neutral-projection-range",
-    "neutral-projection-head",
-    "neutral-projection-scope",
-    "neutral-projection-address",
-    "neutral-projection-size",
-    "neutral-projection-fuel",
-    "neutral-projection-steps",
-    "neutral-projection-shape"
+    "sum-payload-disabled",
+    "sum-payload-range",
+    "sum-payload-scope",
+    "sum-payload-arity",
+    "sum-payload-shape",
+    "sum-payload-address",
+    "sum-payload-size",
+    "sum-payload-fuel",
+    "sum-payload-steps"
   ],
   "mutations": [
     {
@@ -219,11 +219,11 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/index-reduction-left.log",
+        "path": "dev/validation/sum-payload-source/index-reduction-left.log",
         "sha256": "88baa3b8dab6b1e4005c145c33ee57a746312f95881748ee590b64d12deb3b1b"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/index-reduction-left-build.log",
+        "path": "dev/validation/sum-payload-source/index-reduction-left-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },
@@ -254,23 +254,23 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/index-reduction-right.log",
+        "path": "dev/validation/sum-payload-source/index-reduction-right.log",
         "sha256": "88b8dbcb9fa3ef0e19b8fd5cf7214e97d6341f9f4b857ea77a2b8b778905a672"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/index-reduction-right-build.log",
+        "path": "dev/validation/sum-payload-source/index-reduction-right-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },
     {
-      "name": "neutral-index-disabled",
+      "name": "sum-index-result-fuel",
       "path": "erase/inline.bend",
       "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
-      "mutated_sha256": "90c8def3bb8d8ab61da888e000916fe9ca7ffa2c7f380b881cf16b8e92fb68ae",
-      "log_sha256": "d0f52f756d0e85a54d6f249beaeea1bd3d7bf4ea97034cf22e4f637a0f8d6466",
+      "mutated_sha256": "190db2f14314d29c83e50d883efb3755fa4f27c06c071e47d205d3a61af9d92e",
+      "log_sha256": "c5417ade6176f9a02f71f6c4e099151b2ffb9caef7fa80df11e99f8cddd78b52",
       "build_exit": 0,
       "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=neutral-index-source-syntax FAIL",
+      "diagnostic": "INLINE-ERASE row=sum-index-source-fuel FAIL mismatch: sum index result fuel exceeded",
       "build_command": [
         "python3",
         "-P",
@@ -289,46 +289,11 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-index-disabled.log",
-        "sha256": "d0f52f756d0e85a54d6f249beaeea1bd3d7bf4ea97034cf22e4f637a0f8d6466"
+        "path": "dev/validation/sum-payload-source/sum-index-result-fuel.log",
+        "sha256": "c5417ade6176f9a02f71f6c4e099151b2ffb9caef7fa80df11e99f8cddd78b52"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-index-disabled-build.log",
-        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
-      }
-    },
-    {
-      "name": "neutral-index-curried",
-      "path": "erase/inline.bend",
-      "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
-      "mutated_sha256": "e1e5274a68a987f9ea44af902da37c1ef122add38bd0729b70ed1f237622ff9c",
-      "log_sha256": "0fe692fa6431abc22328dd8d9db563b5a3c9503d6cb5793e6dbcaf8ebb11ac4a",
-      "build_exit": 0,
-      "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=neutral-index-source-syntax FAIL",
-      "build_command": [
-        "python3",
-        "-P",
-        "dev/build.py",
-        "--backend",
-        "js",
-        "attest",
-        "erase-probe",
-        "prop-index",
-        "opaque",
-        "inline"
-      ],
-      "gate_command": [
-        "python3",
-        "-P",
-        "dev/erasure-gates.py"
-      ],
-      "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-index-curried.log",
-        "sha256": "0fe692fa6431abc22328dd8d9db563b5a3c9503d6cb5793e6dbcaf8ebb11ac4a"
-      },
-      "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-index-curried-build.log",
+        "path": "dev/validation/sum-payload-source/sum-index-result-fuel-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },
@@ -359,23 +324,23 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-disabled.log",
+        "path": "dev/validation/sum-payload-source/neutral-projection-disabled.log",
         "sha256": "098b3319fece0697be5d226516d210f84be500344fa51f8ff941dc8ba1964f25"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-disabled-build.log",
+        "path": "dev/validation/sum-payload-source/neutral-projection-disabled-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },
     {
-      "name": "neutral-projection-range",
+      "name": "sum-payload-disabled",
       "path": "erase/inline.bend",
       "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
-      "mutated_sha256": "dd99705260f79c9cd0317dc2cead1d20a048826a0c4e0cda266b8a34020e44ba",
-      "log_sha256": "112267b3719fd93403add6cc8acb652266c1f044209ad6c3968b01e2db68ad6c",
+      "mutated_sha256": "52830a264b44afc8e45a7b15014e04fb25a31a69b3797915a12a72f2cba276cf",
+      "log_sha256": "107cc4318b5a7347700530144410affa99f95622a7ef63a29c07eab32a9bdc9d",
       "build_exit": 0,
       "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=neutral-projection-guards FAIL mismatch: out-of-range neutral projection accepted",
+      "diagnostic": "INLINE-ERASE row=sum-payload-syntax FAIL",
       "build_command": [
         "python3",
         "-P",
@@ -394,23 +359,23 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-range.log",
-        "sha256": "112267b3719fd93403add6cc8acb652266c1f044209ad6c3968b01e2db68ad6c"
+        "path": "dev/validation/sum-payload-source/sum-payload-disabled.log",
+        "sha256": "107cc4318b5a7347700530144410affa99f95622a7ef63a29c07eab32a9bdc9d"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-range-build.log",
+        "path": "dev/validation/sum-payload-source/sum-payload-disabled-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },
     {
-      "name": "neutral-projection-head",
+      "name": "sum-payload-range",
       "path": "erase/inline.bend",
       "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
-      "mutated_sha256": "79ab1d6681559344aaab86f992ae176c2ddfd549033107c266cac8e81f6ab949",
-      "log_sha256": "607bea150b0ea641e0b041927fec16f58903ef9cf4a0cb8aea4edd55e18b2f03",
+      "mutated_sha256": "d0c4b0645842fadf2934a292874b3fa2ff97d79170f29fdd7c0be5860e648a91",
+      "log_sha256": "6798fadd16016a527ea866e9e7b8b9db88ee3ac3bcfc8cc4c32fa1cd0097da40",
       "build_exit": 0,
       "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=neutral-projection-guards FAIL mismatch: nonneutral projection head accepted",
+      "diagnostic": "INLINE-ERASE row=sum-payload-guards FAIL mismatch: out-of-range sum injection accepted",
       "build_command": [
         "python3",
         "-P",
@@ -429,23 +394,23 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-head.log",
-        "sha256": "607bea150b0ea641e0b041927fec16f58903ef9cf4a0cb8aea4edd55e18b2f03"
+        "path": "dev/validation/sum-payload-source/sum-payload-range.log",
+        "sha256": "6798fadd16016a527ea866e9e7b8b9db88ee3ac3bcfc8cc4c32fa1cd0097da40"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-head-build.log",
+        "path": "dev/validation/sum-payload-source/sum-payload-range-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },
     {
-      "name": "neutral-projection-scope",
+      "name": "sum-payload-scope",
       "path": "erase/inline.bend",
       "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
-      "mutated_sha256": "abfe28786f67094f1345b25a779c71cbe1bb7d1fc6249e3c74fd7c6dd36dcd36",
-      "log_sha256": "50d04a0b524b1acdc4272a4abf9022a5c70610de917a916c077371176a471bfa",
+      "mutated_sha256": "ee62d6aac19d5f33120d11460140c4e58a33657b2ff2ff8a5bfd1c817bec5e5d",
+      "log_sha256": "1fa1f95717907a7ad0f82ff01422eaa744628d8c0c823a1afc69ebdc07b467aa",
       "build_exit": 0,
       "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=neutral-projection-size FAIL mismatch: projection helper accepted an open head",
+      "diagnostic": "INLINE-ERASE row=sum-payload-guards FAIL mismatch: sum payload helper accepted an open argument",
       "build_command": [
         "python3",
         "-P",
@@ -464,23 +429,23 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-scope.log",
-        "sha256": "50d04a0b524b1acdc4272a4abf9022a5c70610de917a916c077371176a471bfa"
+        "path": "dev/validation/sum-payload-source/sum-payload-scope.log",
+        "sha256": "1fa1f95717907a7ad0f82ff01422eaa744628d8c0c823a1afc69ebdc07b467aa"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-scope-build.log",
+        "path": "dev/validation/sum-payload-source/sum-payload-scope-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },
     {
-      "name": "neutral-projection-address",
+      "name": "sum-payload-arity",
       "path": "erase/inline.bend",
       "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
-      "mutated_sha256": "52fdbd85db6abf4a6f97738006743be91a198d5eb0f655f8c682524e256d04cc",
-      "log_sha256": "713065bf54eb1090a67821648e2e18d244db275a323649a13081adb0aba3f04d",
+      "mutated_sha256": "5f00117917b9712be6d9532c230f321f565cd9bd027a3885072a6ead3b08881e",
+      "log_sha256": "aff8e6f4bda8f03755abfca3b7a78ab79952328bbb2c9ae458e0cd9ab95fc5e5",
       "build_exit": 0,
       "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=neutral-projection-guards FAIL mismatch: neutral projection address changed",
+      "diagnostic": "INLINE-ERASE row=sum-payload-guards FAIL mismatch: extra sum payload accepted",
       "build_command": [
         "python3",
         "-P",
@@ -499,23 +464,23 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-address.log",
-        "sha256": "713065bf54eb1090a67821648e2e18d244db275a323649a13081adb0aba3f04d"
+        "path": "dev/validation/sum-payload-source/sum-payload-arity.log",
+        "sha256": "aff8e6f4bda8f03755abfca3b7a78ab79952328bbb2c9ae458e0cd9ab95fc5e5"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-address-build.log",
+        "path": "dev/validation/sum-payload-source/sum-payload-arity-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },
     {
-      "name": "neutral-projection-size",
+      "name": "sum-payload-shape",
       "path": "erase/inline.bend",
       "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
-      "mutated_sha256": "dea476f656062570bbf478a08376ff762e5bb785d8e36293ca7be4e3e6c0592c",
-      "log_sha256": "611b5fd8698b6cf8ab5fc47ca2e69bdb3e5c77515043f503cfdda904a359c4fb",
+      "mutated_sha256": "38339bd5b1dc30f16ef1374cb909c9a51b3bb59e0c5cbe4dc69d4f4a32653472",
+      "log_sha256": "d03f28883e5caa44e21cbc3e6949d59301870edb872863d6b1b2723191ed7365",
       "build_exit": 0,
       "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=neutral-projection-size FAIL mismatch: neutral projection reconstruction size cap ignored",
+      "diagnostic": "INLINE-ERASE row=sum-payload-guards FAIL mismatch: empty sum injection accepted",
       "build_command": [
         "python3",
         "-P",
@@ -534,23 +499,23 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-size.log",
-        "sha256": "611b5fd8698b6cf8ab5fc47ca2e69bdb3e5c77515043f503cfdda904a359c4fb"
+        "path": "dev/validation/sum-payload-source/sum-payload-shape.log",
+        "sha256": "d03f28883e5caa44e21cbc3e6949d59301870edb872863d6b1b2723191ed7365"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-size-build.log",
+        "path": "dev/validation/sum-payload-source/sum-payload-shape-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },
     {
-      "name": "neutral-projection-fuel",
+      "name": "sum-payload-address",
       "path": "erase/inline.bend",
       "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
-      "mutated_sha256": "39710fb24106d34f44f48933492b56ad5872c072febe3cc316cb7e58b92e752b",
-      "log_sha256": "35175db0bbcce88107fd2534d9535939e2a7507949dd4c2e8f413bf2ee6ce99d",
+      "mutated_sha256": "04a705bbd51b56eae76d3e8bb9b8764a1b7fe89859464be33ab09a379c98998d",
+      "log_sha256": "6967ab5ef401c5fd55f0dffb9153e524d8467736aec85c65f5d23ea4c0f6e4aa",
       "build_exit": 0,
       "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=neutral-projection-fuel FAIL mismatch: neutral projection and point application fuel not shared",
+      "diagnostic": "INLINE-ERASE row=sum-payload-guards FAIL mismatch: sum injection address lost during recovery",
       "build_command": [
         "python3",
         "-P",
@@ -569,23 +534,93 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-fuel.log",
-        "sha256": "35175db0bbcce88107fd2534d9535939e2a7507949dd4c2e8f413bf2ee6ce99d"
+        "path": "dev/validation/sum-payload-source/sum-payload-address.log",
+        "sha256": "6967ab5ef401c5fd55f0dffb9153e524d8467736aec85c65f5d23ea4c0f6e4aa"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-fuel-build.log",
+        "path": "dev/validation/sum-payload-source/sum-payload-address-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     },
     {
-      "name": "neutral-projection-steps",
+      "name": "sum-payload-size",
+      "path": "erase/inline.bend",
+      "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
+      "mutated_sha256": "8f53e4d789f5500f76846dbc7a884e6baba7bd7fe3d2ba18ce46a7e880ab39ce",
+      "log_sha256": "8278658380983135baac578578d3d46ba1fd9e6c6eea914f20be0057ad2d9339",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=sum-payload-size FAIL mismatch: sum payload reconstruction size cap ignored",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/sum-payload-source/sum-payload-size.log",
+        "sha256": "8278658380983135baac578578d3d46ba1fd9e6c6eea914f20be0057ad2d9339"
+      },
+      "build_log": {
+        "path": "dev/validation/sum-payload-source/sum-payload-size-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "sum-payload-fuel",
+      "path": "erase/inline.bend",
+      "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
+      "mutated_sha256": "b591a67bd53e22014abf7b06d3bf9fb65c80b9eb6674004ab18c9ff15ffe1178",
+      "log_sha256": "643dd3fb89123ad2de89f28cc7ca85556a3bd95120412951606b45c73bda1305",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=sum-payload-fuel FAIL mismatch: sum payload fuel restarted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/sum-payload-source/sum-payload-fuel.log",
+        "sha256": "643dd3fb89123ad2de89f28cc7ca85556a3bd95120412951606b45c73bda1305"
+      },
+      "build_log": {
+        "path": "dev/validation/sum-payload-source/sum-payload-fuel-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "sum-payload-steps",
       "path": "erase/inline.bend",
       "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
       "mutated_sha256": "f9219f144931261d70ce179eee7ea8b7910fc134ba725f6d4c7c1a18f3636360",
       "log_sha256": "43438a2fcfb1dd4a14d9166aacbc19d7fd10bb138da272209110906ed4f2251e",
       "build_exit": 0,
       "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=neutral-projection-steps FAIL mismatch: neutral projection transition budget exceeded",
+      "diagnostic": "INLINE-ERASE row=sum-payload-steps FAIL mismatch: sum payload transition budget restarted",
       "build_command": [
         "python3",
         "-P",
@@ -604,46 +639,11 @@
         "dev/erasure-gates.py"
       ],
       "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-steps.log",
+        "path": "dev/validation/sum-payload-source/sum-payload-steps.log",
         "sha256": "43438a2fcfb1dd4a14d9166aacbc19d7fd10bb138da272209110906ed4f2251e"
       },
       "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-steps-build.log",
-        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
-      }
-    },
-    {
-      "name": "neutral-projection-shape",
-      "path": "erase/inline.bend",
-      "before_sha256": "ce17395c1cdfb6346ee5b77690df336c37d33207d5a4f1e2801e03f5ce21383c",
-      "mutated_sha256": "04776baf4df24fc6f94a124dd7ce6a9bb84036c4405e00f4b474619c1e63e950",
-      "log_sha256": "b13af6468cf8660d3ea2179738a42d027f4e6b5072cf7167ec190d51aa67ddca",
-      "build_exit": 0,
-      "gate_exit": 1,
-      "diagnostic": "INLINE-ERASE row=neutral-projection-guards FAIL mismatch: empty neutral collection projected",
-      "build_command": [
-        "python3",
-        "-P",
-        "dev/build.py",
-        "--backend",
-        "js",
-        "attest",
-        "erase-probe",
-        "prop-index",
-        "opaque",
-        "inline"
-      ],
-      "gate_command": [
-        "python3",
-        "-P",
-        "dev/erasure-gates.py"
-      ],
-      "log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-shape.log",
-        "sha256": "b13af6468cf8660d3ea2179738a42d027f4e6b5072cf7167ec190d51aa67ddca"
-      },
-      "build_log": {
-        "path": "dev/validation/neutral-projection-source/neutral-projection-shape-build.log",
+        "path": "dev/validation/sum-payload-source/sum-payload-steps-build.log",
         "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
       }
     }

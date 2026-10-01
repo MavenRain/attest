@@ -1,0 +1,14 @@
+ERASURE-MUTATION index-reduction-left caught
+ERASURE-MUTATION index-reduction-right caught
+ERASURE-MUTATION sum-index-result-fuel caught
+ERASURE-MUTATION neutral-projection-disabled caught
+ERASURE-MUTATION sum-payload-disabled caught
+ERASURE-MUTATION sum-payload-range caught
+ERASURE-MUTATION sum-payload-scope caught
+ERASURE-MUTATION sum-payload-arity caught
+ERASURE-MUTATION sum-payload-shape caught
+ERASURE-MUTATION sum-payload-address caught
+ERASURE-MUTATION sum-payload-size caught
+ERASURE-MUTATION sum-payload-fuel caught
+ERASURE-MUTATION sum-payload-steps caught
+ERASURE-MUTATIONS caught=13 total=282 PARTIAL

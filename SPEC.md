@@ -164,6 +164,12 @@ recover their heads, preserve their addresses, and require a collection shape
 whose width contains the address. Both forms share the enclosing reduction
 and transition budgets and retain the 4096-node reconstruction cap. Completed
 neutral terms return through a pending frame without another reduction pass.
+Numeric sum injections recover their single payload while preserving their
+collection shape and numeric address. Recovery requires an address within the
+collection width, closed syntax, and a result within 4096 nodes. Entering an
+injection payload consumes one of the enclosing 64 reductions; nested payloads
+share the 129 transition bound. Concrete case scrutinees retain their existing
+case path, where the selected result recovers the substituted payload.
 A payload whose reduction reaches a neutral case matches only directly or
 after transparent head aliases. Global and
 local alias bodies reuse the existing closedness checks. Neutral globals and

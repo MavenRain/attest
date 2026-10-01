@@ -136,6 +136,10 @@ INLINE-ERASE row=nested-index-source-fuel OK
 INLINE-ERASE row=nested-index-source-steps OK
 INLINE-ERASE row=neutral-projection-guards OK
 INLINE-ERASE row=neutral-projection-size OK
+INLINE-ERASE row=sum-payload-local OK
+INLINE-ERASE row=sum-payload-guards OK
+INLINE-ERASE row=sum-payload-fuel OK
+INLINE-ERASE row=sum-payload-size OK
 INLINE-ERASE row=neutral-index-source-guards OK
 INLINE-ERASE row=lambda-nested-index-empty OK
 INLINE-ERASE row=lambda-nested-index-value OK
@@ -201,12 +205,14 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=200 total=212 FAIL
+INLINE-ERASE pass=204 total=218 FAIL
 INLINE-ERASE row=index-reduction-source-guards FAIL mismatch: application source type missing
 INLINE-ERASE row=neutral-projection-syntax FAIL mismatch: application source type missing
 INLINE-ERASE row=neutral-projection-local FAIL mismatch: application source type missing
 INLINE-ERASE row=neutral-projection-fuel FAIL mismatch: application source type missing
 INLINE-ERASE row=neutral-projection-steps FAIL mismatch: application source type missing
+INLINE-ERASE row=sum-payload-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=sum-payload-steps FAIL mismatch: application source type missing
 INLINE-ERASE row=neutral-index-source-syntax FAIL mismatch: application source type missing
 INLINE-ERASE row=neutral-index-source-local FAIL mismatch: application source type missing
 INLINE-ERASE row=neutral-index-source-fuel FAIL mismatch: application source type missing

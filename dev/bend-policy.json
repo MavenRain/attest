@@ -441,6 +441,31 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.index_neutral_projection",
+      "pattern": "other head"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_neutral_application",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_sum_enter",
+      "pattern": "other arguments fuel"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_sum_pending",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_source_reduce",
+      "pattern": "fuel Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.index_source_reduce",
       "pattern": "0n index_expanded"
     },
@@ -1978,16 +2003,6 @@
       "path": "test/surface.bend",
       "function": "SurfaceTest.budget_spent",
       "pattern": "_"
-    },
-    {
-      "path": "erase/inline.bend",
-      "function": "Inline.index_neutral_projection",
-      "pattern": "other head"
-    },
-    {
-      "path": "erase/inline.bend",
-      "function": "Inline.index_neutral_application",
-      "pattern": "other"
     }
   ],
   "unsafe": [

@@ -2010,6 +2010,103 @@ def Suite.neutral_projection_fuel() -> Result<&2,&2,F.Error.t,Unit>:
     mixed:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_index_application(Suite.neutral_projection(1n,Suite.let_chain(61n,head)),Suite.let_chain(2n,F.Term.Univ{F.Level.zero})),context)
     Suite.application_absent(mixed,"neutral projection and point application fuel not shared")
 
+def Suite.sum_payload(argument:F.Term.t) -> F.Term.t:
+  F.Term.In{F.Shape.make_collection(F.Term.t,2n),F.Term.ALeg{1n},[argument]}
+
+def Suite.sum_payload_refused(term:F.Term.t,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    result:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(term,Suite.index_reduction_context)
+    Suite.application_absent(result,message)
+
+def Suite.sum_payload_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +expected:F.Term.t = Suite.sum_payload(leaf)
+  do Result<&2,&2,F.Error.t,Unit>:
+    alias:Unit <- Suite.index_reduction_compare(Suite.sum_payload(F.Term.Global{"Index"}),Suite.sum_payload(univ),context,univ)
+    let_ok:Unit <- Suite.index_reduction_compare(Suite.sum_payload(Suite.let_chain(1n,leaf)),expected,context,univ)
+    beta:Unit <- Suite.index_reduction_compare(Suite.sum_payload(Suite.beta_term(leaf,F.Term.Var{0n})),expected,context,univ)
+    annotation:Unit <- Suite.index_reduction_compare(Suite.sum_payload(F.Term.Ann{leaf,univ}),expected,context,univ)
+    projection:Unit <- Suite.index_reduction_compare(Suite.sum_payload(Suite.projection_pair(1n,univ,leaf)),expected,context,univ)
+    case_ok:Unit <- Suite.index_reduction_compare(Suite.sum_payload(Suite.case_pair(1n,leaf,univ,F.Term.Var{0n})),expected,context,univ)
+    nested:Unit <- Suite.index_reduction_compare(Suite.sum_payload(Suite.sum_payload(Suite.let_chain(1n,leaf))),Suite.sum_payload(expected),context,univ)
+    neutral:Unit <- Suite.index_reduction_compare(Suite.sum_payload(Suite.neutral_index_application(leaf,Suite.let_chain(1n,univ))),Suite.sum_payload(Suite.neutral_index_application(leaf,univ)),context,univ)
+    different:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.sum_payload(Suite.let_chain(1n,leaf)),univ],[Suite.sum_payload(univ),univ],univ)},context)
+    Suite.application_absent(different,"different recovered sum payloads accepted")
+
+def Suite.sum_payload_local() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},False{}}},[I.Inline.Local{"a",univ,F.Term.Ann{F.Term.Var{0n},univ}},I.Inline.Param{"outer",univ},I.Inline.Param{"older",univ}],3n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    shifted:Unit <- Suite.index_reduction_compare(Suite.sum_payload(F.Term.Var{0n}),Suite.sum_payload(F.Term.Var{1n}),context,univ)
+    substituted:Unit <- Suite.index_reduction_compare(Suite.sum_payload(Suite.beta_term(F.Term.Var{2n},F.Term.Let{"T",univ,univ,F.Term.Var{1n}})),Suite.sum_payload(F.Term.Var{2n}),context,univ)
+    distinct:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.sum_payload(F.Term.Var{0n}),univ],[Suite.sum_payload(F.Term.Var{2n}),univ],univ)},context)
+    Suite.application_absent(distinct,"sum payload captured an outer parameter")
+
+def Suite.sum_payload_resume(fuel:Nat,term:Maybe<&2,F.Term.t>,pending:List<&2,I.Inline.index_frame>) -> Result<&2,&2,F.Error.t,Maybe<&2,F.Term.t>>:
+  I.Inline.index_source_steps(129n,fuel,term,Suite.index_reduction_context,pending)
+
+def Suite.sum_payload_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    range:Unit <- Suite.sum_payload_refused(F.Term.In{shape,F.Term.ALeg{2n},[univ]},"out-of-range sum injection accepted")
+    empty:Unit <- Suite.sum_payload_refused(F.Term.In{F.Shape.make_collection(F.Term.t,0n),F.Term.ALeg{0n},[univ]},"empty sum injection accepted")
+    missing:Unit <- Suite.sum_payload_refused(F.Term.In{shape,F.Term.ALeg{1n},Nil{}},"missing sum payload accepted")
+    extra:Unit <- Suite.sum_payload_refused(F.Term.In{shape,F.Term.ALeg{1n},[univ,univ]},"extra sum payload accepted")
+    wrong:Unit <- Suite.sum_payload_refused(F.Term.In{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",univ),F.Term.ALeg{0n},[univ]},"point-shaped numeric injection accepted")
+    open:Unit <- Suite.sum_payload_refused(Suite.sum_payload(F.Term.Var{0n}),"open sum payload accepted")
+    annotation:Unit <- Suite.sum_payload_refused(Suite.sum_payload(F.Term.Ann{univ,F.Term.Var{0n}}),"open sum payload annotation accepted")
+    helper:Maybe<&2,F.Term.t> <- I.Inline.index_sum_enter(Some{2n},shape,1n,[F.Term.Var{0n}],64n,0n,Nil{},Suite.sum_payload_resume)
+    helper_ok:Unit <- Suite.application_absent(helper,"sum payload helper accepted an open argument")
+    different:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.sum_payload(Suite.let_chain(1n,univ)),univ],[F.Term.In{shape,F.Term.ALeg{0n},[univ]},univ],univ)},Suite.index_reduction_context)
+    Suite.application_absent(different,"sum injection address lost during recovery")
+
+def Suite.sum_payload_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.sum_payload(Suite.let_chain(63n,leaf)),context)
+    exact_ok:Unit <- Suite.application_equal(exact,Suite.sum_payload(leaf))
+    over:Unit <- Suite.sum_payload_refused(Suite.sum_payload(Suite.let_chain(64n,leaf)),"sum payload fuel restarted")
+    nested:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.sum_payload(Suite.sum_payload(Suite.let_chain(62n,leaf))),context)
+    nested_ok:Unit <- Suite.application_equal(nested,Suite.sum_payload(Suite.sum_payload(leaf)))
+    nested_over:Unit <- Suite.sum_payload_refused(Suite.sum_payload(Suite.sum_payload(Suite.let_chain(63n,leaf))),"nested sum payload fuel restarted")
+    outer:Unit <- Suite.sum_payload_refused(Suite.let_chain(32n,Suite.sum_payload(Suite.let_chain(32n,leaf))),"outer and sum payload fuel not shared")
+    point:Unit <- Suite.sum_payload_refused(Suite.neutral_index_application(leaf,Suite.sum_payload(Suite.let_chain(63n,leaf))),"point and sum payload fuel not shared")
+    Suite.sum_payload_refused(Suite.let_chain(64n,Suite.sum_payload(leaf)),"sum injection entered with exhausted fuel")
+
+def Suite.sum_payload_chain(count:Nat,+leaf:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: leaf
+    case 1n+remaining: Suite.sum_payload(Suite.sum_payload_chain(remaining,leaf))
+
+def Suite.sum_payload_steps() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +exact:F.Term.t = Suite.sum_payload_chain(64n,leaf)
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(exact,context)
+    kept_ok:Unit <- Suite.application_equal(kept,exact)
+    over:Unit <- Suite.sum_payload_refused(Suite.sum_payload_chain(65n,leaf),"sum payload exhausted fuel accepted")
+    mixed:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_projection_arguments(42n,Suite.sum_payload(leaf)),context)
+    mixed_ok:Unit <- Suite.application_equal(mixed,Suite.neutral_projection_arguments(42n,Suite.sum_payload(leaf)))
+    Suite.sum_payload_refused(Suite.neutral_projection_arguments(42n,Suite.sum_payload(Suite.sum_payload(leaf))),"sum payload transition budget restarted")
+
+def Suite.sum_payload_size() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +small:F.Term.t = Suite.constructor_tree(11n,univ)
+  +large:F.Term.t = Suite.sum_payload(small)
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Maybe<&2,F.Term.t> <- Done{I.Inline.index_sum_result(shape,1n,Some{small})}
+    kept_ok:Unit <- Suite.application_equal(kept,Suite.sum_payload(small))
+    refused:Maybe<&2,F.Term.t> <- Done{I.Inline.index_sum_result(shape,1n,Some{large})}
+    size_ok:Unit <- Suite.application_absent(refused,"sum payload reconstruction size cap ignored")
+    missing:Maybe<&2,F.Term.t> <- Done{I.Inline.index_sum_result(shape,1n,None{})}
+    Suite.application_absent(missing,"refused sum payload reconstructed")
+
 def Suite.neutral_index_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
   +head:F.Term.t = F.Term.Global{"Neutral"}
@@ -2396,6 +2493,12 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"neutral-projection-fuel",unit => Suite.neutral_projection_fuel},
       Suite.Case{"neutral-projection-size",unit => Suite.neutral_projection_size},
       Suite.Case{"neutral-projection-steps",unit => Suite.neutral_projection_steps},
+      Suite.Case{"sum-payload-syntax",unit => Suite.sum_payload_syntax},
+      Suite.Case{"sum-payload-local",unit => Suite.sum_payload_local},
+      Suite.Case{"sum-payload-guards",unit => Suite.sum_payload_guards},
+      Suite.Case{"sum-payload-fuel",unit => Suite.sum_payload_fuel},
+      Suite.Case{"sum-payload-steps",unit => Suite.sum_payload_steps},
+      Suite.Case{"sum-payload-size",unit => Suite.sum_payload_size},
       Suite.Case{"neutral-index-source-syntax",unit => Suite.neutral_index_source_syntax},
       Suite.Case{"neutral-index-source-local",unit => Suite.neutral_index_source_local},
       Suite.Case{"neutral-index-source-guards",unit => Suite.neutral_index_source_guards},

@@ -62,6 +62,9 @@ default gates, erasure record, and 24 scoped mutations for the neutral index sli
 `python3 -P dev/validation/neutral-projection-source-run.py` records the full
 tests, default gates, erasure record, and 13 scoped mutations for
 [neutral collection projection recovery](dev/validation/neutral-projection-source.json).
+`python3 -P dev/validation/sum-payload-source-run.py` records the full tests,
+default gates, erasure evidence, and scoped mutations for
+[numeric sum payload recovery](dev/validation/sum-payload-source.json).
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -119,7 +122,11 @@ Point quantities must match their shapes, and reconstructed applications have
 the same 4096-node cap as substitution results. Neutral numeric collection
 projections recover their heads, preserve their addresses, and require a
 matching collection shape and an address within its width. Rebuilt projections
-share the existing budgets and node cap. Neutral cases
+share the existing budgets and node cap. Numeric sum injection indices recover
+their single payload under the same budgets, preserving their collection shape
+and address. The address must be within the collection width, and the entire
+injection must be closed and fit the node cap. Concrete case scrutinees keep
+their existing case recovery path. Neutral cases
 match only directly or after transparent head aliases. Neutral globals and parameters retain their
 source syntax, and local aliases shift into the current scope. Parameter values live in
 the scrutinee's type. Parameter types must be closed over earlier parameters;
@@ -158,7 +165,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-The inline suite contains 212 semantic cases, including this boundary. Scrutinee types that need
+The inline suite contains 218 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

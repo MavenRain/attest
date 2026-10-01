@@ -1,6 +1,6 @@
 PROP-INDEX pass=28 total=28 OK
 ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
-INLINE-ERASE pass=212 total=212 OK
+INLINE-ERASE pass=218 total=218 OK
 ERASURE-INLINE rows=107 identical=107 carried_diff=75 parameter_pairs=8 motive_pairs=24 not_discriminating=32 suite_fixtures=172 OK
 ERASURE-OPEN rows=0 different=0 OPEN
 ERASURE-CLI pass=6 fail=0 OK

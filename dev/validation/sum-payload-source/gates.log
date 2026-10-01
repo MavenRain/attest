@@ -38,16 +38,16 @@ HOUSE no-loop-keyword OK
 HOUSE nonzero-division OK
 HOUSE OK
 DRIVER-EXIT pass=13 fail=0 stage=A OK
-BENCH SUITE-KERNEL median_ms=56735.568 min_ms=30470.039 max_ms=113396.187 runs=7
-SUITE-KERNEL pass=337 fail=0 median_ms=56735.568 OK
+BENCH SUITE-KERNEL median_ms=31475.089 min_ms=23695.846 max_ms=40808.916 runs=7
+SUITE-KERNEL pass=337 fail=0 median_ms=31475.089 OK
 surface: 20 lexer, 28 parser, match elaboration, 13 recursive values, axiom reporting, budget and extreme index checks passed
 QUOTE-DEPTH depth=24 bound_s=10 OK
 AXIOMS corpus/id.att count=0
 AXIOMS-empty rows=1 OK
 TRUSTED-LINES kernel=6000/6000 lower=0/1100 encoder=0/800 harness=0/100 OK
 TRUSTED-LINES whole_lib=8045 language=Bend INFO
-M0-RATIO rung=1 pass=parse ms=1.040000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
-M0-RATIO rung=1 pass=elaborate-check ms=1.050000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=parse ms=1.140000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=elaborate-check ms=1.120000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
 M0-RATIO rung=2 OPEN reason=denominators-not-frozen
 M0-RATIO rung=3 OPEN reason=denominators-not-frozen
 STAGE-A OK

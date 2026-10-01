@@ -994,6 +994,7 @@ type Inline.index_frame is Data:
   Inline.IndexApplication{shape: F.Shape.t<F.Term.t>, address: F.Term.addr}
   Inline.IndexNeutralArgument{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, head: F.Term.t}
   Inline.IndexNeutralReturn{term: Maybe<&2, F.Term.t>}
+  Inline.IndexSumArgument{shape: F.Shape.t<F.Term.t>, index: Nat}
   Inline.IndexCase{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>}
   Inline.IndexPayloadLeft{right: F.Term.t, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>}
   Inline.IndexPayloadRight{left: Maybe<&2, F.Term.t>, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>}
@@ -1121,6 +1122,29 @@ def Inline.index_neutral_result(shape: F.Shape.t<F.Term.t>, quantity: F.Quantity
     case Some{term}: Inline.size_bounded(F.Term.Out{shape, F.Term.APt{quantity, term}, head})
     case None{}: None{}
 
+# Recover a numeric injection payload without restarting either index budget.
+# Case frames consume the original injection and normalize the selected result.
+def Inline.index_sum_result(shape: F.Shape.t<F.Term.t>, index: Nat, argument: Maybe<&2, F.Term.t>) -> Maybe<&2, F.Term.t>:
+  match argument:
+    case Some{term}: Inline.size_bounded(F.Term.In{shape, F.Term.ALeg{index}, [term]})
+    case None{}: None{}
+
+def Inline.index_sum_valid(valid: Bool, shape: F.Shape.t<F.Term.t>, index: Nat, argument: F.Term.t, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match valid:
+    case True{}: next(fuel, Some{argument}, Inline.IndexSumArgument{shape, index} <> rest)
+    case False{}: next(fuel, None{}, rest)
+
+def Inline.index_sum_enter(width: Maybe<&2, Nat>, +shape: F.Shape.t<F.Term.t>, +index: Nat, arguments: List<&2, F.Term.t>, fuel: Nat, depth: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match width arguments fuel:
+    case Some{width} +argument <> Nil{} 1n+remaining:
+      valid: Bool = Bool.and(Nat.is_lt(index, width), Inline.closed(depth, F.Term.In{shape, F.Term.ALeg{index}, [argument]}))
+      Inline.index_sum_valid(valid, shape, index, argument, remaining, rest, next)
+    case other arguments fuel: next(fuel, None{}, rest)
+
+def Inline.index_sum_context(context: Inline.context, +shape: F.Shape.t<F.Term.t>, index: Nat, arguments: List<&2, F.Term.t>, fuel: Nat, pending: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  Inline.Context{checker, domains} = context
+  Inline.index_sum_enter(P.Rules.as_vcoll(F.Term.t, shape), shape, index, arguments, fuel, C.Check.size(checker), pending, next)
+
 def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fuel: Nat, index_ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match index_pending:
     case Nil{}: Done{index_ty}
@@ -1130,6 +1154,8 @@ def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fue
       next(fuel, None{}, Inline.IndexNeutralReturn{Inline.index_neutral_result(shape, quantity, head, index_ty)} <> rest)
     case Inline.IndexNeutralReturn{term} <> rest:
       Inline.index_source_pending(rest, fuel, term, context, next)
+    case Inline.IndexSumArgument{shape, index} <> rest:
+      next(fuel, None{}, Inline.IndexNeutralReturn{Inline.index_sum_result(shape, index, index_ty)} <> rest)
     case Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest:
       Inline.index_case_pending(index_shape, index_quantity, index_motive, index_branches, index_ty, fuel, context, rest, next)
     case Inline.IndexPayloadLeft{right, indices, values, selected} <> rest:
@@ -1137,11 +1163,20 @@ def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fue
     case Inline.IndexPayloadRight{left, indices, values, selected} <> rest:
       Inline.index_payload_agree(Inline.index_alias_equal(left, index_ty), indices, values, selected, fuel, context, rest, next)
 
+def Inline.index_sum_pending(shape: F.Shape.t<F.Term.t>, index: Nat, arguments: List<&2, F.Term.t>, fuel: Nat, context: Inline.context, pending: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match pending:
+    case Inline.IndexCase{case_shape, quantity, motive, branches} <> rest:
+      Inline.index_source_pending(Inline.IndexCase{case_shape, quantity, motive, branches} <> rest, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)
+    case other: Inline.index_sum_context(context, shape, index, arguments, fuel, other, next)
+
 # Charge applications and cases before their heads, and share the remainder with the result.
 # The existing substitution and projection helpers enforce scope and node bounds.
 # index_source_head checks payload scope on entry and exit; the annotation check and the index_case_type closedness check are defensive.
+# The sum injection arm comes before 0n on purpose: index_sum_enter needs one fuel unit and refuses at 0n.
 def Inline.index_source_reduce(fuel: Nat, index_expanded: Maybe<&2, F.Term.t>, context: Inline.context, index_pending: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match fuel index_expanded:
+    case fuel Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}:
+      Inline.index_sum_pending(shape, index, arguments, fuel, context, index_pending, next)
     case 0n index_expanded:
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
         stopped: Maybe<&2, F.Term.t> <- Inline.let_exhausted(index_expanded)
