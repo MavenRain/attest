@@ -1923,6 +1923,93 @@ def Suite.constructor_index_source_metadata(family:F.Positivity.family) -> Resul
 def Suite.neutral_index_application(head:F.Term.t,argument:F.Term.t) -> F.Term.t:
   F.Term.Out{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",F.Term.Univ{F.Level.zero}),F.Term.APt{F.Quantity.Zero{},argument},head}
 
+def Suite.neutral_projection(index:Nat,head:F.Term.t) -> F.Term.t:
+  F.Term.Out{F.Shape.make_collection(F.Term.t,2n),F.Term.ALeg{index},head}
+
+def Suite.neutral_projection_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +head:F.Term.t = F.Term.Global{"NeutralTuple"}
+  +expected:F.Term.t = Suite.neutral_projection(1n,head)
+  +context:I.Inline.context = Suite.index_reduction_context
+  do Result<&2,&2,F.Error.t,Unit>:
+    ann:Unit <- Suite.index_reduction_compare(Suite.neutral_projection(1n,F.Term.Ann{head,univ}),expected,context,univ)
+    let_ok:Unit <- Suite.index_reduction_compare(Suite.neutral_projection(1n,Suite.let_chain(2n,head)),expected,context,univ)
+    beta:Unit <- Suite.index_reduction_compare(Suite.neutral_projection(1n,Suite.beta_chain(2n,head)),expected,context,univ)
+    nested:Unit <- Suite.index_reduction_compare(Suite.neutral_projection(0n,Suite.neutral_projection(1n,F.Term.Ann{head,univ})),Suite.neutral_projection(0n,expected),context,univ)
+    applied:Unit <- Suite.index_reduction_compare(Suite.neutral_index_application(Suite.neutral_projection(1n,F.Term.Ann{head,univ}),Suite.let_chain(1n,univ)),Suite.neutral_index_application(expected,univ),context,univ)
+    Suite.index_reduction_compare(Suite.neutral_projection(1n,Suite.neutral_index_application(head,Suite.let_chain(1n,univ))),Suite.neutral_projection(1n,Suite.neutral_index_application(head,univ)),context,univ)
+
+def Suite.neutral_projection_local() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},False{}}},[I.Inline.Local{"alias",univ,F.Term.Ann{F.Term.Var{0n},univ}},I.Inline.Param{"tuple",univ}],2n)
+  +expected:F.Term.t = Suite.neutral_projection(1n,F.Term.Var{1n})
+  do Result<&2,&2,F.Error.t,Unit>:
+    shifted:Unit <- Suite.index_reduction_compare(Suite.neutral_projection(1n,F.Term.Var{0n}),expected,context,univ)
+    capture:Unit <- Suite.index_reduction_compare(Suite.neutral_projection(1n,Suite.beta_term(F.Term.Var{1n},F.Term.Let{"T",univ,univ,F.Term.Var{1n}})),expected,context,univ)
+    mismatch:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.neutral_projection(1n,F.Term.Var{0n}),univ],[Suite.neutral_projection(1n,F.Term.Var{0n}),F.Term.Univ{F.Level.one}],univ)},context)
+    Suite.application_absent(mismatch,"later projection payload mismatch accepted")
+
+def Suite.neutral_projection_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +head:F.Term.t = F.Term.Global{"NeutralTuple"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  do Result<&2,&2,F.Error.t,Unit>:
+    range:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_projection(2n,head),context)
+    range_ok:Unit <- Suite.application_absent(range,"out-of-range neutral projection accepted")
+    empty:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Out{F.Shape.make_collection(F.Term.t,0n),F.Term.ALeg{0n},head},context)
+    empty_ok:Unit <- Suite.application_absent(empty,"empty neutral collection projected")
+    wrong:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Out{F.Shape.make_point(F.Term.t,F.Quantity.Many{},"x",univ),F.Term.ALeg{0n},head},context)
+    wrong_ok:Unit <- Suite.application_absent(wrong,"noncollection neutral projection accepted")
+    invalid:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_projection(0n,univ),context)
+    invalid_ok:Unit <- Suite.application_absent(invalid,"nonneutral projection head accepted")
+    free:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_projection(0n,F.Term.Ann{head,F.Term.Var{0n}}),context)
+    free_ok:Unit <- Suite.application_absent(free,"open neutral projection accepted")
+    mismatch:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.neutral_projection(0n,F.Term.Ann{head,univ}),univ],[Suite.neutral_projection(1n,head),univ],univ)},context)
+    Suite.application_absent(mismatch,"neutral projection address changed")
+
+def Suite.neutral_projection_arguments(count:Nat,+leaf:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: leaf
+    case 1n+remaining: Suite.neutral_index_application(F.Term.Global{"NeutralTuple"},Suite.neutral_projection_arguments(remaining,leaf))
+
+def Suite.neutral_projection_steps() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = Suite.index_reduction_context
+  +leaf:F.Term.t = F.Term.Global{"NeutralTuple"}
+  +exact:F.Term.t = Suite.neutral_projection_arguments(42n,Suite.neutral_projection(1n,leaf))
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(exact,context)
+    kept_ok:Unit <- Suite.application_equal(kept,exact)
+    refused:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_projection_arguments(42n,Suite.neutral_projection(0n,Suite.neutral_projection(1n,leaf))),context)
+    Suite.application_absent(refused,"neutral projection transition budget exceeded")
+
+def Suite.neutral_projection_size() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +small:F.Term.t = Suite.neutral_index_application(F.Term.Global{"Neutral"},Suite.constructor_tree(9n,univ))
+  +large:F.Term.t = Suite.neutral_index_application(F.Term.Global{"Neutral"},Suite.constructor_tree(11n,univ))
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Maybe<&2,F.Term.t> <- Done{I.Inline.index_neutral_projection(Some{2n},shape,1n,Some{small},0n)}
+    kept_ok:Unit <- Suite.application_equal(kept,Suite.neutral_projection(1n,small))
+    refused:Maybe<&2,F.Term.t> <- Done{I.Inline.index_neutral_projection(Some{2n},shape,1n,Some{large},0n)}
+    size_ok:Unit <- Suite.application_absent(refused,"neutral projection reconstruction size cap ignored")
+    open:Maybe<&2,F.Term.t> <- Done{I.Inline.index_neutral_projection(Some{2n},shape,1n,Some{F.Term.Var{0n}},0n)}
+    Suite.application_absent(open,"projection helper accepted an open head")
+
+def Suite.neutral_projection_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +head:F.Term.t = F.Term.Global{"NeutralTuple"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_projection(1n,Suite.let_chain(63n,head)),context)
+    exact_ok:Unit <- Suite.application_equal(exact,Suite.neutral_projection(1n,head))
+    over:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_projection(1n,Suite.let_chain(64n,head)),context)
+    over_ok:Unit <- Suite.application_absent(over,"neutral projection reduction fuel restarted")
+    nested:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_projection(0n,Suite.neutral_projection(1n,Suite.let_chain(62n,head))),context)
+    nested_ok:Unit <- Suite.application_equal(nested,Suite.neutral_projection(0n,Suite.neutral_projection(1n,head)))
+    excessive:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_projection(0n,Suite.neutral_projection(1n,Suite.let_chain(63n,head))),context)
+    excessive_ok:Unit <- Suite.application_absent(excessive,"nested neutral projections exceeded shared fuel")
+    mixed:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_index_application(Suite.neutral_projection(1n,Suite.let_chain(61n,head)),Suite.let_chain(2n,F.Term.Univ{F.Level.zero})),context)
+    Suite.application_absent(mixed,"neutral projection and point application fuel not shared")
+
 def Suite.neutral_index_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
   +head:F.Term.t = F.Term.Global{"Neutral"}
@@ -2303,6 +2390,12 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"nested-index-source-guards",unit => Suite.nested_index_source_guards},
       Suite.Case{"nested-index-source-fuel",unit => Suite.nested_index_source_fuel},
       Suite.Case{"nested-index-source-steps",unit => Suite.nested_index_source_steps},
+      Suite.Case{"neutral-projection-syntax",unit => Suite.neutral_projection_syntax},
+      Suite.Case{"neutral-projection-local",unit => Suite.neutral_projection_local},
+      Suite.Case{"neutral-projection-guards",unit => Suite.neutral_projection_guards},
+      Suite.Case{"neutral-projection-fuel",unit => Suite.neutral_projection_fuel},
+      Suite.Case{"neutral-projection-size",unit => Suite.neutral_projection_size},
+      Suite.Case{"neutral-projection-steps",unit => Suite.neutral_projection_steps},
       Suite.Case{"neutral-index-source-syntax",unit => Suite.neutral_index_source_syntax},
       Suite.Case{"neutral-index-source-local",unit => Suite.neutral_index_source_local},
       Suite.Case{"neutral-index-source-guards",unit => Suite.neutral_index_source_guards},

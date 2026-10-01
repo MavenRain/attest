@@ -1,5 +1,37 @@
 # M0 build log
 
+## 2026-10-01: Stage B neutral collection projections in source indices
+
+Neutral numeric collection projections now retain their recovered heads and
+addresses during constructor index comparison. Recovery requires a collection
+shape, an address within its width, a neutral head, closed source syntax, and
+a reconstructed term within 4096 nodes. Completed projections use the existing
+neutral return frame so their source syntax is not reduced again.
+
+Head reduction, nested projections, and point applications share the enclosing
+64 reductions and 129 transitions. Six direct semantic cases cover both
+comparison directions, annotations, lets, beta reduction, shifted local aliases,
+outer variables, nested applications, malformed shapes and addresses, open
+heads, size limits, and exact versus excessive shared budgets. The transition
+test uses 42 neutral point applications around one or two projections to
+separate 129 from 131 transitions while staying below the reduction limit.
+The inline suite contains 212 cases in 16 test programs.
+
+Nine new mutations bring the catalog to 273 anchors. The existing finite-case
+range mutation now names its complete branch-check expression to retain a
+unique anchor. Two registry entries disclose explicit projection refusal and
+the address dispatch to the existing neutral point helper. No unsafe function
+is added.
+
+The collector `dev/validation/neutral-projection-source-run.py` records the full
+tests, default gates, erasure record, and 13 scoped mutations in
+`dev/validation/neutral-projection-source.json`. The historical complete
+mutation record remains unchanged.
+
+Stage B stays open at Acc runtime elimination, neutral scrutinees, builtin and
+provisional constructor families, and index payloads unequal after recovery.
+
+
 ## 2026-09-30: Stage B nested constructor shape payloads in source indices
 
 Constructor cases inside source indices can now recover equivalent nested

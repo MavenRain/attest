@@ -1085,10 +1085,30 @@ def Inline.index_neutral_point(point: Maybe<&2, F.Triple3<F.Quantity.t, String, 
       Inline.index_neutral_enter(valid, shape, quantity, argument, function, fuel, rest, next)
     case other address head: next(fuel, None{}, rest)
 
+# A neutral collection projection keeps its recovered head and its address.
+# Its result returns through IndexNeutralReturn and is not reduced again.
+def Inline.index_neutral_projection_result(valid: Bool, projection: F.Term.t) -> Maybe<&2, F.Term.t>:
+  match valid:
+    case True{}: Inline.size_bounded(projection)
+    case False{}: None{}
+
+def Inline.index_neutral_projection(width: Maybe<&2, Nat>, +shape: F.Shape.t<F.Term.t>, +index: Nat, head: Maybe<&2, F.Term.t>, depth: Nat) -> Maybe<&2, F.Term.t>:
+  match width head:
+    case Some{width} Some{+function}:
+      +projection: F.Term.t = F.Term.Out{shape, F.Term.ALeg{index}, function}
+      valid: Bool = Bool.and(Nat.is_lt(index, width), Bool.and(Inline.index_neutral_head(function), Inline.closed(depth, projection)))
+      Inline.index_neutral_projection_result(valid, projection)
+    case other head: None{}
+
+def Inline.index_neutral_application(+shape: F.Shape.t<F.Term.t>, address: F.Term.addr, head: Maybe<&2, F.Term.t>, fuel: Nat, depth: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match address:
+    case F.Term.ALeg{index}: next(fuel, None{}, Inline.IndexNeutralReturn{Inline.index_neutral_projection(P.Rules.as_vcoll(F.Term.t, shape), shape, index, head, depth)} <> rest)
+    case other: Inline.index_neutral_point(P.Rules.as_vpi(F.Term.t, shape), shape, other, head, fuel, depth, rest, next)
+
 def Inline.index_application_result(reduced: Maybe<&2, F.Term.t>, +shape: F.Shape.t<F.Term.t>, address: F.Term.addr, head: Maybe<&2, F.Term.t>, fuel: Nat, depth: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match reduced:
     case Some{term}: next(fuel, Some{term}, rest)
-    case None{}: Inline.index_neutral_point(P.Rules.as_vpi(F.Term.t, shape), shape, address, head, fuel, depth, rest, next)
+    case None{}: Inline.index_neutral_application(shape, address, head, fuel, depth, rest, next)
 
 def Inline.index_application_pending(+shape: F.Shape.t<F.Term.t>, +address: F.Term.addr, +head: Maybe<&2, F.Term.t>, fuel: Nat, +context: Inline.context, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   Inline.Context{checker, domains} = context

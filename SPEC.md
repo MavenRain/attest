@@ -158,9 +158,14 @@ equal payload lists take the direct path. Otherwise, explicit pending frames
 recover and compare both sides of each payload in order. All sides, later
 payloads, the scrutinee, and the selected result share the enclosing 64 reductions
 and 129 transitions. Nested comparison never restarts either budget.
-A payload whose
-reduction reaches a neutral application, projection, or case matches only
-directly or after transparent head aliases. Global and
+Neutral point applications recover their heads and arguments while preserving
+their point shapes and quantities. Neutral numeric collection projections
+recover their heads, preserve their addresses, and require a collection shape
+whose width contains the address. Both forms share the enclosing reduction
+and transition budgets and retain the 4096-node reconstruction cap. Completed
+neutral terms return through a pending frame without another reduction pass.
+A payload whose reduction reaches a neutral case matches only directly or
+after transparent head aliases. Global and
 local alias bodies reuse the existing closedness checks. Neutral globals and
 parameters retain their source syntax; local values shift into the current
 scope. Alias unfolding does not consume an annotation, let, beta, or case step.

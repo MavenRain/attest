@@ -1,0 +1,651 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-01T12:13:00.300043+00:00",
+  "root": "/Users/oobi/Documents/attest",
+  "base_revision": "0140d99e6f6b28859a785f29645d485469a07115",
+  "scope": "Neutral numeric collection projections in constructor source indices; shared reduction and transition budgets, address, shape, scope and reconstruction size guards.",
+  "implementation_sha256": {
+    "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
+    "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
+    "dev/bend-migration.json": "7b2ccbe15bc8bab5b985e4c81ea4dd31fc39fe536a79aef37ece0340de244dca",
+    "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
+    "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
+    "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
+    "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
+    "dev/erasure-gates.py": "7083e9ee5fc65273bfca08b55019a20c7cb234d5ad37ce3696fe7b8bc9eda6c0",
+    "dev/erasure-mutations.py": "fe143af38e46c438970890d6d00c889a1680fec90aa1740e9420df01c07db5b3",
+    "erase/inline.bend": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+    "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
+    "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
+    "erase/test/fixtures.bend": "137be14552beaeccf7aef497a3b49cf891e4de74b8fdd486ed8ce22ab39deb52",
+    "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
+    "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
+    "erase/test/inline_test.bend": "0130d41495d01d803772d226384e3243fee23f819b8e1d11a917e788ba5d8a33",
+    "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
+    "erase/test/lambda_fixtures.bend": "bfe0fa74d7cd498dc6afd11786c478b3ec4c9d77701eb7c86b9625d43399bf60",
+    "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
+    "erase/test/opaque_core.bend": "27c3d0153f546db7e0ee2127626f03787fe7a14ce2d053c057d1a4169305938c",
+    "erase/test/opaque_test.bend": "72b2354aa5fbae943e85381a1b561a31aa41e1be49747cf07c929df169996ee7",
+    "erase/test/parameter_fixtures.bend": "cc0e2e10c80bf5c8aa6343bd3d0632e4708f501bea0833086887a9067bf2eb53",
+    "erase/test/prop_index.bend": "c826246d00aa39ed7f420bbdbd27679643db40f4b2ab643b8cfc4cc13da658d2",
+    "erase/test/refusal_test.bend": "89eda7b5d4aa7dccd2de2eb957096a288b4972475640993a5fa883c225d29c6b",
+    "erase/test/repr_test.bend": "c78c8c14b2c298de25f77f8d270c7a353a57b8d967d52fa44a122d4c83478563",
+    "erase/test/support.bend": "c4eb069dce3dc29b63ea6982249e7ac0819021ccbfea5088b5c581db3efae1aa",
+    "lib/erasure.bend": "affcab049254fbede84b55fa4093a777ad0f20c0fc833f6e0a27d095e34bcfea",
+    "lib/foundation.bend": "30dfb2d9d09081405072c49c99c50c0e5b5997dfe9447061fad2dc83cc1dcee3",
+    "lib/kernel.bend": "86511b6e597f08262370f68670e0fa2fea54bc94d783d0fb3c4afaa9d9953d86",
+    "lib/kernel_check.bend": "6c11aba82ecba68f41d242550b7001990b86eee696c80505ab12541df2233aee",
+    "lib/kernel_context.bend": "527a3d280ff45b52fe3b38ecf00f823ac91b98b89c8e26774bef21e6d3b048dd",
+    "lib/kernel_conv.bend": "82d814f65a15457f417a3c8c71d13eee9593aa2d4fb3fbb8a07b2bed2c5d65cb",
+    "lib/kernel_declarations.bend": "1f91fb7935722a5f1e13557633d3ab1967cb9269180e496639b3652fb2b3fd05",
+    "lib/kernel_eval.bend": "89c23dcc7e2c04b613058f627174aa9b6da0bcd640a6ceebcbdea4ca9ad1a160",
+    "lib/kernel_metadata.bend": "abcfd8db4e917d7759db348be1b39fbc3c7ebe4b897d60196e0e623e8f2470b7",
+    "lib/kernel_mu.bend": "6a377e0f4453136ed010aaa22f8d0ac46a1f4b8623a903c2de012e504117c9b7",
+    "lib/kernel_order.bend": "10d6df09b22d407af140fb5e67daf3b35dd46779c7a7ac12745741908034fd57",
+    "lib/kernel_pp.bend": "5ce1c182cdf90ca10ae63ce959648baf29db4b07e08e342c1ae4827b1dce269f",
+    "lib/kernel_primitives.bend": "7a2907de92080e7e987be50f1942cc6af73f2d8e8b530a6f04b7bbcf92fbe6c3",
+    "lib/kernel_program.bend": "264f989e7d2fd6f667afc8a738a532e4c2f41e344f4fcc9b65ed91f74c20a355",
+    "lib/kernel_rules.bend": "4dac67dc78b6b5943c8c3d0084effe627ad72698a3050f4a18f18f52e1e3cb22",
+    "lib/kernel_source.bend": "553669e50dd1491f8bd4d1be4e9c0466c3625e5e3bd6b5e18d7e388b605a9629",
+    "lib/kernel_util.bend": "b3b2db19257acfe2832f358aa4394addf76d3f65b3c1e346e14b7d4d9f2976fa",
+    "surface/elab.bend": "5d4899b142716d93b71eb0a8ae17964189dfef254d518949d56654378a219856",
+    "surface/elab_cases.bend": "b9a7cc0474ec12d4449fb54c44ea98107a00b1024d2c91e307a0c69d404240b8",
+    "surface/elab_common.bend": "0b2d76972ef1d09c0d7d19c7b4ea3f24bc3c6a2b6a070befe67985a0c087887f",
+    "surface/elab_forms.bend": "c4eb8a05f0b75a5fd3966dc19858db49e7e2731390a6d48caf5f2a62d27c1225",
+    "surface/elab_headers.bend": "b65cd0b475d8465a8f1d455a54233d7d421d5ab23eb1a74d0946bba3c4a73817",
+    "surface/elab_refs.bend": "bac440f8600d395ef5ca1446a56585ca463e2231f6d6135bcb7b9b8e7f1acc31",
+    "surface/elab_requests.bend": "9625a2192994dc01afc1c8675106af64375ec758494222e7ec934d7449a40c77",
+    "surface/elab_runner.bend": "efe9e39371365965dc182b548160d6b5ce5f7efab341f336f169f854f7a5094b",
+    "surface/elab_state.bend": "972ae91487e179f6734743af65b85f336b4336013e81a46b3bc731c5d374bc5b",
+    "surface/elab_term.bend": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+    "surface/io.bend": "d5fb091d66f12c51942f277cc56392e6eb1cb058b131eaaf0799acd4def3d051",
+    "surface/lexer.bend": "f884b27fefaaa0940c2f3d412f96d8df3d7267689193764c4fb360481913f497",
+    "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
+    "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
+    "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
+    "dev/bend-policy.json": "8a9630beee0b4168cefeffee54c1f24f92001b166ba870ff7e4150150044aa67",
+    "dev/validation/neutral-projection-source-run.py": "013a33617c736835062d1d7145dc38648b29d3333eca5ce268ac36b2629d4fbe"
+  },
+  "checks": [
+    {
+      "name": "anchors",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-mutations.py",
+        "--check-anchors"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/neutral-projection-source/anchors.log",
+        "sha256": "45834106e2d6bb19629c68e0260be1a2fd4ebe04b9c5264cf51fa4c58d36361f"
+      },
+      "elapsed_seconds": 0.09
+    },
+    {
+      "name": "tests",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/neutral-projection-source/tests.log",
+        "sha256": "8fc1b87077a85dfd093806a4cf33ee4e546fc2bc5c027372f46248bf144e22dc"
+      },
+      "elapsed_seconds": 63.444
+    },
+    {
+      "name": "gates",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/neutral-projection-source/gates.log",
+        "sha256": "b563c6f2b628e807ef7f537c8a49b8016a4ebeb8127b9561ec7fea1f982db2d9"
+      },
+      "elapsed_seconds": 476.622
+    },
+    {
+      "name": "erasure-record",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py",
+        "--record"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/neutral-projection-source/erasure-record.log",
+        "sha256": "cffaabeb2d908aed2e3266367c649a2dbe14d1c5bf45f680d769490dcd2a4d85"
+      },
+      "elapsed_seconds": 93.728
+    },
+    {
+      "name": "mutations",
+      "harness_argv": [
+        "dev/erasure-mutations.py",
+        "--jobs",
+        "2",
+        "--logs",
+        "/Users/oobi/Documents/attest/.gatework/neutral-projection-mutations",
+        "--case",
+        "index-reduction-left",
+        "--case",
+        "index-reduction-right",
+        "--case",
+        "neutral-index-disabled",
+        "--case",
+        "neutral-index-curried",
+        "--case",
+        "neutral-projection-disabled",
+        "--case",
+        "neutral-projection-range",
+        "--case",
+        "neutral-projection-head",
+        "--case",
+        "neutral-projection-scope",
+        "--case",
+        "neutral-projection-address",
+        "--case",
+        "neutral-projection-size",
+        "--case",
+        "neutral-projection-fuel",
+        "--case",
+        "neutral-projection-steps",
+        "--case",
+        "neutral-projection-shape"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/neutral-projection-source/mutations.log",
+        "sha256": "ca9f4552dbf8d7aecfc61314212337272873d36c555dc3b0ba97d974ceb0a4a5"
+      },
+      "elapsed_seconds": 492.497,
+      "baseline": {
+        "path": "dev/validation/neutral-projection-source/mutation-baseline.log",
+        "sha256": "cffaabeb2d908aed2e3266367c649a2dbe14d1c5bf45f680d769490dcd2a4d85"
+      }
+    }
+  ],
+  "supporting_records_sha256": {
+    "dev/validation/erasure.json": "cef73925be2d1f7004cc66357f0f08a256678c6fc051851f8667addc4c90fb43"
+  },
+  "catalog_total": 273,
+  "selected": [
+    "index-reduction-left",
+    "index-reduction-right",
+    "neutral-index-disabled",
+    "neutral-index-curried",
+    "neutral-projection-disabled",
+    "neutral-projection-range",
+    "neutral-projection-head",
+    "neutral-projection-scope",
+    "neutral-projection-address",
+    "neutral-projection-size",
+    "neutral-projection-fuel",
+    "neutral-projection-steps",
+    "neutral-projection-shape"
+  ],
+  "mutations": [
+    {
+      "name": "index-reduction-left",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "08e85323f4d9aad6d577d8d293e48f1d54679dcab594207fa7212a516f2e0d91",
+      "log_sha256": "81bc9db4420fa71d747e7378041cdffa4fcc42b70c24711e978695ec4632e95c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-reduction-source-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/index-reduction-left.log",
+        "sha256": "81bc9db4420fa71d747e7378041cdffa4fcc42b70c24711e978695ec4632e95c"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/index-reduction-left-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "index-reduction-right",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "e27ea1298b01aed5aba4653f68bf978d4422cf15ec741c1bfe89dd1d089e5343",
+      "log_sha256": "c9f5fe22ceb83919eda525aaf799dffb5b3a5b6b349e8a0535dcd968f20e0ddd",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=index-reduction-source-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/index-reduction-right.log",
+        "sha256": "c9f5fe22ceb83919eda525aaf799dffb5b3a5b6b349e8a0535dcd968f20e0ddd"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/index-reduction-right-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-index-disabled",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "e97d20910a3988e7b5be58b381da6146a0b15dce6e5ae6b31291911e22962baa",
+      "log_sha256": "57d599cd83c0399d2ae538a5efdfb664416d1c8f749460b6e4f4a5b045dd9f71",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-index-source-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-index-disabled.log",
+        "sha256": "57d599cd83c0399d2ae538a5efdfb664416d1c8f749460b6e4f4a5b045dd9f71"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-index-disabled-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-index-curried",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "127fe36233f3beeaef98ea96688bc0e09181b2dfa2d40b91c15ffd73083f9bdf",
+      "log_sha256": "96d12a96de0c257ace5b265e178fbf609a2abef522a459600625f78afe065a39",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-index-source-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-index-curried.log",
+        "sha256": "96d12a96de0c257ace5b265e178fbf609a2abef522a459600625f78afe065a39"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-index-curried-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-projection-disabled",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "4d9b1fa14d8d04281cfd264b24c4deb72339ac214efc7b2df6c643d3fac81826",
+      "log_sha256": "a148b99ef7e481a9a5a37998c8374f71e543c83399bedd91e56942c97be4753b",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-projection-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-disabled.log",
+        "sha256": "a148b99ef7e481a9a5a37998c8374f71e543c83399bedd91e56942c97be4753b"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-disabled-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-projection-range",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "d9dcd8c9a30fa14e85dde08c9ff40f1e188c943fa6aa557d9ace3aa504edcaf9",
+      "log_sha256": "5711d82a489f1557fd001274806a1ad7aaa18e9f8a2bb57bdf21b88b25b6840d",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-projection-guards FAIL mismatch: out-of-range neutral projection accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-range.log",
+        "sha256": "5711d82a489f1557fd001274806a1ad7aaa18e9f8a2bb57bdf21b88b25b6840d"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-range-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-projection-head",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "e159300a6a11bd708329a3a826ce21dbb4b5894f63d05c0cc8490d3df29e446f",
+      "log_sha256": "fb05c9c334fcb75a3cb0021e2dce7fbec83e4f36193ddc29c7c2bf42c5a769c0",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-projection-guards FAIL mismatch: nonneutral projection head accepted",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-head.log",
+        "sha256": "fb05c9c334fcb75a3cb0021e2dce7fbec83e4f36193ddc29c7c2bf42c5a769c0"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-head-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-projection-scope",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "ec7bc7fb446a63f1ad20c473a8ce4a3f76c9a3d4562561f644da93a5496bf30e",
+      "log_sha256": "d53e8ba0ef8db5c98b0ad8922e51e768f93ec13843cb7709159de6e808cb57f3",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-projection-size FAIL mismatch: projection helper accepted an open head",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-scope.log",
+        "sha256": "d53e8ba0ef8db5c98b0ad8922e51e768f93ec13843cb7709159de6e808cb57f3"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-scope-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-projection-address",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "bf475d9ffe60f25c9e21d8cb1167b42a5dac1cd0747757669927f481cc9b3ef3",
+      "log_sha256": "545a6563f1ad3a4ac55628095dbaf4d65be1614003390de46b91e21cbd6e9e67",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-projection-guards FAIL mismatch: neutral projection address changed",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-address.log",
+        "sha256": "545a6563f1ad3a4ac55628095dbaf4d65be1614003390de46b91e21cbd6e9e67"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-address-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-projection-size",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "b3aae777f5cfd14d2871d38b386dd424a73b7b5e27fc418c54a6947b6214eb85",
+      "log_sha256": "3251b7cdb9afb11d5994209e3c27c2a2cefd0278043dc2dba7f353610c47e224",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-projection-size FAIL mismatch: neutral projection reconstruction size cap ignored",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-size.log",
+        "sha256": "3251b7cdb9afb11d5994209e3c27c2a2cefd0278043dc2dba7f353610c47e224"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-size-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-projection-fuel",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "4ce900fcb12b3f0c20c726d98ab400143ac69b9ad337fde57d1ecefcb72b3bcc",
+      "log_sha256": "e0d7dbb9f7552955ae0d124b6d79e0d3997229060b529950a6189dc6f41fa1ed",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-projection-fuel FAIL mismatch: neutral projection and point application fuel not shared",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-fuel.log",
+        "sha256": "e0d7dbb9f7552955ae0d124b6d79e0d3997229060b529950a6189dc6f41fa1ed"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-fuel-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-projection-steps",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "d91314c121248a58d7b4b3a629beb2bcdcc800e04c67dae3cdf774a164b14c19",
+      "log_sha256": "b36eddf01aa800193274f6ace8b3e38bef3b4e4e357cf97ea7eabe3b49b4fb44",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-projection-steps FAIL mismatch: neutral projection transition budget exceeded",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-steps.log",
+        "sha256": "b36eddf01aa800193274f6ace8b3e38bef3b4e4e357cf97ea7eabe3b49b4fb44"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-steps-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "neutral-projection-shape",
+      "path": "erase/inline.bend",
+      "before_sha256": "969c292fa65ea396d18900a91d246bf61fef80d36c893e8ee5b5be64bf25f021",
+      "mutated_sha256": "478f3986348266e6ea2c42b73b902929031688c7d47abedc5aa234e3c9fde7c0",
+      "log_sha256": "3d62a823ae2c2a6fd61d7bf48b622171394b245b415a389892e0664975cc2404",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=neutral-projection-guards FAIL mismatch: empty neutral collection projected",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-shape.log",
+        "sha256": "3d62a823ae2c2a6fd61d7bf48b622171394b245b415a389892e0664975cc2404"
+      },
+      "build_log": {
+        "path": "dev/validation/neutral-projection-source/neutral-projection-shape-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    }
+  ]
+}

@@ -42,7 +42,7 @@ with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 264 isolated mutations. The full mutation record covers the preceding
+contains 273 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
 [scoped validation evidence](dev/validation/annotation-source.json), as does
 [tuple projection recovery](dev/validation/projection-source.json) and
@@ -59,6 +59,9 @@ contains 264 isolated mutations. The full mutation record covers the preceding
 [neutral point index recovery](dev/validation/neutral-index-source.json).
 `python3 -P dev/validation/neutral-index-source-run.py` collects the full tests,
 default gates, erasure record, and 24 scoped mutations for the neutral index slice.
+`python3 -P dev/validation/neutral-projection-source-run.py` records the full
+tests, default gates, erasure record, and 13 scoped mutations for
+[neutral collection projection recovery](dev/validation/neutral-projection-source.json).
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -113,7 +116,10 @@ Neutral point applications retain their recovered head and point shape while
 their arguments use the enclosing reduction and transition budgets. Curried
 applications share those budgets across the function head and every argument.
 Point quantities must match their shapes, and reconstructed applications have
-the same 4096-node cap as substitution results. Neutral projections and cases
+the same 4096-node cap as substitution results. Neutral numeric collection
+projections recover their heads, preserve their addresses, and require a
+matching collection shape and an address within its width. Rebuilt projections
+share the existing budgets and node cap. Neutral cases
 match only directly or after transparent head aliases. Neutral globals and parameters retain their
 source syntax, and local aliases shift into the current scope. Parameter values live in
 the scrutinee's type. Parameter types must be closed over earlier parameters;
@@ -152,7 +158,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-One hundred and fifty-seven semantic tests protect this boundary. Scrutinee types that need
+The inline suite contains 212 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

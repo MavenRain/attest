@@ -4,6 +4,7 @@
 /.kanon-exec/
 /.kanon-wait/
 /.kanon-replies/
+/.kanonx/
 __pycache__/
 *.pyc
 /.lake/

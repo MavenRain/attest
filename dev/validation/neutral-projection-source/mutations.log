@@ -1,0 +1,14 @@
+ERASURE-MUTATION index-reduction-left caught
+ERASURE-MUTATION index-reduction-right caught
+ERASURE-MUTATION neutral-index-disabled caught
+ERASURE-MUTATION neutral-index-curried caught
+ERASURE-MUTATION neutral-projection-disabled caught
+ERASURE-MUTATION neutral-projection-range caught
+ERASURE-MUTATION neutral-projection-head caught
+ERASURE-MUTATION neutral-projection-scope caught
+ERASURE-MUTATION neutral-projection-address caught
+ERASURE-MUTATION neutral-projection-size caught
+ERASURE-MUTATION neutral-projection-fuel caught
+ERASURE-MUTATION neutral-projection-steps caught
+ERASURE-MUTATION neutral-projection-shape caught
+ERASURE-MUTATIONS caught=13 total=273 PARTIAL
