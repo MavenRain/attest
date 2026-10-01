@@ -1,0 +1,25 @@
+ERASURE-MUTATION neutral-index-disabled caught
+ERASURE-MUTATION neutral-index-quantity caught
+ERASURE-MUTATION neutral-index-curried caught
+ERASURE-MUTATION neutral-index-head caught
+ERASURE-MUTATION neutral-index-fuel caught
+ERASURE-MUTATION neutral-index-step-bound caught
+ERASURE-MUTATION neutral-index-size caught
+ERASURE-MUTATION neutral-index-argument caught
+ERASURE-MUTATION neutral-index-fixture-left caught
+ERASURE-MUTATION neutral-index-fixture-right caught
+ERASURE-MUTATION proof-guard caught
+ERASURE-MUTATION inline-shape-payload caught
+ERASURE-MUTATION index-shape-tail caught
+ERASURE-MUTATION alias-global-scope caught
+ERASURE-MUTATION alias-local-scope caught
+ERASURE-MUTATION alias-opaque caught
+ERASURE-MUTATION index-reduction-disabled caught
+ERASURE-MUTATION index-reduction-fuel caught
+ERASURE-MUTATION index-reduction-reset caught
+ERASURE-MUTATION index-reduction-step-bound caught
+ERASURE-MUTATION index-reduction-pop-skip caught
+ERASURE-MUTATION sum-index-shape caught
+ERASURE-MUTATION constructor-index-disabled caught
+ERASURE-MUTATION nested-index-step-bound caught
+ERASURE-MUTATIONS caught=24 total=264 PARTIAL

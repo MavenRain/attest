@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -68,7 +71,6 @@ INLINE-ERASE row=alias-global OK
 INLINE-ERASE row=alias-local OK
 INLINE-ERASE row=alias-local-global OK
 INLINE-ERASE row=alias-fuel OK
-INLINE-ERASE row=alias-guards OK
 INLINE-ERASE row=motive-alias-global OK
 INLINE-ERASE row=motive-alias-dependent OK
 INLINE-ERASE row=motive-alias-local OK
@@ -77,7 +79,6 @@ INLINE-ERASE row=lambda-alias-global OK
 INLINE-ERASE row=lambda-alias-dependent OK
 INLINE-ERASE row=lambda-alias-local OK
 INLINE-ERASE row=lambda-alias-curried OK
-INLINE-ERASE row=lambda-alias-guards OK
 INLINE-ERASE row=lambda-alias-scope OK
 INLINE-ERASE row=lambda-let-global OK
 INLINE-ERASE row=lambda-let-dependent OK
@@ -116,7 +117,6 @@ INLINE-ERASE row=recursive-source-scope OK
 INLINE-ERASE row=recursive-source-fuel OK
 INLINE-ERASE row=index-alias-source-syntax OK
 INLINE-ERASE row=index-alias-source-local OK
-INLINE-ERASE row=index-alias-source-guards OK
 INLINE-ERASE row=index-alias-source-fuel OK
 INLINE-ERASE row=index-reduction-source-syntax OK
 INLINE-ERASE row=index-reduction-source-local OK
@@ -204,4 +204,8 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=206 total=206 OK
+INLINE-ERASE pass=203 total=206 FAIL
+INLINE-ERASE row=alias-guards FAIL mismatch: opaque alias unfolded
+INLINE-ERASE row=lambda-alias-guards FAIL mismatch: opaque lambda alias unfolded
+INLINE-ERASE row=index-alias-source-guards FAIL mismatch: opaque index alias unfolded
+

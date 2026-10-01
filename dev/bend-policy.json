@@ -431,6 +431,16 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.index_neutral_head",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_neutral_point",
+      "pattern": "other address head"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.index_source_reduce",
       "pattern": "0n index_expanded"
     },

@@ -1,0 +1,53 @@
+BUILD attest js cached
+BUILD foundation js cached
+BUILD global-map js cached
+BUILD order js cached
+BUILD kernel js cached
+BUILD surface js cached
+BUILD ir js cached
+BUILD repr js cached
+BUILD inline-scan js cached
+BUILD inline-sealing js cached
+BUILD opaque-core js cached
+BUILD erasure-budget js cached
+BUILD erasure-refusal js cached
+BUILD inline js cached
+BUILD opaque js cached
+BUILD prop-index js cached
+BUILD parse-probe js cached
+BUILD erase-probe js cached
+BUILD pass-bench js cached
+BUILD suite-probe js cached
+BUILD OK
+CARRY files=594 diff=0 unlisted=0
+PIN eebe37e
+CARRY reference=assay:git,mechanism:git
+CARRY migration=Bend mapped=66 sources=60
+R0-COUNT formers=2 schema=4 shapes=5 admitted=3 OK
+R0-AUDIT OK
+R0-DIFF vs=2c2e6e6 rows=3 diff=0 OK
+R0-DIFF reference=kanon:git
+R0-DIFF mode=Bend-provenance semantic-checks=R0-COUNT,R0-AUDIT,differential
+HOUSE no-exception OK
+HOUSE no-mutable-state OK
+HOUSE no-mutable-state roots=lib erase
+HOUSE result-io-boundary OK
+HOUSE exhaustive-types OK
+HOUSE no-em-dash OK
+HOUSE no-loop-keyword OK
+HOUSE nonzero-division OK
+HOUSE OK
+DRIVER-EXIT pass=13 fail=0 stage=A OK
+BENCH SUITE-KERNEL median_ms=446563.997 min_ms=179163.825 max_ms=481955.323 runs=7
+SUITE-KERNEL pass=337 fail=0 median_ms=446563.997 OK
+surface: 20 lexer, 28 parser, match elaboration, 13 recursive values, axiom reporting, budget and extreme index checks passed
+QUOTE-DEPTH depth=24 bound_s=10 OK
+AXIOMS corpus/id.att count=0
+AXIOMS-empty rows=1 OK
+TRUSTED-LINES kernel=6000/6000 lower=0/1100 encoder=0/800 harness=0/100 OK
+TRUSTED-LINES whole_lib=8045 language=Bend INFO
+M0-RATIO rung=1 pass=parse ms=1.470000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=1 pass=elaborate-check ms=1.770000 runs=7 batch=100 clock_resolution_ms=1 corpus=corpus/id.att sha=5fd2ec84fb86554645e8564b5634d0eafecc18daae419597d7410f36ac9d4768
+M0-RATIO rung=2 OPEN reason=denominators-not-frozen
+M0-RATIO rung=3 OPEN reason=denominators-not-frozen
+STAGE-A OK

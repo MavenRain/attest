@@ -245,6 +245,9 @@ def Suite.sum_index_branch(mode:Nat) -> Nat:
 def Suite.nested_index_expression(shape_index:F.Term.t,injection_index:F.Term.t,+term:F.Term.t) -> F.Term.t:
   F.Term.Elim{F.Term.Elimination{F.Shape.make_inductive(F.Term.t,"IndexBox",[shape_index]),F.Term.In{F.Shape.make_inductive(F.Term.t,"IndexBox",[injection_index]),F.Term.ACtor{"value"},[term]},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},["k"],"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
 
+def Suite.neutral_index_expression(argument:F.Term.t) -> F.Term.t:
+  F.Term.Out{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"n",F.Term.Global{"Nat"}),F.Term.APt{F.Quantity.Zero{},argument},F.Term.Global{"F"}}
+
 def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
   match mode:
     case 0n: F.Term.Let{"n",F.Term.Global{"Nat"},term,F.Term.Var{0n}}
@@ -264,6 +267,8 @@ def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
       F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"value"},[term]},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},Nil{},"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
     case 8n: Suite.nested_index_expression(F.Term.Ann{term,F.Term.Global{"Nat"}},term,term)
     case 9n: Suite.nested_index_expression(term,F.Term.Ann{term,F.Term.Global{"Nat"}},term)
+    case 10n: Suite.neutral_index_expression(F.Term.Let{"n",F.Term.Global{"Nat"},F.Term.Global{"Zero"},F.Term.Var{0n}})
+    case 11n: Suite.neutral_index_expression(F.Term.Ann{F.Term.Global{"Zero"},F.Term.Global{"Nat"}})
     case other:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
       +nat:F.Term.t = F.Term.Global{"Nat"}
@@ -1791,7 +1796,7 @@ def Suite.index_reduction_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
     unused:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.projection_pair(0n,univ,F.Term.Var{0n}),context)
     unused_ok:Unit <- Suite.application_absent(unused,"open projection index payload accepted")
     neutral:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(application,context)
-    neutral_ok:Unit <- Suite.application_absent(neutral,"neutral index application reduced")
+    neutral_ok:Unit <- Suite.application_equal(neutral,application)
     kept:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([application,F.Term.Global{"Index"}],[application,univ],univ)},context)
     kept_ok:Unit <- Suite.application_equal(kept,univ)
     aliased_context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,application,True{},None{},False{}}},Nil{},0n)
@@ -1914,6 +1919,98 @@ def Suite.constructor_index_source_metadata(family:F.Positivity.family) -> Resul
     provisional_ok:Unit <- Suite.constructor_index_refused(Suite.constructor_term("pair",[univ,univ],univ,univ),I.Inline.Context{C.Check.Ctx{provisional,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},"provisional constructor index family accepted")
     recursive:F.Global.t = F.Global.add_family("Choice",Suite.recursive_family(Suite.constructor_family),F.Global.empty)
     Suite.constructor_index_equal(Suite.constructor_term("pair",[univ,F.Term.In{F.Shape.make_inductive(F.Term.t,"Choice",Nil{}),F.Term.ACtor{"empty"},Nil{}}],univ,F.Term.Var{1n}),I.Inline.Context{C.Check.Ctx{recursive,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},univ)
+
+def Suite.neutral_index_application(head:F.Term.t,argument:F.Term.t) -> F.Term.t:
+  F.Term.Out{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",F.Term.Univ{F.Level.zero}),F.Term.APt{F.Quantity.Zero{},argument},head}
+
+def Suite.neutral_index_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +head:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +expected:F.Term.t = Suite.neutral_index_application(head,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    let_ok:Unit <- Suite.index_reduction_compare(Suite.neutral_index_application(head,Suite.let_chain(2n,univ)),expected,context,univ)
+    beta_ok:Unit <- Suite.index_reduction_compare(Suite.neutral_index_application(head,Suite.beta_chain(2n,univ)),expected,context,univ)
+    projection:Unit <- Suite.index_reduction_compare(Suite.neutral_index_application(head,Suite.projection_pair(1n,F.Term.Univ{F.Level.one},univ)),expected,context,univ)
+    sum:Unit <- Suite.index_reduction_compare(Suite.neutral_index_application(head,Suite.case_pair(0n,univ,F.Term.Var{0n},univ)),expected,context,univ)
+    curried:Unit <- Suite.index_reduction_compare(Suite.neutral_index_application(Suite.neutral_index_application(head,Suite.let_chain(1n,univ)),Suite.beta_chain(1n,univ)),Suite.neutral_index_application(expected,univ),context,univ)
+    mixed:Unit <- Suite.index_reduction_compare(F.Term.Ann{Suite.neutral_index_application(F.Term.Ann{head,univ},F.Term.Ann{Suite.let_chain(1n,Suite.beta_chain(1n,univ)),univ}),univ},expected,context,univ)
+    later:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.neutral_index_application(head,Suite.let_chain(1n,univ)),univ],[expected,F.Term.Univ{F.Level.one}],univ)},context)
+    Suite.application_absent(later,"later neutral index payload differs")
+
+def Suite.neutral_index_source_local() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},False{}}},[I.Inline.Local{"a",univ,F.Term.Ann{F.Term.Var{0n},univ}},I.Inline.Param{"outer",univ},I.Inline.Param{"function",univ}],3n)
+  +expected:F.Term.t = Suite.neutral_index_application(F.Term.Var{2n},F.Term.Var{1n})
+  do Result<&2,&2,F.Error.t,Unit>:
+    shifted:Unit <- Suite.index_reduction_compare(Suite.neutral_index_application(F.Term.Var{2n},F.Term.Ann{F.Term.Var{0n},univ}),expected,context,univ)
+    capture:Unit <- Suite.index_reduction_compare(Suite.neutral_index_application(F.Term.Var{2n},Suite.beta_term(F.Term.Var{1n},F.Term.Let{"T",univ,univ,F.Term.Var{1n}})),expected,context,univ)
+    mismatch:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.neutral_index_application(F.Term.Var{2n},F.Term.Ann{F.Term.Var{0n},univ}),univ],[Suite.neutral_index_application(F.Term.Var{2n},F.Term.Var{2n}),univ],univ)},context)
+    Suite.application_absent(mismatch,"neutral argument captured an outer variable")
+
+def Suite.neutral_index_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +head:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"T",univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    quantity:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Out{shape,F.Term.APt{F.Quantity.Many{},univ},head},context)
+    quantity_ok:Unit <- Suite.application_absent(quantity,"neutral point quantity mismatch accepted")
+    shape_result:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Out{F.Shape.make_collection(F.Term.t,1n),F.Term.APt{F.Quantity.Zero{},univ},head},context)
+    shape_ok:Unit <- Suite.application_absent(shape_result,"neutral application collection shape accepted")
+    free:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_index_application(head,F.Term.Ann{univ,F.Term.Var{0n}}),context)
+    free_ok:Unit <- Suite.application_absent(free,"neutral argument free annotation accepted")
+    free_head:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_index_application(F.Term.Var{0n},univ),context)
+    head_ok:Unit <- Suite.application_absent(free_head,"neutral free head accepted")
+    invalid:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_index_application(univ,univ),context)
+    invalid_ok:Unit <- Suite.application_absent(invalid,"nonfunction neutral head accepted")
+    mismatch:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.neutral_index_application(head,Suite.let_chain(1n,univ)),univ],[Suite.neutral_index_application(F.Term.Global{"Different"},univ),univ],univ)},context)
+    mismatch_ok:Unit <- Suite.application_absent(mismatch,"different neutral heads compare equal")
+    arguments:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.neutral_index_application(head,Suite.let_chain(1n,univ)),univ],[Suite.neutral_index_application(head,F.Term.Univ{F.Level.one}),univ],univ)},context)
+    Suite.application_absent(arguments,"different neutral arguments compare equal")
+
+def Suite.neutral_index_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +head:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +expected:F.Term.t = Suite.neutral_index_application(head,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_index_application(head,Suite.let_chain(63n,univ)),context)
+    exact_ok:Unit <- Suite.application_equal(exact,expected)
+    over:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_index_application(head,Suite.let_chain(64n,univ)),context)
+    over_ok:Unit <- Suite.application_absent(over,"neutral argument reduction fuel restarted")
+    shared:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_index_application(Suite.neutral_index_application(head,Suite.let_chain(31n,univ)),Suite.beta_chain(31n,univ)),context)
+    shared_ok:Unit <- Suite.application_equal(shared,Suite.neutral_index_application(expected,univ))
+    shared_over:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_index_application(Suite.neutral_index_application(head,Suite.let_chain(31n,univ)),Suite.beta_chain(32n,univ)),context)
+    Suite.application_absent(shared_over,"neutral head and argument reduction budgets split")
+
+def Suite.neutral_index_tree(count:Nat,+leaf:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: leaf
+    case 1n+remaining: Suite.neutral_index_application(F.Term.Global{"Neutral"},Suite.neutral_index_tree(remaining,leaf))
+
+def Suite.neutral_index_source_steps() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +exact:F.Term.t = Suite.neutral_index_tree(42n,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    recovered:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.let_chain(2n,exact),context)
+    exact_ok:Unit <- Suite.application_equal(recovered,exact)
+    over:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_index_tree(43n,univ),context)
+    Suite.application_absent(over,"neutral reconstruction transition budget restarted")
+
+def Suite.neutral_index_source_size() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +small:F.Term.t = Suite.neutral_index_application(F.Term.Global{"Neutral"},Suite.constructor_tree(9n,univ))
+  +large:F.Term.t = Suite.neutral_index_application(F.Term.Global{"Neutral"},Suite.constructor_tree(11n,univ))
+  do Result<&2,&2,F.Error.t,Unit>:
+    small_size:Unit <- T.Test.require(I.Inline.size_within(4096n,small),"small neutral source exceeds the node bound")
+    large_size:Unit <- T.Test.require(Bool.not(I.Inline.size_within(4096n,large)),"large neutral source stays within the node bound")
+    kept:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(small,context)
+    kept_ok:Unit <- Suite.application_equal(kept,small)
+    refused:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(large,context)
+    Suite.application_absent(refused,"neutral application reconstruction size cap ignored")
 
 def Suite.nested_index_case(indices:List<&2,F.Term.t>,values:List<&2,F.Term.t>,body:F.Term.t) -> F.Term.t:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
@@ -2206,6 +2303,14 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"nested-index-source-guards",unit => Suite.nested_index_source_guards},
       Suite.Case{"nested-index-source-fuel",unit => Suite.nested_index_source_fuel},
       Suite.Case{"nested-index-source-steps",unit => Suite.nested_index_source_steps},
+      Suite.Case{"neutral-index-source-syntax",unit => Suite.neutral_index_source_syntax},
+      Suite.Case{"neutral-index-source-local",unit => Suite.neutral_index_source_local},
+      Suite.Case{"neutral-index-source-guards",unit => Suite.neutral_index_source_guards},
+      Suite.Case{"neutral-index-source-fuel",unit => Suite.neutral_index_source_fuel},
+      Suite.Case{"neutral-index-source-steps",unit => Suite.neutral_index_source_steps},
+      Suite.Case{"neutral-index-source-size",unit => Suite.neutral_index_source_size},
+      Suite.Case{"lambda-neutral-index-left",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_neutral_index_left,LF.Fixture.lambda_neutral_index_left_opaque,layout,10n)},
+      Suite.Case{"lambda-neutral-index-right",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_neutral_index_right,LF.Fixture.lambda_neutral_index_right_opaque,layout,11n)},
       Suite.Case{"lambda-nested-index-empty",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_nested_index_empty,LF.Fixture.lambda_nested_index_empty_opaque,layout,8n)},
       Suite.Case{"lambda-nested-index-value",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_nested_index_value,LF.Fixture.lambda_nested_index_value_opaque,layout,9n)},
       Suite.Case{"lambda-constructor-index-empty",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_index_empty,LF.Fixture.lambda_constructor_index_empty_opaque,layout,6n)},

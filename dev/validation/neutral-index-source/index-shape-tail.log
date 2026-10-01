@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -103,7 +106,6 @@ INLINE-ERASE row=lambda-index-curried OK
 INLINE-ERASE row=index-source-syntax OK
 INLINE-ERASE row=index-source-motive OK
 INLINE-ERASE row=index-source-metadata OK
-INLINE-ERASE row=index-source-shapes OK
 INLINE-ERASE row=index-source-scope OK
 INLINE-ERASE row=index-source-fuel OK
 INLINE-ERASE row=lambda-recursive-global OK
@@ -116,7 +118,6 @@ INLINE-ERASE row=recursive-source-scope OK
 INLINE-ERASE row=recursive-source-fuel OK
 INLINE-ERASE row=index-alias-source-syntax OK
 INLINE-ERASE row=index-alias-source-local OK
-INLINE-ERASE row=index-alias-source-guards OK
 INLINE-ERASE row=index-alias-source-fuel OK
 INLINE-ERASE row=index-reduction-source-syntax OK
 INLINE-ERASE row=index-reduction-source-local OK
@@ -204,4 +205,7 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=206 total=206 OK
+INLINE-ERASE pass=204 total=206 FAIL
+INLINE-ERASE row=index-source-shapes FAIL mismatch: indexed short injection shape accepted
+INLINE-ERASE row=index-alias-source-guards FAIL mismatch: cyclic index alias unfolded
+

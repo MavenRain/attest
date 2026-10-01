@@ -1,0 +1,9 @@
+HOUSE no-exception OK
+HOUSE no-mutable-state OK
+HOUSE no-mutable-state roots=lib erase
+HOUSE result-io-boundary OK
+HOUSE exhaustive-types OK
+HOUSE no-em-dash OK
+HOUSE no-loop-keyword OK
+HOUSE nonzero-division OK
+HOUSE OK

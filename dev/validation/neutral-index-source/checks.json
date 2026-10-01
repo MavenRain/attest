@@ -1,0 +1,202 @@
+[
+  {
+    "name": "anchors",
+    "command": [
+      "python3",
+      "-P",
+      "dev/erasure-mutations.py",
+      "--check-anchors"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 1.464,
+    "log": {
+      "path": "dev/validation/neutral-index-source/anchors.log",
+      "sha256": "4768116b80877644be27c831cc955403eaf8690e32b95ef742dbe0024a829e8c"
+    }
+  },
+  {
+    "name": "tests",
+    "command": [
+      "make",
+      "test"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 272.744,
+    "log": {
+      "path": "dev/validation/neutral-index-source/tests.log",
+      "sha256": "f3a15748189dce8e76037eaf717fd9cf7c402a72d2572de2cc807e1e918ecac7"
+    }
+  },
+  {
+    "name": "stage-a-reused",
+    "exit_code": 0,
+    "command": [
+      "python3",
+      "-P",
+      "dev/stage-a-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/stage-a-reused.log",
+      "sha256": "8ecfe3dbab257ddc513331939180cd5fee5c5358753ae068f015144d8d2bf64e"
+    },
+    "receipt": {
+      "path": "dev/validation/neutral-index-source/stage-a-receipt.json",
+      "sha256": "f6ee0ed3673709ebd1408beebc677b404cfaae2259903c2895db8f1cf4fdda56"
+    },
+    "reused": true,
+    "changed_subjects": [
+      "dev/bend-migration.json",
+      "erase/test/lambda_fixtures.bend",
+      "fixtures/erasure/lambda-neutral-index-left-opaque.att",
+      "fixtures/erasure/lambda-neutral-index-right-opaque.att"
+    ],
+    "refresh": "Current make test, CARRY and HOUSE checks are required separately."
+  },
+  {
+    "name": "carry-refresh",
+    "command": [
+      "zsh",
+      "-f",
+      "dev/carry-check.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.829,
+    "log": {
+      "path": "dev/validation/neutral-index-source/carry-refresh.log",
+      "sha256": "d1b31eead8d773bb123f7e21a90c2843501f0b7d25aa6b9bba92dad78ec42642"
+    }
+  },
+  {
+    "name": "house-refresh",
+    "command": [
+      "zsh",
+      "-f",
+      "dev/house.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 35.755,
+    "log": {
+      "path": "dev/validation/neutral-index-source/house-refresh.log",
+      "sha256": "f598db59e978629d6969f9e3866bcb551f7abd82be824ac5b43a6993d8135852"
+    }
+  },
+  {
+    "name": "erasure-gates",
+    "command": [
+      "zsh",
+      "-f",
+      "dev/gates.sh",
+      "ERASURE"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 442.939,
+    "log": {
+      "path": "dev/validation/neutral-index-source/erasure-gates.log",
+      "sha256": "d2be4a9b34e9f29a37da2c5cfb95baaf9ae40c44301756be29b0475b85d96a8d"
+    }
+  },
+  {
+    "name": "lean-twin",
+    "command": [
+      "zsh",
+      "-f",
+      "dev/gates.sh",
+      "LEAN-TWIN"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 232.053,
+    "log": {
+      "path": "dev/validation/neutral-index-source/lean-twin.log",
+      "sha256": "c2414672d0e5f4dc395e5bb8b37c8cdf8fcd344086b41af2037b3557b865dd75"
+    }
+  },
+  {
+    "name": "erasure-record",
+    "command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py",
+      "--record"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 602.772,
+    "log": {
+      "path": "dev/validation/neutral-index-source/erasure-record.log",
+      "sha256": "d2be4a9b34e9f29a37da2c5cfb95baaf9ae40c44301756be29b0475b85d96a8d"
+    }
+  },
+  {
+    "name": "mutations",
+    "command": [
+      "python3",
+      "-P",
+      "dev/validation/neutral-index-source-run.py"
+    ],
+    "harness_argv": [
+      "dev/erasure-mutations.py",
+      "--jobs",
+      "2",
+      "--logs",
+      "/Users/oobi/Documents/attest/.gatework/neutral-index-source-mutations",
+      "--case",
+      "proof-guard",
+      "--case",
+      "inline-shape-payload",
+      "--case",
+      "index-shape-tail",
+      "--case",
+      "alias-global-scope",
+      "--case",
+      "alias-local-scope",
+      "--case",
+      "alias-opaque",
+      "--case",
+      "index-reduction-disabled",
+      "--case",
+      "index-reduction-fuel",
+      "--case",
+      "index-reduction-reset",
+      "--case",
+      "index-reduction-step-bound",
+      "--case",
+      "index-reduction-pop-skip",
+      "--case",
+      "sum-index-shape",
+      "--case",
+      "constructor-index-disabled",
+      "--case",
+      "nested-index-step-bound",
+      "--case",
+      "neutral-index-disabled",
+      "--case",
+      "neutral-index-quantity",
+      "--case",
+      "neutral-index-curried",
+      "--case",
+      "neutral-index-head",
+      "--case",
+      "neutral-index-fuel",
+      "--case",
+      "neutral-index-step-bound",
+      "--case",
+      "neutral-index-size",
+      "--case",
+      "neutral-index-argument",
+      "--case",
+      "neutral-index-fixture-left",
+      "--case",
+      "neutral-index-fixture-right"
+    ],
+    "harness_invocation": "in-process main() with the one-retry Bun segmentation fault run_case wrapper and the ordered run_cases collector",
+    "log": {
+      "path": "dev/validation/neutral-index-source/mutations.log",
+      "sha256": "076f4702ced7ee53fb1f83a15c469831612737545070fda0e4604fa36397deac"
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 1819.173,
+    "baseline": {
+      "path": "dev/validation/neutral-index-source/mutation-baseline.log",
+      "sha256": "d2be4a9b34e9f29a37da2c5cfb95baaf9ae40c44301756be29b0475b85d96a8d"
+    }
+  }
+]

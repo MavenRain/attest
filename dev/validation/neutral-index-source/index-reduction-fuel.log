@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -121,22 +124,17 @@ INLINE-ERASE row=index-alias-source-fuel OK
 INLINE-ERASE row=index-reduction-source-syntax OK
 INLINE-ERASE row=index-reduction-source-local OK
 INLINE-ERASE row=index-reduction-source-guards OK
-INLINE-ERASE row=index-reduction-source-fuel OK
 INLINE-ERASE row=sum-index-source-syntax OK
 INLINE-ERASE row=constructor-index-source-syntax OK
 INLINE-ERASE row=constructor-index-source-scope OK
 INLINE-ERASE row=constructor-index-source-guards OK
 INLINE-ERASE row=constructor-index-source-metadata OK
-INLINE-ERASE row=constructor-index-source-fuel OK
 INLINE-ERASE row=nested-index-source-syntax OK
 INLINE-ERASE row=nested-index-source-guards OK
-INLINE-ERASE row=nested-index-source-fuel OK
 INLINE-ERASE row=nested-index-source-steps OK
 INLINE-ERASE row=neutral-index-source-syntax OK
 INLINE-ERASE row=neutral-index-source-local OK
 INLINE-ERASE row=neutral-index-source-guards OK
-INLINE-ERASE row=neutral-index-source-fuel OK
-INLINE-ERASE row=neutral-index-source-steps OK
 INLINE-ERASE row=neutral-index-source-size OK
 INLINE-ERASE row=lambda-neutral-index-left OK
 INLINE-ERASE row=lambda-neutral-index-right OK
@@ -146,7 +144,6 @@ INLINE-ERASE row=lambda-constructor-index-empty OK
 INLINE-ERASE row=lambda-constructor-index-value OK
 INLINE-ERASE row=sum-index-source-local OK
 INLINE-ERASE row=sum-index-source-guards OK
-INLINE-ERASE row=sum-index-source-fuel OK
 INLINE-ERASE row=lambda-sum-index-left OK
 INLINE-ERASE row=lambda-sum-index-right OK
 INLINE-ERASE row=lambda-index-reduction-let OK
@@ -204,4 +201,11 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=206 total=206 OK
+INLINE-ERASE pass=200 total=206 FAIL
+INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: index let fuel exceeded
+INLINE-ERASE row=constructor-index-source-fuel FAIL mismatch: constructor index result fuel exceeded
+INLINE-ERASE row=nested-index-source-fuel FAIL mismatch: nested payload comparison fuel reset
+INLINE-ERASE row=neutral-index-source-fuel FAIL mismatch: neutral argument reduction fuel restarted
+INLINE-ERASE row=neutral-index-source-steps FAIL mismatch: neutral reconstruction transition budget restarted
+INLINE-ERASE row=sum-index-source-fuel FAIL mismatch: sum index head transitions exceeded
+

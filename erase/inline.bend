@@ -992,6 +992,8 @@ def Inline.index_source_alias(term: Maybe<&2, F.Term.t>, context: Inline.context
 
 type Inline.index_frame is Data:
   Inline.IndexApplication{shape: F.Shape.t<F.Term.t>, address: F.Term.addr}
+  Inline.IndexNeutralArgument{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, head: F.Term.t}
+  Inline.IndexNeutralReturn{term: Maybe<&2, F.Term.t>}
   Inline.IndexCase{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>}
   Inline.IndexPayloadLeft{right: F.Term.t, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>}
   Inline.IndexPayloadRight{left: Maybe<&2, F.Term.t>, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>}
@@ -1062,14 +1064,52 @@ def Inline.index_case_pending(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.
         reduced: Maybe<&2, F.Term.t> <- Inline.index_case_type(shape, quantity, motive, branches, other, C.Check.size(checker), C.Check.global(checker))
         next(fuel, reduced, rest)
 
+# Out heads here were recovered by the same pass. A neutral application keeps
+# its head and shape while its argument uses the enclosing work budget.
+def Inline.index_neutral_head(head: F.Term.t) -> Bool:
+  match head:
+    case F.Term.Var{index}: True{}
+    case F.Term.Global{name}: True{}
+    case F.Term.Out{shape, address, function}: True{}
+    case other: False{}
+
+def Inline.index_neutral_enter(valid: Bool, shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, argument: F.Term.t, head: F.Term.t, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match valid:
+    case True{}: next(fuel, Some{argument}, Inline.IndexNeutralArgument{shape, quantity, head} <> rest)
+    case False{}: next(fuel, None{}, rest)
+
+def Inline.index_neutral_point(point: Maybe<&2, F.Triple3<F.Quantity.t, String, F.Term.t>>, +shape: F.Shape.t<F.Term.t>, address: F.Term.addr, head: Maybe<&2, F.Term.t>, fuel: Nat, +depth: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match point address head:
+    case Some{F.Triple3{binder, name, domain}} F.Term.APt{+quantity, +argument} Some{+function}:
+      valid: Bool = Bool.and(F.Quantity.equal(binder, quantity), Bool.and(Inline.index_neutral_head(function), Inline.closed(depth, F.Term.Out{shape, F.Term.APt{quantity, argument}, function})))
+      Inline.index_neutral_enter(valid, shape, quantity, argument, function, fuel, rest, next)
+    case other address head: next(fuel, None{}, rest)
+
+def Inline.index_application_result(reduced: Maybe<&2, F.Term.t>, +shape: F.Shape.t<F.Term.t>, address: F.Term.addr, head: Maybe<&2, F.Term.t>, fuel: Nat, depth: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match reduced:
+    case Some{term}: next(fuel, Some{term}, rest)
+    case None{}: Inline.index_neutral_point(P.Rules.as_vpi(F.Term.t, shape), shape, address, head, fuel, depth, rest, next)
+
+def Inline.index_application_pending(+shape: F.Shape.t<F.Term.t>, +address: F.Term.addr, +head: Maybe<&2, F.Term.t>, fuel: Nat, +context: Inline.context, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  Inline.Context{checker, domains} = context
+  do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+    reduced: Maybe<&2, F.Term.t> <- Inline.beta_type(shape, address, head, C.Check.size(checker))
+    Inline.index_application_result(reduced, shape, address, head, fuel, C.Check.size(checker), rest, next)
+
+def Inline.index_neutral_result(shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, head: F.Term.t, argument: Maybe<&2, F.Term.t>) -> Maybe<&2, F.Term.t>:
+  match argument:
+    case Some{term}: Inline.size_bounded(F.Term.Out{shape, F.Term.APt{quantity, term}, head})
+    case None{}: None{}
+
 def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fuel: Nat, index_ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match index_pending:
     case Nil{}: Done{index_ty}
     case Inline.IndexApplication{index_shape, index_address} <> rest:
-      Inline.Context{checker, domains} = context
-      do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
-        index_reduced: Maybe<&2, F.Term.t> <- Inline.beta_type(index_shape, index_address, index_ty, C.Check.size(checker))
-        next(fuel, index_reduced, rest)
+      Inline.index_application_pending(index_shape, index_address, index_ty, fuel, context, rest, next)
+    case Inline.IndexNeutralArgument{shape, quantity, head} <> rest:
+      next(fuel, None{}, Inline.IndexNeutralReturn{Inline.index_neutral_result(shape, quantity, head, index_ty)} <> rest)
+    case Inline.IndexNeutralReturn{term} <> rest:
+      Inline.index_source_pending(rest, fuel, term, context, next)
     case Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest:
       Inline.index_case_pending(index_shape, index_quantity, index_motive, index_branches, index_ty, fuel, context, rest, next)
     case Inline.IndexPayloadLeft{right, indices, values, selected} <> rest:

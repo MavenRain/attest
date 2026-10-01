@@ -1,0 +1,14 @@
+axiom F : func fn<0>
+erased sealed
+rec [nat]
+fun Zero () : union nat := KLit 0
+rec [nat]
+fun Index () : union nat := KTail (KGlobal F) []
+rec [mu<Choice>; leg<mu<Choice>,0>; leg<mu<Choice>,1>]
+fun Pick () : union mu<Choice> := KTag mu<Choice> 1 []
+erased Fn
+erased Alias
+rec [any]
+fun Layout () : union any := KErased
+rec [any]
+fun keep (union any) : union any := KVar 0

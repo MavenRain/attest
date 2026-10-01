@@ -1,0 +1,842 @@
+[
+  {
+    "name": "neutral-index-disabled",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "d098469723b5cd0fde260d0ec26aa8185d2a778965a5077df071dc3673c9d0d5",
+    "log_sha256": "cc2820f63780c79844efa771b93920b8930be74b2509b511fdaf50f21d172821",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=neutral-index-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-disabled.log",
+      "sha256": "cc2820f63780c79844efa771b93920b8930be74b2509b511fdaf50f21d172821"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-disabled-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "neutral-index-quantity",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "caffe7db668d5828dfc669de23a18f5e75de9153bd2ba3f5b663b8a4bce49efa",
+    "log_sha256": "15452158e800c810bcbf49f95a367e3572b99dd7874d2035d22486d7811fe1f7",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=neutral-index-source-guards FAIL mismatch: neutral point quantity mismatch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-quantity.log",
+      "sha256": "15452158e800c810bcbf49f95a367e3572b99dd7874d2035d22486d7811fe1f7"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-quantity-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "neutral-index-curried",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "18626324f39f97be16975683228cecc6d9f872f12ab3c5500cb57e093a7683e4",
+    "log_sha256": "e8add8489ccfcc610d971179f7a425dccb5aa279c00b25ff883b9501dce31d55",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=neutral-index-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-curried.log",
+      "sha256": "e8add8489ccfcc610d971179f7a425dccb5aa279c00b25ff883b9501dce31d55"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-curried-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "neutral-index-head",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "f84c0699305fe232879c2ece53ca04cd944b8c920c7bcf3bba0a6e86bf5c7399",
+    "log_sha256": "a8f39092debf0d00bfad637a547602666aff04141e2285ae534f32b43d447b4c",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=neutral-index-source-guards FAIL mismatch: nonfunction neutral head accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-head.log",
+      "sha256": "a8f39092debf0d00bfad637a547602666aff04141e2285ae534f32b43d447b4c"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-head-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "neutral-index-fuel",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "a2879df7721dd7bb8093dc8dfe8f9d1307b57ddf99f2383673d50e092cbb1ace",
+    "log_sha256": "e47f15f5abf32431043c6d8166a97675d861ddca5e2be7a5a988ed17257a37d8",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=neutral-index-source-fuel FAIL mismatch: neutral argument reduction fuel restarted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-fuel.log",
+      "sha256": "e47f15f5abf32431043c6d8166a97675d861ddca5e2be7a5a988ed17257a37d8"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-fuel-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "neutral-index-step-bound",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "b5680aa99ed631f67cb48f5e0406f41f63c6bbcf21684f48c1d5475688853e4c",
+    "log_sha256": "9f9469d538b738b9318aba89c8df150eba766798c6ad57ead1eb0b29a1b1900a",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=neutral-index-source-steps FAIL mismatch: neutral reconstruction transition budget restarted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-step-bound.log",
+      "sha256": "9f9469d538b738b9318aba89c8df150eba766798c6ad57ead1eb0b29a1b1900a"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-step-bound-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "neutral-index-size",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "23b1430098c46dcda069cebeb3a5c4dce1bbffc205d2e1facb0e13edc7f3b09f",
+    "log_sha256": "50e0263485ce62295eec988abc1724186999a1ac3225f8fdee1d054f1cd5edfe",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=neutral-index-source-size FAIL mismatch: neutral application reconstruction size cap ignored",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-size.log",
+      "sha256": "50e0263485ce62295eec988abc1724186999a1ac3225f8fdee1d054f1cd5edfe"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-size-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "neutral-index-argument",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "4989e7eff66e5f68e4c2f095d2c3121d00af9984cdba28490e400e2b81d99a39",
+    "log_sha256": "8a55f67cd3ec957e608af33beceaa8cd7db4032774da43d07a0640141ca7f95c",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=neutral-index-source-local FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-argument.log",
+      "sha256": "8a55f67cd3ec957e608af33beceaa8cd7db4032774da43d07a0640141ca7f95c"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-argument-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "neutral-index-fixture-left",
+    "path": "erase/test/inline_test.bend",
+    "before_sha256": "9f544e5655a25158a023ab4d10340ffd55091eedeb4a6f89f0898a3adaa5319e",
+    "mutated_sha256": "ae6ced5f08f64181f65fc8dea829205d5bd312031f986cdb40944c1f2dfda250",
+    "log_sha256": "1b0fa15f34ae978aa4bb746ce230daf73ffeeef27c36907947e8ca5c36a76324",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "row=lambda-neutral-index-left lambda fixture call differs",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-fixture-left.log",
+      "sha256": "1b0fa15f34ae978aa4bb746ce230daf73ffeeef27c36907947e8ca5c36a76324"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-fixture-left-build.log",
+      "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+    }
+  },
+  {
+    "name": "neutral-index-fixture-right",
+    "path": "erase/test/inline_test.bend",
+    "before_sha256": "9f544e5655a25158a023ab4d10340ffd55091eedeb4a6f89f0898a3adaa5319e",
+    "mutated_sha256": "83f55392684677557349542db2b392061dc3febe6e9d686343f4046db0f15ac5",
+    "log_sha256": "c65ba6335e41eb1bd92d3d8e49cd91584d4cf677f3deedbe06a77fd4a1d61638",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "row=lambda-neutral-index-right lambda fixture call differs",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-fixture-right.log",
+      "sha256": "c65ba6335e41eb1bd92d3d8e49cd91584d4cf677f3deedbe06a77fd4a1d61638"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/neutral-index-fixture-right-build.log",
+      "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+    }
+  },
+  {
+    "name": "proof-guard",
+    "path": "erase/opaque.bend",
+    "before_sha256": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "mutated_sha256": "95e0e7e8f6cf42605a1b731ad424984f82fbe89a8cbd2241d24c155435b7e683",
+    "log_sha256": "e7a7104c3e5a82b3910ba5d6f0ed11d6a32e836983ebd17b8dc34ab40ed960f6",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "OPAQUE-ERASE exit=1",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/proof-guard.log",
+      "sha256": "e7a7104c3e5a82b3910ba5d6f0ed11d6a32e836983ebd17b8dc34ab40ed960f6"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/proof-guard-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "inline-shape-payload",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "db375599cf7ed2367f8211964a6ca260906859188730e7f9ff1fdf74dda3972c",
+    "log_sha256": "0eb930e8eba059cc51015e70cd6a83a24dbade2ec779415433b84dc17430474c",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=shape-payload FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/inline-shape-payload.log",
+      "sha256": "0eb930e8eba059cc51015e70cd6a83a24dbade2ec779415433b84dc17430474c"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/inline-shape-payload-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "index-shape-tail",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "0156368d2ba5fcd4b271d24ee80c69f1e2b9598c0f2ae4483ae884233280eb7d",
+    "log_sha256": "8a53b0f526c4b0501941669c0b0a571522872707742d95680902ccd58e123432",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-source-shapes FAIL mismatch: indexed short injection shape accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/index-shape-tail.log",
+      "sha256": "8a53b0f526c4b0501941669c0b0a571522872707742d95680902ccd58e123432"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/index-shape-tail-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "alias-global-scope",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "0689c20a243b710ad21323a23c7658f231c33fb5a65b096d1fdbca481af59e44",
+    "log_sha256": "fab6162699af303dfa2f07d21a2681d1effa36907046fd8f4310a60924e7603f",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: free global alias accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/alias-global-scope.log",
+      "sha256": "fab6162699af303dfa2f07d21a2681d1effa36907046fd8f4310a60924e7603f"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/alias-global-scope-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "alias-local-scope",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "9639eb69585946b1755501c6de0b7e9f58f27b263a6df6b3121207b750a02b79",
+    "log_sha256": "6d1265790265698a7fbecfe10c56015c2bef926fbacbca15521916892d127bc0",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: self-referencing local alias accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/alias-local-scope.log",
+      "sha256": "6d1265790265698a7fbecfe10c56015c2bef926fbacbca15521916892d127bc0"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/alias-local-scope-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "alias-opaque",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "ffc94b9bb119379a844a73702d3b98a7b04dd65cd2eeb4d22cd4f7b0be456bf6",
+    "log_sha256": "9398bf5dd1531cb117d85c159393938ee7eee5f944354177f91d0c0444e5795a",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=alias-guards FAIL mismatch: opaque alias unfolded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/alias-opaque.log",
+      "sha256": "9398bf5dd1531cb117d85c159393938ee7eee5f944354177f91d0c0444e5795a"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/alias-opaque-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "index-reduction-disabled",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "fa95c1e017eac9fc148a082992567fcbd48e92443e694eea4dfe8ba3f2431c3f",
+    "log_sha256": "0593b60c895e59e3e4065edb74daf731fcd8f67fe9473e26f65dcd2c8ac3a782",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-reduction-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/index-reduction-disabled.log",
+      "sha256": "0593b60c895e59e3e4065edb74daf731fcd8f67fe9473e26f65dcd2c8ac3a782"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/index-reduction-disabled-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "index-reduction-fuel",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "cbd5dbc200ca772dec4ca76a29afdabeaf605dd7d71779e1b6cad1db51f9bf71",
+    "log_sha256": "9c88bd2beded55e440e8f010fea98ec14194df8422f58a189f76badca2bcd268",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: index let fuel exceeded",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/index-reduction-fuel.log",
+      "sha256": "9c88bd2beded55e440e8f010fea98ec14194df8422f58a189f76badca2bcd268"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/index-reduction-fuel-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "index-reduction-reset",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "8a416785274f5f3cd0720fd3c23b65afdde7e6018b6f863305a77a19a4a0680e",
+    "log_sha256": "69d78990bb08bd4c853a246a44d8167c54aad81dc221b14be836122c996c043f",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: index let and beta fuel not shared",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/index-reduction-reset.log",
+      "sha256": "69d78990bb08bd4c853a246a44d8167c54aad81dc221b14be836122c996c043f"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/index-reduction-reset-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "index-reduction-step-bound",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "22961415701a83edfccf8509b588780b0a71786ced3c0ad595ffecf8d8745485",
+    "log_sha256": "81b13bfb331127cff3d59024ee34e7880f9acb4c17774b9bf1b3c9dd191d71fe",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: application source type missing",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/index-reduction-step-bound.log",
+      "sha256": "81b13bfb331127cff3d59024ee34e7880f9acb4c17774b9bf1b3c9dd191d71fe"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/index-reduction-step-bound-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "index-reduction-pop-skip",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "15a99e7c86288df66f198c2c6084fb903263a224300af2d46c626a9c8c6e423b",
+    "log_sha256": "26bf9b5ee833b4ff6619886bcd5904993277fdb4f3558520f94feeaaffdd23f8",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=index-reduction-source-fuel FAIL mismatch: application substitution captured an outer variable",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/index-reduction-pop-skip.log",
+      "sha256": "26bf9b5ee833b4ff6619886bcd5904993277fdb4f3558520f94feeaaffdd23f8"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/index-reduction-pop-skip-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "sum-index-shape",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "c9782992e97e7fd8a248ab0dec91dd5789b9961bbd946091c294510001551755",
+    "log_sha256": "e8f2279cffd896ddb110238908d7170ebb47c4fb72989614fe52f0b35a5e35e3",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=sum-index-source-guards FAIL mismatch: sum index shape mismatch accepted",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/sum-index-shape.log",
+      "sha256": "e8f2279cffd896ddb110238908d7170ebb47c4fb72989614fe52f0b35a5e35e3"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/sum-index-shape-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "constructor-index-disabled",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "f39bc1fb9ed3a9426d5e1fc475b2da18b149ce9d83fb1f4e988bdce645e004f6",
+    "log_sha256": "99cd8cb7cadba582a0f60fdc0e8244df7ab40fcce361ecc9de692299615b6f9f",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=constructor-index-source-syntax FAIL",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/constructor-index-disabled.log",
+      "sha256": "99cd8cb7cadba582a0f60fdc0e8244df7ab40fcce361ecc9de692299615b6f9f"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/constructor-index-disabled-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  },
+  {
+    "name": "nested-index-step-bound",
+    "path": "erase/inline.bend",
+    "before_sha256": "d208cf9d13c0b86b14198d47fbde493388e5ff698025adb1a9d7d9a5ef380b41",
+    "mutated_sha256": "95320e891ed5227a83ef000474cca225cbe98d876d3c3437936e17c4ff1f7b2e",
+    "log_sha256": "fa41d72eb10a3292aeee5fa225ef26087ced4ec11c8671d91b99f9ac411a4d26",
+    "build_exit": 0,
+    "gate_exit": 1,
+    "diagnostic": "INLINE-ERASE row=nested-index-source-steps FAIL mismatch: nested payload transition bound reset",
+    "build_command": [
+      "python3",
+      "-P",
+      "dev/build.py",
+      "--backend",
+      "js",
+      "attest",
+      "erase-probe",
+      "prop-index",
+      "opaque",
+      "inline"
+    ],
+    "gate_command": [
+      "python3",
+      "-P",
+      "dev/erasure-gates.py"
+    ],
+    "log": {
+      "path": "dev/validation/neutral-index-source/nested-index-step-bound.log",
+      "sha256": "fa41d72eb10a3292aeee5fa225ef26087ced4ec11c8671d91b99f9ac411a4d26"
+    },
+    "build_log": {
+      "path": "dev/validation/neutral-index-source/nested-index-step-bound-build.log",
+      "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+    }
+  }
+]

@@ -34,15 +34,15 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and one hundred and five inline proof
+increment compares four global proof pairs and one hundred and seven inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences for the four global pairs and seventy-three inline pairs, including
-fifty-two lambda alias, let, beta, annotation, projection, finite case, constructor case, sum index, constructor index, and nested index pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
+differences for the four global pairs and seventy-five inline pairs, including
+fifty-four lambda alias, let, beta, annotation, projection, finite case, constructor case, sum index, constructor index, nested index, and neutral index pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
 with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 254 isolated mutations. The full mutation record covers the preceding
+contains 264 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
 [scoped validation evidence](dev/validation/annotation-source.json), as does
 [tuple projection recovery](dev/validation/projection-source.json) and
@@ -55,7 +55,10 @@ contains 254 isolated mutations. The full mutation record covers the preceding
 [compound index recovery](dev/validation/index-reduction-source.json) and
 [sum index recovery](dev/validation/sum-index-source.json) and
 [constructor index recovery](dev/validation/constructor-index-source.json) and
-[nested index recovery](dev/validation/nested-index-source.json).
+[nested index recovery](dev/validation/nested-index-source.json) and
+[neutral point index recovery](dev/validation/neutral-index-source.json).
+`python3 -P dev/validation/neutral-index-source-run.py` collects the full tests,
+default gates, erasure record, and 24 scoped mutations for the neutral index slice.
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -106,9 +109,12 @@ and injection shape payloads may expose equal syntax through the same bounded
 recovery. Both sides, later payloads, and the selected result share the enclosing
 64 reductions and 129 pending-frame transitions. Equal shape payload lists take
 the direct path. Nested comparison never restarts either budget.
-A payload whose reduction reaches a
-neutral application, projection, or case matches only directly or after transparent head
-aliases. Neutral globals and parameters retain their
+Neutral point applications retain their recovered head and point shape while
+their arguments use the enclosing reduction and transition budgets. Curried
+applications share those budgets across the function head and every argument.
+Point quantities must match their shapes, and reconstructed applications have
+the same 4096-node cap as substitution results. Neutral projections and cases
+match only directly or after transparent head aliases. Neutral globals and parameters retain their
 source syntax, and local aliases shift into the current scope. Parameter values live in
 the scrutinee's type. Parameter types must be closed over earlier parameters;
 index types may depend on parameters and earlier indices, while field types
