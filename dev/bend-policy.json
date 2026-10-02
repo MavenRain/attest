@@ -406,6 +406,16 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.index_neutral_head",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_neutral_case_collection",
+      "pattern": "other scrutinee"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.index_case_type",
       "pattern": "other"
     },
@@ -426,13 +436,13 @@
     },
     {
       "path": "erase/inline.bend",
-      "function": "Inline.index_case_pending",
+      "function": "Inline.index_case_resume",
       "pattern": "other"
     },
     {
       "path": "erase/inline.bend",
-      "function": "Inline.index_neutral_head",
-      "pattern": "other"
+      "function": "Inline.index_case_pending",
+      "pattern": "+other"
     },
     {
       "path": "erase/inline.bend",

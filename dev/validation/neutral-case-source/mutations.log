@@ -1,0 +1,13 @@
+ERASURE-MUTATION index-reduction-left caught
+ERASURE-MUTATION index-reduction-right caught
+ERASURE-MUTATION neutral-projection-disabled caught
+ERASURE-MUTATION sum-payload-disabled caught
+ERASURE-MUTATION neutral-case-disabled caught
+ERASURE-MUTATION neutral-case-arity caught
+ERASURE-MUTATION neutral-case-branches caught
+ERASURE-MUTATION neutral-case-motive caught
+ERASURE-MUTATION neutral-case-scope caught
+ERASURE-MUTATION neutral-case-head caught
+ERASURE-MUTATION neutral-case-size caught
+ERASURE-MUTATION neutral-case-return caught
+ERASURE-MUTATIONS caught=12 total=301 PARTIAL

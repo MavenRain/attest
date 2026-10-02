@@ -2107,6 +2107,93 @@ def Suite.sum_payload_size() -> Result<&2,&2,F.Error.t,Unit>:
     missing:Maybe<&2,F.Term.t> <- Done{I.Inline.index_sum_result(shape,1n,None{})}
     Suite.application_absent(missing,"refused sum payload reconstructed")
 
+def Suite.neutral_case(scrutinee:F.Term.t,first:F.Term.t,second:F.Term.t) -> F.Term.t:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +binder:F.Pair2<F.Quantity.t,String> = F.Pair2{F.Quantity.Many{},"payload"}
+  F.Term.Elim{F.Term.Elimination{shape,scrutinee,F.Quantity.Many{},None{},[
+    F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[binder],first}},
+    F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[binder],second}}]}}
+
+def Suite.neutral_case_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +expected:F.Term.t = Suite.neutral_case(leaf,F.Term.Var{0n},univ)
+  +application:F.Term.t = Suite.neutral_index_application(leaf,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    let_ok:Unit <- Suite.index_reduction_compare(Suite.neutral_case(Suite.let_chain(1n,leaf),F.Term.Var{0n},univ),expected,context,univ)
+    beta:Unit <- Suite.index_reduction_compare(Suite.neutral_case(Suite.beta_term(leaf,F.Term.Var{0n}),F.Term.Var{0n},univ),expected,context,univ)
+    annotation:Unit <- Suite.index_reduction_compare(Suite.neutral_case(F.Term.Ann{leaf,univ},F.Term.Var{0n},univ),expected,context,univ)
+    argument:Unit <- Suite.index_reduction_compare(Suite.neutral_case(Suite.neutral_index_application(leaf,Suite.let_chain(1n,univ)),univ,F.Term.Var{0n}),Suite.neutral_case(application,univ,F.Term.Var{0n}),context,univ)
+    nested:Unit <- Suite.index_reduction_compare(Suite.sum_payload(Suite.neutral_case(Suite.let_chain(1n,leaf),F.Term.Var{0n},univ)),Suite.sum_payload(expected),context,univ)
+    preserved:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_case(leaf,Suite.let_chain(1n,univ),F.Term.Var{0n}),context)
+    preserved_ok:Unit <- Suite.application_equal(preserved,Suite.neutral_case(leaf,Suite.let_chain(1n,univ),F.Term.Var{0n}))
+    different:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([expected,univ],[Suite.neutral_case(leaf,univ,F.Term.Var{0n}),univ],univ)},context)
+    Suite.application_absent(different,"neutral case branches changed during recovery")
+
+def Suite.neutral_case_guard(shape:F.Shape.t<F.Term.t>,scrutinee:Maybe<&2,F.Term.t>,motive:Maybe<&2,F.Term.motive>,branches:List<&2,F.Pair2<F.Term.addr,F.Term.leg>>,depth:Nat,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  Suite.application_absent(I.Inline.index_neutral_case(shape,F.Quantity.Many{},motive,branches,scrutinee,depth),message)
+
+def Suite.neutral_case_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +binder:F.Pair2<F.Quantity.t,String> = F.Pair2{F.Quantity.Many{},"payload"}
+  +first:F.Pair2<F.Term.addr,F.Term.leg> = F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[binder],F.Term.Var{0n}}}
+  +second:F.Pair2<F.Term.addr,F.Term.leg> = F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[binder],univ}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.neutral_case_guard(shape,Some{leaf},None{},[first],0n,"neutral case missing branch accepted")
+    duplicate:Unit <- Suite.neutral_case_guard(shape,Some{leaf},None{},[first,first],0n,"neutral case duplicate branch accepted")
+    address:Unit <- Suite.neutral_case_guard(shape,Some{leaf},None{},[first,F.Pair2{F.Term.ALeg{2n},F.Term.Leg{[binder],univ}}],0n,"neutral case out of range branch accepted")
+    arity:Unit <- Suite.neutral_case_guard(shape,Some{leaf},None{},[first,F.Pair2{F.Term.ALeg{1n},F.Term.Leg{Nil{},univ}}],0n,"neutral case branch binder missing")
+    binders:Unit <- Suite.neutral_case_guard(shape,Some{leaf},None{},[first,F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[binder,binder],univ}}],0n,"neutral case extra branch binder accepted")
+    point:Unit <- Suite.neutral_case_guard(F.Shape.make_point(F.Term.t,F.Quantity.Many{},"x",univ),Some{leaf},None{},[first,second],0n,"neutral case point shape accepted")
+    open_branch:Unit <- Suite.neutral_case_guard(shape,Some{leaf},None{},[first,F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[binder],F.Term.Var{1n}}}],0n,"neutral case open branch accepted")
+    open_head:Unit <- Suite.neutral_case_guard(shape,Some{F.Term.Var{0n}},None{},[first,second],0n,"neutral case open scrutinee accepted")
+    motive:Unit <- Suite.neutral_case_guard(shape,Some{leaf},Some{F.Term.Motive{Some{"Named"},Nil{},"self",univ}},[first,second],0n,"neutral case named motive accepted")
+    open_motive:Unit <- Suite.neutral_case_guard(shape,Some{leaf},Some{F.Term.Motive{None{},Nil{},"self",F.Term.Var{1n}}},[first,second],0n,"neutral case open motive accepted")
+    refused:Unit <- Suite.neutral_case_guard(shape,None{},None{},[first,second],0n,"neutral case scrutinee refusal lost")
+    concrete:Unit <- Suite.neutral_case_guard(shape,Some{univ},None{},[first,second],0n,"neutral case accepted a concrete head")
+    motive_ok:Unit <- Suite.application_equal(I.Inline.index_neutral_case(shape,F.Quantity.Zero{},Some{F.Term.Motive{None{},Nil{},"self",F.Term.Var{0n}}},[first,second],Some{leaf},0n),F.Term.Elim{F.Term.Elimination{shape,leaf,F.Quantity.Zero{},Some{F.Term.Motive{None{},Nil{},"self",F.Term.Var{0n}}},[first,second]}})
+    local:Unit <- Suite.application_equal(I.Inline.index_neutral_case(shape,F.Quantity.Many{},None{},[first,second],Some{F.Term.Var{0n}},1n),Suite.neutral_case(F.Term.Var{0n},F.Term.Var{0n},univ))
+    empty:Unit <- Suite.application_equal(I.Inline.index_neutral_case(F.Shape.make_collection(F.Term.t,0n),F.Quantity.Many{},None{},Nil{},Some{leaf},0n),F.Term.Elim{F.Term.Elimination{F.Shape.make_collection(F.Term.t,0n),leaf,F.Quantity.Many{},None{},Nil{}}})
+    Suite.application_equal(I.Inline.index_neutral_case(shape,F.Quantity.Many{},None{},[second,first],Some{leaf},0n),F.Term.Elim{F.Term.Elimination{shape,leaf,F.Quantity.Many{},None{},[second,first]}})
+
+def Suite.neutral_case_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_reduction_context
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_case(Suite.let_chain(63n,leaf),univ,univ),context)
+    exact_ok:Unit <- Suite.application_equal(exact,Suite.neutral_case(leaf,univ,univ))
+    over:Unit <- Suite.sum_payload_refused(Suite.neutral_case(Suite.let_chain(64n,leaf),univ,univ),"neutral case scrutinee fuel restarted")
+    application:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.neutral_case(Suite.neutral_index_application(leaf,Suite.let_chain(62n,univ)),univ,univ),context)
+    application_ok:Unit <- Suite.application_equal(application,Suite.neutral_case(Suite.neutral_index_application(leaf,univ),univ,univ))
+    argument:Unit <- Suite.sum_payload_refused(Suite.neutral_case(Suite.neutral_index_application(leaf,Suite.let_chain(63n,univ)),univ,univ),"neutral case argument fuel restarted")
+    Suite.sum_payload_refused(Suite.let_chain(64n,Suite.neutral_case(leaf,univ,univ)),"neutral case entered without fuel")
+
+def Suite.neutral_case_steps() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +term:F.Term.t = Suite.neutral_case(leaf,univ,F.Term.Var{0n})
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.index_source_steps(3n,64n,Some{term},context,Nil{})
+    exact_ok:Unit <- Suite.application_equal(exact,term)
+    over:Maybe<&2,F.Term.t> <- I.Inline.index_source_steps(2n,64n,Some{term},context,Nil{})
+    Suite.application_absent(over,"neutral case transition budget restarted")
+
+def Suite.neutral_case_size() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +binder:F.Pair2<F.Quantity.t,String> = F.Pair2{F.Quantity.Many{},"payload"}
+  +small:F.Term.t = Suite.constructor_tree(9n,univ)
+  +large:F.Term.t = Suite.constructor_tree(11n,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Unit <- Suite.application_equal(I.Inline.index_neutral_case(shape,F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[binder],small}},F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[binder],small}}],Some{leaf},0n),Suite.neutral_case(leaf,small,small))
+    Suite.neutral_case_guard(shape,Some{leaf},None{},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[binder],univ}},F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[binder],large}}],0n,"neutral case reconstruction size cap ignored")
+
 def Suite.tuple_payload(first:F.Term.t,second:F.Term.t) -> F.Term.t:
   F.Term.Sec{F.Shape.make_collection(F.Term.t,2n),[F.Term.Leg{Nil{},first},F.Term.Leg{Nil{},second}]}
 
@@ -2421,7 +2508,7 @@ def Suite.sum_index_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
     payload:Unit <- Suite.sum_index_refused(Suite.case_pair(1n,F.Term.Var{0n},univ,univ),"open sum index payload accepted")
     annotation:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.Ann{scrut,F.Term.Var{0n}},F.Quantity.Many{},None{},branches}},"open sum index annotation accepted")
     open_motive:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,scrut,F.Quantity.Many{},Some{F.Term.Motive{None{},Nil{},"self",F.Term.Var{1n}}},branches}},"open sum index motive accepted")
-    neutral:Unit <- Suite.sum_index_refused(F.Term.Elim{F.Term.Elimination{two,F.Term.Global{"Neutral"},F.Quantity.Many{},None{},branches}},"neutral sum index scrutinee accepted")
+    neutral:Unit <- Suite.index_reduction_compare(F.Term.Elim{F.Term.Elimination{two,Suite.let_chain(1n,F.Term.Global{"Neutral"}),F.Quantity.Many{},None{},branches}},F.Term.Elim{F.Term.Elimination{two,F.Term.Global{"Neutral"},F.Quantity.Many{},None{},branches}},Suite.index_reduction_context,univ)
     large_let:Unit <- Suite.sum_index_refused(Suite.case_pair(1n,univ,univ,Suite.size_chain(14n)),"sum index let size cap ignored")
     large:Unit <- Suite.sum_index_refused(Suite.case_pair(1n,Suite.constructor_tree(11n,univ),univ,F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Var{0n}),F.Term.Var{1n}}),"sum index size cap ignored")
     Suite.constructor_index_equal(Suite.index_alias_term([univ,univ],[univ,univ],univ),Suite.index_reduction_context,univ)
@@ -2597,6 +2684,11 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"sum-payload-syntax",unit => Suite.sum_payload_syntax},
       Suite.Case{"tuple-payload-syntax",unit => Suite.tuple_payload_syntax},
       Suite.Case{"tuple-payload-local",unit => Suite.tuple_payload_local},
+      Suite.Case{"neutral-case-syntax",unit => Suite.neutral_case_syntax},
+      Suite.Case{"neutral-case-guards",unit => Suite.neutral_case_guards},
+      Suite.Case{"neutral-case-fuel",unit => Suite.neutral_case_fuel},
+      Suite.Case{"neutral-case-steps",unit => Suite.neutral_case_steps},
+      Suite.Case{"neutral-case-size",unit => Suite.neutral_case_size},
       Suite.Case{"tuple-payload-guards",unit => Suite.tuple_payload_guards},
       Suite.Case{"tuple-payload-fuel",unit => Suite.tuple_payload_fuel},
       Suite.Case{"tuple-payload-steps",unit => Suite.tuple_payload_steps},

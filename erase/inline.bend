@@ -1009,6 +1009,30 @@ def Inline.index_constructor_case(shape: Maybe<&2, F.Pair2<String, List<&2, F.Te
       Inline.constructor_family(F.Global.find_family(family, globals), family, name, arguments, branches, motive, Inline.length(F.Term.t, indices), index_constructor_valid, depth)
     case other injection: Done{None{}}
 
+def Inline.index_neutral_head(head: F.Term.t) -> Bool:
+  match head:
+    case F.Term.Var{index}: True{}
+    case F.Term.Global{name}: True{}
+    case F.Term.Out{shape, address, function}: True{}
+    case other: False{}
+
+def Inline.index_neutral_case_valid(valid: Bool, elimination: F.Term.t) -> Maybe<&2, F.Term.t>:
+  match valid:
+    case True{}: Inline.size_bounded(elimination)
+    case False{}: None{}
+
+# Branch bodies and motives retain their source syntax; the scrutinee shares the enclosing budget.
+def Inline.index_neutral_case_collection(width: Maybe<&2, Nat>, +shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, depth: Nat) -> Maybe<&2, F.Term.t>:
+  match width scrutinee:
+    case Some{+width} Some{+term}:
+      +elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, term, quantity, motive, branches}}
+      valid: Bool = Bool.and(Inline.index_neutral_head(term), Bool.and(Inline.case_motive(motive), Bool.and(Nat.is_eq(Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches), width), Bool.and(Inline.case_branches(branches, width), Inline.closed(depth, elimination)))))
+      Inline.index_neutral_case_valid(valid, elimination)
+    case other scrutinee: None{}
+
+def Inline.index_neutral_case(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, depth: Nat) -> Maybe<&2, F.Term.t>:
+  Inline.index_neutral_case_collection(P.Rules.as_vcoll(F.Term.t, shape), shape, quantity, motive, branches, scrutinee, depth)
+
 def Inline.index_case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, +depth: Nat, globals: F.Global.t) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match scrutinee:
     case Some{F.Term.In{+injection, F.Term.ALeg{+index}, +argument <> Nil{}}}:
@@ -1018,7 +1042,7 @@ def Inline.index_case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, 
     case Some{F.Term.In{+injection, F.Term.ACtor{+name}, +arguments}}:
       index_constructor_elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ACtor{name}, arguments}, quantity, motive, branches}}
       Inline.index_constructor_case(F.Shape.inductive(F.Term.t, shape), F.Shape.inductive(F.Term.t, injection), name, arguments, motive, branches, Inline.closed(depth, index_constructor_elimination), globals, depth)
-    case other: Done{None{}}
+    case other: Done{Inline.index_neutral_case(shape, quantity, motive, branches, other, depth)}
 
 # Nested payloads share the enclosing continuation's reduction and transition limits.
 def Inline.index_alias_equal(left: Maybe<&2, F.Term.t>, right: Maybe<&2, F.Term.t>) -> Bool:
@@ -1054,27 +1078,26 @@ def Inline.index_constructor_pending(shape: Maybe<&2, F.Pair2<String, List<&2, F
         Inline.index_constructor_agree(Inline.constructor_index_values(nested_indices, nested_values), nested_indices, nested_values, selected, fuel, context, rest, next)
     case other injection: next(fuel, None{}, rest)
 
+# Rebuilt neutral cases return through a frame to avoid entering the same case again.
+def Inline.index_case_resume(scrutinee: Maybe<&2, F.Term.t>, reduced: Maybe<&2, F.Term.t>, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match scrutinee:
+    case Some{F.Term.In{shape, address, arguments}}: next(fuel, reduced, rest)
+    case other: next(fuel, None{}, Inline.IndexNeutralReturn{reduced} <> rest)
+
 def Inline.index_case_pending(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, index_ty: Maybe<&2, F.Term.t>, fuel: Nat, +context: Inline.context, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match index_ty:
     case Some{F.Term.In{+injection, F.Term.ACtor{+name}, +arguments}}:
       Inline.Context{checker, domains} = context
       elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ACtor{name}, arguments}, quantity, motive, branches}}
       Inline.index_constructor_pending(F.Shape.inductive(F.Term.t, shape), F.Shape.inductive(F.Term.t, injection), name, arguments, motive, branches, Inline.closed(C.Check.size(checker), elimination), fuel, context, rest, next)
-    case other:
+    case +other:
       Inline.Context{+checker, domains} = context
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
         reduced: Maybe<&2, F.Term.t> <- Inline.index_case_type(shape, quantity, motive, branches, other, C.Check.size(checker), C.Check.global(checker))
-        next(fuel, reduced, rest)
+        Inline.index_case_resume(other, reduced, fuel, rest, next)
 
 # Out heads here were recovered by the same pass. A neutral application keeps
 # its head and shape while its argument uses the enclosing work budget.
-def Inline.index_neutral_head(head: F.Term.t) -> Bool:
-  match head:
-    case F.Term.Var{index}: True{}
-    case F.Term.Global{name}: True{}
-    case F.Term.Out{shape, address, function}: True{}
-    case other: False{}
-
 def Inline.index_neutral_enter(valid: Bool, shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, argument: F.Term.t, head: F.Term.t, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match valid:
     case True{}: next(fuel, Some{argument}, Inline.IndexNeutralArgument{shape, quantity, head} <> rest)

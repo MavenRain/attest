@@ -1,5 +1,44 @@
 # M0 build log
 
+## 2026-10-01: Stage B neutral numeric cases in source indices
+
+Source index recovery now retains a numeric case when its recovered scrutinee
+is a neutral global, local variable, application, or collection projection.
+The case preserves branch bodies, motives, quantities, and branch order.
+Collection width, complete numeric branch coverage, one binder per branch,
+unnamed and unindexed motives, full syntax scope, and the 4096-node cap remain
+required. A refused scrutinee refuses the case. Branch bodies and motives keep
+their source syntax; neutral constructor cases remain conservative.
+
+Case entry consumes one of the shared 64 reductions. Scrutinee arguments use
+the same budget, and reconstruction uses the existing return frame under the
+129-transition limit. Returning reconstructed syntax avoids re-entering the
+same neutral case. Concrete sum and constructor cases retain their selected
+result path.
+
+Five suite rows cover scrutinee reductions, nested sum payloads, syntax
+preservation, malformed branches, motives, scope, local variables, empty
+collections, reversed branches, exact reduction and transition boundaries,
+and reconstruction size. The prior neutral sum refusal now checks exact
+recovered syntax. The inline suite contains 230 cases. Eight targeted mutations
+bring the catalog to 301 anchors; four controls exercise sum payloads, neutral
+projections, and both index comparison directions. No unsafe function is added.
+
+`dev/validation/neutral-case-source-run.py` collects full tests, default gates,
+the erasure record, and the 12 serial scoped mutations into
+`dev/validation/neutral-case-source.json`. Logs and validated inputs are hashed,
+and interrupted checks or mutations can be reused only when their pins match.
+
+The first mutation run completed four cases, but the compiler was killed with
+exit -9 while building the sum-payload control. That failed build is retained
+as `sum-payload-disabled-killed-build.log` and is not counted as a caught
+behavior mutation. The retry reused four checks and four completed mutation
+results only after rechecking their input, recipe, and log hashes. The runner
+does not write the top-level `recovery` block in
+`dev/validation/neutral-case-source.json`. That block was added by hand after
+the retry. It records the killed attempt, the resume arguments, and the
+counts of reused checks (4) and reused mutation results (4).
+
 ## 2026-10-01: Stage B numeric tuple fields in source indices
 
 Numeric tuple indices now recover every field while preserving their collection

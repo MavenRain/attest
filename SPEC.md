@@ -177,7 +177,16 @@ nested tuples, and enclosing terms share the 64 reductions and 129 transitions.
 Reconstruction retains the 4096-node cap, and a refused field refuses the tuple.
 Concrete projections keep their selected-field path, and point sections keep
 their existing beta recovery and source syntax.
-A payload whose reduction reaches a neutral case matches only directly or
+Neutral numeric cases recover their scrutinees under the same reduction and
+transition budgets when they end at globals, local variables, point applications,
+or numeric collection projections. Reconstruction preserves the branch bodies, motive,
+quantity, and branch order. The collection width must equal the branch count,
+each numeric address must appear exactly once, and each branch binds one
+variable. The optional motive must be unnamed and unindexed. The complete case
+must be closed and contain at most 4096 syntax nodes. A return frame prevents
+another pass over the reconstructed case. Branch bodies and motives retain
+their source syntax, and a refused scrutinee refuses the case.
+A payload whose reduction reaches a neutral constructor case matches only directly or
 after transparent head aliases. Global and
 local alias bodies reuse the existing closedness checks. Neutral globals and
 parameters retain their source syntax; local values shift into the current

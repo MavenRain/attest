@@ -1127,7 +1127,7 @@ CASES += (
      'right: Maybe<&2, F.Term.t> <- Inline.index_alias_head(value, context)',
      'INLINE-ERASE row=index-reduction-source-syntax FAIL'),
     ('index-reduction-cases', 'erase/inline.bend',
-     '    case other: Done{None{}}\n\n# Nested payloads share',
+     '    case other: Done{Inline.index_neutral_case(shape, quantity, motive, branches, other, depth)}\n\n# Nested payloads share',
      '    case other: Done{Some{F.Term.Univ{F.Level.zero}}}\n\n# Nested payloads share',
      'INLINE-ERASE row=index-reduction-source-guards FAIL mismatch: index case reduced'),
     ('index-reduction-fuel', 'erase/inline.bend',
@@ -1521,6 +1521,41 @@ CASES += (
      "case other fuel: next(fuel, None{}, rest)",
      "case other fuel: next(fuel, Some{F.Term.Sec{shape, legs}}, rest)",
      "INLINE-ERASE row=tuple-payload-guards FAIL mismatch: tuple helper accepted a noncollection shape"),
+)
+
+NEUTRAL_CASE_VALID = (
+    "valid: Bool = Bool.and(Inline.index_neutral_head(term), Bool.and(Inline.case_motive(motive), "
+    "Bool.and(Nat.is_eq(Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches), width), "
+    "Bool.and(Inline.case_branches(branches, width), Inline.closed(depth, elimination)))))"
+)
+CASES += (
+    ("neutral-case-disabled", INLINE,
+     "case other: Done{Inline.index_neutral_case(shape, quantity, motive, branches, other, depth)}",
+     "case other: Done{None{}}",
+     "INLINE-ERASE row=neutral-case-syntax FAIL"),
+    ("neutral-case-arity", INLINE, NEUTRAL_CASE_VALID,
+     NEUTRAL_CASE_VALID.replace("Nat.is_eq(Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches), width)", "True{}"),
+     "INLINE-ERASE row=neutral-case-guards FAIL mismatch: neutral case missing branch accepted"),
+    ("neutral-case-branches", INLINE, NEUTRAL_CASE_VALID,
+     NEUTRAL_CASE_VALID.replace("Inline.case_branches(branches, width)", "True{}"),
+     "INLINE-ERASE row=neutral-case-guards FAIL mismatch: neutral case duplicate branch accepted"),
+    ("neutral-case-motive", INLINE, NEUTRAL_CASE_VALID,
+     NEUTRAL_CASE_VALID.replace("Inline.case_motive(motive)", "True{}"),
+     "INLINE-ERASE row=neutral-case-guards FAIL mismatch: neutral case named motive accepted"),
+    ("neutral-case-scope", INLINE, NEUTRAL_CASE_VALID,
+     NEUTRAL_CASE_VALID.replace("Inline.closed(depth, elimination)", "True{}"),
+     "INLINE-ERASE row=neutral-case-guards FAIL mismatch: neutral case open branch accepted"),
+    ("neutral-case-head", INLINE, NEUTRAL_CASE_VALID,
+     NEUTRAL_CASE_VALID.replace("Inline.index_neutral_head(term)", "True{}"),
+     "INLINE-ERASE row=neutral-case-guards FAIL mismatch: neutral case accepted a concrete head"),
+    ("neutral-case-size", INLINE,
+     "def Inline.index_neutral_case_valid(valid: Bool, elimination: F.Term.t) -> Maybe<&2, F.Term.t>:\n  match valid:\n    case True{}: Inline.size_bounded(elimination)",
+     "def Inline.index_neutral_case_valid(valid: Bool, elimination: F.Term.t) -> Maybe<&2, F.Term.t>:\n  match valid:\n    case True{}: Some{elimination}",
+     "INLINE-ERASE row=neutral-case-size FAIL mismatch: neutral case reconstruction size cap ignored"),
+    ("neutral-case-return", INLINE,
+     "case other: next(fuel, None{}, Inline.IndexNeutralReturn{reduced} <> rest)",
+     "case other: next(fuel, reduced, rest)",
+     "INLINE-ERASE row=neutral-case-syntax FAIL"),
 )
 
 if __name__ == "__main__":
