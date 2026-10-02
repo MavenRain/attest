@@ -1,5 +1,55 @@
 # M0 build log
 
+## 2026-10-01: Stage B numeric tuple fields in source indices
+
+Numeric tuple indices now recover every field while preserving their collection
+shape and source order. Recovery checks that the width equals the field count,
+fields have no binders, and the complete tuple is closed. Empty tuples are
+supported. Reconstruction keeps the 4096-node cap and propagates a refused
+field to the whole tuple.
+
+Tuple entry consumes one of the enclosing 64 reductions. Fields, nested
+tuples, sum payloads, and outer applications share that budget and the existing
+129 transitions. `IndexTupleField` retains the completed and remaining fields;
+the existing return frame prevents another recovery pass over the rebuilt tuple.
+Tuple dispatch precedes the exhausted-fuel arm. Concrete projections keep
+their selected-field path, so an unselected field does not consume recovery
+fuel. Point sections retain beta recovery and their source syntax.
+
+Seven new suite rows cover aliases, lets, beta steps, annotations, projections,
+cases, nested terms, shifted locals, field order, malformed tuples, scope,
+refusal propagation, shared fuel, exact transition boundaries, size, and
+concrete projections. The inline suite contains 225 cases. Eleven targeted
+mutations bring the catalog to 293 anchors. Four new registry sites disclose
+tuple refusal and dispatch; no unsafe function is added.
+
+`dev/validation/tuple-payload-source-run.py` collects the full tests, default
+gates, erasure record, and 15 scoped mutations into
+`dev/validation/tuple-payload-source.json`. The four controls cover both
+enclosing index comparison directions, neutral projections, and sum payloads.
+The collector defaults to one mutation worker. Two concurrent compiler
+processes were killed with exit -9 after the four preliminary checks passed.
+The serial retry reuses those checks through a checkpoint that binds their
+source inputs and log hashes. The original collector snapshot and failed
+attempt logs preserve the recovery evidence. Original check timings were not
+persisted and remain null. `--reuse-checks` refuses changed inputs or logs.
+The order mutation initially expected the syntax row, while the nested tuple
+assertion correctly failed in the fuel row. Its expected diagnostic now names
+that row. The anchor check ran again. The original harness snapshot records
+the single diagnostic change; compiler and gate inputs stayed unchanged.
+Completed isolated mutation results are checkpointed with their source
+recipes and log hashes. `--reuse-mutations` validates those bindings before
+reuse, and unfinished cases still compile and run in isolated copies.
+Eleven results came from the interrupted serial battery. The checkpoint marks
+them `recovered` and binds them to the original harness snapshot.
+A single-worker refusal mutation build was later killed with exit -9. Its log
+is retained in the mutation checkpoint. That failed build is not a caught
+mutation; a manual serial retry keeps the thirteen completed results.
+
+Stage B stays open at Acc runtime elimination, neutral scrutinees, builtin and
+provisional constructor families, source types needing further inference or
+recovery, and index payloads unequal after bounded recovery.
+
 ## 2026-10-01: Stage B numeric sum payloads in source indices
 
 Numeric sum injection indices now recover their single payload while retaining

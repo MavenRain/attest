@@ -1,0 +1,16 @@
+ERASURE-MUTATION index-reduction-left caught
+ERASURE-MUTATION index-reduction-right caught
+ERASURE-MUTATION neutral-projection-disabled caught
+ERASURE-MUTATION sum-payload-disabled caught
+ERASURE-MUTATION tuple-payload-disabled caught
+ERASURE-MUTATION tuple-payload-arity caught
+ERASURE-MUTATION tuple-payload-binder caught
+ERASURE-MUTATION tuple-payload-scope caught
+ERASURE-MUTATION tuple-payload-fuel caught
+ERASURE-MUTATION tuple-payload-order caught
+ERASURE-MUTATION tuple-payload-size caught
+ERASURE-MUTATION tuple-payload-steps caught
+ERASURE-MUTATION tuple-payload-refusal caught
+ERASURE-MUTATION tuple-payload-projection caught
+ERASURE-MUTATION tuple-payload-shape caught
+ERASURE-MUTATIONS caught=15 total=293 PARTIAL

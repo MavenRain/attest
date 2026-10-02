@@ -995,6 +995,7 @@ type Inline.index_frame is Data:
   Inline.IndexNeutralArgument{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, head: F.Term.t}
   Inline.IndexNeutralReturn{term: Maybe<&2, F.Term.t>}
   Inline.IndexSumArgument{shape: F.Shape.t<F.Term.t>, index: Nat}
+  Inline.IndexTupleField{shape: F.Shape.t<F.Term.t>, completed: List<&2, F.Term.leg>, remaining: List<&2, F.Term.leg>}
   Inline.IndexCase{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>}
   Inline.IndexPayloadLeft{right: F.Term.t, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>}
   Inline.IndexPayloadRight{left: Maybe<&2, F.Term.t>, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>}
@@ -1145,6 +1146,34 @@ def Inline.index_sum_context(context: Inline.context, +shape: F.Shape.t<F.Term.t
   Inline.Context{checker, domains} = context
   Inline.index_sum_enter(P.Rules.as_vcoll(F.Term.t, shape), shape, index, arguments, fuel, C.Check.size(checker), pending, next)
 
+# Tuple fields share the enclosing budgets and retain their source order.
+def Inline.index_tuple_next(shape: F.Shape.t<F.Term.t>, completed: List<&2, F.Term.leg>, legs: List<&2, F.Term.leg>, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match legs:
+    case Nil{}:
+      tuple: F.Term.t = F.Term.Sec{shape, Inline.reverse(F.Term.leg, completed, Nil{})}
+      next(fuel, None{}, Inline.IndexNeutralReturn{Inline.size_bounded(tuple)} <> rest)
+    case F.Term.Leg{Nil{}, body} <> remaining:
+      next(fuel, Some{body}, Inline.IndexTupleField{shape, completed, remaining} <> rest)
+    case other: next(fuel, None{}, rest)
+
+def Inline.index_tuple_field(shape: F.Shape.t<F.Term.t>, completed: List<&2, F.Term.leg>, remaining: List<&2, F.Term.leg>, field: Maybe<&2, F.Term.t>, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match field:
+    case Some{body}: Inline.index_tuple_next(shape, F.Term.Leg{Nil{}, body} <> completed, remaining, fuel, rest, next)
+    case None{}: next(fuel, None{}, rest)
+
+def Inline.index_tuple_valid(valid: Bool, shape: F.Shape.t<F.Term.t>, legs: List<&2, F.Term.leg>, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match valid:
+    case True{}: Inline.index_tuple_next(shape, Nil{}, legs, fuel, rest, next)
+    case False{}: next(fuel, None{}, rest)
+
+def Inline.index_tuple_enter(width: Maybe<&2, Nat>, +shape: F.Shape.t<F.Term.t>, +legs: List<&2, F.Term.leg>, fuel: Nat, depth: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match width fuel:
+    case Some{width} 1n+remaining:
+      tuple_valid: Bool = Bool.and(Nat.is_eq(Inline.length(F.Term.leg, legs), width), Bool.and(Inline.projection_legs(legs), Inline.closed(depth, F.Term.Sec{shape, legs})))
+      Inline.index_tuple_valid(tuple_valid, shape, legs, remaining, rest, next)
+    case other fuel: next(fuel, None{}, rest)
+
+
 def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fuel: Nat, index_ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match index_pending:
     case Nil{}: Done{index_ty}
@@ -1156,12 +1185,27 @@ def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fue
       Inline.index_source_pending(rest, fuel, term, context, next)
     case Inline.IndexSumArgument{shape, index} <> rest:
       next(fuel, None{}, Inline.IndexNeutralReturn{Inline.index_sum_result(shape, index, index_ty)} <> rest)
+    case Inline.IndexTupleField{shape, completed, remaining} <> rest:
+      Inline.index_tuple_field(shape, completed, remaining, index_ty, fuel, rest, next)
     case Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest:
       Inline.index_case_pending(index_shape, index_quantity, index_motive, index_branches, index_ty, fuel, context, rest, next)
     case Inline.IndexPayloadLeft{right, indices, values, selected} <> rest:
       next(fuel, Some{right}, Inline.IndexPayloadRight{index_ty, indices, values, selected} <> rest)
     case Inline.IndexPayloadRight{left, indices, values, selected} <> rest:
       Inline.index_payload_agree(Inline.index_alias_equal(left, index_ty), indices, values, selected, fuel, context, rest, next)
+
+def Inline.index_tuple_context(width: Maybe<&2, Nat>, context: Inline.context, +shape: F.Shape.t<F.Term.t>, legs: List<&2, F.Term.leg>, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match width:
+    case Some{width}:
+      Inline.Context{checker, domains} = context
+      Inline.index_tuple_enter(Some{width}, shape, legs, fuel, C.Check.size(checker), rest, next)
+    case None{}: Inline.index_source_pending(rest, fuel, Some{F.Term.Sec{shape, legs}}, context, next)
+
+def Inline.index_tuple_pending(+shape: F.Shape.t<F.Term.t>, legs: List<&2, F.Term.leg>, fuel: Nat, context: Inline.context, pending: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match pending:
+    case Inline.IndexApplication{application_shape, address} <> rest:
+      Inline.index_source_pending(Inline.IndexApplication{application_shape, address} <> rest, fuel, Some{F.Term.Sec{shape, legs}}, context, next)
+    case other: Inline.index_tuple_context(P.Rules.as_vcoll(F.Term.t, shape), context, shape, legs, fuel, other, next)
 
 def Inline.index_sum_pending(shape: F.Shape.t<F.Term.t>, index: Nat, arguments: List<&2, F.Term.t>, fuel: Nat, context: Inline.context, pending: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match pending:
@@ -1177,6 +1221,8 @@ def Inline.index_source_reduce(fuel: Nat, index_expanded: Maybe<&2, F.Term.t>, c
   match fuel index_expanded:
     case fuel Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}:
       Inline.index_sum_pending(shape, index, arguments, fuel, context, index_pending, next)
+    case fuel Some{F.Term.Sec{shape, legs}}:
+      Inline.index_tuple_pending(shape, legs, fuel, context, index_pending, next)
     case 0n index_expanded:
       do Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
         stopped: Maybe<&2, F.Term.t> <- Inline.let_exhausted(index_expanded)

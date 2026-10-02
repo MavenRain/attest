@@ -170,6 +170,13 @@ collection width, closed syntax, and a result within 4096 nodes. Entering an
 injection payload consumes one of the enclosing 64 reductions; nested payloads
 share the 129 transition bound. Concrete case scrutinees retain their existing
 case path, where the selected result recovers the substituted payload.
+Numeric collection tuples recover every field in source order. Their width
+must equal the field count, every field must have no binders, and the whole
+tuple must be closed. Tuple entry consumes one enclosing reduction. Fields,
+nested tuples, and enclosing terms share the 64 reductions and 129 transitions.
+Reconstruction retains the 4096-node cap, and a refused field refuses the tuple.
+Concrete projections keep their selected-field path, and point sections keep
+their existing beta recovery and source syntax.
 A payload whose reduction reaches a neutral case matches only directly or
 after transparent head aliases. Global and
 local alias bodies reuse the existing closedness checks. Neutral globals and

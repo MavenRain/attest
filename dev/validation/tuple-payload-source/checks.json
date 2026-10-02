@@ -1,0 +1,208 @@
+{
+  "version": 1,
+  "validated_inputs": {
+    "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
+    "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
+    "dev/bend-migration.json": "ad73641505c9d24dffd1712f789b4c11c35de4c1b521ecf1e6fb611b9f5d9775",
+    "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
+    "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
+    "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
+    "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
+    "dev/erasure-gates.py": "7083e9ee5fc65273bfca08b55019a20c7cb234d5ad37ce3696fe7b8bc9eda6c0",
+    "dev/erasure-mutations.py": "4deafe493d549553dd57cbe774b9077089af778c421d65002215e4df0731f5db",
+    "erase/inline.bend": "395f5729241b7c158ff89688284bfdf7196803b3351bfe347d30540d8803060a",
+    "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
+    "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
+    "erase/test/fixtures.bend": "137be14552beaeccf7aef497a3b49cf891e4de74b8fdd486ed8ce22ab39deb52",
+    "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
+    "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
+    "erase/test/inline_test.bend": "8cce4dac55ee8665f5229448252f68913b31d00de11270fff1b3b0420a4ecac6",
+    "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
+    "erase/test/lambda_fixtures.bend": "bfe0fa74d7cd498dc6afd11786c478b3ec4c9d77701eb7c86b9625d43399bf60",
+    "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
+    "erase/test/opaque_core.bend": "27c3d0153f546db7e0ee2127626f03787fe7a14ce2d053c057d1a4169305938c",
+    "erase/test/opaque_test.bend": "72b2354aa5fbae943e85381a1b561a31aa41e1be49747cf07c929df169996ee7",
+    "erase/test/parameter_fixtures.bend": "cc0e2e10c80bf5c8aa6343bd3d0632e4708f501bea0833086887a9067bf2eb53",
+    "erase/test/prop_index.bend": "c826246d00aa39ed7f420bbdbd27679643db40f4b2ab643b8cfc4cc13da658d2",
+    "erase/test/refusal_test.bend": "89eda7b5d4aa7dccd2de2eb957096a288b4972475640993a5fa883c225d29c6b",
+    "erase/test/repr_test.bend": "c78c8c14b2c298de25f77f8d270c7a353a57b8d967d52fa44a122d4c83478563",
+    "erase/test/support.bend": "c4eb069dce3dc29b63ea6982249e7ac0819021ccbfea5088b5c581db3efae1aa",
+    "lib/erasure.bend": "affcab049254fbede84b55fa4093a777ad0f20c0fc833f6e0a27d095e34bcfea",
+    "lib/foundation.bend": "30dfb2d9d09081405072c49c99c50c0e5b5997dfe9447061fad2dc83cc1dcee3",
+    "lib/kernel.bend": "86511b6e597f08262370f68670e0fa2fea54bc94d783d0fb3c4afaa9d9953d86",
+    "lib/kernel_check.bend": "6c11aba82ecba68f41d242550b7001990b86eee696c80505ab12541df2233aee",
+    "lib/kernel_context.bend": "527a3d280ff45b52fe3b38ecf00f823ac91b98b89c8e26774bef21e6d3b048dd",
+    "lib/kernel_conv.bend": "82d814f65a15457f417a3c8c71d13eee9593aa2d4fb3fbb8a07b2bed2c5d65cb",
+    "lib/kernel_declarations.bend": "1f91fb7935722a5f1e13557633d3ab1967cb9269180e496639b3652fb2b3fd05",
+    "lib/kernel_eval.bend": "89c23dcc7e2c04b613058f627174aa9b6da0bcd640a6ceebcbdea4ca9ad1a160",
+    "lib/kernel_metadata.bend": "abcfd8db4e917d7759db348be1b39fbc3c7ebe4b897d60196e0e623e8f2470b7",
+    "lib/kernel_mu.bend": "6a377e0f4453136ed010aaa22f8d0ac46a1f4b8623a903c2de012e504117c9b7",
+    "lib/kernel_order.bend": "10d6df09b22d407af140fb5e67daf3b35dd46779c7a7ac12745741908034fd57",
+    "lib/kernel_pp.bend": "5ce1c182cdf90ca10ae63ce959648baf29db4b07e08e342c1ae4827b1dce269f",
+    "lib/kernel_primitives.bend": "7a2907de92080e7e987be50f1942cc6af73f2d8e8b530a6f04b7bbcf92fbe6c3",
+    "lib/kernel_program.bend": "264f989e7d2fd6f667afc8a738a532e4c2f41e344f4fcc9b65ed91f74c20a355",
+    "lib/kernel_rules.bend": "4dac67dc78b6b5943c8c3d0084effe627ad72698a3050f4a18f18f52e1e3cb22",
+    "lib/kernel_source.bend": "553669e50dd1491f8bd4d1be4e9c0466c3625e5e3bd6b5e18d7e388b605a9629",
+    "lib/kernel_util.bend": "b3b2db19257acfe2832f358aa4394addf76d3f65b3c1e346e14b7d4d9f2976fa",
+    "surface/elab.bend": "5d4899b142716d93b71eb0a8ae17964189dfef254d518949d56654378a219856",
+    "surface/elab_cases.bend": "b9a7cc0474ec12d4449fb54c44ea98107a00b1024d2c91e307a0c69d404240b8",
+    "surface/elab_common.bend": "0b2d76972ef1d09c0d7d19c7b4ea3f24bc3c6a2b6a070befe67985a0c087887f",
+    "surface/elab_forms.bend": "c4eb8a05f0b75a5fd3966dc19858db49e7e2731390a6d48caf5f2a62d27c1225",
+    "surface/elab_headers.bend": "b65cd0b475d8465a8f1d455a54233d7d421d5ab23eb1a74d0946bba3c4a73817",
+    "surface/elab_refs.bend": "bac440f8600d395ef5ca1446a56585ca463e2231f6d6135bcb7b9b8e7f1acc31",
+    "surface/elab_requests.bend": "9625a2192994dc01afc1c8675106af64375ec758494222e7ec934d7449a40c77",
+    "surface/elab_runner.bend": "efe9e39371365965dc182b548160d6b5ce5f7efab341f336f169f854f7a5094b",
+    "surface/elab_state.bend": "972ae91487e179f6734743af65b85f336b4336013e81a46b3bc731c5d374bc5b",
+    "surface/elab_term.bend": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+    "surface/io.bend": "d5fb091d66f12c51942f277cc56392e6eb1cb058b131eaaf0799acd4def3d051",
+    "surface/lexer.bend": "f884b27fefaaa0940c2f3d412f96d8df3d7267689193764c4fb360481913f497",
+    "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
+    "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
+    "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
+    "dev/bend-policy.json": "0c6071dd253590e8d2315596412b91a8720dacb064a862c3fbff5833209056d5"
+  },
+  "checks": [
+    {
+      "name": "anchors",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-mutations.py",
+        "--check-anchors"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/tuple-payload-source/anchors.log",
+        "sha256": "a79edb12bf4e9fbc33d3526739613a409dd421bc5c2adbc1b1a7f9474956f764"
+      },
+      "elapsed_seconds": 2.222
+    },
+    {
+      "name": "tests",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/tuple-payload-source/tests.log",
+        "sha256": "365962d24d7174beb7ce5d1a54a1d8934aafd06ba30ecbed98b89616cc5aadb6"
+      },
+      "elapsed_seconds": null
+    },
+    {
+      "name": "gates",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/tuple-payload-source/gates.log",
+        "sha256": "f8007d90739d5b7665e3c8c2aa63487cac98aab40626391be3d81e3a1d496b23"
+      },
+      "elapsed_seconds": null
+    },
+    {
+      "name": "erasure-record",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py",
+        "--record"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/tuple-payload-source/erasure-record.log",
+        "sha256": "54bc32ac0b1196782ea0b07a161d8d19b5b575fd33b98e42396caa9847f3bccd"
+      },
+      "elapsed_seconds": null
+    }
+  ],
+  "producer_sha256": "70928dc3505cda382ae6fdef21347b4169b6fb88a078bae4bca284e363ac6a30",
+  "recovery": {
+    "reason": "Two concurrent mutation compilers were killed with exit -9 after all four checks passed.",
+    "source_snapshot": {
+      "path": "dev/validation/tuple-payload-source/collector-before-serial.py.snapshot",
+      "sha256": "70928dc3505cda382ae6fdef21347b4169b6fb88a078bae4bca284e363ac6a30"
+    },
+    "capture": {
+      "path": "dev/validation/tuple-payload-source/concurrent-attempt.log",
+      "sha256": "fb8c67405dd8204670e00cc38bbcd0113311044f1bbc59b54bc8aabbfeaf5d49"
+    },
+    "timings": "Original per-check durations were not persisted; retained as null.",
+    "order_diagnostic_repair": {
+      "source_snapshot": {
+        "path": "dev/validation/tuple-payload-source/harness-before-order-diagnostic.py.snapshot",
+        "sha256": "0820a3ce8423853bf2f16942000a429a9068de20bfdf0fdc4ff9cd7b6cbf42f4"
+      },
+      "current_harness_sha256": "4deafe493d549553dd57cbe774b9077089af778c421d65002215e4df0731f5db",
+      "change": "Only the field-order mutation diagnostic changed from the syntax row to the fuel row.",
+      "checks": "Anchors rerun; compiler, fixture and gate inputs unchanged."
+    }
+  },
+  "original_validated_inputs": {
+    "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
+    "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
+    "dev/bend-migration.json": "ad73641505c9d24dffd1712f789b4c11c35de4c1b521ecf1e6fb611b9f5d9775",
+    "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
+    "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
+    "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
+    "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
+    "dev/erasure-gates.py": "7083e9ee5fc65273bfca08b55019a20c7cb234d5ad37ce3696fe7b8bc9eda6c0",
+    "dev/erasure-mutations.py": "0820a3ce8423853bf2f16942000a429a9068de20bfdf0fdc4ff9cd7b6cbf42f4",
+    "erase/inline.bend": "395f5729241b7c158ff89688284bfdf7196803b3351bfe347d30540d8803060a",
+    "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
+    "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
+    "erase/test/fixtures.bend": "137be14552beaeccf7aef497a3b49cf891e4de74b8fdd486ed8ce22ab39deb52",
+    "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
+    "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
+    "erase/test/inline_test.bend": "8cce4dac55ee8665f5229448252f68913b31d00de11270fff1b3b0420a4ecac6",
+    "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
+    "erase/test/lambda_fixtures.bend": "bfe0fa74d7cd498dc6afd11786c478b3ec4c9d77701eb7c86b9625d43399bf60",
+    "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
+    "erase/test/opaque_core.bend": "27c3d0153f546db7e0ee2127626f03787fe7a14ce2d053c057d1a4169305938c",
+    "erase/test/opaque_test.bend": "72b2354aa5fbae943e85381a1b561a31aa41e1be49747cf07c929df169996ee7",
+    "erase/test/parameter_fixtures.bend": "cc0e2e10c80bf5c8aa6343bd3d0632e4708f501bea0833086887a9067bf2eb53",
+    "erase/test/prop_index.bend": "c826246d00aa39ed7f420bbdbd27679643db40f4b2ab643b8cfc4cc13da658d2",
+    "erase/test/refusal_test.bend": "89eda7b5d4aa7dccd2de2eb957096a288b4972475640993a5fa883c225d29c6b",
+    "erase/test/repr_test.bend": "c78c8c14b2c298de25f77f8d270c7a353a57b8d967d52fa44a122d4c83478563",
+    "erase/test/support.bend": "c4eb069dce3dc29b63ea6982249e7ac0819021ccbfea5088b5c581db3efae1aa",
+    "lib/erasure.bend": "affcab049254fbede84b55fa4093a777ad0f20c0fc833f6e0a27d095e34bcfea",
+    "lib/foundation.bend": "30dfb2d9d09081405072c49c99c50c0e5b5997dfe9447061fad2dc83cc1dcee3",
+    "lib/kernel.bend": "86511b6e597f08262370f68670e0fa2fea54bc94d783d0fb3c4afaa9d9953d86",
+    "lib/kernel_check.bend": "6c11aba82ecba68f41d242550b7001990b86eee696c80505ab12541df2233aee",
+    "lib/kernel_context.bend": "527a3d280ff45b52fe3b38ecf00f823ac91b98b89c8e26774bef21e6d3b048dd",
+    "lib/kernel_conv.bend": "82d814f65a15457f417a3c8c71d13eee9593aa2d4fb3fbb8a07b2bed2c5d65cb",
+    "lib/kernel_declarations.bend": "1f91fb7935722a5f1e13557633d3ab1967cb9269180e496639b3652fb2b3fd05",
+    "lib/kernel_eval.bend": "89c23dcc7e2c04b613058f627174aa9b6da0bcd640a6ceebcbdea4ca9ad1a160",
+    "lib/kernel_metadata.bend": "abcfd8db4e917d7759db348be1b39fbc3c7ebe4b897d60196e0e623e8f2470b7",
+    "lib/kernel_mu.bend": "6a377e0f4453136ed010aaa22f8d0ac46a1f4b8623a903c2de012e504117c9b7",
+    "lib/kernel_order.bend": "10d6df09b22d407af140fb5e67daf3b35dd46779c7a7ac12745741908034fd57",
+    "lib/kernel_pp.bend": "5ce1c182cdf90ca10ae63ce959648baf29db4b07e08e342c1ae4827b1dce269f",
+    "lib/kernel_primitives.bend": "7a2907de92080e7e987be50f1942cc6af73f2d8e8b530a6f04b7bbcf92fbe6c3",
+    "lib/kernel_program.bend": "264f989e7d2fd6f667afc8a738a532e4c2f41e344f4fcc9b65ed91f74c20a355",
+    "lib/kernel_rules.bend": "4dac67dc78b6b5943c8c3d0084effe627ad72698a3050f4a18f18f52e1e3cb22",
+    "lib/kernel_source.bend": "553669e50dd1491f8bd4d1be4e9c0466c3625e5e3bd6b5e18d7e388b605a9629",
+    "lib/kernel_util.bend": "b3b2db19257acfe2832f358aa4394addf76d3f65b3c1e346e14b7d4d9f2976fa",
+    "surface/elab.bend": "5d4899b142716d93b71eb0a8ae17964189dfef254d518949d56654378a219856",
+    "surface/elab_cases.bend": "b9a7cc0474ec12d4449fb54c44ea98107a00b1024d2c91e307a0c69d404240b8",
+    "surface/elab_common.bend": "0b2d76972ef1d09c0d7d19c7b4ea3f24bc3c6a2b6a070befe67985a0c087887f",
+    "surface/elab_forms.bend": "c4eb8a05f0b75a5fd3966dc19858db49e7e2731390a6d48caf5f2a62d27c1225",
+    "surface/elab_headers.bend": "b65cd0b475d8465a8f1d455a54233d7d421d5ab23eb1a74d0946bba3c4a73817",
+    "surface/elab_refs.bend": "bac440f8600d395ef5ca1446a56585ca463e2231f6d6135bcb7b9b8e7f1acc31",
+    "surface/elab_requests.bend": "9625a2192994dc01afc1c8675106af64375ec758494222e7ec934d7449a40c77",
+    "surface/elab_runner.bend": "efe9e39371365965dc182b548160d6b5ce5f7efab341f336f169f854f7a5094b",
+    "surface/elab_state.bend": "972ae91487e179f6734743af65b85f336b4336013e81a46b3bc731c5d374bc5b",
+    "surface/elab_term.bend": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+    "surface/io.bend": "d5fb091d66f12c51942f277cc56392e6eb1cb058b131eaaf0799acd4def3d051",
+    "surface/lexer.bend": "f884b27fefaaa0940c2f3d412f96d8df3d7267689193764c4fb360481913f497",
+    "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
+    "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
+    "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
+    "dev/bend-policy.json": "0c6071dd253590e8d2315596412b91a8720dacb064a862c3fbff5833209056d5"
+  }
+}

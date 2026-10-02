@@ -1,0 +1,11 @@
+TUPLE-PAYLOAD-SOURCE anchors OK
+TUPLE-PAYLOAD-SOURCE tests OK
+TUPLE-PAYLOAD-SOURCE gates OK
+TUPLE-PAYLOAD-SOURCE erasure-record OK
+Traceback (most recent call last):
+  File "/Users/oobi/Documents/attest/dev/validation/tuple-payload-source-run.py", line 141, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/oobi/Documents/attest/dev/validation/tuple-payload-source-run.py", line 111, in main
+    raise ValueError(f"scoped mutations failed: exit={code}; see {log}")
+ValueError: scoped mutations failed: exit=1; see /Users/oobi/Documents/attest/dev/validation/tuple-payload-source/mutations.log

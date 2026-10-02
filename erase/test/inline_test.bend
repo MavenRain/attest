@@ -2107,6 +2107,107 @@ def Suite.sum_payload_size() -> Result<&2,&2,F.Error.t,Unit>:
     missing:Maybe<&2,F.Term.t> <- Done{I.Inline.index_sum_result(shape,1n,None{})}
     Suite.application_absent(missing,"refused sum payload reconstructed")
 
+def Suite.tuple_payload(first:F.Term.t,second:F.Term.t) -> F.Term.t:
+  F.Term.Sec{F.Shape.make_collection(F.Term.t,2n),[F.Term.Leg{Nil{},first},F.Term.Leg{Nil{},second}]}
+
+def Suite.tuple_payload_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +expected:F.Term.t = Suite.tuple_payload(leaf,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    alias:Unit <- Suite.index_reduction_compare(Suite.tuple_payload(leaf,F.Term.Global{"Index"}),expected,context,univ)
+    reductions:Unit <- Suite.index_reduction_compare(Suite.tuple_payload(Suite.let_chain(1n,leaf),Suite.beta_term(univ,F.Term.Var{0n})),expected,context,univ)
+    annotation:Unit <- Suite.index_reduction_compare(Suite.tuple_payload(F.Term.Ann{leaf,univ},univ),expected,context,univ)
+    projection:Unit <- Suite.index_reduction_compare(Suite.tuple_payload(Suite.projection_pair(1n,univ,leaf),univ),expected,context,univ)
+    case_ok:Unit <- Suite.index_reduction_compare(Suite.tuple_payload(Suite.case_pair(1n,leaf,univ,F.Term.Var{0n}),univ),expected,context,univ)
+    nested:Unit <- Suite.index_reduction_compare(Suite.tuple_payload(Suite.tuple_payload(Suite.let_chain(1n,leaf),univ),Suite.sum_payload(Suite.let_chain(1n,univ))),Suite.tuple_payload(expected,Suite.sum_payload(univ)),context,univ)
+    neutral:Unit <- Suite.index_reduction_compare(Suite.neutral_index_application(leaf,Suite.tuple_payload(Suite.let_chain(1n,leaf),univ)),Suite.neutral_index_application(leaf,expected),context,univ)
+    sum:Unit <- Suite.index_reduction_compare(Suite.sum_payload(Suite.tuple_payload(Suite.let_chain(1n,leaf),univ)),Suite.sum_payload(expected),context,univ)
+    different:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.tuple_payload(Suite.let_chain(1n,leaf),univ),univ],[Suite.tuple_payload(univ,leaf),univ],univ)},context)
+    Suite.application_absent(different,"tuple field order lost during recovery")
+
+def Suite.tuple_payload_local() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.index_alias_context(F.Global.Def{F.Global.DefEntry{univ,univ,True{},None{},False{}}},[I.Inline.Local{"a",univ,F.Term.Ann{F.Term.Var{0n},univ}},I.Inline.Param{"outer",univ},I.Inline.Param{"older",univ}],3n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    shifted:Unit <- Suite.index_reduction_compare(Suite.tuple_payload(F.Term.Var{0n},F.Term.Var{2n}),Suite.tuple_payload(F.Term.Var{1n},F.Term.Var{2n}),context,univ)
+    substituted:Unit <- Suite.index_reduction_compare(Suite.tuple_payload(Suite.beta_term(F.Term.Var{2n},F.Term.Let{"T",univ,univ,F.Term.Var{1n}}),F.Term.Var{1n}),Suite.tuple_payload(F.Term.Var{2n},F.Term.Var{1n}),context,univ)
+    distinct:Maybe<&2,F.Term.t> <- I.Inline.source_alias_type(Some{Suite.index_alias_term([Suite.tuple_payload(F.Term.Var{0n},univ),univ],[Suite.tuple_payload(F.Term.Var{2n},univ),univ],univ)},context)
+    Suite.application_absent(distinct,"tuple payload captured an outer parameter")
+
+def Suite.tuple_payload_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    empty:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Sec{F.Shape.make_collection(F.Term.t,0n),Nil{}},Suite.index_reduction_context)
+    empty_ok:Unit <- Suite.application_equal(empty,F.Term.Sec{F.Shape.make_collection(F.Term.t,0n),Nil{}})
+    missing:Unit <- Suite.sum_payload_refused(F.Term.Sec{shape,[F.Term.Leg{Nil{},univ}]},"missing tuple field accepted")
+    extra:Unit <- Suite.sum_payload_refused(F.Term.Sec{shape,[F.Term.Leg{Nil{},univ},F.Term.Leg{Nil{},univ},F.Term.Leg{Nil{},univ}]},"extra tuple field accepted")
+    binder:Unit <- Suite.sum_payload_refused(F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Many{},"x"}],univ},F.Term.Leg{Nil{},univ}]},"tuple field binder accepted")
+    open:Unit <- Suite.sum_payload_refused(Suite.tuple_payload(univ,F.Term.Var{0n}),"open tuple payload accepted")
+    annotation:Unit <- Suite.sum_payload_refused(Suite.tuple_payload(univ,F.Term.Ann{univ,F.Term.Var{0n}}),"open tuple annotation accepted")
+    helper:Maybe<&2,F.Term.t> <- I.Inline.index_tuple_enter(Some{2n},shape,[F.Term.Leg{Nil{},univ},F.Term.Leg{Nil{},F.Term.Var{0n}}],64n,0n,Nil{},Suite.sum_payload_resume)
+    helper_ok:Unit <- Suite.application_absent(helper,"tuple helper accepted an open field")
+    wrong:Maybe<&2,F.Term.t> <- I.Inline.index_tuple_enter(None{},shape,[F.Term.Leg{Nil{},univ},F.Term.Leg{Nil{},univ}],64n,0n,Nil{},Suite.sum_payload_resume)
+    wrong_ok:Unit <- Suite.application_absent(wrong,"tuple helper accepted a noncollection shape")
+    bound:Maybe<&2,F.Term.t> <- I.Inline.index_tuple_next(shape,Nil{},[F.Term.Leg{[F.Pair2{F.Quantity.Many{},"x"}],univ}],64n,Nil{},Suite.sum_payload_resume)
+    bound_ok:Unit <- Suite.application_absent(bound,"tuple field helper accepted a binder")
+    failed:Unit <- Suite.sum_payload_refused(Suite.tuple_payload(univ,Suite.sum_payload(Suite.let_chain(64n,univ))),"refused tuple field reconstructed")
+    absent:Maybe<&2,F.Term.t> <- I.Inline.index_tuple_field(shape,Nil{},Nil{},None{},64n,Nil{},Suite.sum_payload_resume)
+    Suite.application_absent(absent,"absent tuple field reconstructed")
+
+def Suite.tuple_payload_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  +expected:F.Term.t = Suite.tuple_payload(leaf,leaf)
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.tuple_payload(Suite.let_chain(31n,leaf),Suite.let_chain(32n,leaf)),context)
+    exact_ok:Unit <- Suite.application_equal(exact,expected)
+    over:Unit <- Suite.sum_payload_refused(Suite.tuple_payload(Suite.let_chain(31n,leaf),Suite.let_chain(33n,leaf)),"tuple field fuel restarted")
+    nested:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(Suite.tuple_payload(Suite.tuple_payload(Suite.let_chain(30n,leaf),leaf),Suite.let_chain(32n,leaf)),context)
+    nested_ok:Unit <- Suite.application_equal(nested,Suite.tuple_payload(expected,leaf))
+    nested_over:Unit <- Suite.sum_payload_refused(Suite.tuple_payload(Suite.tuple_payload(Suite.let_chain(31n,leaf),leaf),Suite.let_chain(32n,leaf)),"nested tuple fuel restarted")
+    outer:Unit <- Suite.sum_payload_refused(Suite.let_chain(32n,Suite.tuple_payload(Suite.let_chain(32n,leaf),leaf)),"outer and tuple fuel not shared")
+    sum:Unit <- Suite.sum_payload_refused(Suite.sum_payload(Suite.tuple_payload(Suite.let_chain(63n,leaf),leaf)),"sum and tuple fuel not shared")
+    Suite.sum_payload_refused(Suite.let_chain(64n,expected),"tuple entered with exhausted fuel")
+
+def Suite.tuple_payload_legs(count:Nat,+leaf:F.Term.t) -> List<&2,F.Term.leg>:
+  match count:
+    case 0n: Nil{}
+    case 1n+remaining: F.Term.Leg{Nil{},leaf} <> Suite.tuple_payload_legs(remaining,leaf)
+
+def Suite.tuple_payload_steps() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +exact:F.Term.t = F.Term.Sec{F.Shape.make_collection(F.Term.t,127n),Suite.tuple_payload_legs(127n,leaf)}
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(exact,Suite.index_reduction_context)
+    kept_ok:Unit <- Suite.application_equal(kept,exact)
+    over:Unit <- Suite.sum_payload_refused(F.Term.Sec{F.Shape.make_collection(F.Term.t,128n),Suite.tuple_payload_legs(128n,leaf)},"tuple transition budget restarted")
+    mixed:Unit <- Suite.sum_payload_refused(Suite.neutral_index_application(leaf,exact),"tuple and application transition budgets not shared")
+    Suite.sum_payload_refused(Suite.tuple_payload(exact,leaf),"nested tuple transition budget restarted")
+
+def Suite.tuple_payload_size() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +small:F.Term.t = Suite.constructor_tree(10n,univ)
+  +large:F.Term.t = Suite.constructor_tree(11n,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Maybe<&2,F.Term.t> <- I.Inline.index_tuple_next(shape,[F.Term.Leg{Nil{},small},F.Term.Leg{Nil{},small}],Nil{},64n,Nil{},Suite.sum_payload_resume)
+    kept_ok:Unit <- Suite.application_equal(kept,Suite.tuple_payload(small,small))
+    refused:Maybe<&2,F.Term.t> <- I.Inline.index_tuple_next(shape,[F.Term.Leg{Nil{},univ},F.Term.Leg{Nil{},large}],Nil{},64n,Nil{},Suite.sum_payload_resume)
+    Suite.application_absent(refused,"tuple reconstruction size cap ignored")
+
+def Suite.tuple_payload_projection() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.index_reduction_context
+  do Result<&2,&2,F.Error.t,Unit>:
+    selected:Unit <- Suite.index_reduction_compare(Suite.projection_pair(0n,leaf,Suite.let_chain(64n,univ)),leaf,context,univ)
+    beta:Unit <- Suite.index_reduction_compare(Suite.beta_term(leaf,F.Term.Var{0n}),leaf,context,univ)
+    lambda:Maybe<&2,F.Term.t> <- I.Inline.index_source_head(F.Term.Sec{F.Shape.make_point(F.Term.t,F.Quantity.Many{},"x",univ),[F.Term.Leg{[F.Pair2{F.Quantity.Many{},"x"}],F.Term.Var{0n}}]},context)
+    Suite.application_equal(lambda,F.Term.Sec{F.Shape.make_point(F.Term.t,F.Quantity.Many{},"x",univ),[F.Term.Leg{[F.Pair2{F.Quantity.Many{},"x"}],F.Term.Var{0n}}]})
+
 def Suite.neutral_index_source_syntax() -> Result<&2,&2,F.Error.t,Unit>:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
   +head:F.Term.t = F.Term.Global{"Neutral"}
@@ -2494,6 +2595,13 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"neutral-projection-size",unit => Suite.neutral_projection_size},
       Suite.Case{"neutral-projection-steps",unit => Suite.neutral_projection_steps},
       Suite.Case{"sum-payload-syntax",unit => Suite.sum_payload_syntax},
+      Suite.Case{"tuple-payload-syntax",unit => Suite.tuple_payload_syntax},
+      Suite.Case{"tuple-payload-local",unit => Suite.tuple_payload_local},
+      Suite.Case{"tuple-payload-guards",unit => Suite.tuple_payload_guards},
+      Suite.Case{"tuple-payload-fuel",unit => Suite.tuple_payload_fuel},
+      Suite.Case{"tuple-payload-steps",unit => Suite.tuple_payload_steps},
+      Suite.Case{"tuple-payload-size",unit => Suite.tuple_payload_size},
+      Suite.Case{"tuple-payload-projection",unit => Suite.tuple_payload_projection},
       Suite.Case{"sum-payload-local",unit => Suite.sum_payload_local},
       Suite.Case{"sum-payload-guards",unit => Suite.sum_payload_guards},
       Suite.Case{"sum-payload-fuel",unit => Suite.sum_payload_fuel},

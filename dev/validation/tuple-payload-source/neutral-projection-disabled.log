@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -132,12 +135,8 @@ INLINE-ERASE row=nested-index-source-syntax OK
 INLINE-ERASE row=nested-index-source-guards OK
 INLINE-ERASE row=nested-index-source-fuel OK
 INLINE-ERASE row=nested-index-source-steps OK
-INLINE-ERASE row=neutral-projection-syntax OK
-INLINE-ERASE row=neutral-projection-local OK
 INLINE-ERASE row=neutral-projection-guards OK
-INLINE-ERASE row=neutral-projection-fuel OK
 INLINE-ERASE row=neutral-projection-size OK
-INLINE-ERASE row=neutral-projection-steps OK
 INLINE-ERASE row=sum-payload-syntax OK
 INLINE-ERASE row=tuple-payload-syntax OK
 INLINE-ERASE row=tuple-payload-local OK
@@ -223,4 +222,9 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=225 total=225 OK
+INLINE-ERASE pass=221 total=225 FAIL
+INLINE-ERASE row=neutral-projection-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=neutral-projection-local FAIL mismatch: application source type missing
+INLINE-ERASE row=neutral-projection-fuel FAIL mismatch: application source type missing
+INLINE-ERASE row=neutral-projection-steps FAIL mismatch: application source type missing
+

@@ -42,7 +42,7 @@ with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 273 isolated mutations. The full mutation record covers the preceding
+contains 293 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
 [scoped validation evidence](dev/validation/annotation-source.json), as does
 [tuple projection recovery](dev/validation/projection-source.json) and
@@ -65,6 +65,9 @@ tests, default gates, erasure record, and 13 scoped mutations for
 `python3 -P dev/validation/sum-payload-source-run.py` records the full tests,
 default gates, erasure evidence, and scoped mutations for
 [numeric sum payload recovery](dev/validation/sum-payload-source.json).
+`python3 -P dev/validation/tuple-payload-source-run.py` records the full tests,
+default gates, erasure evidence, and 15 scoped mutations for
+[numeric tuple field recovery](dev/validation/tuple-payload-source.json).
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -126,7 +129,12 @@ share the existing budgets and node cap. Numeric sum injection indices recover
 their single payload under the same budgets, preserving their collection shape
 and address. The address must be within the collection width, and the entire
 injection must be closed and fit the node cap. Concrete case scrutinees keep
-their existing case recovery path. Neutral cases
+their existing case recovery path. Numeric tuple indices recover their fields
+in source order under the same budgets. Their collection width must equal the
+field count, fields must have no binders, and the complete tuple must be closed.
+Tuple entry consumes one reduction, and reconstruction retains the node cap.
+Concrete projections recover only the selected field, while point sections
+retain their existing application path. Neutral cases
 match only directly or after transparent head aliases. Neutral globals and parameters retain their
 source syntax, and local aliases shift into the current scope. Parameter values live in
 the scrutinee's type. Parameter types must be closed over earlier parameters;
@@ -165,7 +173,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-The inline suite contains 218 semantic cases, including this boundary. Scrutinee types that need
+The inline suite contains 225 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -142,7 +145,6 @@ INLINE-ERASE row=sum-payload-syntax OK
 INLINE-ERASE row=tuple-payload-syntax OK
 INLINE-ERASE row=tuple-payload-local OK
 INLINE-ERASE row=tuple-payload-guards OK
-INLINE-ERASE row=tuple-payload-fuel OK
 INLINE-ERASE row=tuple-payload-steps OK
 INLINE-ERASE row=tuple-payload-size OK
 INLINE-ERASE row=tuple-payload-projection OK
@@ -223,4 +225,6 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=225 total=225 OK
+INLINE-ERASE pass=224 total=225 FAIL
+INLINE-ERASE row=tuple-payload-fuel FAIL mismatch: application substitution captured an outer variable
+

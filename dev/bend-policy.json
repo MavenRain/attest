@@ -456,6 +456,21 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.index_tuple_next",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_tuple_enter",
+      "pattern": "other fuel"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_tuple_pending",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.index_sum_pending",
       "pattern": "other"
     },
@@ -463,6 +478,11 @@
       "path": "erase/inline.bend",
       "function": "Inline.index_source_reduce",
       "pattern": "fuel Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_source_reduce",
+      "pattern": "fuel Some{F.Term.Sec{shape, legs}}"
     },
     {
       "path": "erase/inline.bend",

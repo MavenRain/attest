@@ -1500,7 +1500,7 @@ CASES += (
     ("tuple-payload-order", INLINE,
      "Inline.reverse(F.Term.leg, completed, Nil{})",
      "completed",
-     "INLINE-ERASE row=tuple-payload-fuel FAIL"),
+     "INLINE-ERASE row=tuple-payload-syntax FAIL"),
     ("tuple-payload-size", INLINE,
      "Inline.IndexNeutralReturn{Inline.size_bounded(tuple)}",
      "Inline.IndexNeutralReturn{Some{tuple}}",
