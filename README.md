@@ -71,6 +71,9 @@ default gates, erasure evidence, and 15 scoped mutations for
 `python3 -P dev/validation/neutral-case-source-run.py` records the full tests,
 default gates, erasure evidence, and 12 scoped mutations for
 [neutral numeric case recovery](dev/validation/neutral-case-source.json).
+`python3 -P dev/validation/neutral-constructor-source-run.py` records full tests,
+default gates, the erasure record, and 16 scoped mutations for
+[neutral constructor case recovery](dev/validation/neutral-constructor-source.json).
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -142,8 +145,12 @@ scrutinees ending at globals, local variables, point applications, or numeric
 collection projections under the same budgets and retain branch bodies, motives, quantities,
 and branch order. Their collection branches must cover every address once and
 bind one variable each; motives remain unnamed and unindexed. The complete
-case must be closed and fit the node cap. Neutral constructor cases
-match only directly or after transparent head aliases. Neutral globals and parameters retain their
+case must be closed and fit the node cap. Neutral constructor cases recover
+the same scrutinee forms for complete, positive families. Family names, index
+counts, telescope scope, motives, branch coverage, and field binders must match
+the family metadata. Their branches, motives, quantities, order, and shape
+payloads keep their source syntax under the same budgets and node cap.
+Neutral globals and parameters retain their
 source syntax, and local aliases shift into the current scope. Parameter values live in
 the scrutinee's type. Parameter types must be closed over earlier parameters;
 index types may depend on parameters and earlier indices, while field types
@@ -166,7 +173,7 @@ each, including reductions in heads, scrutinees, and selected results. A let,
 beta, or case result with more than 4096 syntax nodes gives no type. Each alias chain
 retains its declaration-count bound. Source recovery through
 provisional or builtin constructor families, index payloads that remain unequal
-after bounded head recovery, or neutral scrutinees remains open.
+after bounded head recovery, or neutral heads beyond the supported forms remains open.
 Alias bodies must be closed in their declaration scope; opaque, recursive,
 partial, and cyclic aliases remain unsupported. The source type must be closed
 in the current scope; unnamed motives
@@ -181,7 +188,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-The inline suite contains 230 semantic cases, including this boundary. Scrutinee types that need
+The inline suite contains 235 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

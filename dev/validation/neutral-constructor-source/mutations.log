@@ -1,0 +1,17 @@
+ERASURE-MUTATION index-reduction-left caught
+ERASURE-MUTATION index-reduction-right caught
+ERASURE-MUTATION neutral-projection-disabled caught
+ERASURE-MUTATION sum-payload-disabled caught
+ERASURE-MUTATION neutral-constructor-disabled caught
+ERASURE-MUTATION neutral-constructor-head caught
+ERASURE-MUTATION neutral-constructor-coverage caught
+ERASURE-MUTATION neutral-constructor-branches caught
+ERASURE-MUTATION neutral-constructor-motive caught
+ERASURE-MUTATION neutral-constructor-indices caught
+ERASURE-MUTATION neutral-constructor-scope caught
+ERASURE-MUTATION neutral-constructor-parameters caught
+ERASURE-MUTATION neutral-constructor-positive caught
+ERASURE-MUTATION neutral-constructor-complete caught
+ERASURE-MUTATION neutral-constructor-family caught
+ERASURE-MUTATION neutral-constructor-size caught
+ERASURE-MUTATIONS caught=16 total=313 PARTIAL

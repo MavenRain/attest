@@ -1,0 +1,596 @@
+{
+  "version": 1,
+  "implementation_sha256": {
+    "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
+    "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
+    "dev/bend-migration.json": "3987cae1de65c687eddd747ab937eaaaadc369a926dea761303ba7729d19799f",
+    "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
+    "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
+    "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
+    "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
+    "dev/erasure-gates.py": "7083e9ee5fc65273bfca08b55019a20c7cb234d5ad37ce3696fe7b8bc9eda6c0",
+    "dev/erasure-mutations.py": "ff3d59c4fe3e375c64d92fcac8003ff5316cab5793dd7796b982515b7a74a0f2",
+    "erase/inline.bend": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+    "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
+    "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
+    "erase/test/fixtures.bend": "137be14552beaeccf7aef497a3b49cf891e4de74b8fdd486ed8ce22ab39deb52",
+    "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
+    "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
+    "erase/test/inline_test.bend": "ed2db444572baffeb54e157695205c1f3deb3db8b71eea95683cd12944f35566",
+    "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
+    "erase/test/lambda_fixtures.bend": "bfe0fa74d7cd498dc6afd11786c478b3ec4c9d77701eb7c86b9625d43399bf60",
+    "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
+    "erase/test/opaque_core.bend": "27c3d0153f546db7e0ee2127626f03787fe7a14ce2d053c057d1a4169305938c",
+    "erase/test/opaque_test.bend": "72b2354aa5fbae943e85381a1b561a31aa41e1be49747cf07c929df169996ee7",
+    "erase/test/parameter_fixtures.bend": "cc0e2e10c80bf5c8aa6343bd3d0632e4708f501bea0833086887a9067bf2eb53",
+    "erase/test/prop_index.bend": "c826246d00aa39ed7f420bbdbd27679643db40f4b2ab643b8cfc4cc13da658d2",
+    "erase/test/refusal_test.bend": "89eda7b5d4aa7dccd2de2eb957096a288b4972475640993a5fa883c225d29c6b",
+    "erase/test/repr_test.bend": "c78c8c14b2c298de25f77f8d270c7a353a57b8d967d52fa44a122d4c83478563",
+    "erase/test/support.bend": "c4eb069dce3dc29b63ea6982249e7ac0819021ccbfea5088b5c581db3efae1aa",
+    "lib/erasure.bend": "affcab049254fbede84b55fa4093a777ad0f20c0fc833f6e0a27d095e34bcfea",
+    "lib/foundation.bend": "30dfb2d9d09081405072c49c99c50c0e5b5997dfe9447061fad2dc83cc1dcee3",
+    "lib/kernel.bend": "86511b6e597f08262370f68670e0fa2fea54bc94d783d0fb3c4afaa9d9953d86",
+    "lib/kernel_check.bend": "6c11aba82ecba68f41d242550b7001990b86eee696c80505ab12541df2233aee",
+    "lib/kernel_context.bend": "527a3d280ff45b52fe3b38ecf00f823ac91b98b89c8e26774bef21e6d3b048dd",
+    "lib/kernel_conv.bend": "82d814f65a15457f417a3c8c71d13eee9593aa2d4fb3fbb8a07b2bed2c5d65cb",
+    "lib/kernel_declarations.bend": "1f91fb7935722a5f1e13557633d3ab1967cb9269180e496639b3652fb2b3fd05",
+    "lib/kernel_eval.bend": "89c23dcc7e2c04b613058f627174aa9b6da0bcd640a6ceebcbdea4ca9ad1a160",
+    "lib/kernel_metadata.bend": "abcfd8db4e917d7759db348be1b39fbc3c7ebe4b897d60196e0e623e8f2470b7",
+    "lib/kernel_mu.bend": "6a377e0f4453136ed010aaa22f8d0ac46a1f4b8623a903c2de012e504117c9b7",
+    "lib/kernel_order.bend": "10d6df09b22d407af140fb5e67daf3b35dd46779c7a7ac12745741908034fd57",
+    "lib/kernel_pp.bend": "5ce1c182cdf90ca10ae63ce959648baf29db4b07e08e342c1ae4827b1dce269f",
+    "lib/kernel_primitives.bend": "7a2907de92080e7e987be50f1942cc6af73f2d8e8b530a6f04b7bbcf92fbe6c3",
+    "lib/kernel_program.bend": "264f989e7d2fd6f667afc8a738a532e4c2f41e344f4fcc9b65ed91f74c20a355",
+    "lib/kernel_rules.bend": "4dac67dc78b6b5943c8c3d0084effe627ad72698a3050f4a18f18f52e1e3cb22",
+    "lib/kernel_source.bend": "553669e50dd1491f8bd4d1be4e9c0466c3625e5e3bd6b5e18d7e388b605a9629",
+    "lib/kernel_util.bend": "b3b2db19257acfe2832f358aa4394addf76d3f65b3c1e346e14b7d4d9f2976fa",
+    "surface/elab.bend": "5d4899b142716d93b71eb0a8ae17964189dfef254d518949d56654378a219856",
+    "surface/elab_cases.bend": "b9a7cc0474ec12d4449fb54c44ea98107a00b1024d2c91e307a0c69d404240b8",
+    "surface/elab_common.bend": "0b2d76972ef1d09c0d7d19c7b4ea3f24bc3c6a2b6a070befe67985a0c087887f",
+    "surface/elab_forms.bend": "c4eb8a05f0b75a5fd3966dc19858db49e7e2731390a6d48caf5f2a62d27c1225",
+    "surface/elab_headers.bend": "b65cd0b475d8465a8f1d455a54233d7d421d5ab23eb1a74d0946bba3c4a73817",
+    "surface/elab_refs.bend": "bac440f8600d395ef5ca1446a56585ca463e2231f6d6135bcb7b9b8e7f1acc31",
+    "surface/elab_requests.bend": "9625a2192994dc01afc1c8675106af64375ec758494222e7ec934d7449a40c77",
+    "surface/elab_runner.bend": "efe9e39371365965dc182b548160d6b5ce5f7efab341f336f169f854f7a5094b",
+    "surface/elab_state.bend": "972ae91487e179f6734743af65b85f336b4336013e81a46b3bc731c5d374bc5b",
+    "surface/elab_term.bend": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+    "surface/io.bend": "d5fb091d66f12c51942f277cc56392e6eb1cb058b131eaaf0799acd4def3d051",
+    "surface/lexer.bend": "f884b27fefaaa0940c2f3d412f96d8df3d7267689193764c4fb360481913f497",
+    "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
+    "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
+    "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
+    "dev/bend-policy.json": "6f3bf0da97c8def51dbeaa2ac6e0cf22b0a11a3071434a72366f5d4c63b0230b",
+    "dev/validation/neutral-constructor-source-run.py": "aec77203d470dde9073838238c9cc94c694f57888ea7124753d829b984442b4b"
+  },
+  "cases": {
+    "index-reduction-left": {
+      "recipe": [
+        "index-reduction-left",
+        "erase/inline.bend",
+        "left: Maybe<&2, F.Term.t> <- Inline.index_source_head(index, context)",
+        "left: Maybe<&2, F.Term.t> <- Inline.index_alias_head(index, context)",
+        "INLINE-ERASE row=index-reduction-source-syntax FAIL"
+      ],
+      "record": {
+        "name": "index-reduction-left",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "27948a22ed12fdda2beace6756bfb48ed07f108b661ef04a2cd68535ec12b7c0",
+        "log_sha256": "93a557f4c9268c639c37c95a8e59bac091007aa7db7e05a8443f19d7d1f82db3",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=index-reduction-source-syntax FAIL",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/index-reduction-left.log",
+          "sha256": "93a557f4c9268c639c37c95a8e59bac091007aa7db7e05a8443f19d7d1f82db3"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/index-reduction-left-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "index-reduction-right": {
+      "recipe": [
+        "index-reduction-right",
+        "erase/inline.bend",
+        "right: Maybe<&2, F.Term.t> <- Inline.index_source_head(value, context)",
+        "right: Maybe<&2, F.Term.t> <- Inline.index_alias_head(value, context)",
+        "INLINE-ERASE row=index-reduction-source-syntax FAIL"
+      ],
+      "record": {
+        "name": "index-reduction-right",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "03a0f050c98dcd4b3d6e775f9f92ee70db045a335d9fefa3b9692b2c4b92cb32",
+        "log_sha256": "4594b7720cc789f4ccf48cd8869bac68ea7c905fb2f4b7272410df17bbf419f2",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=index-reduction-source-syntax FAIL",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/index-reduction-right.log",
+          "sha256": "4594b7720cc789f4ccf48cd8869bac68ea7c905fb2f4b7272410df17bbf419f2"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/index-reduction-right-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "neutral-projection-disabled": {
+      "recipe": [
+        "neutral-projection-disabled",
+        "erase/inline.bend",
+        "case F.Term.ALeg{index}: next(fuel, None{}, Inline.IndexNeutralReturn{Inline.index_neutral_projection(P.Rules.as_vcoll(F.Term.t, shape), shape, index, head, depth)} <> rest)",
+        "case F.Term.ALeg{index}: next(fuel, None{}, rest)",
+        "INLINE-ERASE row=neutral-projection-syntax FAIL"
+      ],
+      "record": {
+        "name": "neutral-projection-disabled",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "457c26afe8252b1258b2282211a247d9bf29c7d1b05d0a9ea6aef8a94f5f39ff",
+        "log_sha256": "305517d312bd943b7d530325cf9f01e27cb8c35b8d4e7d637e399859023dae5f",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=neutral-projection-syntax FAIL",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-projection-disabled.log",
+          "sha256": "305517d312bd943b7d530325cf9f01e27cb8c35b8d4e7d637e399859023dae5f"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-projection-disabled-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "sum-payload-disabled": {
+      "recipe": [
+        "sum-payload-disabled",
+        "erase/inline.bend",
+        "Inline.index_sum_pending(shape, index, arguments, fuel, context, index_pending, next)",
+        "Inline.index_source_pending(index_pending, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
+        "INLINE-ERASE row=sum-payload-syntax FAIL"
+      ],
+      "record": {
+        "name": "sum-payload-disabled",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "19bd8c7ac1e32c8f27e663ac35389d93ceb186676b985024635a778a092b89d6",
+        "log_sha256": "f629fadc6f0ab6b85969dff5f6631307441e33bdf5a4529192cb90464844e8a7",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=sum-payload-syntax FAIL",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/sum-payload-disabled.log",
+          "sha256": "f629fadc6f0ab6b85969dff5f6631307441e33bdf5a4529192cb90464844e8a7"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/sum-payload-disabled-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "neutral-constructor-disabled": {
+      "recipe": [
+        "neutral-constructor-disabled",
+        "erase/inline.bend",
+        "case True{}: Inline.index_neutral_constructor_family(family, expected, shape_count, motive, branches, elimination, depth)",
+        "case True{}: None{}",
+        "INLINE-ERASE row=neutral-constructor-syntax FAIL"
+      ],
+      "record": {
+        "name": "neutral-constructor-disabled",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "884181d506382c27037279c21988180c0cc63b110938f86f6ef01c2d8583afcc",
+        "log_sha256": "447c882439782a4211df106ef0178e19b8f3d190e4189d5721bbff03f4b876ae",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=neutral-constructor-syntax FAIL",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-disabled.log",
+          "sha256": "447c882439782a4211df106ef0178e19b8f3d190e4189d5721bbff03f4b876ae"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-disabled-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "neutral-constructor-head": {
+      "recipe": [
+        "neutral-constructor-head",
+        "erase/inline.bend",
+        "Inline.index_neutral_constructor_enter(Inline.index_neutral_head(term),",
+        "Inline.index_neutral_constructor_enter(True{},",
+        "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor concrete head accepted"
+      ],
+      "record": {
+        "name": "neutral-constructor-head",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "1400ec0ac7b9dc5e9e90098d882c4e256ded33c64843701206dcdb260df908a3",
+        "log_sha256": "79f1310bf7765e95c2a3daf6622659129cec567b1b6be5533a51bc021ec692c9",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor concrete head accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-head.log",
+          "sha256": "79f1310bf7765e95c2a3daf6622659129cec567b1b6be5533a51bc021ec692c9"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-head-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "neutral-constructor-coverage": {
+      "recipe": [
+        "neutral-constructor-coverage",
+        "erase/inline.bend",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(True{}, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor missing branch accepted"
+      ],
+      "record": {
+        "name": "neutral-constructor-coverage",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "81ea9f3e6c4fe690d27938b69813913cf154960a60030e9c2c4f0e46fb717105",
+        "log_sha256": "cd4a2992d947b2bac97462f0e2c043f389a5d45d7094277dbff681762d70ad2d",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor missing branch accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-coverage.log",
+          "sha256": "cd4a2992d947b2bac97462f0e2c043f389a5d45d7094277dbff681762d70ad2d"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-coverage-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "neutral-constructor-branches": {
+      "recipe": [
+        "neutral-constructor-branches",
+        "erase/inline.bend",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(True{}, Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor duplicate branch accepted"
+      ],
+      "record": {
+        "name": "neutral-constructor-branches",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "a2e07b67756f62b3e84cd44476e18e3aec66aa9744fe5883f5ee0bb4380eb660",
+        "log_sha256": "707b1307f77975a119c3e000c8cb29f29364418895c2974de2262da5b0dba633",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor duplicate branch accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-branches.log",
+          "sha256": "707b1307f77975a119c3e000c8cb29f29364418895c2974de2262da5b0dba633"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-branches-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "neutral-constructor-motive": {
+      "recipe": [
+        "neutral-constructor-motive",
+        "erase/inline.bend",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, True{}))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor wrong motive accepted"
+      ],
+      "record": {
+        "name": "neutral-constructor-motive",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "fc64d778ad8203393dda188ea2a36f8801d43f8aba87d96234035965ee1992fa",
+        "log_sha256": "73f9e432ca01fd38e6d046c8d932d634fb8f850e16f0249ae6ceccf93d20e106",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor wrong motive accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-motive.log",
+          "sha256": "73f9e432ca01fd38e6d046c8d932d634fb8f850e16f0249ae6ceccf93d20e106"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-motive-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "neutral-constructor-indices": {
+      "recipe": [
+        "neutral-constructor-indices",
+        "erase/inline.bend",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(True{}, Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor index arity accepted"
+      ],
+      "record": {
+        "name": "neutral-constructor-indices",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "e966c9365c4268ae1f0e1b592e4f24d338e8bb2a6edd2f999af98d2ad009f9b8",
+        "log_sha256": "546314ac167fc4fe84a2f997801d8dc53d2016ae3085ed0024e8ef1778ceebc5",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor index arity accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-indices.log",
+          "sha256": "546314ac167fc4fe84a2f997801d8dc53d2016ae3085ed0024e8ef1778ceebc5"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-indices-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "neutral-constructor-scope": {
+      "recipe": [
+        "neutral-constructor-scope",
+        "erase/inline.bend",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), True{})))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor open branch accepted"
+      ],
+      "record": {
+        "name": "neutral-constructor-scope",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "83c11345a4b7975f3aec96a6d6b554ec01e4ac8780963525753c9d924b83ca2c",
+        "log_sha256": "dd63d71a44d0a824768c6dc0a985b14d486625e72acd492a4681cf42582156d1",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=neutral-constructor-guards FAIL mismatch: neutral constructor open branch accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-scope.log",
+          "sha256": "dd63d71a44d0a824768c6dc0a985b14d486625e72acd492a4681cf42582156d1"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-scope-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "neutral-constructor-positive": {
+      "recipe": [
+        "neutral-constructor-positive",
+        "erase/inline.bend",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:\n  match family:\n    case Some{+value}:\n      match value:\n        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, positive}:\n          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)\n          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)\n          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))\n          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))\n          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))\n          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))\n          Inline.index_neutral_case_valid(valid, elimination)\n        case other: None{}\n    case None{}: None{}\n",
+        "INLINE-ERASE row=neutral-constructor-metadata FAIL mismatch: neutral constructor nonpositive family accepted"
+      ],
+      "record": {
+        "name": "neutral-constructor-positive",
+        "path": "erase/inline.bend",
+        "before_sha256": "688fa1d2e4491bf4250b92b6ed709a6147530660bf40c7cff70795d6b3888071",
+        "mutated_sha256": "5198ba88fe784f5b59617cd125243879b544b1200ed9315ecb1cdd6f476357ed",
+        "log_sha256": "04dfe649e2822f8f52447daf75ecb8a10f3bc49aaee47c51ba971b5d98fc8490",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=neutral-constructor-metadata FAIL mismatch: neutral constructor nonpositive family accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-positive.log",
+          "sha256": "04dfe649e2822f8f52447daf75ecb8a10f3bc49aaee47c51ba971b5d98fc8490"
+        },
+        "build_log": {
+          "path": "dev/validation/neutral-constructor-source/neutral-constructor-positive-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    }
+  }
+}

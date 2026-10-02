@@ -1,5 +1,58 @@
 # M0 build log
 
+## 2026-10-02: Stage B neutral constructor cases in source indices
+
+Source index recovery now retains constructor cases when the recovered
+scrutinee is a neutral global, local variable, point application, or numeric
+collection projection. Scrutinee recovery uses the enclosing 64 reductions
+and 129 transitions. Reconstruction returns through the existing neutral
+return frame and does not restart recovery.
+
+The family must be complete and positive, with a matching family name and
+index count, closed parameter and index telescopes, the required motive, complete
+unique constructor branches, and matching field quantities and arities.
+The complete case must be closed and fit the 4096-node cap. Branch bodies,
+motives, quantities, branch order, and shape payloads retain source syntax.
+Recursive and indexed families use the same metadata checks. No unsafe
+function is added; HOUSE registers two new refusal/fallback catch-alls.
+
+Five inline rows cover scrutinee reductions, neutral applications and
+projections, constructor index comparison, nested sum payloads, local
+scope, syntax preservation, reversed branches, malformed branches and
+motives, family metadata, shared fuel, exact transition limits, and size.
+The inline suite contains 235 cases. Twelve new targeted mutations bring the
+catalog to 313 anchors. Four controls cover sum payloads, neutral projections,
+and both index comparison directions.
+
+`dev/validation/neutral-constructor-source-run.py` collects full tests, default
+gates, the erasure record, and the 16 serial scoped mutations into
+`dev/validation/neutral-constructor-source.json`. The record pins the checked
+implementation, mutation recipes, checkpoints, and logs. Full tests and
+default gates pass, and all 16 scoped mutations are caught after successful
+isolated builds.
+
+The first full test run passed every new row but failed a predecessor test
+that still required refusal of a neutral constructor scrutinee (234/235).
+That test now checks the exact recovered syntax. Its failed output is retained
+as `tests-prior-neutral-refusal.log`; the final collector reruns all checks.
+
+The first mutation battery exposed a masked parameter-scope fixture: its
+constructor arities omitted the parameter count. Correct arities now isolate
+the open parameter type, and a valid parameterized-family control checks that
+the fixture can recover. The failed mutation output and prior checkpoints
+are retained. `mutations-masked-parameter.log` records the uncaught
+`neutral-constructor-parameters` mutation, and `parameter-mask.log` records
+its masked gate run. `checks-before-parameter-fix.json` and
+`mutations-before-parameter-fix.json` keep the prior checkpoints.
+All checks and all 16 mutations are rerun on the corrected tests.
+
+Stale ignored mutation snapshots from September 24 through 30 were removed
+after the local disk guard held a status probe below its 30 GiB floor.
+
+This entry records local implementation and executable validation.
+No independent review agent or Stage B completion is claimed.
+
+
 ## 2026-10-01: Stage B neutral numeric cases in source indices
 
 Source index recovery now retains a numeric case when its recovered scrutinee

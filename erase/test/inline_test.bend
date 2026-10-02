@@ -1899,7 +1899,7 @@ def Suite.constructor_index_source_guards() -> Result<&2,&2,F.Error.t,Unit>:
     quantity:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"empty"},empty},F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"A"},F.Pair2{F.Quantity.Zero{},"x"}],univ}}]}},context,"constructor index quantity mismatch accepted")
     motive:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},Some{F.Term.Motive{Some{"Other"},Nil{},"self",univ}},branches}},context,"constructor index motive mismatch accepted")
     open_motive:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,scrut,F.Quantity.Many{},Some{F.Term.Motive{Some{"Choice"},Nil{},"self",F.Term.Var{1n}}},branches}},context,"open constructor index motive accepted")
-    Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,F.Term.Global{"neutral"},F.Quantity.Many{},None{},branches}},context,"neutral constructor index scrutinee accepted")
+    Suite.constructor_index_equal(F.Term.Elim{F.Term.Elimination{shape,F.Term.Global{"neutral"},F.Quantity.Many{},None{},branches}},context,F.Term.Elim{F.Term.Elimination{shape,F.Term.Global{"neutral"},F.Quantity.Many{},None{},branches}})
 
 def Suite.constructor_index_source_metadata(family:F.Positivity.family) -> Result<&2,&2,F.Error.t,Unit>:
   F.Positivity.Family{+name,+params,+indices,+level,status,+ctors,positive} = family
@@ -2106,6 +2106,100 @@ def Suite.sum_payload_size() -> Result<&2,&2,F.Error.t,Unit>:
     size_ok:Unit <- Suite.application_absent(refused,"sum payload reconstruction size cap ignored")
     missing:Maybe<&2,F.Term.t> <- Done{I.Inline.index_sum_result(shape,1n,None{})}
     Suite.application_absent(missing,"refused sum payload reconstructed")
+
+def Suite.neutral_constructor_case(scrutinee:F.Term.t,empty:F.Term.t,body:F.Term.t) -> F.Term.t:
+  F.Term.Elim{F.Term.Elimination{F.Shape.make_inductive(F.Term.t,"Choice",Nil{}),scrutinee,F.Quantity.Many{},None{},Suite.constructor_branches(empty,body)}}
+
+def Suite.neutral_constructor_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(0n)
+  +expected:F.Term.t = Suite.neutral_constructor_case(leaf,univ,F.Term.Var{0n})
+  do Result<&2,&2,F.Error.t,Unit>:
+    let_ok:Unit <- Suite.constructor_index_equal(Suite.neutral_constructor_case(Suite.let_chain(1n,leaf),univ,F.Term.Var{0n}),context,expected)
+    beta:Unit <- Suite.constructor_index_equal(Suite.neutral_constructor_case(Suite.beta_term(leaf,F.Term.Var{0n}),univ,F.Term.Var{0n}),context,expected)
+    annotation:Unit <- Suite.constructor_index_equal(Suite.neutral_constructor_case(F.Term.Ann{leaf,univ},univ,F.Term.Var{0n}),context,expected)
+    application:Unit <- Suite.constructor_index_equal(Suite.neutral_constructor_case(Suite.neutral_index_application(leaf,Suite.let_chain(1n,univ)),univ,F.Term.Var{0n}),context,Suite.neutral_constructor_case(Suite.neutral_index_application(leaf,univ),univ,F.Term.Var{0n}))
+    projection:Unit <- Suite.constructor_index_equal(Suite.neutral_constructor_case(F.Term.Out{F.Shape.make_collection(F.Term.t,2n),F.Term.ALeg{1n},Suite.let_chain(1n,leaf)},univ,univ),context,Suite.neutral_constructor_case(F.Term.Out{F.Shape.make_collection(F.Term.t,2n),F.Term.ALeg{1n},leaf},univ,univ))
+    +inner_shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Inner",Nil{})
+    compared:Unit <- Suite.index_reduction_compare(F.Term.Elim{F.Term.Elimination{inner_shape,Suite.let_chain(1n,leaf),F.Quantity.Many{},None{},Suite.constructor_branches(univ,F.Term.Var{0n})}},F.Term.Elim{F.Term.Elimination{inner_shape,leaf,F.Quantity.Many{},None{},Suite.constructor_branches(univ,F.Term.Var{0n})}},Suite.constructor_index_context(Suite.index_reduction_context),univ)
+    nested:Unit <- Suite.constructor_index_equal(Suite.sum_payload(Suite.neutral_constructor_case(Suite.let_chain(1n,leaf),univ,F.Term.Var{0n})),context,Suite.sum_payload(expected))
+    local:Unit <- Suite.constructor_index_equal(Suite.neutral_constructor_case(Suite.let_chain(1n,F.Term.Var{0n}),F.Term.Var{0n},F.Term.Var{2n}),Suite.constructor_context(1n),Suite.neutral_constructor_case(F.Term.Var{0n},F.Term.Var{0n},F.Term.Var{2n}))
+    Suite.constructor_index_equal(Suite.neutral_constructor_case(leaf,Suite.let_chain(1n,univ),F.Term.Var{0n}),context,Suite.neutral_constructor_case(leaf,Suite.let_chain(1n,univ),F.Term.Var{0n}))
+
+def Suite.neutral_constructor_guard(shape:F.Shape.t<F.Term.t>,scrutinee:Maybe<&2,F.Term.t>,motive:Maybe<&2,F.Term.motive>,branches:List<&2,F.Pair2<F.Term.addr,F.Term.leg>>,depth:Nat,globals:F.Global.t,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  Suite.application_absent(I.Inline.index_neutral_constructor(shape,F.Quantity.Many{},motive,branches,scrutinee,depth,globals),message)
+
+def Suite.neutral_constructor_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",Nil{})
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +globals:F.Global.t = F.Global.add_family("Choice",Suite.constructor_family,F.Global.empty)
+  +empty:F.Pair2<F.Term.addr,F.Term.leg> = F.Pair2{F.Term.ACtor{"empty"},F.Term.Leg{Nil{},univ}}
+  +pair:F.Pair2<F.Term.addr,F.Term.leg> = F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{[F.Pair2{F.Quantity.Zero{},"A"},F.Pair2{F.Quantity.Zero{},"x"}],F.Term.Var{0n}}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.neutral_constructor_guard(shape,Some{leaf},None{},[empty],0n,globals,"neutral constructor missing branch accepted")
+    duplicate:Unit <- Suite.neutral_constructor_guard(shape,Some{leaf},None{},[empty,empty],0n,globals,"neutral constructor duplicate branch accepted")
+    unknown:Unit <- Suite.neutral_constructor_guard(shape,Some{leaf},None{},[empty,F.Pair2{F.Term.ACtor{"other"},F.Term.Leg{Nil{},univ}}],0n,globals,"neutral constructor unknown branch accepted")
+    arity:Unit <- Suite.neutral_constructor_guard(shape,Some{leaf},None{},[empty,F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{Nil{},univ}}],0n,globals,"neutral constructor field arity accepted")
+    quantity:Unit <- Suite.neutral_constructor_guard(shape,Some{leaf},None{},[empty,F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"A"},F.Pair2{F.Quantity.Zero{},"x"}],univ}}],0n,globals,"neutral constructor field quantity accepted")
+    motive:Unit <- Suite.neutral_constructor_guard(shape,Some{leaf},Some{F.Term.Motive{Some{"Other"},Nil{},"self",univ}},[empty,pair],0n,globals,"neutral constructor wrong motive accepted")
+    indices:Unit <- Suite.neutral_constructor_guard(F.Shape.make_inductive(F.Term.t,"Choice",[univ]),Some{leaf},None{},[empty,pair],0n,globals,"neutral constructor index arity accepted")
+    scope:Unit <- Suite.neutral_constructor_guard(shape,Some{leaf},None{},[F.Pair2{F.Term.ACtor{"empty"},F.Term.Leg{Nil{},F.Term.Var{0n}}},pair],0n,globals,"neutral constructor open branch accepted")
+    head:Unit <- Suite.neutral_constructor_guard(shape,Some{univ},None{},[empty,pair],0n,globals,"neutral constructor concrete head accepted")
+    reversed:Unit <- Suite.application_equal(I.Inline.index_neutral_constructor(shape,F.Quantity.Zero{},None{},[pair,empty],Some{leaf},0n,globals),F.Term.Elim{F.Term.Elimination{shape,leaf,F.Quantity.Zero{},None{},[pair,empty]}})
+    Suite.neutral_constructor_guard(shape,None{},None{},[empty,pair],0n,globals,"neutral constructor refused scrutinee accepted")
+
+def Suite.neutral_constructor_metadata(family:F.Positivity.family) -> Result<&2,&2,F.Error.t,Unit>:
+  F.Positivity.Family{+name,+params,+indices,+level,+status,+ctors,+positive} = family
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +term:F.Term.t = Suite.neutral_constructor_case(Suite.let_chain(1n,leaf),univ,univ)
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",[univ,univ])
+  +indexed:F.Term.t = F.Term.Elim{F.Term.Elimination{shape,leaf,F.Quantity.Many{},Suite.index_motive(["A","a"]),Suite.constructor_branches(univ,F.Term.Var{0n})}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.constructor_index_refused(term,I.Inline.Context{C.Check.Ctx{F.Global.empty,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},"neutral constructor missing family accepted")
+    nonpositive:F.Global.t = F.Global.add_family("Choice",F.Positivity.Family{name,params,indices,level,status,ctors,False{}},F.Global.empty)
+    nonpositive_ok:Unit <- Suite.constructor_index_refused(term,I.Inline.Context{C.Check.Ctx{nonpositive,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},"neutral constructor nonpositive family accepted")
+    provisional:F.Global.t = F.Global.add_family("Choice",F.Positivity.Family{name,params,indices,level,F.Positivity.Provisional{},ctors,positive},F.Global.empty)
+    provisional_ok:Unit <- Suite.constructor_index_refused(term,I.Inline.Context{C.Check.Ctx{provisional,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},"neutral constructor provisional family accepted")
+    mismatch:F.Global.t = F.Global.add_family("Choice",F.Positivity.Family{"Other",params,indices,level,status,ctors,positive},F.Global.empty)
+    mismatch_ok:Unit <- Suite.constructor_index_refused(term,I.Inline.Context{C.Check.Ctx{mismatch,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},"neutral constructor mismatched family accepted")
+    +parameter_ctors:List<&2,F.Positivity.ctor> = [F.Positivity.Ctor{"empty",Nil{},Nil{},1n,False{}},F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"A",univ},F.Triple3{F.Quantity.Zero{},"x",F.Term.Var{0n}}],Nil{},3n,False{}}]
+    open_params:F.Global.t = F.Global.add_family("Choice",F.Positivity.Family{name,[F.Triple3{F.Quantity.Zero{},"p",F.Term.Var{0n}}],indices,level,status,parameter_ctors,positive},F.Global.empty)
+    parameter_scope:Unit <- Suite.constructor_index_refused(term,I.Inline.Context{C.Check.Ctx{open_params,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},"neutral constructor open parameter type accepted")
+    closed_params:F.Global.t = F.Global.add_family("Choice",F.Positivity.Family{name,[F.Triple3{F.Quantity.Zero{},"p",univ}],indices,level,status,parameter_ctors,positive},F.Global.empty)
+    parameterized:Unit <- Suite.constructor_index_equal(term,I.Inline.Context{C.Check.Ctx{closed_params,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},Suite.neutral_constructor_case(leaf,univ,univ))
+    indexed_ok:Unit <- Suite.constructor_index_equal(indexed,Suite.index_context(0n),indexed)
+    indexed_motive:Unit <- Suite.constructor_index_refused(F.Term.Elim{F.Term.Elimination{shape,leaf,F.Quantity.Many{},None{},Suite.constructor_branches(univ,univ)}},Suite.index_context(0n),"neutral constructor indexed motive missing")
+    recursive:F.Global.t = F.Global.add_family("Choice",Suite.recursive_family(Suite.constructor_family),F.Global.empty)
+    Suite.constructor_index_equal(term,I.Inline.Context{C.Check.Ctx{recursive,Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},Suite.neutral_constructor_case(leaf,univ,univ))
+
+def Suite.neutral_constructor_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(0n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Unit <- Suite.constructor_index_equal(Suite.neutral_constructor_case(Suite.let_chain(63n,leaf),univ,univ),context,Suite.neutral_constructor_case(leaf,univ,univ))
+    over:Unit <- Suite.constructor_index_refused(Suite.neutral_constructor_case(Suite.let_chain(64n,leaf),univ,univ),context,"neutral constructor scrutinee fuel restarted")
+    argument:Unit <- Suite.constructor_index_refused(Suite.neutral_constructor_case(Suite.neutral_index_application(leaf,Suite.let_chain(63n,univ)),univ,univ),context,"neutral constructor argument fuel restarted")
+    +term:F.Term.t = Suite.neutral_constructor_case(leaf,univ,univ)
+    transitions:Maybe<&2,F.Term.t> <- I.Inline.index_source_steps(3n,64n,Some{term},context,Nil{})
+    transitions_ok:Unit <- Suite.application_equal(transitions,term)
+    transition_over:Maybe<&2,F.Term.t> <- I.Inline.index_source_steps(2n,64n,Some{term},context,Nil{})
+    transition_refused:Unit <- Suite.application_absent(transition_over,"neutral constructor transition budget restarted")
+    Suite.constructor_index_refused(Suite.let_chain(64n,Suite.neutral_constructor_case(leaf,univ,univ)),context,"neutral constructor entered without fuel")
+
+def Suite.neutral_constructor_size() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Choice",Nil{})
+  +globals:F.Global.t = F.Global.add_family("Choice",Suite.constructor_family,F.Global.empty)
+  +small:F.Term.t = Suite.constructor_tree(9n,univ)
+  +large:F.Term.t = Suite.constructor_tree(11n,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Unit <- Suite.application_equal(I.Inline.index_neutral_constructor(shape,F.Quantity.Many{},None{},Suite.constructor_branches(small,small),Some{leaf},0n,globals),Suite.neutral_constructor_case(leaf,small,small))
+    Suite.neutral_constructor_guard(shape,Some{leaf},None{},Suite.constructor_branches(univ,large),0n,globals,"neutral constructor reconstruction size cap ignored")
 
 def Suite.neutral_case(scrutinee:F.Term.t,first:F.Term.t,second:F.Term.t) -> F.Term.t:
   +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
@@ -2689,6 +2783,11 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"neutral-case-fuel",unit => Suite.neutral_case_fuel},
       Suite.Case{"neutral-case-steps",unit => Suite.neutral_case_steps},
       Suite.Case{"neutral-case-size",unit => Suite.neutral_case_size},
+      Suite.Case{"neutral-constructor-syntax",unit => Suite.neutral_constructor_syntax},
+      Suite.Case{"neutral-constructor-guards",unit => Suite.neutral_constructor_guards},
+      Suite.Case{"neutral-constructor-metadata",unit => Suite.neutral_constructor_metadata(Suite.constructor_family)},
+      Suite.Case{"neutral-constructor-fuel",unit => Suite.neutral_constructor_fuel},
+      Suite.Case{"neutral-constructor-size",unit => Suite.neutral_constructor_size},
       Suite.Case{"tuple-payload-guards",unit => Suite.tuple_payload_guards},
       Suite.Case{"tuple-payload-fuel",unit => Suite.tuple_payload_fuel},
       Suite.Case{"tuple-payload-steps",unit => Suite.tuple_payload_steps},

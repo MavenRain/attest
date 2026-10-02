@@ -1033,6 +1033,37 @@ def Inline.index_neutral_case_collection(width: Maybe<&2, Nat>, +shape: F.Shape.
 def Inline.index_neutral_case(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, depth: Nat) -> Maybe<&2, F.Term.t>:
   Inline.index_neutral_case_collection(P.Rules.as_vcoll(F.Term.t, shape), shape, quantity, motive, branches, scrutinee, depth)
 
+# Neutral constructor cases retain their branches and share the index continuation.
+def Inline.index_neutral_constructor_family(family: Maybe<&2, F.Positivity.family>, +family_id: String, payload_count: Nat, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, +elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:
+  match family:
+    case Some{+value}:
+      match value:
+        case F.Positivity.Family{family_label, +parameters, +index_types, level, F.Positivity.Complete{names}, constructors, True{}}:
+          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, parameters)
+          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, index_types)
+          covered = Bool.and(String.eq(family_id, family_label), Nat.is_eq(Inline.length(F.Positivity.ctor, constructors), Inline.length(F.Pair2<F.Term.addr, F.Term.leg>, branches)))
+          scoped = Bool.and(Inline.constructor_parameter_scope(parameters, 0n), Inline.constructor_parameter_scope(index_types, parameter_count))
+          admitted = Bool.and(Nat.is_eq(payload_count, index_count), Bool.and(scoped, Inline.constructor_motive(motive, family_id, index_count)))
+          valid = Bool.and(admitted, Bool.and(covered, Bool.and(Inline.constructor_branches(branches, value, parameter_count, index_count), Inline.closed(depth, elimination))))
+          Inline.index_neutral_case_valid(valid, elimination)
+        case other: None{}
+    case None{}: None{}
+
+def Inline.index_neutral_constructor_enter(valid: Bool, family: Maybe<&2, F.Positivity.family>, expected: String, shape_count: Nat, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, elimination: F.Term.t, depth: Nat) -> Maybe<&2, F.Term.t>:
+  match valid:
+    case True{}: Inline.index_neutral_constructor_family(family, expected, shape_count, motive, branches, elimination, depth)
+    case False{}: None{}
+
+def Inline.index_neutral_constructor_shape(inductive: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, +shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, depth: Nat, globals: F.Global.t) -> Maybe<&2, F.Term.t>:
+  match inductive scrutinee:
+    case Some{F.Pair2{+family, indices}} Some{+term}:
+      elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, term, quantity, motive, branches}}
+      Inline.index_neutral_constructor_enter(Inline.index_neutral_head(term), F.Global.find_family(family, globals), family, Inline.length(F.Term.t, indices), motive, branches, elimination, depth)
+    case other scrutinee: Inline.index_neutral_case(shape, quantity, motive, branches, scrutinee, depth)
+
+def Inline.index_neutral_constructor(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, depth: Nat, globals: F.Global.t) -> Maybe<&2, F.Term.t>:
+  Inline.index_neutral_constructor_shape(F.Shape.inductive(F.Term.t, shape), shape, quantity, motive, branches, scrutinee, depth, globals)
+
 def Inline.index_case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, +motive: Maybe<&2, F.Term.motive>, +branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>, scrutinee: Maybe<&2, F.Term.t>, +depth: Nat, globals: F.Global.t) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match scrutinee:
     case Some{F.Term.In{+injection, F.Term.ALeg{+index}, +argument <> Nil{}}}:
@@ -1042,7 +1073,7 @@ def Inline.index_case_type(+shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, 
     case Some{F.Term.In{+injection, F.Term.ACtor{+name}, +arguments}}:
       index_constructor_elimination: F.Term.t = F.Term.Elim{F.Term.Elimination{shape, F.Term.In{injection, F.Term.ACtor{name}, arguments}, quantity, motive, branches}}
       Inline.index_constructor_case(F.Shape.inductive(F.Term.t, shape), F.Shape.inductive(F.Term.t, injection), name, arguments, motive, branches, Inline.closed(depth, index_constructor_elimination), globals, depth)
-    case other: Done{Inline.index_neutral_case(shape, quantity, motive, branches, other, depth)}
+    case other: Done{Inline.index_neutral_constructor(shape, quantity, motive, branches, other, depth, globals)}
 
 # Nested payloads share the enclosing continuation's reduction and transition limits.
 def Inline.index_alias_equal(left: Maybe<&2, F.Term.t>, right: Maybe<&2, F.Term.t>) -> Bool:

@@ -1,0 +1,12 @@
+ERASURE-MUTATION index-reduction-left caught
+ERASURE-MUTATION index-reduction-right caught
+ERASURE-MUTATION neutral-projection-disabled caught
+ERASURE-MUTATION sum-payload-disabled caught
+ERASURE-MUTATION neutral-constructor-disabled caught
+ERASURE-MUTATION neutral-constructor-head caught
+ERASURE-MUTATION neutral-constructor-coverage caught
+ERASURE-MUTATION neutral-constructor-branches caught
+ERASURE-MUTATION neutral-constructor-motive caught
+ERASURE-MUTATION neutral-constructor-indices caught
+ERASURE-MUTATION neutral-constructor-scope caught
+ERASURE-MUTATIONS FAIL: neutral-constructor-parameters: inline proof regression exit=0

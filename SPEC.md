@@ -186,8 +186,14 @@ variable. The optional motive must be unnamed and unindexed. The complete case
 must be closed and contain at most 4096 syntax nodes. A return frame prevents
 another pass over the reconstructed case. Branch bodies and motives retain
 their source syntax, and a refused scrutinee refuses the case.
-A payload whose reduction reaches a neutral constructor case matches only directly or
-after transparent head aliases. Global and
+Neutral constructor cases recover the same neutral scrutinee forms under the
+enclosing budgets. The family must be complete and positive, with a matching
+name and index count, closed parameter and index telescopes, the required
+family motive, and exactly one branch per constructor. Field quantities,
+arities, and result index counts must match the metadata. The complete case
+must be closed and fit the 4096-node cap. Reconstruction preserves branch
+bodies, motives, quantities, branch order, and shape payload syntax, and uses
+the existing return frame. Global and
 local alias bodies reuse the existing closedness checks. Neutral globals and
 parameters retain their source syntax; local values shift into the current
 scope. Alias unfolding does not consume an annotation, let, beta, or case step.
