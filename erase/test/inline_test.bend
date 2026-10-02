@@ -2633,6 +2633,91 @@ def Suite.sum_index_source_fuel() -> Result<&2,&2,F.Error.t,Unit>:
     mixed_ok:Unit <- Suite.application_equal(mixed,univ)
     Suite.sum_index_refused(Suite.let_chain(16n,Suite.beta_chain(16n,Suite.case_result_chain(33n,univ))),"sum index let and beta fuel not shared")
 
+def Suite.neutral_composition_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(0n)
+  +numeric:F.Term.t = Suite.neutral_case(Suite.let_chain(1n,leaf),F.Term.Var{0n},univ)
+  +numeric_expected:F.Term.t = Suite.neutral_case(leaf,F.Term.Var{0n},univ)
+  +constructor:F.Term.t = Suite.neutral_constructor_case(Suite.let_chain(1n,leaf),univ,F.Term.Var{0n})
+  +constructor_expected:F.Term.t = Suite.neutral_constructor_case(leaf,univ,F.Term.Var{0n})
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    numeric_numeric:Unit <- Suite.constructor_index_equal(Suite.neutral_case(numeric,univ,F.Term.Var{0n}),context,Suite.neutral_case(numeric_expected,univ,F.Term.Var{0n}))
+    constructor_numeric:Unit <- Suite.constructor_index_equal(Suite.neutral_case(constructor,univ,F.Term.Var{0n}),context,Suite.neutral_case(constructor_expected,univ,F.Term.Var{0n}))
+    numeric_constructor:Unit <- Suite.constructor_index_equal(Suite.neutral_constructor_case(numeric,univ,F.Term.Var{0n}),context,Suite.neutral_constructor_case(numeric_expected,univ,F.Term.Var{0n}))
+    constructor_constructor:Unit <- Suite.constructor_index_equal(Suite.neutral_constructor_case(constructor,univ,F.Term.Var{0n}),context,Suite.neutral_constructor_case(constructor_expected,univ,F.Term.Var{0n}))
+    numeric_application:Unit <- Suite.constructor_index_equal(Suite.neutral_index_application(numeric,Suite.let_chain(1n,univ)),context,Suite.neutral_index_application(numeric_expected,univ))
+    constructor_application:Unit <- Suite.constructor_index_equal(Suite.neutral_index_application(constructor,Suite.let_chain(1n,univ)),context,Suite.neutral_index_application(constructor_expected,univ))
+    numeric_projection:Unit <- Suite.constructor_index_equal(F.Term.Out{shape,F.Term.ALeg{1n},numeric},context,F.Term.Out{shape,F.Term.ALeg{1n},numeric_expected})
+    constructor_projection:Unit <- Suite.constructor_index_equal(F.Term.Out{shape,F.Term.ALeg{1n},constructor},context,F.Term.Out{shape,F.Term.ALeg{1n},constructor_expected})
+    payload:Unit <- Suite.constructor_index_equal(Suite.sum_payload(Suite.neutral_case(constructor,univ,F.Term.Var{0n})),context,Suite.sum_payload(Suite.neutral_case(constructor_expected,univ,F.Term.Var{0n})))
+    Suite.index_reduction_compare(Suite.neutral_case(numeric,univ,F.Term.Var{0n}),Suite.neutral_case(numeric_expected,univ,F.Term.Var{0n}),Suite.constructor_index_context(Suite.index_reduction_context),univ)
+
+def Suite.neutral_composition_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(0n)
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +bad_numeric:F.Term.t = Suite.neutral_case(leaf,F.Term.Var{1n},univ)
+  +bad_constructor:F.Term.t = F.Term.Elim{F.Term.Elimination{F.Shape.make_inductive(F.Term.t,"Choice",Nil{}),leaf,F.Quantity.Many{},None{},[F.Pair2{F.Term.ACtor{"empty"},F.Term.Leg{Nil{},univ}}]}}
+  +unknown:F.Term.t = F.Term.Elim{F.Term.Elimination{F.Shape.make_inductive(F.Term.t,"Unknown",Nil{}),leaf,F.Quantity.Many{},None{},Nil{}}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    numeric:Unit <- Suite.constructor_index_refused(Suite.neutral_constructor_case(bad_numeric,univ,univ),context,"nested numeric branch refusal lost")
+    constructor:Unit <- Suite.constructor_index_refused(Suite.neutral_case(bad_constructor,univ,univ),context,"nested constructor coverage refusal lost")
+    metadata:Unit <- Suite.constructor_index_refused(Suite.neutral_case(unknown,univ,univ),context,"nested constructor metadata refusal lost")
+    application:Unit <- Suite.constructor_index_refused(Suite.neutral_index_application(bad_constructor,univ),context,"nested application head refusal lost")
+    projection:Unit <- Suite.constructor_index_refused(F.Term.Out{shape,F.Term.ALeg{1n},bad_numeric},context,"nested projection head refusal lost")
+    address:Unit <- Suite.constructor_index_refused(F.Term.Out{shape,F.Term.ALeg{2n},Suite.neutral_case(leaf,univ,univ)},context,"nested projection address accepted")
+    concrete:Unit <- Suite.constructor_index_refused(Suite.neutral_case(Suite.neutral_case(Suite.sum_payload(univ),univ,univ),univ,univ),context,"concrete case result treated as neutral")
+    Suite.constructor_index_refused(Suite.sum_payload(Suite.neutral_case(bad_constructor,univ,univ)),context,"nested payload head refusal lost")
+
+def Suite.neutral_composition_scope() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +source:F.Term.t = Suite.neutral_case(Suite.neutral_constructor_case(Suite.let_chain(1n,F.Term.Var{0n}),F.Term.Var{0n},F.Term.Var{2n}),F.Term.Var{1n},univ)
+  +expected:F.Term.t = Suite.neutral_case(Suite.neutral_constructor_case(F.Term.Var{0n},F.Term.Var{0n},F.Term.Var{2n}),F.Term.Var{1n},univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    local:Unit <- Suite.constructor_index_equal(source,Suite.constructor_context(1n),expected)
+    Suite.constructor_index_refused(source,Suite.constructor_context(0n),"nested neutral local escaped scope")
+
+def Suite.neutral_composition_chain(count:Nat,leaf:F.Term.t,+body:F.Term.t) -> F.Term.t:
+  match count:
+    case 0n: leaf
+    case 1n+remaining: Suite.neutral_case(Suite.neutral_composition_chain(remaining,leaf,body),body,body)
+
+def Suite.neutral_composition_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(0n)
+  +expected:F.Term.t = Suite.neutral_case(Suite.neutral_constructor_case(leaf,univ,univ),univ,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Unit <- Suite.constructor_index_equal(Suite.neutral_case(Suite.neutral_constructor_case(Suite.let_chain(62n,leaf),univ,univ),univ,univ),context,expected)
+    over:Unit <- Suite.constructor_index_refused(Suite.neutral_case(Suite.neutral_constructor_case(Suite.let_chain(63n,leaf),univ,univ),univ,univ),context,"nested case fuel restarted")
+    entered:Unit <- Suite.constructor_index_refused(Suite.let_chain(63n,expected),context,"nested case entered without fuel")
+    argument:Unit <- Suite.constructor_index_refused(Suite.neutral_index_application(expected,Suite.let_chain(62n,univ)),context,"nested application argument fuel restarted")
+    transitions:Maybe<&2,F.Term.t> <- I.Inline.index_source_steps(5n,64n,Some{expected},context,Nil{})
+    transitions_ok:Unit <- Suite.application_equal(transitions,expected)
+    transition_over:Maybe<&2,F.Term.t> <- I.Inline.index_source_steps(4n,64n,Some{expected},context,Nil{})
+    transition_refused:Unit <- Suite.application_absent(transition_over,"nested case transition budget restarted")
+    +chain:F.Term.t = Suite.neutral_composition_chain(64n,leaf,univ)
+    maximum:Maybe<&2,F.Term.t> <- I.Inline.index_source_steps(129n,64n,Some{chain},context,Nil{})
+    maximum_ok:Unit <- Suite.application_equal(maximum,chain)
+    maximum_over:Maybe<&2,F.Term.t> <- I.Inline.index_source_steps(128n,64n,Some{chain},context,Nil{})
+    maximum_refused:Unit <- Suite.application_absent(maximum_over,"nested case maximum transition budget restarted")
+    Suite.constructor_index_refused(Suite.neutral_composition_chain(65n,leaf,univ),context,"nested case maximum fuel budget restarted")
+
+def Suite.neutral_composition_size() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_context(0n)
+  +small:F.Term.t = Suite.constructor_tree(9n,univ)
+  +large:F.Term.t = Suite.constructor_tree(11n,univ)
+  +inner:F.Term.t = Suite.neutral_constructor_case(leaf,univ,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Unit <- Suite.constructor_index_equal(Suite.neutral_case(inner,small,small),context,Suite.neutral_case(inner,small,small))
+    outer:Unit <- Suite.constructor_index_refused(Suite.neutral_case(inner,univ,large),context,"nested outer case size cap ignored")
+    Suite.constructor_index_refused(Suite.neutral_case(Suite.neutral_constructor_case(leaf,univ,large),univ,univ),context,"nested inner case size cap ignored")
+
 def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
   [
       Suite.Case{"let-body",unit => Suite.poisoned(X.Fixture.let_proof,False{})},
@@ -2783,6 +2868,11 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"neutral-case-fuel",unit => Suite.neutral_case_fuel},
       Suite.Case{"neutral-case-steps",unit => Suite.neutral_case_steps},
       Suite.Case{"neutral-case-size",unit => Suite.neutral_case_size},
+      Suite.Case{"neutral-composition-syntax",unit => Suite.neutral_composition_syntax},
+      Suite.Case{"neutral-composition-guards",unit => Suite.neutral_composition_guards},
+      Suite.Case{"neutral-composition-scope",unit => Suite.neutral_composition_scope},
+      Suite.Case{"neutral-composition-fuel",unit => Suite.neutral_composition_fuel},
+      Suite.Case{"neutral-composition-size",unit => Suite.neutral_composition_size},
       Suite.Case{"neutral-constructor-syntax",unit => Suite.neutral_constructor_syntax},
       Suite.Case{"neutral-constructor-guards",unit => Suite.neutral_constructor_guards},
       Suite.Case{"neutral-constructor-metadata",unit => Suite.neutral_constructor_metadata(Suite.constructor_family)},

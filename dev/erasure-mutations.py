@@ -1601,5 +1601,12 @@ CASES += (
      "INLINE-ERASE row=neutral-constructor-size FAIL mismatch: neutral constructor reconstruction size cap ignored"),
 )
 
+CASES += (
+    ("neutral-composition-disabled", INLINE,
+     "case F.Term.Elim{elimination}: True{}",
+     "case F.Term.Elim{elimination}: False{}",
+     "INLINE-ERASE row=neutral-composition-syntax FAIL"),
+)
+
 if __name__ == "__main__":
     sys.exit(main())

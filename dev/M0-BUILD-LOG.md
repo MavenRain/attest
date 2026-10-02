@@ -1,5 +1,33 @@
 # M0 build log
 
+## 2026-10-02: Stage B composed neutral source indices
+
+Recovered neutral numeric and constructor cases now serve as scrutinees of
+other cases, heads of point applications, and heads of numeric collection
+projections. Each inner case passes the existing branch, motive, family
+metadata, scope, and size checks before the enclosing continuation rebuilds
+its parent. Branch bodies, motives, quantities, order, and shape payloads
+retain source syntax. All nested heads and arguments share the existing
+64 reductions and 129 transitions. Reconstruction retains the 4096-node cap.
+
+Five inline rows cover all four numeric/constructor case combinations,
+applications, projections, constructor index comparison, sum payloads, local
+scope, inner refusals, outer projection addresses, concrete reduced results,
+size limits, and exact work budgets. A chain of 64 neutral cases fits exactly
+129 transitions; 128 transitions and a 65-case chain are refused. The inline
+suite contains 240 cases. The HOUSE registry in `dev/bend-policy.json` retains
+408 catch-all sites and 68 unsafe functions. The catalog has 314 unique mutation
+anchors.
+
+`dev/validation/neutral-composition-source-run.py` collects full tests, default
+gates, the erasure record, and five serial scoped mutations into
+`dev/validation/neutral-composition-source.json`. The new mutation disables
+composition and must fail its named syntax row after a successful build.
+Four controls cover sum payloads, neutral projections, and both index
+comparison directions. Checkpoints and logs pin the implementation and runner.
+Full tests, default gates, and the erasure record pass. All five scoped
+mutations are caught after successful isolated builds.
+
 ## 2026-10-02: Stage B neutral constructor cases in source indices
 
 Source index recovery now retains constructor cases when the recovered

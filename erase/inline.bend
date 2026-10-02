@@ -1009,10 +1009,12 @@ def Inline.index_constructor_case(shape: Maybe<&2, F.Pair2<String, List<&2, F.Te
       Inline.constructor_family(F.Global.find_family(family, globals), family, name, arguments, branches, motive, Inline.length(F.Term.t, indices), index_constructor_valid, depth)
     case other injection: Done{None{}}
 
+# Out and Elim heads have already passed recovery in the enclosing continuation.
 def Inline.index_neutral_head(head: F.Term.t) -> Bool:
   match head:
     case F.Term.Var{index}: True{}
     case F.Term.Global{name}: True{}
+    case F.Term.Elim{elimination}: True{}
     case F.Term.Out{shape, address, function}: True{}
     case other: False{}
 

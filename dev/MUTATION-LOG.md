@@ -1,5 +1,19 @@
 # Mutation log
 
+## 2026-10-02: Composed neutral source index mutations
+
+The new `neutral-composition-disabled` mutation refuses recovered neutral
+case heads and must fail `neutral-composition-syntax`. The catalog contains
+314 unique anchors. The predecessor neutral head anchor retains its exact
+fallback suffix.
+
+`python3 -P dev/validation/neutral-composition-source-run.py` records this
+mutation and four controls for sum payloads, neutral projections, and the
+left and right index comparison paths. Each mutation requires a successful
+isolated build and its named failure. Full tests, default gates, the erasure
+record, input freshness, checkpoints, and exact logs are collected in
+`dev/validation/neutral-composition-source.json` and its matching directory.
+
 ## 2026-09-30: Nested constructor shape payload mutations
 
 Seven new mutations disable nested recovery, reset either payload side's

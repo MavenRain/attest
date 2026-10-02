@@ -74,6 +74,9 @@ default gates, erasure evidence, and 12 scoped mutations for
 `python3 -P dev/validation/neutral-constructor-source-run.py` records full tests,
 default gates, the erasure record, and 16 scoped mutations for
 [neutral constructor case recovery](dev/validation/neutral-constructor-source.json).
+`python3 -P dev/validation/neutral-composition-source-run.py` records full tests,
+default gates, the erasure record, and five scoped mutations for
+[composed neutral source indices](dev/validation/neutral-composition-source.json).
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -150,6 +153,10 @@ the same scrutinee forms for complete, positive families. Family names, index
 counts, telescope scope, motives, branch coverage, and field binders must match
 the family metadata. Their branches, motives, quantities, order, and shape
 payloads keep their source syntax under the same budgets and node cap.
+Recovered neutral numeric and constructor cases can themselves supply a case
+scrutinee, point application head, or numeric collection projection head.
+Each inner case passes recovery before the outer syntax is rebuilt. Nested
+heads and application arguments share the same reduction and transition budgets.
 Neutral globals and parameters retain their
 source syntax, and local aliases shift into the current scope. Parameter values live in
 the scrutinee's type. Parameter types must be closed over earlier parameters;
@@ -188,7 +195,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-The inline suite contains 235 semantic cases, including this boundary. Scrutinee types that need
+The inline suite contains 240 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

@@ -193,7 +193,12 @@ family motive, and exactly one branch per constructor. Field quantities,
 arities, and result index counts must match the metadata. The complete case
 must be closed and fit the 4096-node cap. Reconstruction preserves branch
 bodies, motives, quantities, branch order, and shape payload syntax, and uses
-the existing return frame. Global and
+the existing return frame. Recovered neutral numeric and constructor cases
+can themselves supply a case scrutinee, point application head, or numeric
+collection projection head. Inner cases pass the same recovery checks before
+their parents are rebuilt. All nested heads and arguments share the enclosing
+reduction and transition budgets, and each reconstruction retains the node cap.
+Global and
 local alias bodies reuse the existing closedness checks. Neutral globals and
 parameters retain their source syntax; local values shift into the current
 scope. Alias unfolding does not consume an annotation, let, beta, or case step.
