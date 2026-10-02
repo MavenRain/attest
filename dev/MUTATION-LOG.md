@@ -1,5 +1,19 @@
 # Mutation log
 
+## 2026-10-02: Constructor payload source index mutations
+
+Twelve new mutations disable constructor payload recovery or weaken field
+order, field count, full arity, field scope, parameter scope, index scope,
+result scope, result index count, family label, reconstruction size, or entry
+fuel. Each requires a successful isolated build and its named inline failure.
+The catalog contains 326 unique
+anchors.
+
+`python3 -P dev/validation/constructor-payload-source-run.py` records these
+mutations and two controls for numeric sum and tuple payload recovery,
+together with full tests, default gates, the erasure record, input freshness,
+checkpoints, and exact logs in `dev/validation/constructor-payload-source.json`.
+
 ## 2026-10-02: Composed neutral source index mutations
 
 The new `neutral-composition-disabled` mutation refuses recovered neutral

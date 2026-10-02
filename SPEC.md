@@ -177,6 +177,18 @@ nested tuples, and enclosing terms share the 64 reductions and 129 transitions.
 Reconstruction retains the 4096-node cap, and a refused field refuses the tuple.
 Concrete projections keep their selected-field path, and point sections keep
 their existing beta recovery and source syntax.
+Constructor injections recover every field in source order. Recovery requires
+a complete, positive family with the matching name and index count, scoped
+parameter and index telescopes, exact field count, full arity including
+parameters, and scoped field types and result indices. The entire injection
+must be closed. Entry consumes one enclosing reduction; fields and enclosing
+terms share the 64 reductions and 129 transitions. Reconstruction preserves
+the shape payload syntax and constructor name and retains the 4096-node cap.
+A refused field refuses the injection. Concrete constructor case scrutinees
+keep their selected-result substitution path without a separate payload step.
+Index payload comparison skips reduction only when the index lists are equal
+as syntax. Otherwise every pair reduces, including pairs that are equal as
+syntax, and each reduction consumes the shared budgets.
 Neutral numeric cases recover their scrutinees under the same reduction and
 transition budgets when they end at globals, local variables, point applications,
 or numeric collection projections. Reconstruction preserves the branch bodies, motive,

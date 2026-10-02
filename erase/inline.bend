@@ -996,6 +996,7 @@ type Inline.index_frame is Data:
   Inline.IndexNeutralReturn{term: Maybe<&2, F.Term.t>}
   Inline.IndexSumArgument{shape: F.Shape.t<F.Term.t>, index: Nat}
   Inline.IndexTupleField{shape: F.Shape.t<F.Term.t>, completed: List<&2, F.Term.leg>, remaining: List<&2, F.Term.leg>}
+  Inline.IndexConstructorField{shape: F.Shape.t<F.Term.t>, name: String, completed: List<&2, F.Term.t>, remaining: List<&2, F.Term.t>}
   Inline.IndexCase{shape: F.Shape.t<F.Term.t>, quantity: F.Quantity.t, motive: Maybe<&2, F.Term.motive>, branches: List<&2, F.Pair2<F.Term.addr, F.Term.leg>>}
   Inline.IndexPayloadLeft{right: F.Term.t, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>}
   Inline.IndexPayloadRight{left: Maybe<&2, F.Term.t>, indices: List<&2, F.Term.t>, values: List<&2, F.Term.t>, selected: Maybe<&2, F.Term.t>}
@@ -1230,6 +1231,57 @@ def Inline.index_tuple_enter(width: Maybe<&2, Nat>, +shape: F.Shape.t<F.Term.t>,
     case other fuel: next(fuel, None{}, rest)
 
 
+# Constructor arguments share the enclosing budgets and retain their source order.
+def Inline.index_constructor_result(shape: F.Shape.t<F.Term.t>, name: String, arguments: List<&2, F.Term.t>) -> Maybe<&2, F.Term.t>:
+  Inline.size_bounded(F.Term.In{shape, F.Term.ACtor{name}, arguments})
+
+def Inline.index_constructor_next(shape: F.Shape.t<F.Term.t>, name: String, completed: List<&2, F.Term.t>, arguments: List<&2, F.Term.t>, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match arguments:
+    case Nil{}:
+      rebuilt: Maybe<&2, F.Term.t> = Inline.index_constructor_result(shape, name, Inline.reverse(F.Term.t, completed, Nil{}))
+      next(fuel, None{}, Inline.IndexNeutralReturn{rebuilt} <> rest)
+    case argument <> remaining:
+      next(fuel, Some{argument}, Inline.IndexConstructorField{shape, name, completed, remaining} <> rest)
+
+def Inline.index_constructor_field(shape: F.Shape.t<F.Term.t>, name: String, completed: List<&2, F.Term.t>, remaining: List<&2, F.Term.t>, field: Maybe<&2, F.Term.t>, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match field:
+    case Some{body}: Inline.index_constructor_next(shape, name, body <> completed, remaining, fuel, rest, next)
+    case None{}: next(fuel, None{}, rest)
+
+def Inline.index_constructor_arity(ctor: Maybe<&2, F.Positivity.ctor>, +parameter_count: Nat, index_count: Nat, +argument_count: Nat) -> Bool:
+  match ctor:
+    case Some{F.Positivity.Ctor{name, +ctor_fields, +ctor_indices, +full_arity, recursive}}:
+      counts: Bool = Bool.and(Nat.is_eq(Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, ctor_fields), argument_count), Nat.is_eq(full_arity, (parameter_count + Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, ctor_fields) : Nat)))
+      scoped: Bool = Bool.and(Inline.constructor_parameter_scope(ctor_fields, parameter_count), Inline.constructor_indices(ctor_indices, full_arity))
+      Bool.and(counts, Bool.and(scoped, Nat.is_eq(Inline.length(F.Term.t, ctor_indices), index_count)))
+    case None{}: False{}
+
+def Inline.index_constructor_metadata(inductive: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, family: Maybe<&2, F.Positivity.family>, name: String, argument_count: Nat) -> Bool:
+  match inductive family:
+    case Some{F.Pair2{payload_family, values}} Some{+value}:
+      match value:
+        case F.Positivity.Family{payload_name, +ctor_parameters, +ctor_index_types, level, F.Positivity.Complete{names}, ctors, True{}}:
+          +parameter_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, ctor_parameters)
+          +index_count = Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, ctor_index_types)
+          counts: Bool = Bool.and(String.eq(payload_family, payload_name), Nat.is_eq(Inline.length(F.Term.t, values), index_count))
+          scoped: Bool = Bool.and(Inline.constructor_parameter_scope(ctor_parameters, 0n), Inline.constructor_parameter_scope(ctor_index_types, parameter_count))
+          Bool.and(counts, Bool.and(scoped, Inline.index_constructor_arity(M.Mu.ctor_of(name, value), parameter_count, index_count, argument_count)))
+        case other: False{}
+    case other family: False{}
+
+def Inline.index_constructor_valid(valid: Bool, shape: F.Shape.t<F.Term.t>, name: String, arguments: List<&2, F.Term.t>, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match valid:
+    case True{}: Inline.index_constructor_next(shape, name, Nil{}, arguments, fuel, rest, next)
+    case False{}: next(fuel, None{}, rest)
+
+def Inline.index_constructor_enter(inductive: Maybe<&2, F.Pair2<String, List<&2, F.Term.t>>>, +shape: F.Shape.t<F.Term.t>, +name: String, +arguments: List<&2, F.Term.t>, fuel: Nat, depth: Nat, globals: F.Global.t, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match inductive fuel:
+    case Some{F.Pair2{+family, values}} 1n+remaining:
+      metadata: Bool = Inline.index_constructor_metadata(Some{F.Pair2{family, values}}, F.Global.find_family(family, globals), name, Inline.length(F.Term.t, arguments))
+      valid: Bool = Bool.and(metadata, Inline.closed(depth, F.Term.In{shape, F.Term.ACtor{name}, arguments}))
+      Inline.index_constructor_valid(valid, shape, name, arguments, remaining, rest, next)
+    case missing budget: next(budget, None{}, rest)
+
 def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fuel: Nat, index_ty: Maybe<&2, F.Term.t>, context: Inline.context, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match index_pending:
     case Nil{}: Done{index_ty}
@@ -1243,12 +1295,25 @@ def Inline.index_source_pending(index_pending: List<&2, Inline.index_frame>, fue
       next(fuel, None{}, Inline.IndexNeutralReturn{Inline.index_sum_result(shape, index, index_ty)} <> rest)
     case Inline.IndexTupleField{shape, completed, remaining} <> rest:
       Inline.index_tuple_field(shape, completed, remaining, index_ty, fuel, rest, next)
+    case Inline.IndexConstructorField{shape, name, completed, remaining} <> rest:
+      Inline.index_constructor_field(shape, name, completed, remaining, index_ty, fuel, rest, next)
     case Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest:
       Inline.index_case_pending(index_shape, index_quantity, index_motive, index_branches, index_ty, fuel, context, rest, next)
     case Inline.IndexPayloadLeft{right, indices, values, selected} <> rest:
       next(fuel, Some{right}, Inline.IndexPayloadRight{index_ty, indices, values, selected} <> rest)
     case Inline.IndexPayloadRight{left, indices, values, selected} <> rest:
       Inline.index_payload_agree(Inline.index_alias_equal(left, index_ty), indices, values, selected, fuel, context, rest, next)
+
+def Inline.index_constructor_context(+shape: F.Shape.t<F.Term.t>, name: String, arguments: List<&2, F.Term.t>, fuel: Nat, context: Inline.context, pending: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  Inline.Context{+checker, domains} = context
+  Inline.index_constructor_enter(F.Shape.inductive(F.Term.t, shape), shape, name, arguments, fuel, C.Check.size(checker), C.Check.global(checker), pending, next)
+
+# A constructor under a pending case goes to the case with its fields unchanged. The case selects the branch and substitutes the fields.
+def Inline.index_constructor_payload(shape: F.Shape.t<F.Term.t>, name: String, arguments: List<&2, F.Term.t>, fuel: Nat, context: Inline.context, pending: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
+  match pending:
+    case Inline.IndexCase{case_shape, quantity, motive, branches} <> rest:
+      Inline.index_source_pending(Inline.IndexCase{case_shape, quantity, motive, branches} <> rest, fuel, Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}, context, next)
+    case other: Inline.index_constructor_context(shape, name, arguments, fuel, context, other, next)
 
 def Inline.index_tuple_context(width: Maybe<&2, Nat>, context: Inline.context, +shape: F.Shape.t<F.Term.t>, legs: List<&2, F.Term.leg>, fuel: Nat, rest: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match width:
@@ -1271,12 +1336,14 @@ def Inline.index_sum_pending(shape: F.Shape.t<F.Term.t>, index: Nat, arguments: 
 
 # Charge applications and cases before their heads, and share the remainder with the result.
 # The existing substitution and projection helpers enforce scope and node bounds.
-# index_source_head checks payload scope on entry and exit; the annotation check and the index_case_type closedness check are defensive.
-# The sum injection arm comes before 0n on purpose: index_sum_enter needs one fuel unit and refuses at 0n.
+# index_source_head checks payload scope on entry and exit; the annotation check, the index_case_type closedness check, and the constructor payload closedness check are defensive.
+# Payload arms precede 0n. A payload that a pending case or application consumes goes to that frame without fuel. Entry into the fields needs one fuel unit and refuses at 0n.
 def Inline.index_source_reduce(fuel: Nat, index_expanded: Maybe<&2, F.Term.t>, context: Inline.context, index_pending: List<&2, Inline.index_frame>, next: Nat -> Maybe<&2, F.Term.t> -> List<&2, Inline.index_frame> -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>) -> Result<&2,&2,F.Error.t,Maybe<&2, F.Term.t>>:
   match fuel index_expanded:
     case fuel Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}:
       Inline.index_sum_pending(shape, index, arguments, fuel, context, index_pending, next)
+    case fuel Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}:
+      Inline.index_constructor_payload(shape, name, arguments, fuel, context, index_pending, next)
     case fuel Some{F.Term.Sec{shape, legs}}:
       Inline.index_tuple_pending(shape, legs, fuel, context, index_pending, next)
     case 0n index_expanded:

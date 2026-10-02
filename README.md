@@ -42,7 +42,7 @@ with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 301 isolated mutations. The full mutation record covers the preceding
+contains 326 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
 [scoped validation evidence](dev/validation/annotation-source.json), as does
 [tuple projection recovery](dev/validation/projection-source.json) and
@@ -77,6 +77,9 @@ default gates, the erasure record, and 16 scoped mutations for
 `python3 -P dev/validation/neutral-composition-source-run.py` records full tests,
 default gates, the erasure record, and five scoped mutations for
 [composed neutral source indices](dev/validation/neutral-composition-source.json).
+`python3 -P dev/validation/constructor-payload-source-run.py` records full tests,
+default gates, the erasure record, and fourteen scoped mutations for
+[constructor payload recovery](dev/validation/constructor-payload-source.json).
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -143,7 +146,10 @@ in source order under the same budgets. Their collection width must equal the
 field count, fields must have no binders, and the complete tuple must be closed.
 Tuple entry consumes one reduction, and reconstruction retains the node cap.
 Concrete projections recover only the selected field, while point sections
-retain their existing application path. Neutral numeric cases recover their
+retain their existing application path. Constructor injections recover their
+fields in source order under the same budgets. Their family must be complete
+and positive and must match the shape name, index count, field count, and full
+arity, and the entire injection must be closed. Neutral numeric cases recover their
 scrutinees ending at globals, local variables, point applications, or numeric
 collection projections under the same budgets and retain branch bodies, motives, quantities,
 and branch order. Their collection branches must cover every address once and
@@ -195,7 +201,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-The inline suite contains 240 semantic cases, including this boundary. Scrutinee types that need
+The inline suite contains 248 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

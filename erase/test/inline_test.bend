@@ -2291,6 +2291,131 @@ def Suite.neutral_case_size() -> Result<&2,&2,F.Error.t,Unit>:
 def Suite.tuple_payload(first:F.Term.t,second:F.Term.t) -> F.Term.t:
   F.Term.Sec{F.Shape.make_collection(F.Term.t,2n),[F.Term.Leg{Nil{},first},F.Term.Leg{Nil{},second}]}
 
+def Suite.constructor_payload(name:String,arguments:List<&2,F.Term.t>) -> F.Term.t:
+  F.Term.In{F.Shape.make_inductive(F.Term.t,"Inner",Nil{}),F.Term.ACtor{name},arguments}
+
+def Suite.constructor_payload_context(family:F.Positivity.family,depth:Nat) -> I.Inline.context:
+  globals:F.Global.t = F.Global.add_family("Inner",Suite.constructor_index_family(family),F.Global.empty)
+  I.Inline.Context{C.Check.Ctx{globals,Nil{},Nil{},depth,C.Budget.unlimited},Nil{}}
+
+def Suite.constructor_payload_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.constructor_payload_context(Suite.constructor_family,0n)
+  +expected:F.Term.t = Suite.constructor_payload("pair",[leaf,univ])
+  do Result<&2,&2,F.Error.t,Unit>:
+    reduced:Unit <- Suite.constructor_index_equal(Suite.constructor_payload("pair",[Suite.let_chain(1n,leaf),F.Term.Ann{univ,F.Term.Univ{F.Level.one}}]),context,expected)
+    empty:Unit <- Suite.constructor_index_equal(Suite.constructor_payload("empty",Nil{}),context,Suite.constructor_payload("empty",Nil{}))
+    nested:Unit <- Suite.constructor_index_equal(Suite.constructor_payload("pair",[Suite.constructor_payload("pair",[Suite.let_chain(1n,leaf),univ]),Suite.sum_payload(Suite.let_chain(1n,univ))]),context,Suite.constructor_payload("pair",[expected,Suite.sum_payload(univ)]))
+    tuple:Unit <- Suite.constructor_index_equal(Suite.tuple_payload(Suite.constructor_payload("pair",[Suite.let_chain(1n,leaf),univ]),univ),context,Suite.tuple_payload(expected,univ))
+    +preserved:F.Term.t = F.Term.Ran{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"x",F.Term.Ann{univ,F.Term.Univ{F.Level.one}}),univ}
+    syntax:Unit <- Suite.constructor_index_equal(Suite.constructor_payload("pair",[preserved,leaf]),context,Suite.constructor_payload("pair",[preserved,leaf]))
+    Suite.index_reduction_compare(Suite.constructor_payload("pair",[Suite.let_chain(1n,leaf),univ]),expected,Suite.constructor_index_context(Suite.index_reduction_context),univ)
+
+def Suite.constructor_payload_local() -> Result<&2,&2,F.Error.t,Unit>:
+  +context:I.Inline.context = Suite.constructor_payload_context(Suite.constructor_family,1n)
+  +local:F.Term.t = F.Term.Var{0n}
+  +term:F.Term.t = Suite.constructor_payload("pair",[Suite.let_chain(1n,local),local])
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Unit <- Suite.constructor_index_equal(term,context,Suite.constructor_payload("pair",[local,local]))
+    Suite.constructor_index_refused(term,Suite.constructor_payload_context(Suite.constructor_family,0n),"constructor payload outer variable escaped")
+
+def Suite.constructor_payload_guards() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +context:I.Inline.context = Suite.constructor_payload_context(Suite.constructor_family,0n)
+  do Result<&2,&2,F.Error.t,Unit>:
+    unknown:Unit <- Suite.constructor_index_refused(Suite.constructor_payload("other",[univ,univ]),context,"constructor payload unknown constructor accepted")
+    arity:Unit <- Suite.constructor_index_refused(Suite.constructor_payload("pair",[univ]),context,"constructor payload wrong field count accepted")
+    extra:Unit <- Suite.constructor_index_refused(Suite.constructor_payload("empty",[univ]),context,"constructor payload extra field accepted")
+    shape:Unit <- Suite.constructor_index_refused(F.Term.In{F.Shape.make_collection(F.Term.t,2n),F.Term.ACtor{"pair"},[univ,univ]},context,"constructor payload collection shape accepted")
+    indices:Unit <- Suite.constructor_index_refused(F.Term.In{F.Shape.make_inductive(F.Term.t,"Inner",[univ]),F.Term.ACtor{"pair"},[univ,univ]},context,"constructor payload index arity accepted")
+    first:Unit <- Suite.constructor_index_refused(Suite.constructor_payload("pair",[F.Term.Var{0n},univ]),context,"constructor payload open first field accepted")
+    refused:Unit <- Suite.constructor_index_refused(Suite.constructor_payload("pair",[Suite.let_chain(65n,univ),univ]),context,"constructor payload refused first field accepted")
+    Suite.constructor_index_refused(Suite.constructor_payload("pair",[univ,Suite.let_chain(65n,univ)]),context,"constructor payload refused last field accepted")
+
+def Suite.constructor_payload_metadata_bad(family:F.Positivity.family,message:String) -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  Suite.constructor_index_refused(Suite.constructor_payload("pair",[univ,univ]),Suite.constructor_payload_context(family,0n),message)
+
+def Suite.constructor_payload_metadata(family:F.Positivity.family) -> Result<&2,&2,F.Error.t,Unit>:
+  F.Positivity.Family{+name,+params,+indices,+level,+status,+ctors,positive} = family
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +field:F.Triple3<F.Quantity.t,String,F.Term.t> = F.Triple3{F.Quantity.Zero{},"A",univ}
+  do Result<&2,&2,F.Error.t,Unit>:
+    missing:Unit <- Suite.constructor_index_refused(Suite.constructor_payload("pair",[univ,univ]),Suite.index_reduction_context,"constructor payload missing family accepted")
+    negative:Unit <- Suite.constructor_payload_metadata_bad(F.Positivity.Family{name,params,indices,level,status,ctors,False{}},"constructor payload nonpositive family accepted")
+    provisional:Unit <- Suite.constructor_payload_metadata_bad(F.Positivity.Family{name,params,indices,level,F.Positivity.Provisional{},ctors,True{}},"constructor payload provisional family accepted")
+    builtin:Unit <- Suite.constructor_payload_metadata_bad(F.Positivity.Family{name,params,indices,level,F.Positivity.Builtin{},ctors,True{}},"constructor payload builtin family accepted")
+    parameters:Unit <- Suite.constructor_payload_metadata_bad(F.Positivity.Family{name,[F.Triple3{F.Quantity.Zero{},"p",F.Term.Var{0n}}],indices,level,status,ctors,True{}},"constructor payload open parameter accepted")
+    arity:Unit <- Suite.constructor_payload_metadata_bad(F.Positivity.Family{name,[field],indices,level,status,ctors,True{}},"constructor payload full arity omits parameters")
+    fields:Unit <- Suite.constructor_payload_metadata_bad(F.Positivity.Family{name,params,indices,level,status,[F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"A",F.Term.Var{0n}},field],Nil{},2n,False{}}],True{}},"constructor payload open field type accepted")
+    results:Unit <- Suite.constructor_payload_metadata_bad(F.Positivity.Family{name,params,indices,level,status,[F.Positivity.Ctor{"pair",[field,field],[F.Term.Var{2n}],2n,False{}}],True{}},"constructor payload result indices accepted")
+    result_count:Unit <- Suite.constructor_payload_metadata_bad(F.Positivity.Family{name,params,indices,level,status,[F.Positivity.Ctor{"pair",[field,field],[univ],2n,False{}}],True{}},"constructor payload result index count accepted")
+    label:Unit <- Suite.constructor_index_refused(Suite.constructor_payload("pair",[univ,univ]),I.Inline.Context{C.Check.Ctx{F.Global.add_family("Inner",F.Positivity.Family{name,params,indices,level,status,ctors,True{}},F.Global.empty),Nil{},Nil{},0n,C.Budget.unlimited},Nil{}},"constructor payload family label accepted")
+    Suite.constructor_index_equal(Suite.constructor_payload("pair",[univ,univ]),Suite.constructor_payload_context(Suite.recursive_family(Suite.constructor_family),0n),Suite.constructor_payload("pair",[univ,univ]))
+
+def Suite.constructor_payload_indexed_family(parameter:F.Term.t,index_type:F.Term.t,result:F.Term.t) -> F.Positivity.family:
+  F.Positivity.Family{"Inner",[F.Triple3{F.Quantity.Zero{},"p",parameter}],[F.Triple3{F.Quantity.Zero{},"i",index_type}],F.Level.one,F.Positivity.Complete{["pair"]},[F.Positivity.Ctor{"pair",[F.Triple3{F.Quantity.Zero{},"A",F.Term.Var{0n}},F.Triple3{F.Quantity.Zero{},"x",F.Term.Var{0n}}],[result],3n,False{}}],True{}}
+
+def Suite.constructor_payload_indexed_term(arguments:List<&2,F.Term.t>) -> F.Term.t:
+  F.Term.In{F.Shape.make_inductive(F.Term.t,"Inner",[F.Term.Ann{F.Term.Univ{F.Level.zero},F.Term.Univ{F.Level.one}}]),F.Term.ACtor{"pair"},arguments}
+
+def Suite.constructor_payload_indexed() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +family:F.Positivity.family = Suite.constructor_payload_indexed_family(univ,F.Term.Var{0n},F.Term.Var{2n})
+  +term:F.Term.t = Suite.constructor_payload_indexed_term([univ,univ])
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Unit <- Suite.constructor_index_equal(Suite.constructor_payload_indexed_term([Suite.let_chain(1n,univ),univ]),Suite.constructor_payload_context(family,0n),term)
+    parameter_scope:Unit <- Suite.constructor_index_refused(term,Suite.constructor_payload_context(Suite.constructor_payload_indexed_family(F.Term.Var{0n},F.Term.Var{0n},F.Term.Var{2n}),0n),"constructor payload open parameter telescope accepted")
+    index_scope:Unit <- Suite.constructor_index_refused(term,Suite.constructor_payload_context(Suite.constructor_payload_indexed_family(univ,F.Term.Var{1n},F.Term.Var{2n}),0n),"constructor payload open index type accepted")
+    result_scope:Unit <- Suite.constructor_index_refused(term,Suite.constructor_payload_context(Suite.constructor_payload_indexed_family(univ,F.Term.Var{0n},F.Term.Var{3n}),0n),"constructor payload open result index accepted")
+    Suite.constructor_index_refused(Suite.constructor_payload("pair",[univ,univ]),Suite.constructor_payload_context(family,0n),"constructor payload missing shape index accepted")
+
+def Suite.constructor_payload_fuel() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.constructor_payload_context(Suite.constructor_family,0n)
+  +expected:F.Term.t = Suite.constructor_payload("pair",[leaf,leaf])
+  do Result<&2,&2,F.Error.t,Unit>:
+    exact:Unit <- Suite.constructor_index_equal(Suite.constructor_payload("pair",[Suite.let_chain(31n,leaf),Suite.let_chain(32n,leaf)]),context,expected)
+    over:Unit <- Suite.constructor_index_refused(Suite.constructor_payload("pair",[Suite.let_chain(32n,leaf),Suite.let_chain(32n,leaf)]),context,"constructor payload field fuel restarted")
+    outer:Unit <- Suite.constructor_index_refused(Suite.let_chain(32n,Suite.constructor_payload("pair",[Suite.let_chain(32n,leaf),leaf])),context,"constructor payload enclosing fuel restarted")
+    nested:Unit <- Suite.constructor_index_refused(Suite.constructor_payload("pair",[Suite.constructor_payload("pair",[Suite.let_chain(31n,leaf),leaf]),Suite.let_chain(32n,leaf)]),context,"constructor payload nested fuel restarted")
+    exhausted:Unit <- Suite.constructor_index_refused(Suite.let_chain(64n,Suite.constructor_payload("empty",Nil{})),context,"constructor payload entry at zero fuel accepted")
+    case_kept:Unit <- Suite.constructor_index_equal(Suite.constructor_term("pair",[leaf,Suite.let_chain(63n,leaf)],leaf,F.Term.Var{0n}),Suite.constructor_context(0n),leaf)
+    Suite.constructor_index_refused(Suite.constructor_term("pair",[leaf,Suite.let_chain(64n,leaf)],leaf,F.Term.Var{0n}),Suite.constructor_context(0n),"constructor payload concrete case fuel restarted")
+
+def Suite.constructor_payload_fields(count:Nat,+univ:F.Term.t) -> F.Positivity.telescope:
+  match count:
+    case 0n: Nil{}
+    case 1n+remaining: F.Triple3{F.Quantity.Zero{},"field",univ} <> Suite.constructor_payload_fields(remaining,univ)
+
+def Suite.constructor_payload_arguments(count:Nat,+leaf:F.Term.t) -> List<&2,F.Term.t>:
+  match count:
+    case 0n: Nil{}
+    case 1n+remaining: leaf <> Suite.constructor_payload_arguments(remaining,leaf)
+
+def Suite.constructor_payload_steps() -> Result<&2,&2,F.Error.t,Unit>:
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +family:F.Positivity.family = F.Positivity.Family{"Inner",Nil{},Nil{},F.Level.one,F.Positivity.Complete{["pair"]},[F.Positivity.Ctor{"pair",Suite.constructor_payload_fields(127n,univ),Nil{},127n,False{}}],True{}}
+  +context:I.Inline.context = Suite.constructor_payload_context(family,0n)
+  +exact:F.Term.t = Suite.constructor_payload("pair",Suite.constructor_payload_arguments(127n,leaf))
+  +over_family:F.Positivity.family = F.Positivity.Family{"Inner",Nil{},Nil{},F.Level.one,F.Positivity.Complete{["pair"]},[F.Positivity.Ctor{"pair",Suite.constructor_payload_fields(128n,univ),Nil{},128n,False{}}],True{}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Unit <- Suite.constructor_index_equal(exact,context,exact)
+    over:Unit <- Suite.constructor_index_refused(Suite.constructor_payload("pair",Suite.constructor_payload_arguments(128n,leaf)),Suite.constructor_payload_context(over_family,0n),"constructor payload transition budget restarted")
+    application:Unit <- Suite.constructor_index_refused(Suite.neutral_index_application(leaf,exact),context,"constructor payload application transition budget restarted")
+    Suite.constructor_index_refused(Suite.tuple_payload(exact,leaf),context,"constructor payload tuple transition budget restarted")
+
+def Suite.constructor_payload_size() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Inner",Nil{})
+  +small:F.Term.t = Suite.constructor_tree(10n,univ)
+  +large:F.Term.t = Suite.constructor_tree(11n,univ)
+  do Result<&2,&2,F.Error.t,Unit>:
+    kept:Unit <- Suite.application_equal(I.Inline.index_constructor_result(shape,"pair",[small,univ]),Suite.constructor_payload("pair",[small,univ]))
+    Suite.application_absent(I.Inline.index_constructor_result(shape,"pair",[large,univ]),"constructor payload reconstruction size cap ignored")
+
 def Suite.tuple_payload_syntax() -> Result<&2,&2,F.Error.t,Unit>:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
   +leaf:F.Term.t = F.Term.Global{"Neutral"}
@@ -2862,6 +2987,14 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"neutral-projection-steps",unit => Suite.neutral_projection_steps},
       Suite.Case{"sum-payload-syntax",unit => Suite.sum_payload_syntax},
       Suite.Case{"tuple-payload-syntax",unit => Suite.tuple_payload_syntax},
+      Suite.Case{"constructor-payload-syntax",unit => Suite.constructor_payload_syntax},
+      Suite.Case{"constructor-payload-local",unit => Suite.constructor_payload_local},
+      Suite.Case{"constructor-payload-guards",unit => Suite.constructor_payload_guards},
+      Suite.Case{"constructor-payload-metadata",unit => Suite.constructor_payload_metadata(Suite.constructor_family)},
+      Suite.Case{"constructor-payload-indexed",unit => Suite.constructor_payload_indexed},
+      Suite.Case{"constructor-payload-fuel",unit => Suite.constructor_payload_fuel},
+      Suite.Case{"constructor-payload-steps",unit => Suite.constructor_payload_steps},
+      Suite.Case{"constructor-payload-size",unit => Suite.constructor_payload_size},
       Suite.Case{"tuple-payload-local",unit => Suite.tuple_payload_local},
       Suite.Case{"neutral-case-syntax",unit => Suite.neutral_case_syntax},
       Suite.Case{"neutral-case-guards",unit => Suite.neutral_case_guards},

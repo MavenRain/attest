@@ -1,0 +1,15 @@
+ERASURE-MUTATION sum-payload-disabled caught
+ERASURE-MUTATION tuple-payload-disabled caught
+ERASURE-MUTATION constructor-payload-disabled caught
+ERASURE-MUTATION constructor-payload-order caught
+ERASURE-MUTATION constructor-payload-arity caught
+ERASURE-MUTATION constructor-payload-full-arity caught
+ERASURE-MUTATION constructor-payload-field-scope caught
+ERASURE-MUTATION constructor-payload-parameter-scope caught
+ERASURE-MUTATION constructor-payload-index-scope caught
+ERASURE-MUTATION constructor-payload-result-scope caught
+ERASURE-MUTATION constructor-payload-size caught
+ERASURE-MUTATION constructor-payload-fuel caught
+ERASURE-MUTATION constructor-payload-result-count caught
+ERASURE-MUTATION constructor-payload-family-label caught
+ERASURE-MUTATIONS caught=14 total=326 PARTIAL

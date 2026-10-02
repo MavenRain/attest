@@ -1,5 +1,28 @@
 # M0 build log
 
+## 2026-10-02: Stage B constructor payload source indices
+
+Constructor injections now recover their fields in source order under the
+enclosing 64 reductions and 129 transitions. The entry checks complete,
+positive family metadata, matching family name and index count, field counts,
+full arity including parameters, and parameter, index, field, and result
+scope. Reconstruction preserves shapes and constructor names and retains
+the 4096-node cap. A refused field refuses the injection. Concrete case
+scrutinees keep the existing substitution path and its fuel boundary.
+
+Eight inline rows cover reduction, nested constructors, sums and tuples,
+comparison in both directions, source syntax, local scope, metadata refusals,
+parameterized and indexed families, recursive metadata, shared fuel,
+the 127-field transition boundary, and reconstruction size. The collector
+`python3 -P dev/validation/constructor-payload-source-run.py` records full
+tests, default gates, the erasure record, twelve new isolated mutations, and
+two sum and tuple controls in
+`dev/validation/constructor-payload-source.json`. Every mutation requires
+a successful build and its named failure. Input and log hashes bind the
+record to the validated implementation. The inline suite passes 248 of 248
+cases. HOUSE records 413 catch-all sites and 68 unsafe functions, and the
+mutation catalog contains 326 unique anchors.
+
 ## 2026-10-02: Stage B composed neutral source indices
 
 Recovered neutral numeric and constructor cases now serve as scrutinees of

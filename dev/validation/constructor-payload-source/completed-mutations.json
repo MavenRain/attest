@@ -1,0 +1,684 @@
+{
+  "version": 1,
+  "implementation_sha256": {
+    "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
+    "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
+    "dev/bend-migration.json": "d09dcc84c11742b5ef260424e879f14086475a9ff368e1b171598b80b90b53f3",
+    "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
+    "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
+    "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
+    "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
+    "dev/erasure-gates.py": "7083e9ee5fc65273bfca08b55019a20c7cb234d5ad37ce3696fe7b8bc9eda6c0",
+    "dev/erasure-mutations.py": "c450da5b5755484bcea33e09e9fd83c7028816116aeae2e1f8a6381c09484ea3",
+    "erase/inline.bend": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+    "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
+    "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
+    "erase/test/fixtures.bend": "137be14552beaeccf7aef497a3b49cf891e4de74b8fdd486ed8ce22ab39deb52",
+    "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
+    "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
+    "erase/test/inline_test.bend": "1f91277789909974be34c820eeb006d35d859d171072c4347e55b6645ef09711",
+    "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
+    "erase/test/lambda_fixtures.bend": "bfe0fa74d7cd498dc6afd11786c478b3ec4c9d77701eb7c86b9625d43399bf60",
+    "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
+    "erase/test/opaque_core.bend": "27c3d0153f546db7e0ee2127626f03787fe7a14ce2d053c057d1a4169305938c",
+    "erase/test/opaque_test.bend": "72b2354aa5fbae943e85381a1b561a31aa41e1be49747cf07c929df169996ee7",
+    "erase/test/parameter_fixtures.bend": "cc0e2e10c80bf5c8aa6343bd3d0632e4708f501bea0833086887a9067bf2eb53",
+    "erase/test/prop_index.bend": "c826246d00aa39ed7f420bbdbd27679643db40f4b2ab643b8cfc4cc13da658d2",
+    "erase/test/refusal_test.bend": "89eda7b5d4aa7dccd2de2eb957096a288b4972475640993a5fa883c225d29c6b",
+    "erase/test/repr_test.bend": "c78c8c14b2c298de25f77f8d270c7a353a57b8d967d52fa44a122d4c83478563",
+    "erase/test/support.bend": "c4eb069dce3dc29b63ea6982249e7ac0819021ccbfea5088b5c581db3efae1aa",
+    "lib/erasure.bend": "affcab049254fbede84b55fa4093a777ad0f20c0fc833f6e0a27d095e34bcfea",
+    "lib/foundation.bend": "30dfb2d9d09081405072c49c99c50c0e5b5997dfe9447061fad2dc83cc1dcee3",
+    "lib/kernel.bend": "86511b6e597f08262370f68670e0fa2fea54bc94d783d0fb3c4afaa9d9953d86",
+    "lib/kernel_check.bend": "6c11aba82ecba68f41d242550b7001990b86eee696c80505ab12541df2233aee",
+    "lib/kernel_context.bend": "527a3d280ff45b52fe3b38ecf00f823ac91b98b89c8e26774bef21e6d3b048dd",
+    "lib/kernel_conv.bend": "82d814f65a15457f417a3c8c71d13eee9593aa2d4fb3fbb8a07b2bed2c5d65cb",
+    "lib/kernel_declarations.bend": "1f91fb7935722a5f1e13557633d3ab1967cb9269180e496639b3652fb2b3fd05",
+    "lib/kernel_eval.bend": "89c23dcc7e2c04b613058f627174aa9b6da0bcd640a6ceebcbdea4ca9ad1a160",
+    "lib/kernel_metadata.bend": "abcfd8db4e917d7759db348be1b39fbc3c7ebe4b897d60196e0e623e8f2470b7",
+    "lib/kernel_mu.bend": "6a377e0f4453136ed010aaa22f8d0ac46a1f4b8623a903c2de012e504117c9b7",
+    "lib/kernel_order.bend": "10d6df09b22d407af140fb5e67daf3b35dd46779c7a7ac12745741908034fd57",
+    "lib/kernel_pp.bend": "5ce1c182cdf90ca10ae63ce959648baf29db4b07e08e342c1ae4827b1dce269f",
+    "lib/kernel_primitives.bend": "7a2907de92080e7e987be50f1942cc6af73f2d8e8b530a6f04b7bbcf92fbe6c3",
+    "lib/kernel_program.bend": "264f989e7d2fd6f667afc8a738a532e4c2f41e344f4fcc9b65ed91f74c20a355",
+    "lib/kernel_rules.bend": "4dac67dc78b6b5943c8c3d0084effe627ad72698a3050f4a18f18f52e1e3cb22",
+    "lib/kernel_source.bend": "553669e50dd1491f8bd4d1be4e9c0466c3625e5e3bd6b5e18d7e388b605a9629",
+    "lib/kernel_util.bend": "b3b2db19257acfe2832f358aa4394addf76d3f65b3c1e346e14b7d4d9f2976fa",
+    "surface/elab.bend": "5d4899b142716d93b71eb0a8ae17964189dfef254d518949d56654378a219856",
+    "surface/elab_cases.bend": "b9a7cc0474ec12d4449fb54c44ea98107a00b1024d2c91e307a0c69d404240b8",
+    "surface/elab_common.bend": "0b2d76972ef1d09c0d7d19c7b4ea3f24bc3c6a2b6a070befe67985a0c087887f",
+    "surface/elab_forms.bend": "c4eb8a05f0b75a5fd3966dc19858db49e7e2731390a6d48caf5f2a62d27c1225",
+    "surface/elab_headers.bend": "b65cd0b475d8465a8f1d455a54233d7d421d5ab23eb1a74d0946bba3c4a73817",
+    "surface/elab_refs.bend": "bac440f8600d395ef5ca1446a56585ca463e2231f6d6135bcb7b9b8e7f1acc31",
+    "surface/elab_requests.bend": "9625a2192994dc01afc1c8675106af64375ec758494222e7ec934d7449a40c77",
+    "surface/elab_runner.bend": "efe9e39371365965dc182b548160d6b5ce5f7efab341f336f169f854f7a5094b",
+    "surface/elab_state.bend": "972ae91487e179f6734743af65b85f336b4336013e81a46b3bc731c5d374bc5b",
+    "surface/elab_term.bend": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+    "surface/io.bend": "d5fb091d66f12c51942f277cc56392e6eb1cb058b131eaaf0799acd4def3d051",
+    "surface/lexer.bend": "f884b27fefaaa0940c2f3d412f96d8df3d7267689193764c4fb360481913f497",
+    "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
+    "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
+    "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
+    "dev/bend-policy.json": "ca6213393e13f8b0057472adbca23aff2817e5ea65bc7a7783bf5a69f3539c51",
+    "dev/validation/constructor-payload-source-run.py": "fae800eca0807aa636862e2ba922ee22376858acf1a55a573e8d39fbefbab056"
+  },
+  "cases": {
+    "sum-payload-disabled": {
+      "recipe": [
+        "sum-payload-disabled",
+        "erase/inline.bend",
+        "Inline.index_sum_pending(shape, index, arguments, fuel, context, index_pending, next)",
+        "Inline.index_source_pending(index_pending, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
+        "INLINE-ERASE row=sum-payload-syntax FAIL"
+      ],
+      "record": {
+        "name": "sum-payload-disabled",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "f0af8ea6b3fa0767ccc88aa3b38bb1c94afd05766ba1ca45de1ef94db7ba6954",
+        "log_sha256": "f7cddb1bb6fcb9f5528407762511b40f6deda933cec2e87a7f2f9daad0229ca8",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=sum-payload-syntax FAIL",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/sum-payload-disabled.log",
+          "sha256": "f7cddb1bb6fcb9f5528407762511b40f6deda933cec2e87a7f2f9daad0229ca8"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/sum-payload-disabled-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "tuple-payload-disabled": {
+      "recipe": [
+        "tuple-payload-disabled",
+        "erase/inline.bend",
+        "Inline.index_tuple_pending(shape, legs, fuel, context, index_pending, next)",
+        "Inline.index_source_pending(index_pending, fuel, Some{F.Term.Sec{shape, legs}}, context, next)",
+        "INLINE-ERASE row=tuple-payload-syntax FAIL"
+      ],
+      "record": {
+        "name": "tuple-payload-disabled",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "6325e19389b6aa32d1e84ea972c30d09f297ad2579c884e63a996227b42a2af1",
+        "log_sha256": "e7c3ddc395fb7a4b7c2341de541fcf8b580774e20ee08c752b52135138632413",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=tuple-payload-syntax FAIL",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/tuple-payload-disabled.log",
+          "sha256": "e7c3ddc395fb7a4b7c2341de541fcf8b580774e20ee08c752b52135138632413"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/tuple-payload-disabled-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-disabled": {
+      "recipe": [
+        "constructor-payload-disabled",
+        "erase/inline.bend",
+        "Inline.index_constructor_payload(shape, name, arguments, fuel, context, index_pending, next)",
+        "next(fuel, None{}, index_pending)",
+        "INLINE-ERASE row=constructor-payload-syntax FAIL"
+      ],
+      "record": {
+        "name": "constructor-payload-disabled",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "9d265b00f19405a558ab38865ff3a983c10398a577ed03c7b3dcb4493e0f0cbe",
+        "log_sha256": "9d44b1fc76c470e9101d039e7995ac883388032ad52f762adc199070ab9cbf0b",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-syntax FAIL",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-disabled.log",
+          "sha256": "9d44b1fc76c470e9101d039e7995ac883388032ad52f762adc199070ab9cbf0b"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-disabled-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-order": {
+      "recipe": [
+        "constructor-payload-order",
+        "erase/inline.bend",
+        "Inline.index_constructor_result(shape, name, Inline.reverse(F.Term.t, completed, Nil{}))",
+        "Inline.index_constructor_result(shape, name, completed)",
+        "INLINE-ERASE row=constructor-payload-syntax FAIL"
+      ],
+      "record": {
+        "name": "constructor-payload-order",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "ac16126952cf8cb31c29c52142af6c88279851e99e4f80a2603f81955983cebc",
+        "log_sha256": "907465b10286462f4232e4c18279070f29645e63fb19c7b587053458e0d93f80",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-syntax FAIL",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-order.log",
+          "sha256": "907465b10286462f4232e4c18279070f29645e63fb19c7b587053458e0d93f80"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-order-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-arity": {
+      "recipe": [
+        "constructor-payload-arity",
+        "erase/inline.bend",
+        "Nat.is_eq(Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, ctor_fields), argument_count)",
+        "True{}",
+        "INLINE-ERASE row=constructor-payload-guards FAIL mismatch: constructor payload wrong field count accepted"
+      ],
+      "record": {
+        "name": "constructor-payload-arity",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "c1d74266ea8abef89253e9d42dc44f6335f707c2ed2734ed6e81c3a1950e8e6f",
+        "log_sha256": "0b839b785e3a30d08a39e1d1f10f2e603130fd4cd5ae52e7e96ad679bc918b9d",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-guards FAIL mismatch: constructor payload wrong field count accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-arity.log",
+          "sha256": "0b839b785e3a30d08a39e1d1f10f2e603130fd4cd5ae52e7e96ad679bc918b9d"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-arity-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-full-arity": {
+      "recipe": [
+        "constructor-payload-full-arity",
+        "erase/inline.bend",
+        "Nat.is_eq(full_arity, (parameter_count + Inline.length(F.Triple3<F.Quantity.t, String, F.Term.t>, ctor_fields) : Nat))",
+        "True{}",
+        "INLINE-ERASE row=constructor-payload-metadata FAIL mismatch: constructor payload full arity omits parameters"
+      ],
+      "record": {
+        "name": "constructor-payload-full-arity",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "34ee7ecb3fff15453d96fb67d976aaa02521e539685af6812062c9d5e5ad3c49",
+        "log_sha256": "29eeb93146ed743aa2ea66ffc02018552c1c732dabd459ea42b631a79038be08",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-metadata FAIL mismatch: constructor payload full arity omits parameters",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-full-arity.log",
+          "sha256": "29eeb93146ed743aa2ea66ffc02018552c1c732dabd459ea42b631a79038be08"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-full-arity-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-field-scope": {
+      "recipe": [
+        "constructor-payload-field-scope",
+        "erase/inline.bend",
+        "Inline.constructor_parameter_scope(ctor_fields, parameter_count)",
+        "True{}",
+        "INLINE-ERASE row=constructor-payload-metadata FAIL mismatch: constructor payload open field type accepted"
+      ],
+      "record": {
+        "name": "constructor-payload-field-scope",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "21562da83f40445affe1711e3fd8004e5502deafc53a120bcaf168bab0b80642",
+        "log_sha256": "cd699663864193a612001a8e8a347a29970b23883c5b2cedab52620e0d4a8fe6",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-metadata FAIL mismatch: constructor payload open field type accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-field-scope.log",
+          "sha256": "cd699663864193a612001a8e8a347a29970b23883c5b2cedab52620e0d4a8fe6"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-field-scope-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-parameter-scope": {
+      "recipe": [
+        "constructor-payload-parameter-scope",
+        "erase/inline.bend",
+        "Inline.constructor_parameter_scope(ctor_parameters, 0n)",
+        "True{}",
+        "INLINE-ERASE row=constructor-payload-indexed FAIL mismatch: constructor payload open parameter telescope accepted"
+      ],
+      "record": {
+        "name": "constructor-payload-parameter-scope",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "3e94560d2094488734936cf2df8c3e6aaec9f91ec15354db099a7ef3a25922a3",
+        "log_sha256": "f460cc229888e5b1ff064049ac6eb7bd5e501197b436863c0c7c959125c6d5aa",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-indexed FAIL mismatch: constructor payload open parameter telescope accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-parameter-scope.log",
+          "sha256": "f460cc229888e5b1ff064049ac6eb7bd5e501197b436863c0c7c959125c6d5aa"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-parameter-scope-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-index-scope": {
+      "recipe": [
+        "constructor-payload-index-scope",
+        "erase/inline.bend",
+        "Inline.constructor_parameter_scope(ctor_index_types, parameter_count)",
+        "True{}",
+        "INLINE-ERASE row=constructor-payload-indexed FAIL mismatch: constructor payload open index type accepted"
+      ],
+      "record": {
+        "name": "constructor-payload-index-scope",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "ebf51e69886fca715acd1faa5b5f7c12756f118d2aa41611f0bb310b6b03dab0",
+        "log_sha256": "8a82a2b0a884ca2da078595dd8becc9f9cef8a3c86a3226f77c9590b0e12d726",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-indexed FAIL mismatch: constructor payload open index type accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-index-scope.log",
+          "sha256": "8a82a2b0a884ca2da078595dd8becc9f9cef8a3c86a3226f77c9590b0e12d726"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-index-scope-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-result-scope": {
+      "recipe": [
+        "constructor-payload-result-scope",
+        "erase/inline.bend",
+        "Inline.constructor_indices(ctor_indices, full_arity)",
+        "True{}",
+        "INLINE-ERASE row=constructor-payload-indexed FAIL mismatch: constructor payload open result index accepted"
+      ],
+      "record": {
+        "name": "constructor-payload-result-scope",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "7be94ba75a4e6fdc53e2e4e06d1013dc694969b774bbaafe20e79a0f98f3c3c5",
+        "log_sha256": "f97225207de32b7f940b76e11d1cc83cb169067ba07abce36e70b2dd58a4bf13",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-indexed FAIL mismatch: constructor payload open result index accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-result-scope.log",
+          "sha256": "f97225207de32b7f940b76e11d1cc83cb169067ba07abce36e70b2dd58a4bf13"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-result-scope-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-size": {
+      "recipe": [
+        "constructor-payload-size",
+        "erase/inline.bend",
+        "Inline.size_bounded(F.Term.In{shape, F.Term.ACtor{name}, arguments})",
+        "Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}",
+        "INLINE-ERASE row=constructor-payload-size FAIL mismatch: constructor payload reconstruction size cap ignored"
+      ],
+      "record": {
+        "name": "constructor-payload-size",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "707bfd4fa06a0b7f95aafd8c17a13b823af35b94b7b177edc34c682385c982c6",
+        "log_sha256": "389a0cd744d47f6988de9e635c54dbd943a66650bd9219e2af12442e1a3ce81a",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-size FAIL mismatch: constructor payload reconstruction size cap ignored",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-size.log",
+          "sha256": "389a0cd744d47f6988de9e635c54dbd943a66650bd9219e2af12442e1a3ce81a"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-size-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-fuel": {
+      "recipe": [
+        "constructor-payload-fuel",
+        "erase/inline.bend",
+        "Inline.index_constructor_valid(valid, shape, name, arguments, remaining, rest, next)",
+        "Inline.index_constructor_valid(valid, shape, name, arguments, (remaining + 1n : Nat), rest, next)",
+        "INLINE-ERASE row=constructor-payload-fuel FAIL mismatch: constructor payload field fuel restarted"
+      ],
+      "record": {
+        "name": "constructor-payload-fuel",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "f443486915f485df8e072ed2fa022f6fba0e7e48e9f0f99cf3b5d5c8671058c4",
+        "log_sha256": "7022976e8b3fef539dde514403b269ea16c85696b0b3197116fb91e163b42299",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-fuel FAIL mismatch: constructor payload field fuel restarted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-fuel.log",
+          "sha256": "7022976e8b3fef539dde514403b269ea16c85696b0b3197116fb91e163b42299"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-fuel-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-result-count": {
+      "recipe": [
+        "constructor-payload-result-count",
+        "erase/inline.bend",
+        "Nat.is_eq(Inline.length(F.Term.t, ctor_indices), index_count)",
+        "True{}",
+        "INLINE-ERASE row=constructor-payload-metadata FAIL mismatch: constructor payload result index count accepted"
+      ],
+      "record": {
+        "name": "constructor-payload-result-count",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "87636f65dd3a3f15bc054b630cb203092e5586d9c6e5693812a448cf4df32190",
+        "log_sha256": "f8663bb5dea1b2ee2bf8388994c645ad42db44195b53a985c673351c6081c776",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-metadata FAIL mismatch: constructor payload result index count accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-result-count.log",
+          "sha256": "f8663bb5dea1b2ee2bf8388994c645ad42db44195b53a985c673351c6081c776"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-result-count-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    },
+    "constructor-payload-family-label": {
+      "recipe": [
+        "constructor-payload-family-label",
+        "erase/inline.bend",
+        "String.eq(payload_family, payload_name)",
+        "True{}",
+        "INLINE-ERASE row=constructor-payload-metadata FAIL mismatch: constructor payload family label accepted"
+      ],
+      "record": {
+        "name": "constructor-payload-family-label",
+        "path": "erase/inline.bend",
+        "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+        "mutated_sha256": "2cdd861bd280f8563071a0b7c834a43e348ce66cfe3b354521a9bba7a73bef44",
+        "log_sha256": "1a0fd32d8a8892bd0f37ff3acbf05ce0adbb153ce63c3d8bc1483d537a7b6be4",
+        "build_exit": 0,
+        "gate_exit": 1,
+        "diagnostic": "INLINE-ERASE row=constructor-payload-metadata FAIL mismatch: constructor payload family label accepted",
+        "build_command": [
+          "python3",
+          "-P",
+          "dev/build.py",
+          "--backend",
+          "js",
+          "attest",
+          "erase-probe",
+          "prop-index",
+          "opaque",
+          "inline"
+        ],
+        "gate_command": [
+          "python3",
+          "-P",
+          "dev/erasure-gates.py"
+        ],
+        "log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-family-label.log",
+          "sha256": "1a0fd32d8a8892bd0f37ff3acbf05ce0adbb153ce63c3d8bc1483d537a7b6be4"
+        },
+        "build_log": {
+          "path": "dev/validation/constructor-payload-source/constructor-payload-family-label-build.log",
+          "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+        }
+      }
+    }
+  }
+}

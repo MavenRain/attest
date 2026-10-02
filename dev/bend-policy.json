@@ -486,6 +486,26 @@
     },
     {
       "path": "erase/inline.bend",
+      "function": "Inline.index_constructor_metadata",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_constructor_metadata",
+      "pattern": "other family"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_constructor_enter",
+      "pattern": "missing budget"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_constructor_payload",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/inline.bend",
       "function": "Inline.index_tuple_pending",
       "pattern": "other"
     },
@@ -498,6 +518,11 @@
       "path": "erase/inline.bend",
       "function": "Inline.index_source_reduce",
       "pattern": "fuel Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}"
+    },
+    {
+      "path": "erase/inline.bend",
+      "function": "Inline.index_source_reduce",
+      "pattern": "fuel Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}"
     },
     {
       "path": "erase/inline.bend",
