@@ -1668,7 +1668,7 @@ CASES += tuple(
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")},'
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")}_opaque,layout,1n)}}'),
      f"row=lambda-constructor-payload-{kind} lambda fixture call differs")
-    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right"), start=12)
+    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last"), start=12)
 )
 
 CASES += tuple(
@@ -1676,7 +1676,7 @@ CASES += tuple(
      "Inline.index_constructor_payload(shape, name, arguments, fuel, context, index_pending, next)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right")
+    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last")
 )
 
 CASES += tuple(

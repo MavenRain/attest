@@ -335,6 +335,18 @@ index and keep in the kernel, check prepared typing and proof sealing, and compa
 runtime rows with the opaque twin. The gate binds each row to its exact source
 pair and variant mode. Scoped mutations require named failures when the variant,
 constructor field recovery, or collection payload recovery is bypassed.
+Two `lambda-constructor-payload-nested-*` pairs put a two-field constructor
+in the first or last field of an outer constructor. Both semantic variants
+recheck Pick and keep, verify prepared typing and proof sealing, and compare
+runtime rows with their opaque twins. The gate binds each row to its exact
+source pair and variant mode. The rows require recovery to reduce every
+nested and outer field. Recovery compares the reduced annotation index with
+the reduced Pick index, so a field order error changes both sides and these
+rows do not detect it. The constructor payload syntax row checks field order
+and outer resumption with a nested constructor in the first or last field.
+Scoped mutations drop each variant or bypass constructor field recovery. The
+constructor recovery control fails both rows. The field order control fails
+only the syntax row.
 All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and
 rechecks its type and the transformed program. The gate binds each case to

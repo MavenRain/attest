@@ -1,0 +1,7 @@
+ERASURE-MUTATION constructor-payload-disabled caught
+ERASURE-MUTATION constructor-payload-order caught
+ERASURE-MUTATION constructor-payload-nested-first-fixture-call caught
+ERASURE-MUTATION constructor-payload-nested-last-fixture-call caught
+ERASURE-MUTATION constructor-payload-nested-first-passthrough caught
+ERASURE-MUTATION constructor-payload-nested-last-passthrough caught
+ERASURE-MUTATIONS caught=6 total=353 PARTIAL

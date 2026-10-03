@@ -1,5 +1,38 @@
 # M0 build log
 
+## 2026-10-03: Stage B nested constructors in payload fixtures
+
+Two additional constructor index fixture pairs put a nested two-field Payload
+constructor in the first or last field of an IndexBox constructor. The nested
+fields reduce to distinct zero and one values. Each inline proof has an opaque
+twin. Semantic variants recheck an alternate spelling of the Pick index and
+keep in the kernel. They check preparation and sealing and compare runtime
+rows with the twin. The gate binds each row to its exact source pair and
+variant mode.
+
+The rows require recovery to reduce every nested and outer field. Recovery
+compares the annotation index with the Pick index after it reduces both, so a
+field order error changes both sides and the rows do not detect it.
+Suite.constructor_payload_syntax now also checks field order and outer
+resumption with a nested constructor in the last field. It already checked
+them with a nested constructor in the first field.
+
+The inline suite passes 259 of 259 cases. The erasure corpus contains four
+global pairs and 118 inline pairs, including 65 lambda pairs. HOUSE retains 68
+unsafe functions and registers 416 catch-all sites, including the new nested
+field position dispatch. Existing source recovery guards and limits apply.
+
+`python3 -P dev/validation/nested-constructor-payload-fixtures-run.py` collects
+full tests, default gates, fresh erasure evidence, and six serial isolated
+mutations. Two mutations drop the semantic variant, and two pass constructor
+fields through unreduced. The two pass-through mutations apply one edit and
+name different fixture rows. The three constructor field pass-through
+mutations of 2026-10-02 apply the same edit. The constructor recovery control
+fails both new rows. The field order control is new to this record and fails
+only the constructor payload syntax row. Each mutation requires a successful
+build and its named failure. Input and log hashes bind the record to the
+validated implementation. The catalog has 353 anchors.
+
 ## 2026-10-02: Stage B collections in constructor payload fixtures
 
 Three additional constructor index fixture pairs place a numeric tuple or

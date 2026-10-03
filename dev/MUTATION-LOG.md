@@ -1,5 +1,19 @@
 # Mutation log
 
+## 2026-10-03: Nested constructors in payload fixture mutations
+
+Two fixture binding mutations replace the nested-first or nested-last semantic
+variant with the ordinary source pair check. Two recovery mutations pass the
+enclosing constructor through with its fields unreduced; they apply one edit
+and name different fixture rows. The three constructor field pass-through
+mutations of 2026-10-02 apply the same edit. Each requires its named new
+fixture failure after a successful isolated build. The constructor recovery
+control fails both new rows. The field order control is new to this record.
+It fails only the constructor payload syntax row, because the fixture rows
+compare two reduced indices. The six-case record is
+`dev/validation/nested-constructor-payload-fixtures.json`; the catalog contains
+353 unique anchors.
+
 ## 2026-10-02: Tuple and sum fields in constructor payload fixture mutations
 
 Three fixture binding mutations replace the tuple, sum-left, or sum-right

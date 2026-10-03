@@ -696,6 +696,11 @@
     },
     {
       "path": "erase/test/inline_test.bend",
+      "function": "Suite.constructor_nested_payload_fields",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
       "function": "Suite.index_reduction_expression",
       "pattern": "other"
     },
