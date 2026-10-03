@@ -706,6 +706,11 @@
     },
     {
       "path": "erase/test/inline_test.bend",
+      "function": "Suite.constructor_case_payload_field",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
       "function": "Suite.index_reduction_expression",
       "pattern": "other"
     },

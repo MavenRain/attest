@@ -1,5 +1,35 @@
 # M0 build log
 
+## 2026-10-03: Stage B constructor-valued cases in payload fields
+
+Two constructor index fixture pairs place a finite or constructor case in
+the first field of an IndexBox constructor. The selected branch returns a
+two-field Payload constructor. Its let and beta expressions reduce to zero
+and one, while the unused branch returns the reversed values. A scalar
+outer field follows the case. Each inline proof has an opaque twin.
+Semantic variants recheck Pick and keep, verify preparation and sealing,
+and compare runtime rows with the twin. The gate binds exact pairs and modes.
+
+The rows require branch substitution, nested constructor field reduction,
+and outer resumption. They compare two reduced indices and do not
+independently detect field order. The direct constructor case payload syntax
+row compares explicit reduced terms for both case forms. It checks distinct
+branch binders, nested field order and the trailing outer field.
+
+The inline suite passes 265 of 265 cases. The erasure corpus contains four
+global pairs and 123 inline pairs, including 70 lambda pairs. HOUSE retains
+68 unsafe functions and registers 418 catch-all sites. Existing source
+recovery guards and limits apply.
+
+`python3 -P dev/validation/case-constructor-payload-fixtures-run.py` collects
+full tests, default gates, fresh erasure evidence, and eight serial isolated
+mutations. Two drop semantic variants, two bypass constructor fields, and
+two bypass case elimination. Each pair of recovery mutations applies the
+same edit and requires distinct named fixture failures. Constructor recovery
+and field order are controls. Every mutation requires a successful isolated
+build and its named failure. Input and log hashes bind the record to the
+validated implementation. The catalog has 365 anchors.
+
 ## 2026-10-03: Stage B constructors inside collection payload fields
 
 Three additional constructor index fixture pairs put a two-field Payload

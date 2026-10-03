@@ -358,6 +358,20 @@ through with their fields unreduced. The latter three apply the same edit and
 require different named fixture failures. Constructor recovery and field order
 mutations remain controls. The fixture rows compare two reduced indices and
 do not independently detect field order errors.
+Two `lambda-constructor-payload-case-finite` and `case-constructor` pairs
+put a case expression in the first outer constructor field. The selected
+branch returns a nested two-field constructor whose let and beta fields
+reduce to zero and one. The unused branch returns the reversed values.
+The trailing outer field also reduces. Their semantic variants recheck Pick
+and keep, preparation and proof sealing, and runtime equality with opaque
+twins. The gate binds each row to its exact fixture sources and mode.
+The direct constructor case payload syntax row compares explicit reduced
+terms to check selected-branch substitution, field order and outer resumption.
+The fixture rows compare two reduced indices and do not independently detect
+field order. Six mutations drop semantic variants, pass constructor fields
+through unreduced, or bypass case elimination. Each pair of recovery cases
+shares an edit and requires distinct named fixture failures. Constructor
+recovery and field order remain controls.
 All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and
 rechecks its type and the transformed program. The gate binds each case to

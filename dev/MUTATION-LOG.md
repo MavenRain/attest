@@ -1,5 +1,19 @@
 # Mutation log
 
+## 2026-10-03: Constructor-valued case payload fixture mutations
+
+Two fixture binding mutations drop the case-finite or case-constructor
+semantic variant. Two recovery mutations pass constructors through with
+their fields unreduced, and two bypass case elimination. Each pair applies
+one edit and requires distinct named fixture failures. The constructor
+recovery control fails both fixture rows. The field order control exercises
+the direct constructor payload syntax checks. These compare explicit reduced
+terms; fixture rows compare two reduced indices and do not independently
+detect field order. Every mutation requires a successful isolated build and
+its named failure. The eight-case record is
+`dev/validation/case-constructor-payload-fixtures.json`.
+The catalog contains 365 unique anchors.
+
 ## 2026-10-03: Constructors inside collection payload fixture mutations
 
 Three fixture binding mutations replace the nested-tuple, nested-sum-left,

@@ -1,0 +1,469 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-03T21:26:41.843279+00:00",
+  "root": "/Users/oobi/Documents/attest",
+  "base_revision": "1a21b8db40a5635a5dbc7b3bb0383d8e043c4b71",
+  "scope": "Two parsed fixture pairs place a finite or constructor case in the first constructor field. Its selected branch returns a two-field constructor with compound fields and distinct values, while the unused branch returns the reversed values. A trailing outer field also reduces. Semantic variants recheck Pick and keep, preparation and proof sealing and runtime equality with opaque twins. The gate binds each row to its exact sources and mode. The direct constructor case payload syntax row compares against explicit reduced terms to check branch substitution, field order and outer resumption. Six mutations drop semantic variants, bypass constructor fields or bypass case elimination. Each pair of recovery edits shares an anchor and requires different named fixture failures. Constructor recovery and field order are controls. Every mutation requires a successful isolated build and its named failure.",
+  "implementation_sha256": {
+    "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
+    "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
+    "dev/bend-migration.json": "af8f89064e1902cae693e51d8366b66e1230fc315f4ff036937f62250d415f25",
+    "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
+    "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
+    "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
+    "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
+    "dev/erasure-gates.py": "0e08f685fd82124d394326bb5712e641f49bbb6122721a10f0dc5fd678b32934",
+    "dev/erasure-mutations.py": "9784a5f96dd1ef08973ce966f723436a82f734291d95a70410020dc1c745a471",
+    "erase/inline.bend": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+    "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
+    "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
+    "erase/test/fixtures.bend": "137be14552beaeccf7aef497a3b49cf891e4de74b8fdd486ed8ce22ab39deb52",
+    "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
+    "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
+    "erase/test/inline_test.bend": "ed2b3600317b0e6857472a38f5dc7b9d7e48ca508e2749b6823b91ca30c751c7",
+    "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
+    "erase/test/lambda_fixtures.bend": "76516764a5a6844d05715634d85a4c20867b3b46e37c117f0088201725cc4b4c",
+    "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
+    "erase/test/opaque_core.bend": "27c3d0153f546db7e0ee2127626f03787fe7a14ce2d053c057d1a4169305938c",
+    "erase/test/opaque_test.bend": "72b2354aa5fbae943e85381a1b561a31aa41e1be49747cf07c929df169996ee7",
+    "erase/test/parameter_fixtures.bend": "cc0e2e10c80bf5c8aa6343bd3d0632e4708f501bea0833086887a9067bf2eb53",
+    "erase/test/prop_index.bend": "c826246d00aa39ed7f420bbdbd27679643db40f4b2ab643b8cfc4cc13da658d2",
+    "erase/test/refusal_test.bend": "89eda7b5d4aa7dccd2de2eb957096a288b4972475640993a5fa883c225d29c6b",
+    "erase/test/repr_test.bend": "c78c8c14b2c298de25f77f8d270c7a353a57b8d967d52fa44a122d4c83478563",
+    "erase/test/support.bend": "c4eb069dce3dc29b63ea6982249e7ac0819021ccbfea5088b5c581db3efae1aa",
+    "lib/erasure.bend": "affcab049254fbede84b55fa4093a777ad0f20c0fc833f6e0a27d095e34bcfea",
+    "lib/foundation.bend": "30dfb2d9d09081405072c49c99c50c0e5b5997dfe9447061fad2dc83cc1dcee3",
+    "lib/kernel.bend": "86511b6e597f08262370f68670e0fa2fea54bc94d783d0fb3c4afaa9d9953d86",
+    "lib/kernel_check.bend": "6c11aba82ecba68f41d242550b7001990b86eee696c80505ab12541df2233aee",
+    "lib/kernel_context.bend": "527a3d280ff45b52fe3b38ecf00f823ac91b98b89c8e26774bef21e6d3b048dd",
+    "lib/kernel_conv.bend": "82d814f65a15457f417a3c8c71d13eee9593aa2d4fb3fbb8a07b2bed2c5d65cb",
+    "lib/kernel_declarations.bend": "1f91fb7935722a5f1e13557633d3ab1967cb9269180e496639b3652fb2b3fd05",
+    "lib/kernel_eval.bend": "89c23dcc7e2c04b613058f627174aa9b6da0bcd640a6ceebcbdea4ca9ad1a160",
+    "lib/kernel_metadata.bend": "abcfd8db4e917d7759db348be1b39fbc3c7ebe4b897d60196e0e623e8f2470b7",
+    "lib/kernel_mu.bend": "6a377e0f4453136ed010aaa22f8d0ac46a1f4b8623a903c2de012e504117c9b7",
+    "lib/kernel_order.bend": "10d6df09b22d407af140fb5e67daf3b35dd46779c7a7ac12745741908034fd57",
+    "lib/kernel_pp.bend": "5ce1c182cdf90ca10ae63ce959648baf29db4b07e08e342c1ae4827b1dce269f",
+    "lib/kernel_primitives.bend": "7a2907de92080e7e987be50f1942cc6af73f2d8e8b530a6f04b7bbcf92fbe6c3",
+    "lib/kernel_program.bend": "264f989e7d2fd6f667afc8a738a532e4c2f41e344f4fcc9b65ed91f74c20a355",
+    "lib/kernel_rules.bend": "4dac67dc78b6b5943c8c3d0084effe627ad72698a3050f4a18f18f52e1e3cb22",
+    "lib/kernel_source.bend": "553669e50dd1491f8bd4d1be4e9c0466c3625e5e3bd6b5e18d7e388b605a9629",
+    "lib/kernel_util.bend": "b3b2db19257acfe2832f358aa4394addf76d3f65b3c1e346e14b7d4d9f2976fa",
+    "surface/elab.bend": "5d4899b142716d93b71eb0a8ae17964189dfef254d518949d56654378a219856",
+    "surface/elab_cases.bend": "b9a7cc0474ec12d4449fb54c44ea98107a00b1024d2c91e307a0c69d404240b8",
+    "surface/elab_common.bend": "0b2d76972ef1d09c0d7d19c7b4ea3f24bc3c6a2b6a070befe67985a0c087887f",
+    "surface/elab_forms.bend": "c4eb8a05f0b75a5fd3966dc19858db49e7e2731390a6d48caf5f2a62d27c1225",
+    "surface/elab_headers.bend": "b65cd0b475d8465a8f1d455a54233d7d421d5ab23eb1a74d0946bba3c4a73817",
+    "surface/elab_refs.bend": "bac440f8600d395ef5ca1446a56585ca463e2231f6d6135bcb7b9b8e7f1acc31",
+    "surface/elab_requests.bend": "9625a2192994dc01afc1c8675106af64375ec758494222e7ec934d7449a40c77",
+    "surface/elab_runner.bend": "efe9e39371365965dc182b548160d6b5ce5f7efab341f336f169f854f7a5094b",
+    "surface/elab_state.bend": "972ae91487e179f6734743af65b85f336b4336013e81a46b3bc731c5d374bc5b",
+    "surface/elab_term.bend": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+    "surface/io.bend": "d5fb091d66f12c51942f277cc56392e6eb1cb058b131eaaf0799acd4def3d051",
+    "surface/lexer.bend": "f884b27fefaaa0940c2f3d412f96d8df3d7267689193764c4fb360481913f497",
+    "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
+    "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
+    "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
+    "dev/bend-policy.json": "1f98017026a237f7672bd37d6a360a17d409938aa12115221277892979a7ce10",
+    "dev/validation/case-constructor-payload-fixtures-run.py": "950e0d372efb5940c73cd23610dd913303cba02e0a5690c88da38324904d9991"
+  },
+  "checks": [
+    {
+      "name": "anchors",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-mutations.py",
+        "--check-anchors"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/anchors.log",
+        "sha256": "7acfa777b7289633d5d8541924ae095db01d56976c6fb4d6b0a08a73415f0e4b"
+      },
+      "elapsed_seconds": 1.77
+    },
+    {
+      "name": "tests",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/tests.log",
+        "sha256": "2df153ccbcd84dde1692ac93b6177cc3838aea10983e281faf058414494ca03f"
+      },
+      "elapsed_seconds": 137.556
+    },
+    {
+      "name": "gates",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/gates.log",
+        "sha256": "489d22aafe4e19a2f7f7e6b5719d80cbd8d8f6df651aff6631270b321d83ea82"
+      },
+      "elapsed_seconds": 1064.883
+    },
+    {
+      "name": "erasure-record",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py",
+        "--record"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/erasure-record.log",
+        "sha256": "5b355b3b41659fc789d301fbfe7071aa2350138eab4777a87260272380629e00"
+      },
+      "elapsed_seconds": 525.875
+    },
+    {
+      "name": "mutations",
+      "harness_argv": [
+        "dev/erasure-mutations.py",
+        "--jobs",
+        "1",
+        "--logs",
+        "/Users/oobi/Documents/attest/.gatework/case-constructor-payload-mutations",
+        "--case",
+        "constructor-payload-disabled",
+        "--case",
+        "constructor-payload-order",
+        "--case",
+        "constructor-payload-case-finite-fixture-call",
+        "--case",
+        "constructor-payload-case-constructor-fixture-call",
+        "--case",
+        "constructor-payload-case-finite-passthrough",
+        "--case",
+        "constructor-payload-case-constructor-passthrough",
+        "--case",
+        "constructor-payload-case-finite-elimination-passthrough",
+        "--case",
+        "constructor-payload-case-constructor-elimination-passthrough"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/mutations.log",
+        "sha256": "2d2a41ddd73bf8df31571745ef82b9fac2d87370069a78fbcd86c2e93746477e"
+      },
+      "elapsed_seconds": 1855.016,
+      "baseline": {
+        "path": "dev/validation/case-constructor-payload-fixtures/mutation-baseline.log",
+        "sha256": "5b355b3b41659fc789d301fbfe7071aa2350138eab4777a87260272380629e00"
+      }
+    }
+  ],
+  "check_checkpoint": {
+    "path": "dev/validation/case-constructor-payload-fixtures/checks.json",
+    "sha256": "ae4b8e92c94da4bc94e22219782f4bc74b1fcb892014a82e83c962f414a1a4fb"
+  },
+  "mutation_checkpoint": {
+    "path": "dev/validation/case-constructor-payload-fixtures/completed-mutations.json",
+    "sha256": "10911200bd03ebd7129ca9c0c443d50def97789e4a9056b5113ddb35fd34f3bc"
+  },
+  "supporting_records_sha256": {
+    "dev/validation/erasure.json": "0ddff2a32a9a8e1c14661c76fc090f43ce43d460269db989ffa472f545529083"
+  },
+  "catalog_total": 365,
+  "selected": [
+    "constructor-payload-disabled",
+    "constructor-payload-order",
+    "constructor-payload-case-finite-fixture-call",
+    "constructor-payload-case-constructor-fixture-call",
+    "constructor-payload-case-finite-passthrough",
+    "constructor-payload-case-constructor-passthrough",
+    "constructor-payload-case-finite-elimination-passthrough",
+    "constructor-payload-case-constructor-elimination-passthrough"
+  ],
+  "mutations": [
+    {
+      "name": "constructor-payload-disabled",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "9d265b00f19405a558ab38865ff3a983c10398a577ed03c7b3dcb4493e0f0cbe",
+      "log_sha256": "298b86a5f09ed0f239bcc4c7c242ab13d49839f1d58d3c31a9aaa4e7341d86d2",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=constructor-payload-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-disabled.log",
+        "sha256": "298b86a5f09ed0f239bcc4c7c242ab13d49839f1d58d3c31a9aaa4e7341d86d2"
+      },
+      "build_log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-disabled-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-order",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "ac16126952cf8cb31c29c52142af6c88279851e99e4f80a2603f81955983cebc",
+      "log_sha256": "65f2cdd1b1c3f148bf3b699fc9d0376ae664d5eacce45532b76d0a0491822240",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=constructor-payload-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-order.log",
+        "sha256": "65f2cdd1b1c3f148bf3b699fc9d0376ae664d5eacce45532b76d0a0491822240"
+      },
+      "build_log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-order-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-case-finite-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "ed2b3600317b0e6857472a38f5dc7b9d7e48ca508e2749b6823b91ca30c751c7",
+      "mutated_sha256": "27084278661040bf1851e61cdfe52ecbd4fa217fee9e8bfc1e462aa39cb601cc",
+      "log_sha256": "69028ae506630d60ba7f4efe7c1b1482579098c36b2ed9d3a8b4812c16ec999e",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=lambda-constructor-payload-case-finite lambda fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-finite-fixture-call.log",
+        "sha256": "69028ae506630d60ba7f4efe7c1b1482579098c36b2ed9d3a8b4812c16ec999e"
+      },
+      "build_log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-finite-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "constructor-payload-case-constructor-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "ed2b3600317b0e6857472a38f5dc7b9d7e48ca508e2749b6823b91ca30c751c7",
+      "mutated_sha256": "f948d9bfba1b809e414e35f1aade1793152a40350e94265fcf0218734ba6193b",
+      "log_sha256": "50060cb66bc2055da1d5ac87d77e96871033d2a158fa1896a7073eef14e8a247",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=lambda-constructor-payload-case-constructor lambda fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-constructor-fixture-call.log",
+        "sha256": "50060cb66bc2055da1d5ac87d77e96871033d2a158fa1896a7073eef14e8a247"
+      },
+      "build_log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-constructor-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "constructor-payload-case-finite-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "d22a09b156c45adb18d52dfa2a86759f230e7aa68d5585ab1ed9c3d9b3b34a62",
+      "log_sha256": "f8ebf42eb8cb53ab370a1657d5d65d9861fe3ec3098c77f9dad1f174fd4363af",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-case-finite FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-finite-passthrough.log",
+        "sha256": "f8ebf42eb8cb53ab370a1657d5d65d9861fe3ec3098c77f9dad1f174fd4363af"
+      },
+      "build_log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-finite-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-case-constructor-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "d22a09b156c45adb18d52dfa2a86759f230e7aa68d5585ab1ed9c3d9b3b34a62",
+      "log_sha256": "f8ebf42eb8cb53ab370a1657d5d65d9861fe3ec3098c77f9dad1f174fd4363af",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-case-constructor FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-constructor-passthrough.log",
+        "sha256": "f8ebf42eb8cb53ab370a1657d5d65d9861fe3ec3098c77f9dad1f174fd4363af"
+      },
+      "build_log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-constructor-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-case-finite-elimination-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "7d30e5ef562192a1d4cfd6834da0b4deee0e334be54a3096e66e50614960ca99",
+      "log_sha256": "24531dc1aa9c4a15fd4636a166f0e256224aa396ccb0a237fdcfc06058c7d290",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-case-finite FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-finite-elimination-passthrough.log",
+        "sha256": "24531dc1aa9c4a15fd4636a166f0e256224aa396ccb0a237fdcfc06058c7d290"
+      },
+      "build_log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-finite-elimination-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-case-constructor-elimination-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "7d30e5ef562192a1d4cfd6834da0b4deee0e334be54a3096e66e50614960ca99",
+      "log_sha256": "24531dc1aa9c4a15fd4636a166f0e256224aa396ccb0a237fdcfc06058c7d290",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-case-constructor FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-constructor-elimination-passthrough.log",
+        "sha256": "24531dc1aa9c4a15fd4636a166f0e256224aa396ccb0a237fdcfc06058c7d290"
+      },
+      "build_log": {
+        "path": "dev/validation/case-constructor-payload-fixtures/constructor-payload-case-constructor-elimination-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    }
+  ]
+}
