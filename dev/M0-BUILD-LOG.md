@@ -1,5 +1,37 @@
 # M0 build log
 
+## 2026-10-03: Stage B constructors inside collection payload fields
+
+Three additional constructor index fixture pairs put a two-field Payload
+constructor inside a tuple or either sum branch in an IndexBox field. A scalar
+field follows the collection. The inner fields reduce to distinct zero and
+one values. Each inline proof has an opaque twin. Semantic variants recheck
+an alternate spelling of Pick and keep in the kernel, verify preparation and
+sealing, and compare runtime rows with the twin. The gate binds each row to
+its exact fixture pair and mode.
+
+The rows require recovery to reduce the nested constructor, finish the
+collection and resume the remaining outer field. They compare two reduced
+indices and do not independently detect field order. Direct constructor
+payload syntax checks compare with explicit reduced terms and check the
+inner and outer field order and both sum addresses.
+
+The inline suite passes 262 of 262 cases. The erasure corpus contains four
+global pairs and 121 inline pairs, including 68 lambda pairs. HOUSE retains
+68 unsafe functions and registers 417 catch-all sites. Existing source
+recovery guards and limits apply.
+
+`python3 -P dev/validation/nested-collection-constructor-payload-fixtures-run.py`
+collects full tests, default gates, fresh erasure evidence, and eight serial
+isolated mutations. Three mutations drop semantic variants and three pass
+constructor fields through unreduced. The three pass-through cases apply
+the same edit and require different named fixture failures. The constructor
+recovery control fails all three new rows. The field order control fails
+only the syntax row. Every mutation requires a successful isolated build
+and its named failure. Input and log hashes bind the record to the validated
+implementation. The catalog has 359 anchors.
+
+
 ## 2026-10-03: Stage B nested constructors in payload fixtures
 
 Two additional constructor index fixture pairs put a nested two-field Payload

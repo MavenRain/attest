@@ -1,5 +1,22 @@
 # Mutation log
 
+## 2026-10-03: Constructors inside collection payload fixture mutations
+
+Three fixture binding mutations replace the nested-tuple, nested-sum-left,
+or nested-sum-right semantic variant with the ordinary source pair check.
+Three recovery mutations pass the enclosing constructor through with its
+fields unreduced. They apply the same edit as the preceding constructor
+field pass-through cases and require different named fixture failures.
+The constructor recovery control fails all three new rows. The field order
+control fails only the constructor payload syntax row, whose explicit
+expected terms also preserve the two sum addresses and outer resumption.
+The fixture rows compare two reduced indices and do not independently
+detect field order. Every case requires a successful isolated build and
+its named failure. The eight-case record is
+`dev/validation/nested-collection-constructor-payload-fixtures.json`.
+The catalog contains 359 unique anchors.
+
+
 ## 2026-10-03: Nested constructors in payload fixture mutations
 
 Two fixture binding mutations replace the nested-first or nested-last semantic

@@ -1,0 +1,2 @@
+# Preserve process output exactly for hash verification.
+*.log whitespace=-blank-at-eof

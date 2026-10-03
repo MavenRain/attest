@@ -701,6 +701,11 @@
     },
     {
       "path": "erase/test/inline_test.bend",
+      "function": "Suite.constructor_nested_collection_field",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
       "function": "Suite.index_reduction_expression",
       "pattern": "other"
     },

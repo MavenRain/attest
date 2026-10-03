@@ -34,15 +34,15 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and one hundred and eighteen inline proof
+increment compares four global proof pairs and one hundred and twenty-one inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences for the four global pairs and eighty-six inline pairs, including
-sixty-five lambda alias, let, beta, annotation, projection, finite case, constructor case, parameter, index, recursive, index alias, index reduction, sum index, constructor index, constructor payload, nested index, and neutral index pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
+differences for the four global pairs and eighty-nine inline pairs. Sixty-eight
+of these inline pairs are lambda alias, let, beta, annotation, projection, finite case, constructor case, parameter, index, recursive, index alias, index reduction, sum index, constructor index, constructor payload, nested index, and neutral index pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
 with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 353 isolated mutations. The full mutation record covers the preceding
+contains 359 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
 [scoped validation evidence](dev/validation/annotation-source.json), as does
 [tuple projection recovery](dev/validation/projection-source.json) and
@@ -103,6 +103,13 @@ Their rows require recovery to reduce every nested and outer field. Recovery
 compares two reduced indices, so these rows do not detect field order. The
 constructor payload syntax row checks field order and outer resumption with
 a nested constructor in the first or last field.
+`python3 -P dev/validation/nested-collection-constructor-payload-fixtures-run.py`
+records full tests, default gates, erasure evidence, and eight scoped mutations
+for [constructors inside tuple and sum fields](dev/validation/nested-collection-constructor-payload-fixtures.json).
+Three fixture pairs put a two-field constructor inside a tuple or either sum
+branch and require recovery to resume at the outer constructor's last field.
+Direct syntax checks compare with explicit reduced terms to check field order
+and preserve the sum address.
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
