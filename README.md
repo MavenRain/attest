@@ -42,7 +42,7 @@ with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 340 isolated mutations. The full mutation record covers the preceding
+contains 349 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
 [scoped validation evidence](dev/validation/annotation-source.json), as does
 [tuple projection recovery](dev/validation/projection-source.json) and
@@ -89,6 +89,12 @@ tests, default gates, erasure evidence, and seven scoped mutations for
 The two fixture pairs select a zero-valued branch while unused branches return one.
 Their semantic variants check recovery of both the enclosing constructor and
 the field's finite or constructor case.
+`python3 -P dev/validation/collection-payload-fixtures-run.py` records full
+tests, default gates, erasure evidence, and ten scoped mutations for
+[tuple and sum fields in constructor indices](dev/validation/collection-payload-fixtures.json).
+The three fixture pairs cover ordered tuple fields with distinct values and
+both sum addresses. Their semantic variants check the enclosing constructor
+and its collection field before comparing the sealed result with its opaque twin.
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -210,7 +216,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-The inline suite contains 254 semantic cases, including this boundary. Scrutinee types that need
+The inline suite contains 257 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

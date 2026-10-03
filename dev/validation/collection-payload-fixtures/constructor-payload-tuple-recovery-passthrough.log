@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -139,16 +142,12 @@ INLINE-ERASE row=neutral-projection-fuel OK
 INLINE-ERASE row=neutral-projection-size OK
 INLINE-ERASE row=neutral-projection-steps OK
 INLINE-ERASE row=sum-payload-syntax OK
-INLINE-ERASE row=tuple-payload-syntax OK
-INLINE-ERASE row=constructor-payload-syntax OK
 INLINE-ERASE row=constructor-payload-local OK
 INLINE-ERASE row=constructor-payload-guards OK
 INLINE-ERASE row=constructor-payload-metadata OK
 INLINE-ERASE row=constructor-payload-indexed OK
 INLINE-ERASE row=constructor-payload-fuel OK
-INLINE-ERASE row=constructor-payload-steps OK
 INLINE-ERASE row=constructor-payload-size OK
-INLINE-ERASE row=tuple-payload-local OK
 INLINE-ERASE row=neutral-case-syntax OK
 INLINE-ERASE row=neutral-case-guards OK
 INLINE-ERASE row=neutral-case-fuel OK
@@ -164,9 +163,6 @@ INLINE-ERASE row=neutral-constructor-guards OK
 INLINE-ERASE row=neutral-constructor-metadata OK
 INLINE-ERASE row=neutral-constructor-fuel OK
 INLINE-ERASE row=neutral-constructor-size OK
-INLINE-ERASE row=tuple-payload-guards OK
-INLINE-ERASE row=tuple-payload-fuel OK
-INLINE-ERASE row=tuple-payload-steps OK
 INLINE-ERASE row=tuple-payload-size OK
 INLINE-ERASE row=tuple-payload-projection OK
 INLINE-ERASE row=sum-payload-local OK
@@ -191,7 +187,6 @@ INLINE-ERASE row=lambda-constructor-payload-beta OK
 INLINE-ERASE row=lambda-constructor-payload-annotation OK
 INLINE-ERASE row=lambda-constructor-payload-projection OK
 INLINE-ERASE row=lambda-constructor-payload-finite-case OK
-INLINE-ERASE row=lambda-constructor-payload-tuple OK
 INLINE-ERASE row=lambda-constructor-payload-sum-left OK
 INLINE-ERASE row=lambda-constructor-payload-sum-right OK
 INLINE-ERASE row=lambda-constructor-payload-constructor-case OK
@@ -255,4 +250,13 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=257 total=257 OK
+INLINE-ERASE pass=249 total=257 FAIL
+INLINE-ERASE row=tuple-payload-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=constructor-payload-syntax FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=constructor-payload-steps FAIL mismatch: constructor payload tuple transition budget restarted
+INLINE-ERASE row=tuple-payload-local FAIL mismatch: application source type missing
+INLINE-ERASE row=tuple-payload-guards FAIL mismatch: missing tuple field accepted
+INLINE-ERASE row=tuple-payload-fuel FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=tuple-payload-steps FAIL mismatch: tuple transition budget restarted
+INLINE-ERASE row=lambda-constructor-payload-tuple FAIL mismatch: local proof has no postulate
+

@@ -327,7 +327,15 @@ runtime. Four direct cases cover both payload directions, multiple payloads,
 sum and constructor cases, projections, scope, mismatches, and shared reduction
 and transition boundaries.
 The lambda pairs have different carried runtime outputs; the motive pairs
-share a coarse carried runtime layout. All pairs match their opaque twins
+share a coarse carried runtime layout. Three additional constructor index pairs
+place a numeric tuple or either sum address in a constructor field. Let and beta
+expressions reduce to distinct tuple values in source order or to the selected
+sum payload. Their semantic variants recheck an alternate spelling of the Pick
+index and keep in the kernel, check prepared typing and proof sealing, and compare
+runtime rows with the opaque twin. The gate binds each row to its exact source
+pair and variant mode. Scoped mutations require named failures when the variant,
+constructor field recovery, or collection payload recovery is bypassed.
+All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and
 rechecks its type and the transformed program. The gate binds each case to
 its exact fixture pair and verifies `erase/test/lambda_fixtures.bend` against

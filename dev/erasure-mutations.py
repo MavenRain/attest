@@ -1668,7 +1668,7 @@ CASES += tuple(
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")},'
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")}_opaque,layout,1n)}}'),
      f"row=lambda-constructor-payload-{kind} lambda fixture call differs")
-    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case"), start=12)
+    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right"), start=12)
 )
 
 CASES += tuple(
@@ -1676,7 +1676,7 @@ CASES += tuple(
      "Inline.index_constructor_payload(shape, name, arguments, fuel, context, index_pending, next)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case")
+    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right")
 )
 
 CASES += tuple(
@@ -1685,6 +1685,21 @@ CASES += tuple(
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.Elim{F.Term.Elimination{index_shape, index_scrutinee, index_quantity, index_motive, index_branches}}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
     for kind in ("finite-case", "constructor-case")
+)
+
+CASES += (
+    ("constructor-payload-tuple-recovery-passthrough", INLINE,
+     "Inline.index_tuple_enter(Some{width}, shape, legs, fuel, C.Check.size(checker), rest, next)",
+     "Inline.index_source_pending(rest, fuel, Some{F.Term.Sec{shape, legs}}, context, next)",
+     "INLINE-ERASE row=lambda-constructor-payload-tuple FAIL"),
+)
+
+CASES += tuple(
+    (f"constructor-payload-{kind}-recovery-passthrough", INLINE,
+     "Inline.index_sum_context(context, shape, index, arguments, fuel, other, next)",
+     "Inline.index_source_pending(other, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
+     f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
+    for kind in ("sum-left", "sum-right")
 )
 
 if __name__ == "__main__":

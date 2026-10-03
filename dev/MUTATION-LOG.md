@@ -1,5 +1,21 @@
 # Mutation log
 
+## 2026-10-02: Tuple and sum fields in constructor payload fixture mutations
+
+Three fixture binding mutations replace the tuple, sum-left, or sum-right
+semantic variant with the ordinary source pair check. Three further mutations
+pass the enclosing constructor through with its fields unreduced; they apply
+one edit and name different fixture rows. One mutation passes every source
+tuple index through with its legs unreduced; it also fails the tuple and
+constructor payload rows. Two mutations pass every source sum injection
+through with its payload unreduced; they apply one edit, and each fails both
+sum fixture rows and the sum, tuple, constructor, and neutral payload rows.
+Each requires its named new fixture failure after a successful isolated
+build. The constructor payload recovery mutation remains a control. The
+ten-case record is `dev/validation/collection-payload-fixtures.json`; the
+full catalog contains 349 unique anchors. No mutation changes the order of
+recovered tuple fields or the address of a recovered sum payload.
+
 ## 2026-10-02: Case expressions in constructor payload fixture mutations
 
 Two fixture binding mutations replace the finite-case or constructor-case

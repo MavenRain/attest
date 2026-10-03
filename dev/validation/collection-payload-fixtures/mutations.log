@@ -1,0 +1,11 @@
+ERASURE-MUTATION constructor-payload-disabled caught
+ERASURE-MUTATION constructor-payload-tuple-fixture-call caught
+ERASURE-MUTATION constructor-payload-sum-left-fixture-call caught
+ERASURE-MUTATION constructor-payload-sum-right-fixture-call caught
+ERASURE-MUTATION constructor-payload-tuple-passthrough caught
+ERASURE-MUTATION constructor-payload-sum-left-passthrough caught
+ERASURE-MUTATION constructor-payload-sum-right-passthrough caught
+ERASURE-MUTATION constructor-payload-tuple-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-sum-left-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-sum-right-recovery-passthrough caught
+ERASURE-MUTATIONS caught=10 total=349 PARTIAL

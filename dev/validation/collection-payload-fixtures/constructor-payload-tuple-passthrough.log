@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -140,13 +143,6 @@ INLINE-ERASE row=neutral-projection-size OK
 INLINE-ERASE row=neutral-projection-steps OK
 INLINE-ERASE row=sum-payload-syntax OK
 INLINE-ERASE row=tuple-payload-syntax OK
-INLINE-ERASE row=constructor-payload-syntax OK
-INLINE-ERASE row=constructor-payload-local OK
-INLINE-ERASE row=constructor-payload-guards OK
-INLINE-ERASE row=constructor-payload-metadata OK
-INLINE-ERASE row=constructor-payload-indexed OK
-INLINE-ERASE row=constructor-payload-fuel OK
-INLINE-ERASE row=constructor-payload-steps OK
 INLINE-ERASE row=constructor-payload-size OK
 INLINE-ERASE row=tuple-payload-local OK
 INLINE-ERASE row=neutral-case-syntax OK
@@ -186,15 +182,6 @@ INLINE-ERASE row=lambda-nested-index-empty OK
 INLINE-ERASE row=lambda-nested-index-value OK
 INLINE-ERASE row=lambda-constructor-index-empty OK
 INLINE-ERASE row=lambda-constructor-index-value OK
-INLINE-ERASE row=lambda-constructor-payload-let OK
-INLINE-ERASE row=lambda-constructor-payload-beta OK
-INLINE-ERASE row=lambda-constructor-payload-annotation OK
-INLINE-ERASE row=lambda-constructor-payload-projection OK
-INLINE-ERASE row=lambda-constructor-payload-finite-case OK
-INLINE-ERASE row=lambda-constructor-payload-tuple OK
-INLINE-ERASE row=lambda-constructor-payload-sum-left OK
-INLINE-ERASE row=lambda-constructor-payload-sum-right OK
-INLINE-ERASE row=lambda-constructor-payload-constructor-case OK
 INLINE-ERASE row=sum-index-source-local OK
 INLINE-ERASE row=sum-index-source-guards OK
 INLINE-ERASE row=sum-index-source-fuel OK
@@ -255,4 +242,21 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=257 total=257 OK
+INLINE-ERASE pass=241 total=257 FAIL
+INLINE-ERASE row=constructor-payload-syntax FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=constructor-payload-local FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=constructor-payload-guards FAIL mismatch: constructor payload unknown constructor accepted
+INLINE-ERASE row=constructor-payload-metadata FAIL mismatch: constructor payload missing family accepted
+INLINE-ERASE row=constructor-payload-indexed FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=constructor-payload-fuel FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=constructor-payload-steps FAIL mismatch: constructor payload transition budget restarted
+INLINE-ERASE row=lambda-constructor-payload-let FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-beta FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-annotation FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-projection FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-finite-case FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-tuple FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-sum-left FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-sum-right FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-constructor-case FAIL mismatch: local proof has no postulate
+

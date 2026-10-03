@@ -1,5 +1,29 @@
 # M0 build log
 
+## 2026-10-02: Stage B collections in constructor payload fixtures
+
+Three additional constructor index fixture pairs place a numeric tuple or
+either sum address in a constructor field. Tuple fields reduce to distinct
+values (zero and one) in source order. Each inline proof has an opaque twin.
+Semantic variants recheck an alternate spelling of the Pick index and keep
+in the kernel, check preparation and proof sealing, and compare runtime rows
+with the twin. The gate binds each row to its exact source pair and mode.
+
+The inline suite passes 257 of 257 cases. The erasure corpus contains four
+global pairs and 116 inline pairs, including 63 lambda pairs. HOUSE retains
+68 unsafe functions and registers 415 catch-all sites, including the new
+collection field fixture dispatch.
+
+`python3 -P dev/validation/collection-payload-fixtures-run.py` collects full
+tests, default gates, fresh erasure evidence, and ten serial isolated mutations.
+Three mutations drop the semantic variant, three pass constructor fields
+through unreduced, one passes tuple legs through unreduced, and two pass sum
+payloads through unreduced. The three constructor field mutations apply one
+edit and name different fixture rows; the two sum mutations also apply one
+edit. The constructor payload recovery mutation remains a control. Each requires a successful build
+and its named failure. Input and log hashes bind the record to the validated
+implementation. The catalog contains 349 anchors.
+
 ## 2026-10-02: Stage B case expressions in constructor payload fixtures
 
 Two additional constructor payload fixture pairs contain a numeric finite case
