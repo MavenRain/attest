@@ -1,0 +1,8 @@
+ERASURE-MUTATION constructor-payload-disabled caught
+ERASURE-MUTATION constructor-payload-finite-case-fixture-call caught
+ERASURE-MUTATION constructor-payload-constructor-case-fixture-call caught
+ERASURE-MUTATION constructor-payload-finite-case-passthrough caught
+ERASURE-MUTATION constructor-payload-constructor-case-passthrough caught
+ERASURE-MUTATION constructor-payload-finite-case-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-constructor-case-elimination-passthrough caught
+ERASURE-MUTATIONS caught=7 total=340 PARTIAL

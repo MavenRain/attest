@@ -79,6 +79,7 @@ LAMBDA_ROWS = ("lambda-alias-global", "lambda-alias-dependent",
                "lambda-constructor-index-empty", "lambda-constructor-index-value",
                "lambda-constructor-payload-let", "lambda-constructor-payload-beta",
                "lambda-constructor-payload-annotation", "lambda-constructor-payload-projection",
+               "lambda-constructor-payload-finite-case", "lambda-constructor-payload-constructor-case",
                "lambda-nested-index-empty", "lambda-nested-index-value",
                "lambda-neutral-index-left", "lambda-neutral-index-right")
 INLINE_ROWS += LAMBDA_ROWS
@@ -392,7 +393,7 @@ def fixture_call_table():
             (f'Suite.Case{{"lambda-constructor-payload-{kind}",unit=>Suite.index_reduction_sealed('
              f'LF.{fixture_name(f"lambda-constructor-payload-{kind}")},'
              f'LF.{fixture_name(f"lambda-constructor-payload-{kind}")}_opaque,layout,{mode}n)}}')
-        for mode, kind in enumerate(("let", "beta", "annotation", "projection"), start=12)
+        for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case"), start=12)
     })
     alias_calls.update({
         f"lambda-nested-index-{kind}":

@@ -1,5 +1,30 @@
 # M0 build log
 
+## 2026-10-02: Stage B case expressions in constructor payload fixtures
+
+Two additional constructor payload fixture pairs contain a numeric finite case
+or a constructor case in their Nat field. The selected branch returns its
+zero-valued argument; the unused branch returns One. Each inline source has
+an opaque proof twin. Semantic variants spell the Pick index as a constructor
+with the case expression in its field, recheck Pick and keep in the kernel,
+check preparation and proof sealing, and compare runtime rows with the twin.
+The gate binds each suite row to its exact fixture pair and reduction mode.
+
+The inline suite passes 254 of 254 cases. The erasure corpus contains four
+global pairs and 113 inline pairs, including 60 lambda pairs. Existing
+recovery semantics, metadata guards, scope checks, and work limits are
+unchanged. HOUSE retains 414 catch-all sites and 68 unsafe functions.
+
+`python3 -P dev/validation/constructor-case-payload-fixtures-run.py` collects
+full tests, default gates, fresh erasure evidence, and seven serial isolated
+mutations. Two mutations drop the semantic variant, two pass constructor
+fields through unreduced, and two pass every index source case elimination,
+the field's included, through unreduced. Each pair applies one edit and names
+a different fixture row.
+The constructor payload recovery mutation is retained as a control. Each
+requires a successful build and its named failure. Input and log hashes bind
+the record to the validated implementation. The catalog contains 340 anchors.
+
 ## 2026-10-02: Stage B constructor payload source fixture corpus
 
 Four source fixture pairs exercise constructor fields containing a let, beta

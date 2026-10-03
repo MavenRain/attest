@@ -1662,13 +1662,13 @@ CASES += (
 CASES += tuple(
     (f"constructor-payload-{kind}-fixture-call", "erase/test/inline_test.bend",
      (f'Suite.Case{{"lambda-constructor-payload-{kind}",unit => Suite.index_reduction_sealed('
-      f'LF.Fixture.lambda_constructor_payload_{kind},'
-      f'LF.Fixture.lambda_constructor_payload_{kind}_opaque,layout,{mode}n)}}'),
+      f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")},'
+      f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")}_opaque,layout,{mode}n)}}'),
      (f'Suite.Case{{"lambda-constructor-payload-{kind}",unit => Suite.local_sealed('
-      f'LF.Fixture.lambda_constructor_payload_{kind},'
-      f'LF.Fixture.lambda_constructor_payload_{kind}_opaque,layout,1n)}}'),
+      f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")},'
+      f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")}_opaque,layout,1n)}}'),
      f"row=lambda-constructor-payload-{kind} lambda fixture call differs")
-    for mode, kind in enumerate(("let", "beta", "annotation", "projection"), start=12)
+    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case"), start=12)
 )
 
 CASES += tuple(
@@ -1676,7 +1676,15 @@ CASES += tuple(
      "Inline.index_constructor_payload(shape, name, arguments, fuel, context, index_pending, next)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("let", "beta", "annotation", "projection")
+    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case")
+)
+
+CASES += tuple(
+    (f"constructor-payload-{kind}-elimination-passthrough", INLINE,
+     "next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)",
+     "Inline.index_source_pending(index_pending, fuel, Some{F.Term.Elim{F.Term.Elimination{index_shape, index_scrutinee, index_quantity, index_motive, index_branches}}}, context, next)",
+     f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
+    for kind in ("finite-case", "constructor-case")
 )
 
 if __name__ == "__main__":

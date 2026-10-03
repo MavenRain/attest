@@ -1,5 +1,22 @@
 # Mutation log
 
+## 2026-10-02: Case expressions in constructor payload fixture mutations
+
+Two fixture binding mutations replace the finite-case or constructor-case
+semantic variant with the ordinary source pair check. Two further mutations
+pass the enclosing constructor through with its fields unreduced. Another
+two pass every index source case elimination, the field's included, through
+without recovering its scrutinee and result; they also fail the sum, nested,
+and constructor index rows. Each pair applies one edit and names a different
+fixture row. Each requires its named new fixture failure after a successful
+isolated build. The constructor payload recovery mutation remains a control.
+The seven-case record is
+`dev/validation/constructor-case-payload-fixtures.json`; the full catalog
+contains 340 unique anchors. The selected branch in each fixture returns zero
+while the unused branch returns one, so the kernel recheck rejects a
+semantic variant whose case selects the wrong branch. No mutation changes
+the eraser's branch selection.
+
 ## 2026-10-02: Constructor payload source fixture mutations
 
 Four mutations replace the let, beta, annotation, or projection fixture's

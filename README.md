@@ -34,15 +34,15 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and one hundred and eleven inline proof
+increment compares four global proof pairs and one hundred and thirteen inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences for the four global pairs and seventy-nine inline pairs, including
-fifty-eight lambda alias, let, beta, annotation, projection, finite case, constructor case, parameter, index, recursive, index alias, index reduction, sum index, constructor index, constructor payload, nested index, and neutral index pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
+differences for the four global pairs and eighty-one inline pairs, including
+sixty lambda alias, let, beta, annotation, projection, finite case, constructor case, parameter, index, recursive, index alias, index reduction, sum index, constructor index, constructor payload, nested index, and neutral index pairs. The eight parameterized branch pairs and twenty-four motive pairs give identical outputs
 with the carried eraser too, so their runtime rows do not discriminate; the
 semantic suite checks their sealing on copies that the gate requires to
 equal the fixture files, and the gate binds each of their suite cases to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 334 isolated mutations. The full mutation record covers the preceding
+contains 340 isolated mutations. The full mutation record covers the preceding
 127-case slice; annotation recovery has separate
 [scoped validation evidence](dev/validation/annotation-source.json), as does
 [tuple projection recovery](dev/validation/projection-source.json) and
@@ -83,6 +83,12 @@ default gates, the erasure record, and fourteen scoped mutations for
 `python3 -P dev/validation/constructor-payload-fixtures-run.py` records the full
 tests, default gates, erasure evidence, four fixture binding mutations, four
 recovery pass-through mutations, and a recovery control for [constructor payload source fixtures](dev/validation/constructor-payload-fixtures.json).
+`python3 -P dev/validation/constructor-case-payload-fixtures-run.py` records full
+tests, default gates, erasure evidence, and seven scoped mutations for
+[case expressions in constructor fields](dev/validation/constructor-case-payload-fixtures.json).
+The two fixture pairs select a zero-valued branch while unused branches return one.
+Their semantic variants check recovery of both the enclosing constructor and
+the field's finite or constructor case.
 The default gates also run all 36 pairs in
 `lean/corpus.json`; `dev/lean-twin.sh --record` records their evidence.
 
@@ -204,7 +210,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-The inline suite contains 252 semantic cases, including this boundary. Scrutinee types that need
+The inline suite contains 254 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

@@ -255,6 +255,14 @@ def Suite.index_field_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Many{},"n",F.Term.Global{"Nat"})
       F.Term.Out{shape,F.Term.APt{F.Quantity.Many{},term},F.Term.Ann{F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}]},F.Term.Ran{shape,F.Term.Global{"Nat"}}}}
     case 2n: F.Term.Ann{term,F.Term.Global{"Nat"}}
+    case 4n:
+      +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+      +nat:F.Term.t = F.Term.Global{"Nat"}
+      scrutinee:F.Term.t = F.Term.Ann{F.Term.In{shape,F.Term.ALeg{1n},[term]},F.Term.Lan{shape,G.Rules.diagram_of([nat,nat])}}
+      F.Term.Elim{F.Term.Elimination{shape,scrutinee,F.Quantity.Many{},Some{F.Term.Motive{None{},Nil{},"choice",nat}},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Global{"One"}}},F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
+    case 5n:
+      +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{})
+      F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"value"},[term]},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},Nil{},"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},F.Term.Global{"One"}}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
     case other:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
       tuple:F.Term.t = F.Term.Ann{F.Term.Sec{shape,[F.Term.Leg{Nil{},term},F.Term.Leg{Nil{},term}]},F.Term.Ran{shape,G.Rules.diagram_of([F.Term.Global{"Nat"},F.Term.Global{"Nat"}])}}
@@ -274,6 +282,8 @@ def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
     case 13n: Suite.constructor_payload_expression(1n)
     case 14n: Suite.constructor_payload_expression(2n)
     case 15n: Suite.constructor_payload_expression(3n)
+    case 16n: Suite.constructor_payload_expression(4n)
+    case 17n: Suite.constructor_payload_expression(5n)
     case 6n:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{})
       F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"zero"},Nil{}},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},Nil{},"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
@@ -3052,6 +3062,8 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"lambda-constructor-payload-beta",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_beta,LF.Fixture.lambda_constructor_payload_beta_opaque,layout,13n)},
       Suite.Case{"lambda-constructor-payload-annotation",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_annotation,LF.Fixture.lambda_constructor_payload_annotation_opaque,layout,14n)},
       Suite.Case{"lambda-constructor-payload-projection",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_projection,LF.Fixture.lambda_constructor_payload_projection_opaque,layout,15n)},
+      Suite.Case{"lambda-constructor-payload-finite-case",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_finite_case,LF.Fixture.lambda_constructor_payload_finite_case_opaque,layout,16n)},
+      Suite.Case{"lambda-constructor-payload-constructor-case",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_constructor_case,LF.Fixture.lambda_constructor_payload_constructor_case_opaque,layout,17n)},
       Suite.Case{"sum-index-source-local",unit => Suite.sum_index_source_local},
       Suite.Case{"sum-index-source-guards",unit => Suite.sum_index_source_guards},
       Suite.Case{"sum-index-source-fuel",unit => Suite.sum_index_source_fuel},
