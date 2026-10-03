@@ -1,5 +1,22 @@
 # Mutation log
 
+## 2026-10-02: Constructor payload source fixture mutations
+
+Four mutations replace the let, beta, annotation, or projection fixture's
+semantic variant check with the ordinary source pair check. Each must fail
+the named fixture binding check, proving that a row cannot silently drop its
+post-elaboration index spelling variant. Four further mutations restore the
+earlier path that passes a constructor index to the pending frames with its
+fields unreduced. Each must fail its named lambda-constructor-payload row,
+proving that the row depends on field recovery and not only on constructor
+acceptance. A constructor payload recovery mutation is retained as a control.
+The catalog contains 334 unique anchors.
+
+`python3 -P dev/validation/constructor-payload-fixtures-run.py` records these
+nine isolated mutations, full tests, default gates, fresh erasure evidence,
+input freshness, checkpoints, and exact logs in
+`dev/validation/constructor-payload-fixtures.json`.
+
 ## 2026-10-02: Constructor payload source index mutations
 
 Twelve new mutations disable constructor payload recovery or weaken field

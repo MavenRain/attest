@@ -1,5 +1,32 @@
 # M0 build log
 
+## 2026-10-02: Stage B constructor payload source fixture corpus
+
+Four source fixture pairs exercise constructor fields containing a let, beta
+application, annotation, or numeric tuple projection. Their indexed Choice
+family carries an IndexBox value. Recovery compares the raw source indices
+syntactically, so only the semantic variant, which spells the Pick index as a
+constructor with a compound field, reaches field recovery. Each inline source
+has an opaque proof twin. The semantic suite row also changes the Pick index spelling on a consistent elaborated copy,
+rechecks Pick and keep in the kernel, checks preparation and proof sealing,
+and compares runtime rows with the opaque twin. The gate binds each row to
+its exact fixture pair and reduction mode.
+
+The inline suite passes 252 of 252 cases. The erasure corpus now contains
+four global pairs and 111 inline pairs, including 58 lambda pairs. The HOUSE
+registry adds the field-expression helper's numeric dispatch fallback, for
+414 catch-all sites and 68 unsafe functions. Recovery semantics and their
+existing fuel, transition, scope, metadata, and node limits are unchanged.
+
+`python3 -P dev/validation/constructor-payload-fixtures-run.py` records full
+tests, default gates, fresh erasure evidence, four isolated fixture binding
+mutations, four recovery pass-through mutations, and a constructor payload
+recovery control in `dev/validation/constructor-payload-fixtures.json`. Each
+pass-through mutation restores the earlier verbatim constructor path and must
+fail its named fixture row. Every mutation requires a successful build and its
+named failure. Input and log hashes bind the record to the implementation.
+The catalog contains 334 unique anchors.
+
 ## 2026-10-02: Stage B constructor payload source indices
 
 Constructor injections now recover their fields in source order under the

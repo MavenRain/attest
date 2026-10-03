@@ -248,17 +248,32 @@ def Suite.nested_index_expression(shape_index:F.Term.t,injection_index:F.Term.t,
 def Suite.neutral_index_expression(argument:F.Term.t) -> F.Term.t:
   F.Term.Out{F.Shape.make_point(F.Term.t,F.Quantity.Zero{},"n",F.Term.Global{"Nat"}),F.Term.APt{F.Quantity.Zero{},argument},F.Term.Global{"F"}}
 
-def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
+def Suite.index_field_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
   match mode:
     case 0n: F.Term.Let{"n",F.Term.Global{"Nat"},term,F.Term.Var{0n}}
     case 1n:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_point(F.Term.t,F.Quantity.Many{},"n",F.Term.Global{"Nat"})
       F.Term.Out{shape,F.Term.APt{F.Quantity.Many{},term},F.Term.Ann{F.Term.Sec{shape,[F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}]},F.Term.Ran{shape,F.Term.Global{"Nat"}}}}
     case 2n: F.Term.Ann{term,F.Term.Global{"Nat"}}
-    case 3n:
+    case other:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
       tuple:F.Term.t = F.Term.Ann{F.Term.Sec{shape,[F.Term.Leg{Nil{},term},F.Term.Leg{Nil{},term}]},F.Term.Ran{shape,G.Rules.diagram_of([F.Term.Global{"Nat"},F.Term.Global{"Nat"}])}}
       F.Term.Out{shape,F.Term.ALeg{0n},tuple}
+
+def Suite.constructor_payload_expression(mode:Nat) -> F.Term.t:
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{})
+  F.Term.In{shape,F.Term.ACtor{"value"},[Suite.index_field_expression(mode,F.Term.Global{"Zero"})]}
+
+def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
+  match mode:
+    case 0n: Suite.index_field_expression(0n,term)
+    case 1n: Suite.index_field_expression(1n,term)
+    case 2n: Suite.index_field_expression(2n,term)
+    case 3n: Suite.index_field_expression(3n,term)
+    case 12n: Suite.constructor_payload_expression(0n)
+    case 13n: Suite.constructor_payload_expression(1n)
+    case 14n: Suite.constructor_payload_expression(2n)
+    case 15n: Suite.constructor_payload_expression(3n)
     case 6n:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{})
       F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"zero"},Nil{}},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},Nil{},"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
@@ -3033,6 +3048,10 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"lambda-nested-index-value",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_nested_index_value,LF.Fixture.lambda_nested_index_value_opaque,layout,9n)},
       Suite.Case{"lambda-constructor-index-empty",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_index_empty,LF.Fixture.lambda_constructor_index_empty_opaque,layout,6n)},
       Suite.Case{"lambda-constructor-index-value",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_index_value,LF.Fixture.lambda_constructor_index_value_opaque,layout,7n)},
+      Suite.Case{"lambda-constructor-payload-let",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_let,LF.Fixture.lambda_constructor_payload_let_opaque,layout,12n)},
+      Suite.Case{"lambda-constructor-payload-beta",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_beta,LF.Fixture.lambda_constructor_payload_beta_opaque,layout,13n)},
+      Suite.Case{"lambda-constructor-payload-annotation",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_annotation,LF.Fixture.lambda_constructor_payload_annotation_opaque,layout,14n)},
+      Suite.Case{"lambda-constructor-payload-projection",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_projection,LF.Fixture.lambda_constructor_payload_projection_opaque,layout,15n)},
       Suite.Case{"sum-index-source-local",unit => Suite.sum_index_source_local},
       Suite.Case{"sum-index-source-guards",unit => Suite.sum_index_source_guards},
       Suite.Case{"sum-index-source-fuel",unit => Suite.sum_index_source_fuel},

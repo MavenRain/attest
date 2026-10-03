@@ -1,0 +1,10 @@
+ERASURE-MUTATION constructor-payload-disabled caught
+ERASURE-MUTATION constructor-payload-let-fixture-call caught
+ERASURE-MUTATION constructor-payload-beta-fixture-call caught
+ERASURE-MUTATION constructor-payload-annotation-fixture-call caught
+ERASURE-MUTATION constructor-payload-projection-fixture-call caught
+ERASURE-MUTATION constructor-payload-let-passthrough caught
+ERASURE-MUTATION constructor-payload-beta-passthrough caught
+ERASURE-MUTATION constructor-payload-annotation-passthrough caught
+ERASURE-MUTATION constructor-payload-projection-passthrough caught
+ERASURE-MUTATIONS caught=9 total=334 PARTIAL

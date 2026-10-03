@@ -1659,5 +1659,25 @@ CASES += (
      "INLINE-ERASE row=constructor-payload-metadata FAIL mismatch: constructor payload family label accepted"),
 )
 
+CASES += tuple(
+    (f"constructor-payload-{kind}-fixture-call", "erase/test/inline_test.bend",
+     (f'Suite.Case{{"lambda-constructor-payload-{kind}",unit => Suite.index_reduction_sealed('
+      f'LF.Fixture.lambda_constructor_payload_{kind},'
+      f'LF.Fixture.lambda_constructor_payload_{kind}_opaque,layout,{mode}n)}}'),
+     (f'Suite.Case{{"lambda-constructor-payload-{kind}",unit => Suite.local_sealed('
+      f'LF.Fixture.lambda_constructor_payload_{kind},'
+      f'LF.Fixture.lambda_constructor_payload_{kind}_opaque,layout,1n)}}'),
+     f"row=lambda-constructor-payload-{kind} lambda fixture call differs")
+    for mode, kind in enumerate(("let", "beta", "annotation", "projection"), start=12)
+)
+
+CASES += tuple(
+    (f"constructor-payload-{kind}-passthrough", INLINE,
+     "Inline.index_constructor_payload(shape, name, arguments, fuel, context, index_pending, next)",
+     "Inline.index_source_pending(index_pending, fuel, Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}, context, next)",
+     f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
+    for kind in ("let", "beta", "annotation", "projection")
+)
+
 if __name__ == "__main__":
     sys.exit(main())

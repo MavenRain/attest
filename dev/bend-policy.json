@@ -686,6 +686,11 @@
     },
     {
       "path": "erase/test/inline_test.bend",
+      "function": "Suite.index_field_expression",
+      "pattern": "other"
+    },
+    {
+      "path": "erase/test/inline_test.bend",
       "function": "Suite.index_reduction_expression",
       "pattern": "other"
     },
