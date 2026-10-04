@@ -1,5 +1,25 @@
 # Mutation log
 
+## 2026-10-03: Constructor-valued cases inside collection payload fields
+
+Twenty-four new mutation anchors cover six finite and constructor case pairs
+inside tuple and both sum payload fields. Six replace semantic variants with
+ordinary sealing calls. Six bypass constructor field reduction, six bypass
+case elimination and six bypass the containing tuple or sum recovery. Each
+recovery group shares anchors but requires distinct named fixture failures.
+The scoped collector also runs the constructor recovery and field order
+controls, for 26 isolated mutations with successful builds and named failures.
+The direct syntax row checks explicit reduced terms for all six combinations.
+It checks branch substitution, nested and outer field order, tuple resumption
+and both sum addresses. The source fixture rows do not independently detect
+field order. Logs and source hashes are recorded in
+`dev/validation/case-collection-constructor-payload-fixtures.json`.
+Identical edits share verified isolated executions. Inputs, recipes, source
+hashes and log hashes must match, and every named failure must appear.
+Thirteen checks exercise acceptance of identical results and refusal of
+changed metadata and logs, different recipes and missing named failures.
+The preceding full 127-case mutation record remains historical.
+
 ## 2026-10-03: Constructor-valued case payload fixture mutations
 
 Two fixture binding mutations drop the case-finite or case-constructor
@@ -12,7 +32,7 @@ terms; fixture rows compare two reduced indices and do not independently
 detect field order. Every mutation requires a successful isolated build and
 its named failure. The eight-case record is
 `dev/validation/case-constructor-payload-fixtures.json`.
-The catalog contains 365 unique anchors.
+The catalog contains 389 unique anchors.
 
 ## 2026-10-03: Constructors inside collection payload fixture mutations
 

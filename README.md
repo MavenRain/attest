@@ -34,9 +34,9 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and one hundred and twenty-three inline proof
+increment compares four global proof pairs and one hundred and twenty-nine inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences for the four global pairs and ninety-one inline pairs. Seventy
+differences for the four global pairs and ninety-seven inline pairs. Seventy-six
 of these inline pairs are lambda pairs. They cover alias, let, beta,
 annotation, projection, finite case, constructor case, parameter, index and
 recursive forms. They also cover index alias, index reduction, sum index,
@@ -47,7 +47,7 @@ discriminate. The semantic suite checks their sealing on copies that the gate
 requires to equal the fixture files. The gate binds each of their suite cases
 to its exact pair. The gate also checks the initial F2 and Acc
 witnesses plus the F2 negative probe. `python3 -P dev/erasure-mutations.py`
-contains 365 isolated mutations. The full mutation record covers the preceding
+contains 389 isolated mutations. The full mutation record covers the preceding
 127-case slice. Later slices have separate scoped validation evidence:
 
 - [annotation recovery](dev/validation/annotation-source.json)
@@ -132,6 +132,18 @@ The default gates also run all 36 pairs in
 The checker now admits erased indices of `Prop` families, including the
 `Acc` declaration and constructor in `fixtures/erasure/acc-family.att`.
 Twenty-eight regression cases cover their universe and quantity boundaries.
+`python3 -P dev/validation/case-collection-constructor-payload-fixtures-run.py`
+records full tests, default gates, fresh erasure evidence, and 26 scoped
+mutations for [constructor-valued cases inside collection payload fields](dev/validation/case-collection-constructor-payload-fixtures.json).
+Identical edits share verified isolated build and gate logs. Each named
+mutation requires its own failure diagnostic. Thirteen checks protect reuse
+against altered recipes, source hashes, results and logs.
+Six pairs cover finite and constructor cases inside a tuple or either sum
+branch, followed by a trailing outer field. Semantic variants check sealing
+and runtime equality with opaque twins. Direct syntax checks compare explicit
+reduced terms for branch substitution, field order, both sum addresses,
+and outer resumption.
+
 Stage B remains open: `Acc` runtime elimination still hits the erased-binder
 and recursive-singleton restrictions. Closed inline proofs and proofs under
 typed function, let, type-former, constructor branch, and motive binders now erase like

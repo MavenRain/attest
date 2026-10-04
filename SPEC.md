@@ -372,6 +372,24 @@ field order. Six mutations drop semantic variants, pass constructor fields
 through unreduced, or bypass case elimination. Each pair of recovery cases
 shares an edit and requires distinct named fixture failures. Constructor
 recovery and field order remain controls.
+Six additional `lambda-constructor-payload-case-{finite,constructor}-{tuple,sum-left,sum-right}`
+pairs place constructor-valued cases inside a collection payload field.
+The selected branch returns a two-field constructor whose let and beta fields
+reduce to zero and one. The unused branch returns the reversed values.
+The tuple sibling and trailing outer field also reduce. Semantic variants
+recheck Pick and keep, preparation and proof sealing, and runtime equality
+with opaque twins. The gate binds exact source pairs and modes 28 through 33.
+The direct constructor case collection syntax row compares explicit reduced
+terms for all six combinations. It checks branch substitution, nested and
+outer field order, tuple resumption and both sum addresses. The fixture rows
+compare two reduced indices and do not independently detect field order.
+Twenty-four mutations drop semantic variants or bypass constructor, case or
+collection recovery. Each recovery group shares anchors but requires distinct
+named fixture failures. Constructor recovery and field order remain controls.
+Identical edits reuse isolated build and gate results only when inputs,
+recipes, source hashes and log hashes match and each named failure appears.
+The record marks shared executions. Thirteen checks reject changed cache
+metadata, changed logs, different recipes and missing named failures.
 All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and
 rechecks its type and the transformed program. The gate binds each case to

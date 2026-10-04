@@ -142,6 +142,7 @@ INLINE-ERASE row=sum-payload-syntax OK
 INLINE-ERASE row=tuple-payload-syntax OK
 INLINE-ERASE row=constructor-payload-syntax OK
 INLINE-ERASE row=constructor-case-payload-syntax OK
+INLINE-ERASE row=constructor-case-collection-syntax OK
 INLINE-ERASE row=constructor-payload-local OK
 INLINE-ERASE row=constructor-payload-guards OK
 INLINE-ERASE row=constructor-payload-metadata OK
@@ -203,6 +204,12 @@ INLINE-ERASE row=lambda-constructor-payload-nested-sum-left OK
 INLINE-ERASE row=lambda-constructor-payload-nested-sum-right OK
 INLINE-ERASE row=lambda-constructor-payload-case-finite OK
 INLINE-ERASE row=lambda-constructor-payload-case-constructor OK
+INLINE-ERASE row=lambda-constructor-payload-case-finite-tuple OK
+INLINE-ERASE row=lambda-constructor-payload-case-finite-sum-left OK
+INLINE-ERASE row=lambda-constructor-payload-case-finite-sum-right OK
+INLINE-ERASE row=lambda-constructor-payload-case-constructor-tuple OK
+INLINE-ERASE row=lambda-constructor-payload-case-constructor-sum-left OK
+INLINE-ERASE row=lambda-constructor-payload-case-constructor-sum-right OK
 INLINE-ERASE row=sum-index-source-local OK
 INLINE-ERASE row=sum-index-source-guards OK
 INLINE-ERASE row=sum-index-source-fuel OK
@@ -263,4 +270,4 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=265 total=265 OK
+INLINE-ERASE pass=272 total=272 OK

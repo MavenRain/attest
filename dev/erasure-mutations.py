@@ -1668,7 +1668,7 @@ CASES += tuple(
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")},'
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")}_opaque,layout,1n)}}'),
      f"row=lambda-constructor-payload-{kind} lambda fixture call differs")
-    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor"), start=12)
+    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right"), start=12)
 )
 
 CASES += tuple(
@@ -1676,7 +1676,7 @@ CASES += tuple(
      "Inline.index_constructor_payload(shape, name, arguments, fuel, context, index_pending, next)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor")
+    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right")
 )
 
 CASES += tuple(
@@ -1684,7 +1684,7 @@ CASES += tuple(
      "next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.Elim{F.Term.Elimination{index_shape, index_scrutinee, index_quantity, index_motive, index_branches}}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("finite-case", "constructor-case", "case-finite", "case-constructor")
+    for kind in ("finite-case", "constructor-case", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right")
 )
 
 CASES += (
@@ -1700,6 +1700,33 @@ CASES += tuple(
      "Inline.index_source_pending(other, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
     for kind in ("sum-left", "sum-right")
+)
+
+CASES += (
+    ("constructor-payload-case-finite-tuple-recovery-passthrough", INLINE,
+     "Inline.index_tuple_enter(Some{width}, shape, legs, fuel, C.Check.size(checker), rest, next)",
+     "Inline.index_source_pending(rest, fuel, Some{F.Term.Sec{shape, legs}}, context, next)",
+     "INLINE-ERASE row=lambda-constructor-payload-case-finite-tuple FAIL"),
+    ("constructor-payload-case-finite-sum-left-recovery-passthrough", INLINE,
+     "Inline.index_sum_context(context, shape, index, arguments, fuel, other, next)",
+     "Inline.index_source_pending(other, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
+     "INLINE-ERASE row=lambda-constructor-payload-case-finite-sum-left FAIL"),
+    ("constructor-payload-case-finite-sum-right-recovery-passthrough", INLINE,
+     "Inline.index_sum_context(context, shape, index, arguments, fuel, other, next)",
+     "Inline.index_source_pending(other, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
+     "INLINE-ERASE row=lambda-constructor-payload-case-finite-sum-right FAIL"),
+    ("constructor-payload-case-constructor-tuple-recovery-passthrough", INLINE,
+     "Inline.index_tuple_enter(Some{width}, shape, legs, fuel, C.Check.size(checker), rest, next)",
+     "Inline.index_source_pending(rest, fuel, Some{F.Term.Sec{shape, legs}}, context, next)",
+     "INLINE-ERASE row=lambda-constructor-payload-case-constructor-tuple FAIL"),
+    ("constructor-payload-case-constructor-sum-left-recovery-passthrough", INLINE,
+     "Inline.index_sum_context(context, shape, index, arguments, fuel, other, next)",
+     "Inline.index_source_pending(other, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
+     "INLINE-ERASE row=lambda-constructor-payload-case-constructor-sum-left FAIL"),
+    ("constructor-payload-case-constructor-sum-right-recovery-passthrough", INLINE,
+     "Inline.index_sum_context(context, shape, index, arguments, fuel, other, next)",
+     "Inline.index_source_pending(other, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
+     "INLINE-ERASE row=lambda-constructor-payload-case-constructor-sum-right FAIL"),
 )
 
 if __name__ == "__main__":

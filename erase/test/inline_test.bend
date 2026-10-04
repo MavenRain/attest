@@ -324,6 +324,13 @@ def Suite.constructor_case_payload_expression(mode:Nat) -> F.Term.t:
   +unused:F.Term.t = F.Term.In{payload_shape,F.Term.ACtor{"pair"},[F.Term.Global{"One"},F.Term.Global{"Zero"}]}
   F.Term.In{F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{}),F.Term.ACtor{"value"},[Suite.constructor_case_payload_field(mode,selected,unused),Suite.index_field_expression(2n,F.Term.Global{"Zero"})]}
 
+def Suite.constructor_case_collection_expression(case_mode:Nat,collection_mode:Nat) -> F.Term.t:
+  +payload_shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Payload",Nil{})
+  +selected:F.Term.t = F.Term.In{payload_shape,F.Term.ACtor{"pair"},[Suite.index_field_expression(0n,F.Term.Var{0n}),Suite.index_field_expression(1n,F.Term.Global{"One"})]}
+  +unused:F.Term.t = F.Term.In{payload_shape,F.Term.ACtor{"pair"},[F.Term.Global{"One"},F.Term.Global{"Zero"}]}
+  +field:F.Term.t = Suite.constructor_nested_collection_field(collection_mode,Suite.constructor_case_payload_field(case_mode,selected,unused),Suite.index_field_expression(2n,F.Term.Global{"One"}))
+  F.Term.In{F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{}),F.Term.ACtor{"value"},[field,Suite.index_field_expression(2n,F.Term.Global{"Zero"})]}
+
 def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
   match mode:
     case 0n: Suite.index_field_expression(0n,term)
@@ -346,6 +353,12 @@ def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
     case 25n: Suite.constructor_nested_collection_expression(2n)
     case 26n: Suite.constructor_case_payload_expression(0n)
     case 27n: Suite.constructor_case_payload_expression(1n)
+    case 28n: Suite.constructor_case_collection_expression(0n,0n)
+    case 29n: Suite.constructor_case_collection_expression(0n,1n)
+    case 30n: Suite.constructor_case_collection_expression(0n,2n)
+    case 31n: Suite.constructor_case_collection_expression(1n,0n)
+    case 32n: Suite.constructor_case_collection_expression(1n,1n)
+    case 33n: Suite.constructor_case_collection_expression(1n,2n)
     case 6n:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{})
       F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"zero"},Nil{}},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},Nil{},"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
@@ -2400,6 +2413,29 @@ def Suite.constructor_case_payload_syntax() -> Result<&2,&2,F.Error.t,Unit>:
     finite_ok:Unit <- Suite.constructor_index_equal(Suite.constructor_payload("pair",[finite,Suite.let_chain(1n,leaf)]),context,outer)
     Suite.constructor_index_equal(Suite.constructor_payload("pair",[constructor,Suite.let_chain(1n,leaf)]),context,outer)
 
+def Suite.constructor_case_collection_equal(+mode:Nat,term:F.Term.t,expected:F.Term.t,context:I.Inline.context,+scalar:F.Term.t) -> Result<&2,&2,F.Error.t,Unit>:
+  +field:F.Term.t = Suite.constructor_nested_collection_field(mode,term,Suite.let_chain(1n,scalar))
+  +reduced:F.Term.t = Suite.constructor_nested_collection_field(mode,expected,scalar)
+  Suite.constructor_index_equal(Suite.constructor_payload("pair",[field,Suite.let_chain(1n,scalar)]),context,Suite.constructor_payload("pair",[reduced,scalar]))
+
+def Suite.constructor_case_collection_syntax() -> Result<&2,&2,F.Error.t,Unit>:
+  +univ:F.Term.t = F.Term.Univ{F.Level.zero}
+  +leaf:F.Term.t = F.Term.Global{"Neutral"}
+  +context:I.Inline.context = Suite.constructor_payload_context(Suite.constructor_family,0n)
+  +expected:F.Term.t = Suite.constructor_payload("pair",[leaf,univ])
+  +unused:F.Term.t = Suite.constructor_payload("pair",[univ,leaf])
+  +finite_shape:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +finite:F.Term.t = F.Term.Elim{F.Term.Elimination{finite_shape,F.Term.In{finite_shape,F.Term.ALeg{1n},[leaf]},F.Quantity.Many{},None{},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],unused}},F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],Suite.constructor_payload("pair",[Suite.let_chain(1n,F.Term.Var{0n}),F.Term.Ann{univ,F.Term.Univ{F.Level.one}}])}}]}}
+  +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Inner",Nil{})
+  +constructor:F.Term.t = F.Term.Elim{F.Term.Elimination{shape,Suite.constructor_payload("pair",[univ,leaf]),F.Quantity.Many{},None{},Suite.constructor_branches(unused,Suite.constructor_payload("pair",[Suite.let_chain(1n,F.Term.Var{0n}),F.Term.Ann{F.Term.Var{1n},F.Term.Univ{F.Level.one}}]))}}
+  do Result<&2,&2,F.Error.t,Unit>:
+    finite_tuple:Unit <- Suite.constructor_case_collection_equal(0n,finite,expected,context,leaf)
+    finite_left:Unit <- Suite.constructor_case_collection_equal(1n,finite,expected,context,leaf)
+    finite_right:Unit <- Suite.constructor_case_collection_equal(2n,finite,expected,context,leaf)
+    constructor_tuple:Unit <- Suite.constructor_case_collection_equal(0n,constructor,expected,context,leaf)
+    constructor_left:Unit <- Suite.constructor_case_collection_equal(1n,constructor,expected,context,leaf)
+    Suite.constructor_case_collection_equal(2n,constructor,expected,context,leaf)
+
 def Suite.constructor_payload_syntax() -> Result<&2,&2,F.Error.t,Unit>:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
   +leaf:F.Term.t = F.Term.Global{"Neutral"}
@@ -3095,6 +3131,7 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"tuple-payload-syntax",unit => Suite.tuple_payload_syntax},
       Suite.Case{"constructor-payload-syntax",unit => Suite.constructor_payload_syntax},
       Suite.Case{"constructor-case-payload-syntax",unit => Suite.constructor_case_payload_syntax},
+      Suite.Case{"constructor-case-collection-syntax",unit => Suite.constructor_case_collection_syntax},
       Suite.Case{"constructor-payload-local",unit => Suite.constructor_payload_local},
       Suite.Case{"constructor-payload-guards",unit => Suite.constructor_payload_guards},
       Suite.Case{"constructor-payload-metadata",unit => Suite.constructor_payload_metadata(Suite.constructor_family)},
@@ -3156,6 +3193,12 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"lambda-constructor-payload-nested-sum-right",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_nested_sum_right,LF.Fixture.lambda_constructor_payload_nested_sum_right_opaque,layout,25n)},
       Suite.Case{"lambda-constructor-payload-case-finite",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_finite,LF.Fixture.lambda_constructor_payload_case_finite_opaque,layout,26n)},
       Suite.Case{"lambda-constructor-payload-case-constructor",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_constructor,LF.Fixture.lambda_constructor_payload_case_constructor_opaque,layout,27n)},
+      Suite.Case{"lambda-constructor-payload-case-finite-tuple",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_finite_tuple,LF.Fixture.lambda_constructor_payload_case_finite_tuple_opaque,layout,28n)},
+      Suite.Case{"lambda-constructor-payload-case-finite-sum-left",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_finite_sum_left,LF.Fixture.lambda_constructor_payload_case_finite_sum_left_opaque,layout,29n)},
+      Suite.Case{"lambda-constructor-payload-case-finite-sum-right",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_finite_sum_right,LF.Fixture.lambda_constructor_payload_case_finite_sum_right_opaque,layout,30n)},
+      Suite.Case{"lambda-constructor-payload-case-constructor-tuple",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_constructor_tuple,LF.Fixture.lambda_constructor_payload_case_constructor_tuple_opaque,layout,31n)},
+      Suite.Case{"lambda-constructor-payload-case-constructor-sum-left",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_constructor_sum_left,LF.Fixture.lambda_constructor_payload_case_constructor_sum_left_opaque,layout,32n)},
+      Suite.Case{"lambda-constructor-payload-case-constructor-sum-right",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_constructor_sum_right,LF.Fixture.lambda_constructor_payload_case_constructor_sum_right_opaque,layout,33n)},
       Suite.Case{"sum-index-source-local",unit => Suite.sum_index_source_local},
       Suite.Case{"sum-index-source-guards",unit => Suite.sum_index_source_guards},
       Suite.Case{"sum-index-source-fuel",unit => Suite.sum_index_source_fuel},

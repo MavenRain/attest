@@ -1,0 +1,27 @@
+ERASURE-MUTATION constructor-payload-disabled caught
+ERASURE-MUTATION constructor-payload-order caught
+ERASURE-MUTATION constructor-payload-case-finite-tuple-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-finite-sum-left-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-finite-sum-right-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-constructor-tuple-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-constructor-sum-left-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-constructor-sum-right-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-finite-tuple-passthrough caught
+ERASURE-MUTATION constructor-payload-case-finite-sum-left-passthrough caught
+ERASURE-MUTATION constructor-payload-case-finite-sum-right-passthrough caught
+ERASURE-MUTATION constructor-payload-case-constructor-tuple-passthrough caught
+ERASURE-MUTATION constructor-payload-case-constructor-sum-left-passthrough caught
+ERASURE-MUTATION constructor-payload-case-constructor-sum-right-passthrough caught
+ERASURE-MUTATION constructor-payload-case-finite-tuple-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-case-finite-sum-left-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-case-finite-sum-right-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-case-constructor-tuple-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-case-constructor-sum-left-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-case-constructor-sum-right-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-case-finite-tuple-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-case-finite-sum-left-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-case-finite-sum-right-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-case-constructor-tuple-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-case-constructor-sum-left-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-case-constructor-sum-right-recovery-passthrough caught
+ERASURE-MUTATIONS caught=26 total=389 PARTIAL

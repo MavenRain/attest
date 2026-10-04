@@ -1,5 +1,40 @@
 # M0 build log
 
+## 2026-10-03: Stage B constructor-valued cases in collection payload fields
+
+Six constructor index fixture pairs put a finite or constructor case inside
+a tuple or either sum branch in the first IndexBox payload field. Each selected
+branch returns a two-field Payload constructor with let and beta fields that
+reduce to distinct zero and one values. The unused branch reverses them.
+The tuple sibling and a trailing outer field also reduce. Each inline proof
+has an opaque twin. Semantic variants recheck Pick and keep, preparation,
+sealing and runtime equality. The gate binds exact pairs and modes 28 to 33.
+
+The direct constructor case collection syntax row compares explicit reduced
+terms for all six combinations. It checks branch substitution, nested and
+outer field order, tuple resumption and both sum addresses. The fixture rows
+compare two reduced indices and do not independently detect field order.
+
+The inline suite passes 272 of 272 cases. The erasure corpus contains four
+global pairs and 129 inline pairs, including 76 lambda pairs. HOUSE retains
+68 unsafe functions and 418 catch-all sites. Existing source recovery guards
+and limits apply.
+
+`python3 -P dev/validation/case-collection-constructor-payload-fixtures-run.py`
+collects full tests, default gates, fresh erasure evidence and 26 serial
+isolated mutations. Six mutations drop semantic variants. Eighteen mutations
+bypass constructor, case or collection recovery. Each recovery group shares
+anchors but requires distinct named fixture failures. Constructor recovery
+and field order are controls. Every mutation requires a successful isolated
+build and its named failure. Input and log hashes bind the record to the
+validated implementation. The catalog has 389 anchors.
+Identical edits reuse verified isolated build and gate logs with unchanged
+inputs, exact recipes and source hashes, matching log hashes and each named
+failure. Shared executions are explicit in the record. A run without
+`--reuse-mutations` starts from an empty mutation checkpoint, so it shares
+only executions from the same run. Thirteen reuse checks reject altered
+metadata and logs, different recipes and missing failures.
+
 ## 2026-10-03: Stage B constructor-valued cases in payload fields
 
 Two constructor index fixture pairs place a finite or constructor case in

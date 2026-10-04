@@ -1,0 +1,22 @@
+mu Payload : Type 0 with
+| pair : (left : Nat) -> (right : Nat) -> Payload
+
+mu IndexBox : Type 0 with
+| zero : IndexBox
+| value : (payload : sum (Payload, Payload)) -> (tail : Nat) -> IndexBox
+
+mu Choice : (0 n : IndexBox) -> Type 1 with
+| empty : Choice zero
+| choose : (0 A : Type 0) -> (0 b : IndexBox) -> (0 B : Type 0) -> Choice b
+
+mu Equal : (0 n : Nat) -> Prop with
+| refl : (0 n : Nat) -> Equal n
+
+def Zero : Nat := 0
+def One : Nat := 1
+def Index : IndexBox := value (inj 1 of 2 (case (inj 1 of 2 0 : sum (Nat, Nat)) as choice return Payload with | 0 (n : Nat) => pair One Zero | 1 (n : Nat) => pair (let z : Nat := n in z) (((fun (z : Nat) => z) : (z : Nat) -> Nat) One))) (Zero : Nat)
+def Pick : Choice Index := choose Nat (value (inj 1 of 2 (pair Zero One)) Zero) Nat
+def Fn : Type 1 := case (Pick : Choice (value (inj 1 of 2 (pair Zero One)) Zero)) as choice in Choice k return Type 1 with | empty => (n : Nat) -> Type 0 | choose 0 A 0 b 0 B => (0 n : B) -> Type 0
+def Alias : Type 1 := Fn
+def Layout : Alias := fun (0 n : Nat) => case (refl n : Equal n) as p in Equal k return Type 0 with | refl 0 j => prod ()
+def keep : (x : Layout 0) -> Layout 0 := fun (x : Layout 0) => x
