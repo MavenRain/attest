@@ -1,5 +1,38 @@
 # M0 build log
 
+## 2026-10-04: Stage B mixed nested case scrutinees in payload fields
+
+Two constructor index fixture pairs compose three case stages in the first
+IndexBox field. One finite case returns a Switch constructor, whose case
+returns a Payload constructor. The other Switch case returns a finite
+injection, whose case returns a Payload constructor. The final Payload case
+substitutes both fields and reverses their order. Selected fields reduce to
+distinct zero and one values. Unused branches select a different constructor
+or address, or return one in both fields. Recovery resumes the trailing
+outer field after completing the case chain.
+
+Modes 36 and 37 recheck alternate source indices in Pick and keep, preparation,
+proof sealing and runtime equality with opaque twins. The two syntax rows
+recover the parsed Index and compare it with explicit literal fields, so
+they independently detect field order and outer resumption. The gate binds
+each semantic row to its exact pair and mode and each syntax row to its
+source fixture. Existing inline recovery code and budgets apply.
+
+`python3 -P dev/validation/mixed-case-scrutinee-constructor-payload-fixtures-run.py`
+records full tests, default gates, fresh erasure evidence, ten scoped
+mutations and two controls. Scoped edits drop the semantic variant, bypass
+constructor or case recovery, drop an adjacent pending case, or reverse
+field order. Each must compile and fail its named row. Identical edits share
+verified isolated executions with unchanged inputs, exact recipes and
+source hashes, matching logs and each required failure. The collector
+records shared execution explicitly and checks thirteen reuse cases.
+
+The inline suite passes 279 of 279 cases. The erasure corpus contains four
+global pairs and 133 inline pairs, including 80 lambda pairs. HOUSE retains
+68 unsafe functions and registers 419 catch-all sites. The mutation catalog
+contains 407 anchors. Stage B remains open at the Acc checker frontier and
+full trace comparison.
+
 ## 2026-10-03: Stage B constructor-valued case scrutinees in payload fields
 
 Two source fixture pairs place a constructor-valued finite or constructor

@@ -144,6 +144,16 @@ and runtime equality with opaque twins. Direct syntax checks compare explicit
 reduced terms for branch substitution, field order, both sum addresses,
 and outer resumption.
 
+`python3 -P dev/validation/mixed-case-scrutinee-constructor-payload-fixtures-run.py`
+records full tests, default gates, erasure evidence and twelve mutations for
+[mixed nested case scrutinees](dev/validation/mixed-case-scrutinee-constructor-payload-fixtures.json).
+Two fixture pairs compose finite, Switch and Payload cases in either order
+for the first two stages. The final case swaps distinct fields before
+recovery resumes the trailing outer field. Direct syntax rows compare parsed
+source with explicit literal fields and detect field order. The gate binds
+the semantic variants to exact sources and modes 36 and 37, and the syntax
+rows to their source fixtures.
+
 `python3 -P dev/validation/case-scrutinee-constructor-payload-fixtures-run.py`
 records full tests, default gates, erasure evidence and ten mutations for
 [constructor-valued case scrutinees](dev/validation/case-scrutinee-constructor-payload-fixtures.json).
@@ -270,7 +280,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-The inline suite contains 259 semantic cases, including this boundary. Scrutinee types that need
+The inline suite contains 279 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.

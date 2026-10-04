@@ -1,3 +1,6 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+ERASURE-INCREMENT FAIL: INLINE-ERASE exit=1 expected=0; log=.gatework/erasure/INLINE-ERASE.log
 INLINE-ERASE row=let-body OK
 INLINE-ERASE row=scrutinee-body OK
 INLINE-ERASE row=inherited OK
@@ -122,7 +125,6 @@ INLINE-ERASE row=index-reduction-source-syntax OK
 INLINE-ERASE row=index-reduction-source-local OK
 INLINE-ERASE row=index-reduction-source-guards OK
 INLINE-ERASE row=index-reduction-source-fuel OK
-INLINE-ERASE row=sum-index-source-syntax OK
 INLINE-ERASE row=constructor-index-source-syntax OK
 INLINE-ERASE row=constructor-index-source-scope OK
 INLINE-ERASE row=constructor-index-source-guards OK
@@ -143,7 +145,6 @@ INLINE-ERASE row=tuple-payload-syntax OK
 INLINE-ERASE row=constructor-payload-syntax OK
 INLINE-ERASE row=constructor-case-payload-syntax OK
 INLINE-ERASE row=constructor-case-collection-syntax OK
-INLINE-ERASE row=constructor-case-scrutinee-syntax OK
 INLINE-ERASE row=constructor-payload-local OK
 INLINE-ERASE row=constructor-payload-guards OK
 INLINE-ERASE row=constructor-payload-metadata OK
@@ -157,11 +158,6 @@ INLINE-ERASE row=neutral-case-guards OK
 INLINE-ERASE row=neutral-case-fuel OK
 INLINE-ERASE row=neutral-case-steps OK
 INLINE-ERASE row=neutral-case-size OK
-INLINE-ERASE row=neutral-composition-syntax OK
-INLINE-ERASE row=neutral-composition-guards OK
-INLINE-ERASE row=neutral-composition-scope OK
-INLINE-ERASE row=neutral-composition-fuel OK
-INLINE-ERASE row=neutral-composition-size OK
 INLINE-ERASE row=neutral-constructor-syntax OK
 INLINE-ERASE row=neutral-constructor-guards OK
 INLINE-ERASE row=neutral-constructor-metadata OK
@@ -211,15 +207,8 @@ INLINE-ERASE row=lambda-constructor-payload-case-finite-sum-right OK
 INLINE-ERASE row=lambda-constructor-payload-case-constructor-tuple OK
 INLINE-ERASE row=lambda-constructor-payload-case-constructor-sum-left OK
 INLINE-ERASE row=lambda-constructor-payload-case-constructor-sum-right OK
-INLINE-ERASE row=lambda-constructor-payload-case-scrutinee-finite OK
-INLINE-ERASE row=lambda-constructor-payload-case-scrutinee-constructor OK
-INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-finite-constructor OK
-INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-constructor-finite OK
-INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-finite-constructor-syntax OK
-INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-constructor-finite-syntax OK
 INLINE-ERASE row=sum-index-source-local OK
 INLINE-ERASE row=sum-index-source-guards OK
-INLINE-ERASE row=sum-index-source-fuel OK
 INLINE-ERASE row=lambda-sum-index-left OK
 INLINE-ERASE row=lambda-sum-index-right OK
 INLINE-ERASE row=lambda-index-reduction-let OK
@@ -277,4 +266,19 @@ INLINE-ERASE row=beta-source-guards OK
 INLINE-ERASE row=beta-source-fuel OK
 INLINE-ERASE row=beta-source-cycles OK
 INLINE-ERASE row=source-size-bound OK
-INLINE-ERASE pass=279 total=279 OK
+INLINE-ERASE pass=265 total=279 FAIL
+INLINE-ERASE row=sum-index-source-syntax FAIL mismatch: application source type missing
+INLINE-ERASE row=constructor-case-scrutinee-syntax FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=neutral-composition-syntax FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=neutral-composition-guards FAIL mismatch: concrete case result treated as neutral
+INLINE-ERASE row=neutral-composition-scope FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=neutral-composition-fuel FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=neutral-composition-size FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=lambda-constructor-payload-case-scrutinee-finite FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-case-scrutinee-constructor FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-finite-constructor FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-constructor-finite FAIL mismatch: local proof has no postulate
+INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-finite-constructor-syntax FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-constructor-finite-syntax FAIL mismatch: application substitution captured an outer variable
+INLINE-ERASE row=sum-index-source-fuel FAIL mismatch: application source type missing
+

@@ -341,6 +341,30 @@ def Suite.constructor_case_scrutinee_expression(mode:Nat) -> F.Term.t:
   +field:F.Term.t = F.Term.Elim{F.Term.Elimination{payload_shape,scrutinee,F.Quantity.Many{},Some{F.Term.Motive{Some{"Payload"},Nil{},"payload",result}},[F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"left"},F.Pair2{F.Quantity.Many{},"right"}],body}}]}}
   F.Term.In{F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{}),F.Term.ACtor{"value"},[field,Suite.index_field_expression(2n,F.Term.Global{"Zero"})]}
 
+def Suite.constructor_mixed_case_scrutinee_field(mode:Nat,+nat:F.Term.t,+switch:F.Shape.t<F.Term.t>,+finite:F.Shape.t<F.Term.t>,+payload_type:F.Term.t,+selected:F.Term.t,+unused:F.Term.t) -> F.Term.t:
+  match mode:
+    case 0n:
+      +switch_type:F.Term.t = F.Term.Lan{switch,F.Term.Sec{F.Shape.make_collection(F.Term.t,0n),Nil{}}}
+      +head:F.Term.t = F.Term.Ann{F.Term.In{finite,F.Term.ALeg{1n},[F.Term.Global{"Zero"}]},F.Term.Lan{finite,G.Rules.diagram_of([nat,nat])}}
+      +inner:F.Term.t = F.Term.Elim{F.Term.Elimination{finite,head,F.Quantity.Many{},Some{F.Term.Motive{None{},Nil{},"choice",switch_type}},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.In{switch,F.Term.ACtor{"empty"},Nil{}}}},F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.In{switch,F.Term.ACtor{"pick"},[Suite.index_field_expression(0n,F.Term.Var{0n})]}}}]}}
+      F.Term.Elim{F.Term.Elimination{switch,inner,F.Quantity.Many{},Some{F.Term.Motive{Some{"Switch"},Nil{},"switch",payload_type}},[F.Pair2{F.Term.ACtor{"empty"},F.Term.Leg{Nil{},unused}},F.Pair2{F.Term.ACtor{"pick"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],selected}}]}}
+    case other:
+      +finite_type:F.Term.t = F.Term.Lan{finite,G.Rules.diagram_of([nat,nat])}
+      +inner:F.Term.t = F.Term.Elim{F.Term.Elimination{switch,F.Term.In{switch,F.Term.ACtor{"pick"},[F.Term.Global{"Zero"}]},F.Quantity.Many{},Some{F.Term.Motive{Some{"Switch"},Nil{},"switch",finite_type}},[F.Pair2{F.Term.ACtor{"empty"},F.Term.Leg{Nil{},F.Term.In{finite,F.Term.ALeg{0n},[F.Term.Global{"One"}]}}},F.Pair2{F.Term.ACtor{"pick"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.In{finite,F.Term.ALeg{1n},[Suite.index_field_expression(0n,F.Term.Var{0n})]}}}]}}
+      F.Term.Elim{F.Term.Elimination{finite,inner,F.Quantity.Many{},Some{F.Term.Motive{None{},Nil{},"choice",payload_type}},[F.Pair2{F.Term.ALeg{0n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],unused}},F.Pair2{F.Term.ALeg{1n},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],selected}}]}}
+def Suite.constructor_mixed_case_scrutinee_expression(mode:Nat) -> F.Term.t:
+  +nat:F.Term.t = F.Term.Global{"Nat"}
+  +switch:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Switch",Nil{})
+  +finite:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +payload:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Payload",Nil{})
+  +payload_type:F.Term.t = F.Term.Lan{payload,F.Term.Sec{F.Shape.make_collection(F.Term.t,0n),Nil{}}}
+  +selected:F.Term.t = F.Term.In{payload,F.Term.ACtor{"pair"},[Suite.index_field_expression(0n,F.Term.Var{0n}),Suite.index_field_expression(1n,F.Term.Global{"One"})]}
+  +unused:F.Term.t = F.Term.In{payload,F.Term.ACtor{"pair"},[F.Term.Global{"One"},F.Term.Global{"One"}]}
+  +scrutinee:F.Term.t = Suite.constructor_mixed_case_scrutinee_field(mode,nat,switch,finite,payload_type,selected,unused)
+  +body:F.Term.t = F.Term.In{payload,F.Term.ACtor{"pair"},[Suite.index_field_expression(0n,F.Term.Var{0n}),Suite.index_field_expression(1n,F.Term.Var{1n})]}
+  +field:F.Term.t = F.Term.Elim{F.Term.Elimination{payload,scrutinee,F.Quantity.Many{},Some{F.Term.Motive{Some{"Payload"},Nil{},"payload",payload_type}},[F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"left"},F.Pair2{F.Quantity.Many{},"right"}],body}}]}}
+  F.Term.In{F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{}),F.Term.ACtor{"value"},[field,Suite.index_field_expression(2n,F.Term.Global{"Zero"})]}
+
 def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
   match mode:
     case 0n: Suite.index_field_expression(0n,term)
@@ -371,6 +395,8 @@ def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
     case 33n: Suite.constructor_case_collection_expression(1n,2n)
     case 34n: Suite.constructor_case_scrutinee_expression(0n)
     case 35n: Suite.constructor_case_scrutinee_expression(1n)
+    case 36n: Suite.constructor_mixed_case_scrutinee_expression(0n)
+    case 37n: Suite.constructor_mixed_case_scrutinee_expression(1n)
     case 6n:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{})
       F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"zero"},Nil{}},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},Nil{},"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
@@ -2468,6 +2494,24 @@ def Suite.constructor_case_scrutinee_syntax() -> Result<&2,&2,F.Error.t,Unit>:
     finite_ok:Unit <- Suite.constructor_case_scrutinee_equal(finite,context,expected,leaf)
     Suite.constructor_case_scrutinee_equal(constructor,context,expected,leaf)
 
+def Suite.constructor_mixed_case_scrutinee_expected(+scalar:F.Term.t,one:F.Term.t) -> F.Term.t:
+  payload:F.Term.t = F.Term.In{F.Shape.make_inductive(F.Term.t,"Payload",Nil{}),F.Term.ACtor{"pair"},[one,scalar]}
+  F.Term.In{F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{}),F.Term.ACtor{"value"},[payload,scalar]}
+
+def Suite.constructor_mixed_case_scrutinee_checked(original:E.Elab.checked) -> Result<&2,&2,F.Error.t,Unit>:
+  F.Pair2{+globals,rows} = original
+  do Result<&2,&2,F.Error.t,Unit>:
+    index:F.Global.def_entry <- T.Test.definition("Index",globals)
+    zero:F.Global.def_entry <- T.Test.definition("Zero",globals)
+    one:F.Global.def_entry <- T.Test.definition("One",globals)
+    Suite.constructor_index_equal(T.Test.def_body(index),I.Inline.Context{C.Check.make(globals,C.Budget.unlimited),Nil{}},Suite.constructor_mixed_case_scrutinee_expected(T.Test.def_body(zero),T.Test.def_body(one)))
+
+# Compare parsed source with explicit literal fields so order is observable.
+def Suite.constructor_mixed_case_scrutinee_syntax(source:String) -> Result<&2,&2,F.Error.t,Unit>:
+  do Result<&2,&2,F.Error.t,Unit>:
+    original:E.Elab.checked <- E.Elab.check_in(G.Global.initial,source)
+    Suite.constructor_mixed_case_scrutinee_checked(original)
+
 def Suite.constructor_payload_syntax() -> Result<&2,&2,F.Error.t,Unit>:
   +univ:F.Term.t = F.Term.Univ{F.Level.zero}
   +leaf:F.Term.t = F.Term.Global{"Neutral"}
@@ -3234,6 +3278,10 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"lambda-constructor-payload-case-constructor-sum-right",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_constructor_sum_right,LF.Fixture.lambda_constructor_payload_case_constructor_sum_right_opaque,layout,33n)},
       Suite.Case{"lambda-constructor-payload-case-scrutinee-finite",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_scrutinee_finite,LF.Fixture.lambda_constructor_payload_case_scrutinee_finite_opaque,layout,34n)},
       Suite.Case{"lambda-constructor-payload-case-scrutinee-constructor",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_scrutinee_constructor,LF.Fixture.lambda_constructor_payload_case_scrutinee_constructor_opaque,layout,35n)},
+      Suite.Case{"lambda-constructor-payload-mixed-case-scrutinee-finite-constructor",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_finite_constructor,LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_finite_constructor_opaque,layout,36n)},
+      Suite.Case{"lambda-constructor-payload-mixed-case-scrutinee-constructor-finite",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_constructor_finite,LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_constructor_finite_opaque,layout,37n)},
+      Suite.Case{"constructor-payload-mixed-case-scrutinee-finite-constructor-syntax",unit => Suite.constructor_mixed_case_scrutinee_syntax(LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_finite_constructor)},
+      Suite.Case{"constructor-payload-mixed-case-scrutinee-constructor-finite-syntax",unit => Suite.constructor_mixed_case_scrutinee_syntax(LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_constructor_finite)},
       Suite.Case{"sum-index-source-local",unit => Suite.sum_index_source_local},
       Suite.Case{"sum-index-source-guards",unit => Suite.sum_index_source_guards},
       Suite.Case{"sum-index-source-fuel",unit => Suite.sum_index_source_fuel},

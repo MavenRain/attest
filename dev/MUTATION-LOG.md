@@ -1,5 +1,26 @@
 # Mutation log
 
+## 2026-10-04: mixed nested case scrutinee payload fixtures
+
+Ten scoped mutations cover two parsed fixture pairs whose constructor index
+field recovers a three-stage case chain: finite, Switch and Payload, or
+Switch, finite and Payload. Two edits replace semantic variants with ordinary
+source sealing. Two bypass constructor payload recovery, two bypass case
+recovery, and two drop an adjacent pending case frame. Each must fail its
+named fixture row. Two field order edits must fail the respective syntax
+row, which compares the parsed Index with explicit reduced literal fields.
+
+Constructor recovery and field order are controls. Every mutation requires
+a successful isolated build and its named failure. Identical recipes share
+verified executions, with explicit shared-execution metadata and unchanged
+source, input and log hashes. Thirteen reuse self-checks reject altered
+recipes, metadata and logs, or missing required diagnostics.
+
+The collector and evidence are
+`dev/validation/mixed-case-scrutinee-constructor-payload-fixtures-run.py` and
+`dev/validation/mixed-case-scrutinee-constructor-payload-fixtures.json`.
+The catalog contains 407 unique anchors.
+
 ## 2026-10-03: Constructor-valued case scrutinee fixture mutations
 
 Eight new anchors cover finite and constructor cases in an outer constructor

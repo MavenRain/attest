@@ -1668,7 +1668,7 @@ CASES += tuple(
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")},'
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")}_opaque,layout,1n)}}'),
      f"row=lambda-constructor-payload-{kind} lambda fixture call differs")
-    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor"), start=12)
+    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite"), start=12)
 )
 
 CASES += tuple(
@@ -1676,7 +1676,7 @@ CASES += tuple(
      "Inline.index_constructor_payload(shape, name, arguments, fuel, context, index_pending, next)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor")
+    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite")
 )
 
 CASES += tuple(
@@ -1684,7 +1684,7 @@ CASES += tuple(
      "next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.Elim{F.Term.Elimination{index_shape, index_scrutinee, index_quantity, index_motive, index_branches}}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("finite-case", "constructor-case", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor")
+    for kind in ("finite-case", "constructor-case", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite")
 )
 
 CASES += (
@@ -1738,6 +1738,15 @@ CASES += (
      "next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)",
      "match index_pending:\n        case Inline.IndexCase{outer_shape, outer_quantity, outer_motive, outer_branches} <> rest:\n          next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest)\n        case other:\n          next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> other)",
      "INLINE-ERASE row=lambda-constructor-payload-case-scrutinee-constructor FAIL"),
+)
+
+
+# Mixed case scrutinees require every pending case and ordered payload fields.
+CASES += (
+    ('constructor-payload-mixed-case-scrutinee-finite-constructor-outer-case-dropped', 'erase/inline.bend', 'next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)', 'match index_pending:\n        case Inline.IndexCase{outer_shape, outer_quantity, outer_motive, outer_branches} <> rest:\n          next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest)\n        case other:\n          next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> other)', 'INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-finite-constructor FAIL'),
+    ('constructor-payload-mixed-case-scrutinee-finite-constructor-field-order', 'erase/inline.bend', 'Inline.index_constructor_result(shape, name, Inline.reverse(F.Term.t, completed, Nil{}))', 'Inline.index_constructor_result(shape, name, completed)', 'INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-finite-constructor-syntax FAIL'),
+    ('constructor-payload-mixed-case-scrutinee-constructor-finite-outer-case-dropped', 'erase/inline.bend', 'next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)', 'match index_pending:\n        case Inline.IndexCase{outer_shape, outer_quantity, outer_motive, outer_branches} <> rest:\n          next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest)\n        case other:\n          next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> other)', 'INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-constructor-finite FAIL'),
+    ('constructor-payload-mixed-case-scrutinee-constructor-finite-field-order', 'erase/inline.bend', 'Inline.index_constructor_result(shape, name, Inline.reverse(F.Term.t, completed, Nil{}))', 'Inline.index_constructor_result(shape, name, completed)', 'INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-constructor-finite-syntax FAIL'),
 )
 
 if __name__ == "__main__":

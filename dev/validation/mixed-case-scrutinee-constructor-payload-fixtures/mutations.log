@@ -1,0 +1,13 @@
+ERASURE-MUTATION constructor-payload-disabled caught
+ERASURE-MUTATION constructor-payload-order caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-finite-constructor-fixture-call caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-constructor-finite-fixture-call caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-finite-constructor-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-constructor-finite-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-finite-constructor-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-constructor-finite-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-finite-constructor-outer-case-dropped caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-finite-constructor-field-order caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-constructor-finite-outer-case-dropped caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-constructor-finite-field-order caught
+ERASURE-MUTATIONS caught=12 total=407 PARTIAL

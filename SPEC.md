@@ -460,6 +460,22 @@ because inferred readback can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and
 inline proofs in family metadata are also outside this increment.
 
+Mixed nested case scrutinee payload fixtures compose three case stages in
+one IndexBox field. A finite case can return a Switch constructor for the
+next case, and a Switch case can return a finite injection for the next
+case. Both paths then eliminate the resulting Payload constructor,
+substitute and swap its distinct fields, and resume the trailing outer
+constructor field. Modes 36 and 37 recheck alternate source indices,
+preparation, sealing and runtime equality with opaque twins. Two syntax
+rows compare the recovered parsed Index with explicit literal fields, so
+they independently detect field order. The gate binds the semantic rows
+to exact fixture pairs and modes and the syntax rows to their source
+fixtures. The validation record is
+`dev/validation/mixed-case-scrutinee-constructor-payload-fixtures.json`.
+It records ten scoped mutations and two controls, requiring a successful
+isolated build and a named failure for every edit. Existing recovery
+budgets and refusal guards apply.
+
 Stage B remains open: `acc.att` fails the erased-binder runtime read check,
 although its family and constructor check in `acc-family.att`.
 `acc-runtime-proof.att` reaches the recursive singleton elimination refusal.
