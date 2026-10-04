@@ -1,5 +1,36 @@
 # M0 build log
 
+## 2026-10-03: Stage B constructor-valued case scrutinees in payload fields
+
+Two source fixture pairs place a constructor-valued finite or constructor
+case in an outer constructor case's scrutinee, inside an IndexBox payload.
+The inner selected branch returns two distinct compound fields. The unused
+branch returns one in both fields, so it matches neither the selected nor the
+final payload. The outer case substitutes both fields and reverses their order
+with let and beta expressions, then recovery resumes a trailing outer
+constructor field. Each source has an opaque proof twin. Exact semantic
+modes 34 and 35 recheck Pick and keep, preparation and proof sealing, and
+compare runtime rows with the twin. The gate binds each row to its exact
+fixture sources and mode. Inline recovery uses the existing pending case
+frames. The reducer implementation is unchanged.
+
+The direct constructor case scrutinee syntax row compares explicit reduced
+terms for both combinations. It checks the two substitutions, field order
+and outer resumption. The fixture rows compare two reduced indices and do
+not independently detect constructor field order. Eight scoped mutations
+replace semantic variants or bypass constructor recovery, case recovery or
+only the adjacent outer case frame. The latter preserves the enclosing
+constructor field frame and must fail because the outer case changes the
+inner result. Constructor recovery and field order remain controls.
+
+`dev/validation/case-scrutinee-constructor-payload-fixtures-run.py` records
+full tests, default gates, fresh erasure evidence and ten named mutations.
+Identical edits share verified isolated execution logs with explicit shared
+execution metadata. Thirteen checks protect cache reuse. The inline suite
+has 275 cases, the erasure corpus has 131 inline pairs including 78 lambda
+pairs, and the mutation catalog contains 397 anchors. HOUSE retains 68 unsafe
+functions and 418 registered catch-all sites.
+
 ## 2026-10-03: Stage B constructor-valued cases in collection payload fields
 
 Six constructor index fixture pairs put a finite or constructor case inside

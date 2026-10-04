@@ -34,9 +34,9 @@ interfaces. Native compilation is optional and experimental. See the
 
 The default gates also require the pinned Lean toolchain in `lean-toolchain`.
 `zsh -f dev/gates.sh STAGE-A` runs the original stage alone. The erasure
-increment compares four global proof pairs and one hundred and twenty-nine inline proof
+increment compares four global proof pairs and one hundred and thirty-one inline proof
 pairs against their opaque twins. It reproduces the carried eraser's layout
-differences for the four global pairs and ninety-seven inline pairs. Seventy-six
+differences for the four global pairs and ninety-nine inline pairs. Seventy-eight
 of these inline pairs are lambda pairs. They cover alias, let, beta,
 annotation, projection, finite case, constructor case, parameter, index and
 recursive forms. They also cover index alias, index reduction, sum index,
@@ -143,6 +143,17 @@ branch, followed by a trailing outer field. Semantic variants check sealing
 and runtime equality with opaque twins. Direct syntax checks compare explicit
 reduced terms for branch substitution, field order, both sum addresses,
 and outer resumption.
+
+`python3 -P dev/validation/case-scrutinee-constructor-payload-fixtures-run.py`
+records full tests, default gates, erasure evidence and ten mutations for
+[constructor-valued case scrutinees](dev/validation/case-scrutinee-constructor-payload-fixtures.json).
+Two fixture pairs place a finite or constructor case in an outer constructor
+case's scrutinee. The inner case selects two distinct fields. The outer case
+substitutes both fields and reverses their order. Recovery then resumes the
+enclosing constructor's trailing field. Semantic variants check sealing and
+runtime equality with opaque twins. A direct syntax row compares explicit
+reduced terms. Mutations also drop only the adjacent outer case frame, so
+passing through the inner result cannot satisfy these rows.
 
 Stage B remains open: `Acc` runtime elimination still hits the erased-binder
 and recursive-singleton restrictions. Closed inline proofs and proofs under

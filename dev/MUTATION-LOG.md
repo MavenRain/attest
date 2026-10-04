@@ -1,5 +1,23 @@
 # Mutation log
 
+## 2026-10-03: Constructor-valued case scrutinee fixture mutations
+
+Eight new anchors cover finite and constructor cases in an outer constructor
+case's scrutinee. Two replace exact semantic variants with ordinary sealing
+calls, two bypass constructor field recovery and two bypass case elimination.
+Two drop only an adjacent outer case frame when entering the inner case,
+preserving the enclosing constructor field frame. The outer case reverses
+the inner constructor's distinct fields, so returning only the inner result
+must fail each named fixture row. The direct syntax row also compares explicit
+reduced terms to check both substitutions, field order and outer resumption.
+Constructor recovery and field order remain controls. The collector records
+ten mutations. Identical edits share verified isolated build and gate logs
+with separate named diagnostics and explicit shared execution metadata. The
+collector and records are
+`dev/validation/case-scrutinee-constructor-payload-fixtures-run.py` and
+`dev/validation/case-scrutinee-constructor-payload-fixtures.json`.
+The catalog contains 397 unique anchors.
+
 ## 2026-10-03: Constructor-valued cases inside collection payload fields
 
 Twenty-four new mutation anchors cover six finite and constructor case pairs

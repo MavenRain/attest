@@ -390,6 +390,26 @@ Identical edits reuse isolated build and gate results only when inputs,
 recipes, source hashes and log hashes match and each named failure appears.
 The record marks shared executions. Thirteen checks reject changed cache
 metadata, changed logs, different recipes and missing named failures.
+Two `lambda-constructor-payload-case-scrutinee-{finite,constructor}` pairs
+place a constructor-valued case in an outer constructor case's scrutinee.
+The inner selected branch returns a two-field constructor whose let and beta
+fields reduce to zero and one. The unused branch returns one in both fields,
+so it matches neither the selected nor the final payload. The outer case
+substitutes both fields and reverses their order, reducing to one and zero
+before recovery resumes the enclosing constructor's trailing field.
+Their semantic variants recheck Pick and keep, preparation and proof sealing,
+and runtime equality with opaque twins. The gate binds exact sources and
+modes 34 and 35. The direct constructor case scrutinee syntax row compares
+explicit reduced terms to protect both case stages, binder substitution,
+field order and outer resumption. The fixture rows compare two reduced
+indices and do not independently detect constructor field order.
+Eight scoped mutations replace semantic variants, bypass constructor or case
+recovery, or drop only the adjacent outer case frame. The outer transformation
+changes the inner result, so the latter mutation cannot pass by returning the
+inner constructor unchanged. Each mutation requires a successful isolated
+build and its named failure. Constructor recovery and field order are controls.
+The collector retains the same verified sharing of identical mutation edits
+and the thirteen cache checks used by the collection payload slice.
 All pairs match their opaque twins
 after sealing. Each semantic case requires one generated postulate and
 rechecks its type and the transformed program. The gate binds each case to
