@@ -1,5 +1,33 @@
 # Mutation log
 
+## 2026-10-05: mixed case scrutinee collection payload fixtures
+Twenty-four scoped mutations cover four fixture pairs whose constructor
+index field holds a tuple or sum branch with a mixed three-stage case
+chain. The scrutinee of the outer Payload case is a finite case on a
+Switch case, or a Switch case on a finite case. Four edits replace
+semantic variants with ordinary sealing, four substitute the opaque twin
+as the syntax fixture, four bypass collection recovery, four bypass
+constructor recovery, and four bypass case recovery.
+The final four reverse constructor field order and must fail their named
+syntax row. Semantic and syntax fixture substitutions must fail the gate's
+exact source and mode bindings.
+Among the new rows, the tuple collection bypass skips
+`Inline.index_tuple_enter` and must fail the semantic row of each tuple
+kind. The sum collection bypass skips `Inline.index_sum_context` and must
+fail the semantic row of each sum kind.
+Constructor recovery and field order supply two additional controls. Every
+mutation requires a successful isolated build and its named failure.
+Identical recipes share hash-verified executions with explicit reuse
+metadata. Sixteen self-checks guard mutation reuse, including completed
+mutation names and source paths. Thirteen additional checks
+reject stale passed-check caches after test, gate, fixture, Lean evidence,
+schema, repository-root or generated erasure evidence changes. Cached erasure
+records and logs must retain their recorded hashes, including during mutations.
+The collector and evidence are
+`dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures-run.py`
+and `dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures.json`.
+The catalog contains 467 unique anchors.
+
 ## 2026-10-04: case scrutinee collection payload fixtures
 Eighteen scoped mutations cover three fixture pairs whose constructor index
 field holds a tuple or sum branch with a constructor case. The scrutinee of

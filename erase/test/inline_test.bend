@@ -400,6 +400,21 @@ def Suite.constructor_case_scrutinee_collection_expression(mode:Nat) -> F.Term.t
   +field:F.Term.t = Suite.constructor_nested_collection_field(mode,payload,Suite.index_field_expression(2n,F.Term.Global{"One"}))
   F.Term.In{F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{}),F.Term.ACtor{"value"},[field,Suite.index_field_expression(2n,F.Term.Global{"Zero"})]}
 
+# Put a mixed three-stage case chain (chain 0 finite-constructor, else constructor-finite) in a tuple (collection 0) or either sum branch.
+def Suite.constructor_mixed_case_scrutinee_collection_expression(chain:Nat,collection:Nat) -> F.Term.t:
+  +nat:F.Term.t = F.Term.Global{"Nat"}
+  +switch:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Switch",Nil{})
+  +finite:F.Shape.t<F.Term.t> = F.Shape.make_collection(F.Term.t,2n)
+  +payload:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"Payload",Nil{})
+  +payload_type:F.Term.t = F.Term.Lan{payload,F.Term.Sec{F.Shape.make_collection(F.Term.t,0n),Nil{}}}
+  +selected:F.Term.t = F.Term.In{payload,F.Term.ACtor{"pair"},[Suite.index_field_expression(0n,F.Term.Var{0n}),Suite.index_field_expression(1n,F.Term.Global{"One"})]}
+  +unused:F.Term.t = F.Term.In{payload,F.Term.ACtor{"pair"},[F.Term.Global{"One"},F.Term.Global{"One"}]}
+  +scrutinee:F.Term.t = Suite.constructor_mixed_case_scrutinee_field(chain,nat,switch,finite,payload_type,selected,unused)
+  +body:F.Term.t = F.Term.In{payload,F.Term.ACtor{"pair"},[Suite.index_field_expression(0n,F.Term.Var{0n}),Suite.index_field_expression(1n,F.Term.Var{1n})]}
+  +chained:F.Term.t = F.Term.Elim{F.Term.Elimination{payload,scrutinee,F.Quantity.Many{},Some{F.Term.Motive{Some{"Payload"},Nil{},"payload",payload_type}},[F.Pair2{F.Term.ACtor{"pair"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"left"},F.Pair2{F.Quantity.Many{},"right"}],body}}]}}
+  +field:F.Term.t = Suite.constructor_nested_collection_field(collection,chained,Suite.index_field_expression(2n,F.Term.Global{"One"}))
+  F.Term.In{F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{}),F.Term.ACtor{"value"},[field,Suite.index_field_expression(2n,F.Term.Global{"Zero"})]}
+
 def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
   match mode:
     case 0n: Suite.index_field_expression(0n,term)
@@ -438,6 +453,10 @@ def Suite.index_reduction_expression(mode:Nat,+term:F.Term.t) -> F.Term.t:
     case 41n: Suite.constructor_case_scrutinee_collection_expression(0n)
     case 42n: Suite.constructor_case_scrutinee_collection_expression(1n)
     case 43n: Suite.constructor_case_scrutinee_collection_expression(2n)
+    case 44n: Suite.constructor_mixed_case_scrutinee_collection_expression(1n,0n)
+    case 45n: Suite.constructor_mixed_case_scrutinee_collection_expression(0n,0n)
+    case 46n: Suite.constructor_mixed_case_scrutinee_collection_expression(1n,1n)
+    case 47n: Suite.constructor_mixed_case_scrutinee_collection_expression(0n,2n)
     case 6n:
       +shape:F.Shape.t<F.Term.t> = F.Shape.make_inductive(F.Term.t,"IndexBox",Nil{})
       F.Term.Elim{F.Term.Elimination{shape,F.Term.In{shape,F.Term.ACtor{"zero"},Nil{}},F.Quantity.Many{},Some{F.Term.Motive{Some{"IndexBox"},Nil{},"box",F.Term.Global{"Nat"}}},[F.Pair2{F.Term.ACtor{"zero"},F.Term.Leg{Nil{},term}},F.Pair2{F.Term.ACtor{"value"},F.Term.Leg{[F.Pair2{F.Quantity.Many{},"n"}],F.Term.Var{0n}}}]}}
@@ -3353,6 +3372,14 @@ def Suite.cases(+layout:Maybe<&2,F.Pair2<Bool,String>>) -> List<Suite.case>:
       Suite.Case{"constructor-payload-case-scrutinee-collection-sum-left-syntax",unit => Suite.constructor_case_scrutinee_collection_source_syntax(1n,LF.Fixture.lambda_constructor_payload_case_scrutinee_collection_sum_left)},
       Suite.Case{"lambda-constructor-payload-case-scrutinee-collection-sum-right",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_case_scrutinee_collection_sum_right,LF.Fixture.lambda_constructor_payload_case_scrutinee_collection_sum_right_opaque,layout,43n)},
       Suite.Case{"constructor-payload-case-scrutinee-collection-sum-right-syntax",unit => Suite.constructor_case_scrutinee_collection_source_syntax(2n,LF.Fixture.lambda_constructor_payload_case_scrutinee_collection_sum_right)},
+      Suite.Case{"lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_tuple_constructor_finite,LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_tuple_constructor_finite_opaque,layout,44n)},
+      Suite.Case{"constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-syntax",unit => Suite.constructor_case_scrutinee_collection_source_syntax(0n,LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_tuple_constructor_finite)},
+      Suite.Case{"lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_tuple_finite_constructor,LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_tuple_finite_constructor_opaque,layout,45n)},
+      Suite.Case{"constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-syntax",unit => Suite.constructor_case_scrutinee_collection_source_syntax(0n,LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_tuple_finite_constructor)},
+      Suite.Case{"lambda-constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_sum_left_constructor_finite,LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_sum_left_constructor_finite_opaque,layout,46n)},
+      Suite.Case{"constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-syntax",unit => Suite.constructor_case_scrutinee_collection_source_syntax(1n,LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_sum_left_constructor_finite)},
+      Suite.Case{"lambda-constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor",unit => Suite.index_reduction_sealed(LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_sum_right_finite_constructor,LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_sum_right_finite_constructor_opaque,layout,47n)},
+      Suite.Case{"constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-syntax",unit => Suite.constructor_case_scrutinee_collection_source_syntax(2n,LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_collection_sum_right_finite_constructor)},
       Suite.Case{"sum-index-source-local",unit => Suite.sum_index_source_local},
       Suite.Case{"sum-index-source-guards",unit => Suite.sum_index_source_guards},
       Suite.Case{"sum-index-source-fuel",unit => Suite.sum_index_source_fuel},

@@ -490,6 +490,25 @@ records eighteen scoped mutations and two controls. Each edit must compile
 and fail its named row. These fixtures use the existing recovery budgets
 and refusal guards.
 
+Mixed case scrutinee collection payload fixtures put a three-stage case
+chain in the first field of a tuple or a branch of a sum in a collection
+payload field. The constructor-finite chain has a Switch case that returns
+a sum injection, a finite case that returns a Payload constructor, and a
+Payload case. The finite-constructor chain has a finite case that returns a
+Switch constructor, a Switch case that returns a Payload constructor, and a
+Payload case. Each unused branch selects a different constructor or sum
+address, or returns One in both fields, so a wrong branch changes the
+result. The Payload case substitutes and swaps the two fields of the
+constructor, then recovery resumes the trailing IndexBox field. Modes 44
+through 47 recheck alternate source indices, preparation, sealing and
+runtime equality with opaque twins. Four syntax rows recover parsed source
+and compare it with explicit literal fields. The gate binds the semantic
+rows to exact pairs and modes and the syntax rows to exact source fixtures.
+`dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures.json`
+records twenty-four scoped mutations and two controls. Each edit must compile
+and fail its named row. These fixtures use the existing recovery budgets
+and refusal guards.
+
 Mixed nested case scrutinee payload fixtures compose three case stages in
 one IndexBox field. A finite case can return a Switch constructor for the
 next case, and a Switch case can return a finite injection for the next

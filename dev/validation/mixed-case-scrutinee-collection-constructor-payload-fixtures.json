@@ -1,0 +1,1192 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-05T15:23:32.076073+00:00",
+  "root": "/Users/oobi/Documents/attest",
+  "base_revision": "ce92e00ec9151b635e0bbb7920844f2de0cc119b",
+  "scope": "Four parsed fixture pairs put a mixed three-stage case chain in the first tuple field or a sum branch of a collection payload field. The constructor-finite chain recovers a Switch case returning a finite injection, then a finite case returning Payload, then a Payload case swapping its distinct fields. The finite-constructor chain recovers a finite case returning Switch before the Switch and Payload cases. The first tuple field holds each chain in turn, the left sum branch holds the constructor-finite chain and the right sum branch holds the finite-constructor chain. The trailing IndexBox field resumes after each chain. Modes 44 through 47 recheck Pick and keep, preparation, proof sealing and runtime equality with opaque twins. Four syntax rows recover parsed source and compare with explicit literal fields. Twenty-four scoped mutations drop semantic variants, substitute syntax fixtures, bypass collection, constructor or case recovery, or reverse field order. Constructor recovery and field order provide two controls. Every mutation requires a successful isolated build and its named failure. Identical edits share verified isolated execution with unchanged input hashes, exact recipes and source hashes, matching log hashes and each required failure.",
+  "implementation_sha256": {
+    "Makefile": "86af83565d926d14126d7d557f65f75cd1d5c2590776f640627446cebd682dec",
+    "bin/attest.bend": "93b84b90e420d769d290ce17ca5b4a2d0a1fc13266c2a6eeb9dc20e0c03c5e99",
+    "dev/bend-migration.json": "d2a9e9e6175cbc27c54d410e805cc3e16debdf0a7cfe48bde678099f0904799a",
+    "dev/bend-toolchain.json": "d9f07d4953d895f76afd5039429f656d4328be1e61d9ef4b72003cd95f641fac",
+    "dev/build.py": "d4bb2274a114ca2a447ae3c7729001067a3ec1318a99899bfa65712f077319bf",
+    "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
+    "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
+    "dev/erasure-gates.py": "9b5f510706972b0217784227ca5a5518034aa07498b2ccfacb71e42c75322ee8",
+    "dev/erasure-mutations.py": "73282054f6ffee18b69fca466be99f68f65676fbbba147d85ff2dd03475d3592",
+    "erase/inline.bend": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+    "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
+    "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
+    "erase/test/budget_test.bend": "fd1823119e2531a94dc9427ed845fe528a8d9104f609d99796eb1119947f24b6",
+    "erase/test/fixtures.bend": "137be14552beaeccf7aef497a3b49cf891e4de74b8fdd486ed8ce22ab39deb52",
+    "erase/test/inline_scan.bend": "44aff7a79fdcf2b1c9f6c7a0c13625d1a0dd8bcb43307b1470f3f43e16733d9a",
+    "erase/test/inline_sealing.bend": "b8383d4d6ecdc087ea2daa47e9bee99c7f6ad3188034417b53d8d09e2e211e32",
+    "erase/test/inline_test.bend": "3f39120185b97c4c67c0ce42b20bd91d8245ec6a63d886987cbc0ae349686224",
+    "erase/test/ir_test.bend": "aed866fb660d62267363949f4c1c4e884f7e1a93f760002d7b4b2d679521cea3",
+    "erase/test/lambda_fixtures.bend": "42dd5520d7c332edaee9406c82c0a55a3ef46086cb30a8dc4379236d3a2abe2b",
+    "erase/test/motive_fixtures.bend": "a65565814a68d450e524e573c6ed48aaa9bc328bae8851d978a93407029cdfe8",
+    "erase/test/opaque_core.bend": "27c3d0153f546db7e0ee2127626f03787fe7a14ce2d053c057d1a4169305938c",
+    "erase/test/opaque_test.bend": "72b2354aa5fbae943e85381a1b561a31aa41e1be49747cf07c929df169996ee7",
+    "erase/test/parameter_fixtures.bend": "cc0e2e10c80bf5c8aa6343bd3d0632e4708f501bea0833086887a9067bf2eb53",
+    "erase/test/prop_index.bend": "c826246d00aa39ed7f420bbdbd27679643db40f4b2ab643b8cfc4cc13da658d2",
+    "erase/test/refusal_test.bend": "89eda7b5d4aa7dccd2de2eb957096a288b4972475640993a5fa883c225d29c6b",
+    "erase/test/repr_test.bend": "c78c8c14b2c298de25f77f8d270c7a353a57b8d967d52fa44a122d4c83478563",
+    "erase/test/support.bend": "c4eb069dce3dc29b63ea6982249e7ac0819021ccbfea5088b5c581db3efae1aa",
+    "lib/erasure.bend": "affcab049254fbede84b55fa4093a777ad0f20c0fc833f6e0a27d095e34bcfea",
+    "lib/foundation.bend": "30dfb2d9d09081405072c49c99c50c0e5b5997dfe9447061fad2dc83cc1dcee3",
+    "lib/kernel.bend": "86511b6e597f08262370f68670e0fa2fea54bc94d783d0fb3c4afaa9d9953d86",
+    "lib/kernel_check.bend": "6c11aba82ecba68f41d242550b7001990b86eee696c80505ab12541df2233aee",
+    "lib/kernel_context.bend": "527a3d280ff45b52fe3b38ecf00f823ac91b98b89c8e26774bef21e6d3b048dd",
+    "lib/kernel_conv.bend": "82d814f65a15457f417a3c8c71d13eee9593aa2d4fb3fbb8a07b2bed2c5d65cb",
+    "lib/kernel_declarations.bend": "1f91fb7935722a5f1e13557633d3ab1967cb9269180e496639b3652fb2b3fd05",
+    "lib/kernel_eval.bend": "89c23dcc7e2c04b613058f627174aa9b6da0bcd640a6ceebcbdea4ca9ad1a160",
+    "lib/kernel_metadata.bend": "abcfd8db4e917d7759db348be1b39fbc3c7ebe4b897d60196e0e623e8f2470b7",
+    "lib/kernel_mu.bend": "6a377e0f4453136ed010aaa22f8d0ac46a1f4b8623a903c2de012e504117c9b7",
+    "lib/kernel_order.bend": "10d6df09b22d407af140fb5e67daf3b35dd46779c7a7ac12745741908034fd57",
+    "lib/kernel_pp.bend": "5ce1c182cdf90ca10ae63ce959648baf29db4b07e08e342c1ae4827b1dce269f",
+    "lib/kernel_primitives.bend": "7a2907de92080e7e987be50f1942cc6af73f2d8e8b530a6f04b7bbcf92fbe6c3",
+    "lib/kernel_program.bend": "264f989e7d2fd6f667afc8a738a532e4c2f41e344f4fcc9b65ed91f74c20a355",
+    "lib/kernel_rules.bend": "4dac67dc78b6b5943c8c3d0084effe627ad72698a3050f4a18f18f52e1e3cb22",
+    "lib/kernel_source.bend": "553669e50dd1491f8bd4d1be4e9c0466c3625e5e3bd6b5e18d7e388b605a9629",
+    "lib/kernel_util.bend": "b3b2db19257acfe2832f358aa4394addf76d3f65b3c1e346e14b7d4d9f2976fa",
+    "surface/elab.bend": "5d4899b142716d93b71eb0a8ae17964189dfef254d518949d56654378a219856",
+    "surface/elab_cases.bend": "b9a7cc0474ec12d4449fb54c44ea98107a00b1024d2c91e307a0c69d404240b8",
+    "surface/elab_common.bend": "0b2d76972ef1d09c0d7d19c7b4ea3f24bc3c6a2b6a070befe67985a0c087887f",
+    "surface/elab_forms.bend": "c4eb8a05f0b75a5fd3966dc19858db49e7e2731390a6d48caf5f2a62d27c1225",
+    "surface/elab_headers.bend": "b65cd0b475d8465a8f1d455a54233d7d421d5ab23eb1a74d0946bba3c4a73817",
+    "surface/elab_refs.bend": "bac440f8600d395ef5ca1446a56585ca463e2231f6d6135bcb7b9b8e7f1acc31",
+    "surface/elab_requests.bend": "9625a2192994dc01afc1c8675106af64375ec758494222e7ec934d7449a40c77",
+    "surface/elab_runner.bend": "efe9e39371365965dc182b548160d6b5ce5f7efab341f336f169f854f7a5094b",
+    "surface/elab_state.bend": "972ae91487e179f6734743af65b85f336b4336013e81a46b3bc731c5d374bc5b",
+    "surface/elab_term.bend": "a3cf5b0f2ac02786e744b479cab5cdadd610d982d4df294dbb10a85582e3b673",
+    "surface/io.bend": "d5fb091d66f12c51942f277cc56392e6eb1cb058b131eaaf0799acd4def3d051",
+    "surface/lexer.bend": "f884b27fefaaa0940c2f3d412f96d8df3d7267689193764c4fb360481913f497",
+    "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
+    "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
+    "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
+    "dev/bend-policy.json": "c804a085d5a3dce8d3d499c8d017e44006a458d210674ed3c9d9c4e0b9981287",
+    "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures-run.py": "e7cf383dd6247c2ccde65accaeb66821bf0ccbc5586c3f9868b31ce8aa437fba"
+  },
+  "checks": [
+    {
+      "name": "anchors",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-mutations.py",
+        "--check-anchors"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/anchors.log",
+        "sha256": "1d4b1a4027df1f74f63b92f1da7a4a49c91c74640b80cc611a44822a350f8477"
+      },
+      "elapsed_seconds": 0.13
+    },
+    {
+      "name": "tests",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/tests.log",
+        "sha256": "5aad524217095a5b84a49f113901db2eb156f3f16cbfbbe985380aef0a13ff13"
+      },
+      "elapsed_seconds": 32.798
+    },
+    {
+      "name": "gates",
+      "command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/gates.log",
+        "sha256": "8bcd17b4122560e1bdf25c9e75b764f06b9702a5c2b77faa6dbaea7b2b5d1978"
+      },
+      "elapsed_seconds": 294.492
+    },
+    {
+      "name": "erasure-record",
+      "command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py",
+        "--record"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/erasure-record.log",
+        "sha256": "2bfc6d7955b2a9708603c01d704ecbd008ce1c5e523caf133bdd95f93de9d536"
+      },
+      "elapsed_seconds": 95.079
+    },
+    {
+      "name": "reuse-validation",
+      "command": [
+        "python3",
+        "-P",
+        "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures-run.py",
+        "--check-reuse"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/reuse-validation.log",
+        "sha256": "8513733731494aa008f94d99aeb0514e9cbccbee4494ccc93f21e2122979f3ae"
+      },
+      "elapsed_seconds": 0.132
+    },
+    {
+      "name": "mutations",
+      "harness_argv": [
+        "dev/erasure-mutations.py",
+        "--jobs",
+        "1",
+        "--logs",
+        "/Users/oobi/Documents/attest/.gatework/mixed-case-scrutinee-collection-constructor-payload-mutations",
+        "--case",
+        "constructor-payload-disabled",
+        "--case",
+        "constructor-payload-order",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-fixture-call",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-fixture-call",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-fixture-call",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-fixture-call",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-elimination-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-elimination-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-elimination-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-elimination-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-field-order",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-field-order",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-field-order",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-field-order",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-syntax-fixture-call",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-syntax-fixture-call",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-syntax-fixture-call",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-syntax-fixture-call",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-recovery-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-recovery-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-recovery-passthrough",
+        "--case",
+        "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-recovery-passthrough"
+      ],
+      "exit_code": 0,
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/mutations.log",
+        "sha256": "7cbc2150614be7db6e78492c89a34ff0a13b3b5fa14a9037068e5cfca1c0992b"
+      },
+      "elapsed_seconds": 867.672,
+      "baseline": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/mutation-baseline.log",
+        "sha256": "2bfc6d7955b2a9708603c01d704ecbd008ce1c5e523caf133bdd95f93de9d536"
+      }
+    }
+  ],
+  "check_checkpoint": {
+    "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/checks.json",
+    "sha256": "2938ac9123a7f08901bd99583fd8d96f7c5edd3f1cd55c2be13ddcc77a0186a1"
+  },
+  "mutation_checkpoint": {
+    "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/completed-mutations.json",
+    "sha256": "af27a964b9463865b75bb4c99094f0f626d707f6ca70feb95a803f4c7467bf84"
+  },
+  "supporting_records_sha256": {
+    "dev/validation/erasure.json": "35fb952279430745dd5ce326c9d94f77b4bf39b02bd469b9a0fd0188987a13e9"
+  },
+  "catalog_total": 467,
+  "selected": [
+    "constructor-payload-disabled",
+    "constructor-payload-order",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-fixture-call",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-fixture-call",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-fixture-call",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-fixture-call",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-elimination-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-elimination-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-elimination-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-elimination-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-field-order",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-field-order",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-field-order",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-field-order",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-syntax-fixture-call",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-syntax-fixture-call",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-syntax-fixture-call",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-syntax-fixture-call",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-recovery-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-recovery-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-recovery-passthrough",
+    "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-recovery-passthrough"
+  ],
+  "mutations": [
+    {
+      "name": "constructor-payload-disabled",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "9d265b00f19405a558ab38865ff3a983c10398a577ed03c7b3dcb4493e0f0cbe",
+      "log_sha256": "b20571d8e3ea276d93e970575e824a1943d23500a8875535a1a7497fcd42538c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=constructor-payload-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-disabled.log",
+        "sha256": "b20571d8e3ea276d93e970575e824a1943d23500a8875535a1a7497fcd42538c"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-disabled-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-order",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "ac16126952cf8cb31c29c52142af6c88279851e99e4f80a2603f81955983cebc",
+      "log_sha256": "3868c682e3b98fd2e7e531e3ec5e34fb53109f0d4fbb96e9dc0988dcc8db2cda",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=constructor-payload-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-order.log",
+        "sha256": "3868c682e3b98fd2e7e531e3ec5e34fb53109f0d4fbb96e9dc0988dcc8db2cda"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-order-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "3f39120185b97c4c67c0ce42b20bd91d8245ec6a63d886987cbc0ae349686224",
+      "mutated_sha256": "1281479b8408be2c393a5ca8fc04a4565c34d13a38d6ed0fa744ca396b8bc623",
+      "log_sha256": "e2f1feace59b2955fde073204a187b0440210d3fab70be56a65c75b563e14a64",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite lambda fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-fixture-call.log",
+        "sha256": "e2f1feace59b2955fde073204a187b0440210d3fab70be56a65c75b563e14a64"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "3f39120185b97c4c67c0ce42b20bd91d8245ec6a63d886987cbc0ae349686224",
+      "mutated_sha256": "29abc1d0e3fe535dce8f604e95f5c2d48f8fbb7a60064944e413aa9ffaf30b79",
+      "log_sha256": "ec773af41f98f06ed4d2452a7775759da5209b1974661313dd5272e7fac33a03",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor lambda fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-fixture-call.log",
+        "sha256": "ec773af41f98f06ed4d2452a7775759da5209b1974661313dd5272e7fac33a03"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "3f39120185b97c4c67c0ce42b20bd91d8245ec6a63d886987cbc0ae349686224",
+      "mutated_sha256": "5695c8bc73a679ef455b5fd8d2ea55294abca7b3141b3fd28494119fc930e097",
+      "log_sha256": "3dcadbacf68d11cb29abc8f27bd3741254444a2bddc180fc955f9195df4740f7",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=lambda-constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite lambda fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-fixture-call.log",
+        "sha256": "3dcadbacf68d11cb29abc8f27bd3741254444a2bddc180fc955f9195df4740f7"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "3f39120185b97c4c67c0ce42b20bd91d8245ec6a63d886987cbc0ae349686224",
+      "mutated_sha256": "57519599e0bb62cafc70d67632e6c957d38d063c15e4cadc13342f5fb74427dd",
+      "log_sha256": "2f3ec92e724e2c6f8eb4e90970735eb66b56c771c54231dfc38bcf25a3d554d7",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=lambda-constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor lambda fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-fixture-call.log",
+        "sha256": "2f3ec92e724e2c6f8eb4e90970735eb66b56c771c54231dfc38bcf25a3d554d7"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "d22a09b156c45adb18d52dfa2a86759f230e7aa68d5585ab1ed9c3d9b3b34a62",
+      "log_sha256": "968b4faeb9dc0f720e8affc54b64bd2d481fc5c0ca1b0206e5e97412ca92a4b5",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-passthrough.log",
+        "sha256": "968b4faeb9dc0f720e8affc54b64bd2d481fc5c0ca1b0206e5e97412ca92a4b5"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "d22a09b156c45adb18d52dfa2a86759f230e7aa68d5585ab1ed9c3d9b3b34a62",
+      "log_sha256": "968b4faeb9dc0f720e8affc54b64bd2d481fc5c0ca1b0206e5e97412ca92a4b5",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-passthrough.log",
+        "sha256": "968b4faeb9dc0f720e8affc54b64bd2d481fc5c0ca1b0206e5e97412ca92a4b5"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-passthrough"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "d22a09b156c45adb18d52dfa2a86759f230e7aa68d5585ab1ed9c3d9b3b34a62",
+      "log_sha256": "968b4faeb9dc0f720e8affc54b64bd2d481fc5c0ca1b0206e5e97412ca92a4b5",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-passthrough.log",
+        "sha256": "968b4faeb9dc0f720e8affc54b64bd2d481fc5c0ca1b0206e5e97412ca92a4b5"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-passthrough"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "d22a09b156c45adb18d52dfa2a86759f230e7aa68d5585ab1ed9c3d9b3b34a62",
+      "log_sha256": "968b4faeb9dc0f720e8affc54b64bd2d481fc5c0ca1b0206e5e97412ca92a4b5",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-passthrough.log",
+        "sha256": "968b4faeb9dc0f720e8affc54b64bd2d481fc5c0ca1b0206e5e97412ca92a4b5"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-passthrough"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-elimination-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "7d30e5ef562192a1d4cfd6834da0b4deee0e334be54a3096e66e50614960ca99",
+      "log_sha256": "bda30a39c1aa09cb85da4313a3e706f2280a8b4a440770d054b6c02f0d9ecb37",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-elimination-passthrough.log",
+        "sha256": "bda30a39c1aa09cb85da4313a3e706f2280a8b4a440770d054b6c02f0d9ecb37"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-elimination-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-elimination-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "7d30e5ef562192a1d4cfd6834da0b4deee0e334be54a3096e66e50614960ca99",
+      "log_sha256": "bda30a39c1aa09cb85da4313a3e706f2280a8b4a440770d054b6c02f0d9ecb37",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-elimination-passthrough.log",
+        "sha256": "bda30a39c1aa09cb85da4313a3e706f2280a8b4a440770d054b6c02f0d9ecb37"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-elimination-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-elimination-passthrough"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-elimination-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "7d30e5ef562192a1d4cfd6834da0b4deee0e334be54a3096e66e50614960ca99",
+      "log_sha256": "bda30a39c1aa09cb85da4313a3e706f2280a8b4a440770d054b6c02f0d9ecb37",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-elimination-passthrough.log",
+        "sha256": "bda30a39c1aa09cb85da4313a3e706f2280a8b4a440770d054b6c02f0d9ecb37"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-elimination-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-elimination-passthrough"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-elimination-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "7d30e5ef562192a1d4cfd6834da0b4deee0e334be54a3096e66e50614960ca99",
+      "log_sha256": "bda30a39c1aa09cb85da4313a3e706f2280a8b4a440770d054b6c02f0d9ecb37",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-elimination-passthrough.log",
+        "sha256": "bda30a39c1aa09cb85da4313a3e706f2280a8b4a440770d054b6c02f0d9ecb37"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-elimination-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-elimination-passthrough"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-field-order",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "ac16126952cf8cb31c29c52142af6c88279851e99e4f80a2603f81955983cebc",
+      "log_sha256": "3868c682e3b98fd2e7e531e3ec5e34fb53109f0d4fbb96e9dc0988dcc8db2cda",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-field-order.log",
+        "sha256": "3868c682e3b98fd2e7e531e3ec5e34fb53109f0d4fbb96e9dc0988dcc8db2cda"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-field-order-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-order"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-field-order",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "ac16126952cf8cb31c29c52142af6c88279851e99e4f80a2603f81955983cebc",
+      "log_sha256": "3868c682e3b98fd2e7e531e3ec5e34fb53109f0d4fbb96e9dc0988dcc8db2cda",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-field-order.log",
+        "sha256": "3868c682e3b98fd2e7e531e3ec5e34fb53109f0d4fbb96e9dc0988dcc8db2cda"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-field-order-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-order"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-field-order",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "ac16126952cf8cb31c29c52142af6c88279851e99e4f80a2603f81955983cebc",
+      "log_sha256": "3868c682e3b98fd2e7e531e3ec5e34fb53109f0d4fbb96e9dc0988dcc8db2cda",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-field-order.log",
+        "sha256": "3868c682e3b98fd2e7e531e3ec5e34fb53109f0d4fbb96e9dc0988dcc8db2cda"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-field-order-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-order"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-field-order",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "ac16126952cf8cb31c29c52142af6c88279851e99e4f80a2603f81955983cebc",
+      "log_sha256": "3868c682e3b98fd2e7e531e3ec5e34fb53109f0d4fbb96e9dc0988dcc8db2cda",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-syntax FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-field-order.log",
+        "sha256": "3868c682e3b98fd2e7e531e3ec5e34fb53109f0d4fbb96e9dc0988dcc8db2cda"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-field-order-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-order"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-syntax-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "3f39120185b97c4c67c0ce42b20bd91d8245ec6a63d886987cbc0ae349686224",
+      "mutated_sha256": "db6048560c82c27fbf5b5b6dad996c61b9408c883a5883a288e84088e697c08b",
+      "log_sha256": "66116b1ef39a893166ea76369b6b79837c83b52c5a542baa7028c6dac586d172",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-syntax syntax fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-syntax-fixture-call.log",
+        "sha256": "66116b1ef39a893166ea76369b6b79837c83b52c5a542baa7028c6dac586d172"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-syntax-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-syntax-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "3f39120185b97c4c67c0ce42b20bd91d8245ec6a63d886987cbc0ae349686224",
+      "mutated_sha256": "3bff470fb7db360bfbf151af34045f5e25dc3996c06bb23508a94a4e6653c9bd",
+      "log_sha256": "5f0bc2eafbb05475c4a3293733079369e60ed996e81b2d28137bd3e941989c14",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-syntax syntax fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-syntax-fixture-call.log",
+        "sha256": "5f0bc2eafbb05475c4a3293733079369e60ed996e81b2d28137bd3e941989c14"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-syntax-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-syntax-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "3f39120185b97c4c67c0ce42b20bd91d8245ec6a63d886987cbc0ae349686224",
+      "mutated_sha256": "66d9c90ed699850e6a84d0c80350cb0fea8cfeef4ee85d7337c0625efd73dbfb",
+      "log_sha256": "6895fb480641cabf7aa10a3986ba9b298cf4a20fa390f98f59fc110c65396004",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-syntax syntax fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-syntax-fixture-call.log",
+        "sha256": "6895fb480641cabf7aa10a3986ba9b298cf4a20fa390f98f59fc110c65396004"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-syntax-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-syntax-fixture-call",
+      "path": "erase/test/inline_test.bend",
+      "before_sha256": "3f39120185b97c4c67c0ce42b20bd91d8245ec6a63d886987cbc0ae349686224",
+      "mutated_sha256": "bc635edb9c3533e5d8c52cca78c6133bca05e31ee33901870333d7d589fba866",
+      "log_sha256": "3d515ea005a43a9605085a8fa7954ba11ed730d13cebfdf37767bc2291e5f0e9",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "row=constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-syntax syntax fixture call differs",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-syntax-fixture-call.log",
+        "sha256": "3d515ea005a43a9605085a8fa7954ba11ed730d13cebfdf37767bc2291e5f0e9"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-syntax-fixture-call-build.log",
+        "sha256": "680a5951234a1c5745c9d06ac5ccc7e81ee74dd38207d039fe09fd4d8756e9b4"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-recovery-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "e9f30d090f169feb91d1d6878dd3e52d4b8f62bd65c7602453922deb2250c870",
+      "log_sha256": "9ada4facda83eca1c350233942de8c5dd69f6e79720743c9105b403d5557e04c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-recovery-passthrough.log",
+        "sha256": "9ada4facda83eca1c350233942de8c5dd69f6e79720743c9105b403d5557e04c"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-recovery-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-recovery-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "e9f30d090f169feb91d1d6878dd3e52d4b8f62bd65c7602453922deb2250c870",
+      "log_sha256": "9ada4facda83eca1c350233942de8c5dd69f6e79720743c9105b403d5557e04c",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-recovery-passthrough.log",
+        "sha256": "9ada4facda83eca1c350233942de8c5dd69f6e79720743c9105b403d5557e04c"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-recovery-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-recovery-passthrough"
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-recovery-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "5b14155a288a474e3c5ee672491fae66f765054d6c8e264d92e252e8fb88c8a3",
+      "log_sha256": "a5d1b9494426576e857247ff51e017dd8c61c3d80b2e8343668d3439c5f18bbc",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-recovery-passthrough.log",
+        "sha256": "a5d1b9494426576e857247ff51e017dd8c61c3d80b2e8343668d3439c5f18bbc"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-recovery-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      }
+    },
+    {
+      "name": "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-recovery-passthrough",
+      "path": "erase/inline.bend",
+      "before_sha256": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
+      "mutated_sha256": "5b14155a288a474e3c5ee672491fae66f765054d6c8e264d92e252e8fb88c8a3",
+      "log_sha256": "a5d1b9494426576e857247ff51e017dd8c61c3d80b2e8343668d3439c5f18bbc",
+      "build_exit": 0,
+      "gate_exit": 1,
+      "diagnostic": "INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor FAIL",
+      "build_command": [
+        "python3",
+        "-P",
+        "dev/build.py",
+        "--backend",
+        "js",
+        "attest",
+        "erase-probe",
+        "prop-index",
+        "opaque",
+        "inline"
+      ],
+      "gate_command": [
+        "python3",
+        "-P",
+        "dev/erasure-gates.py"
+      ],
+      "log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-recovery-passthrough.log",
+        "sha256": "a5d1b9494426576e857247ff51e017dd8c61c3d80b2e8343668d3439c5f18bbc"
+      },
+      "build_log": {
+        "path": "dev/validation/mixed-case-scrutinee-collection-constructor-payload-fixtures/constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-recovery-passthrough-build.log",
+        "sha256": "45fff614b0519f7ee0a309923e4b4881954d5f4ee34c2713240787b84ea5fe7d"
+      },
+      "reused": true,
+      "shared_execution": "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-recovery-passthrough"
+    }
+  ]
+}

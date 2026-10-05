@@ -1,0 +1,27 @@
+ERASURE-MUTATION constructor-payload-disabled caught
+ERASURE-MUTATION constructor-payload-order caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-fixture-call caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-fixture-call caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-fixture-call caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-fixture-call caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-field-order caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-field-order caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-field-order caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-field-order caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-syntax-fixture-call caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-syntax-fixture-call caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-syntax-fixture-call caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-syntax-fixture-call caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-recovery-passthrough caught
+ERASURE-MUTATIONS caught=26 total=467 PARTIAL
