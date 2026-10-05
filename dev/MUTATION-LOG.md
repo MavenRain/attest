@@ -1,5 +1,34 @@
 # Mutation log
 
+## 2026-10-05: collection-selected case scrutinee collection payload fixtures
+Twenty-four scoped mutations cover four fixture pairs whose constructor
+index field holds a tuple or sum branch with a collection-selected case
+scrutinee. The scrutinee of the Payload case selects a constructor from
+the second field of a tuple or from a branch of a sum. Four edits replace
+semantic variants with ordinary sealing, four substitute the opaque twin
+as the syntax fixture, four bypass collection recovery, four bypass
+constructor recovery, and four bypass case recovery.
+The final four reverse constructor field order and must fail their named
+syntax row. Semantic and syntax fixture substitutions must fail the gate's
+exact source and mode bindings.
+Among the new rows, the tuple collection bypass skips
+`Inline.index_tuple_enter` and must fail the semantic row of each kind
+with the case in the first tuple field. The sum collection bypass skips
+`Inline.index_sum_context` and must fail the semantic row of each kind
+with the case in a sum branch.
+Constructor recovery and field order supply two additional controls. Every
+mutation requires a successful isolated build and its named failure.
+Identical recipes share hash-verified executions with explicit reuse
+metadata. Sixteen self-checks guard mutation reuse, including completed
+mutation names and source paths. Thirteen additional checks
+reject stale passed-check caches after test, gate, fixture, Lean evidence,
+schema, repository-root or generated erasure evidence changes. Cached erasure
+records and logs must retain their recorded hashes, including during mutations.
+The collector and evidence are
+`dev/validation/collection-case-scrutinee-collection-constructor-payload-fixtures-run.py`
+and `dev/validation/collection-case-scrutinee-collection-constructor-payload-fixtures.json`.
+The catalog contains 491 unique anchors.
+
 ## 2026-10-05: mixed case scrutinee collection payload fixtures
 Twenty-four scoped mutations cover four fixture pairs whose constructor
 index field holds a tuple or sum branch with a mixed three-stage case

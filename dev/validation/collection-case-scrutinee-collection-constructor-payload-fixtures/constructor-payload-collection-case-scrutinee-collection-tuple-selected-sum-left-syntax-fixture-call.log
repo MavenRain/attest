@@ -1,0 +1,4 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+INLINE-ERASE pass=307 total=307 OK
+ERASURE-INCREMENT FAIL: row=constructor-payload-collection-case-scrutinee-collection-tuple-selected-sum-left-syntax syntax fixture call differs

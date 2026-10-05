@@ -1,5 +1,51 @@
 # M0 build log
 
+## 2026-10-05: Stage B collection-selected case scrutinees in collection payload fields
+
+Four constructor index fixture pairs put a Payload case with a
+collection-selected scrutinee in the first tuple field or a sum branch of
+a collection payload field. The scrutinee selects a Payload constructor
+from the second field of a tuple or from a branch of a sum. The first
+tuple field holds the tuple selector and the left-sum selector in turn.
+The left sum branch holds the right-sum selector and the right sum branch
+holds the tuple selector. The selected constructor has distinct zero and
+one fields. The unselected tuple field holds a constructor with one in
+both fields, and each unselected sum branch returns such a constructor.
+The Payload case substitutes and swaps both fields before recovery resumes
+the trailing IndexBox field.
+
+Modes 48 through 51 recheck alternate source indices in Pick and keep,
+preparation, proof sealing and runtime equality with opaque twins. Four
+syntax rows compare the recovered parsed Index with explicit literal
+fields through the existing collection parsed-source oracle. The gate
+binds each semantic row to its exact pair and mode and each syntax row to
+its mode and source. Existing recovery code, budgets and refusal guards
+apply.
+
+`python3 -P dev/validation/collection-case-scrutinee-collection-constructor-payload-fixtures-run.py`
+records full tests, default gates, fresh erasure evidence, twenty-four
+scoped mutations and two controls. The edits drop semantic variants,
+substitute the opaque twin as the syntax fixture, bypass collection,
+constructor or case recovery, or reverse field order. Each edit must
+compile and fail its named row. The collection bypass of each kind acts at
+the position of the case in the collection payload field. The tuple bypass
+skips `Inline.index_tuple_enter` and the sum bypass skips
+`Inline.index_sum_context`. Identical edits share hash-verified executions
+and logs. Sixteen mutation reuse checks and thirteen check-cache checks
+remain required. Passed-check reuse pins the full source and fixture tree,
+gate scripts, Lean records, repository root and generated erasure records
+and logs. Changed inputs or outputs invalidate the cache, and erasure
+outputs are checked again after the mutations.
+
+The inline suite passes 307 of 307 cases. The erasure corpus contains
+four global pairs and 147 inline pairs, including 94 lambda
+pairs. HOUSE retains 68 unsafe functions and registers 420
+catch-all sites. The mutation catalog contains 491 anchors. Implementation
+and final validation run in `/Users/oobi/Documents/attest`, where the saved
+Lean evidence is bound to the repository path. The record pins the
+implementation, runner, policy and migration inputs. Stage B remains open
+at the Acc checker frontier and full trace comparison.
+
 ## 2026-10-05: Stage B mixed nested case scrutinees in collection payload fields
 
 Four constructor index fixture pairs put a mixed three-stage case chain in

@@ -1668,7 +1668,7 @@ CASES += tuple(
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")},'
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")}_opaque,layout,1n)}}'),
      f"row=lambda-constructor-payload-{kind} lambda fixture call differs")
-    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right", "case-scrutinee-collection-tuple", "case-scrutinee-collection-sum-left", "case-scrutinee-collection-sum-right", "mixed-case-scrutinee-collection-tuple-constructor-finite", "mixed-case-scrutinee-collection-tuple-finite-constructor", "mixed-case-scrutinee-collection-sum-left-constructor-finite", "mixed-case-scrutinee-collection-sum-right-finite-constructor"), start=12)
+    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right", "case-scrutinee-collection-tuple", "case-scrutinee-collection-sum-left", "case-scrutinee-collection-sum-right", "mixed-case-scrutinee-collection-tuple-constructor-finite", "mixed-case-scrutinee-collection-tuple-finite-constructor", "mixed-case-scrutinee-collection-sum-left-constructor-finite", "mixed-case-scrutinee-collection-sum-right-finite-constructor", "collection-case-scrutinee-collection-tuple-selected-tuple", "collection-case-scrutinee-collection-tuple-selected-sum-left", "collection-case-scrutinee-collection-sum-left-selected-sum-right", "collection-case-scrutinee-collection-sum-right-selected-tuple"), start=12)
 )
 
 CASES += tuple(
@@ -1676,7 +1676,7 @@ CASES += tuple(
      "Inline.index_constructor_payload(shape, name, arguments, fuel, context, index_pending, next)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right", "case-scrutinee-collection-tuple", "case-scrutinee-collection-sum-left", "case-scrutinee-collection-sum-right", "mixed-case-scrutinee-collection-tuple-constructor-finite", "mixed-case-scrutinee-collection-tuple-finite-constructor", "mixed-case-scrutinee-collection-sum-left-constructor-finite", "mixed-case-scrutinee-collection-sum-right-finite-constructor")
+    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right", "case-scrutinee-collection-tuple", "case-scrutinee-collection-sum-left", "case-scrutinee-collection-sum-right", "mixed-case-scrutinee-collection-tuple-constructor-finite", "mixed-case-scrutinee-collection-tuple-finite-constructor", "mixed-case-scrutinee-collection-sum-left-constructor-finite", "mixed-case-scrutinee-collection-sum-right-finite-constructor", "collection-case-scrutinee-collection-tuple-selected-tuple", "collection-case-scrutinee-collection-tuple-selected-sum-left", "collection-case-scrutinee-collection-sum-left-selected-sum-right", "collection-case-scrutinee-collection-sum-right-selected-tuple")
 )
 
 CASES += tuple(
@@ -1684,7 +1684,7 @@ CASES += tuple(
      "next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.Elim{F.Term.Elimination{index_shape, index_scrutinee, index_quantity, index_motive, index_branches}}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("finite-case", "constructor-case", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right", "case-scrutinee-collection-tuple", "case-scrutinee-collection-sum-left", "case-scrutinee-collection-sum-right", "mixed-case-scrutinee-collection-tuple-constructor-finite", "mixed-case-scrutinee-collection-tuple-finite-constructor", "mixed-case-scrutinee-collection-sum-left-constructor-finite", "mixed-case-scrutinee-collection-sum-right-finite-constructor")
+    for kind in ("finite-case", "constructor-case", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right", "case-scrutinee-collection-tuple", "case-scrutinee-collection-sum-left", "case-scrutinee-collection-sum-right", "mixed-case-scrutinee-collection-tuple-constructor-finite", "mixed-case-scrutinee-collection-tuple-finite-constructor", "mixed-case-scrutinee-collection-sum-left-constructor-finite", "mixed-case-scrutinee-collection-sum-right-finite-constructor", "collection-case-scrutinee-collection-tuple-selected-tuple", "collection-case-scrutinee-collection-tuple-selected-sum-left", "collection-case-scrutinee-collection-sum-left-selected-sum-right", "collection-case-scrutinee-collection-sum-right-selected-tuple")
 )
 
 CASES += (
@@ -1860,6 +1860,44 @@ CASES += tuple(
      "Inline.index_source_pending(other, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
     for kind in MIXED_CASE_SCRUTINEE_COLLECTIONS[2:]
+)
+
+COLLECTION_CASE_SCRUTINEE_COLLECTIONS = ('collection-case-scrutinee-collection-tuple-selected-tuple', 'collection-case-scrutinee-collection-tuple-selected-sum-left', 'collection-case-scrutinee-collection-sum-left-selected-sum-right', 'collection-case-scrutinee-collection-sum-right-selected-tuple')
+
+CASES += tuple(
+    (f"constructor-payload-{kind}-field-order", INLINE,
+     "Inline.index_constructor_result(shape, name, Inline.reverse(F.Term.t, completed, Nil{}))",
+     "Inline.index_constructor_result(shape, name, completed)",
+     f"INLINE-ERASE row=constructor-payload-{kind}-syntax FAIL")
+    for kind in COLLECTION_CASE_SCRUTINEE_COLLECTIONS
+)
+
+# The opaque twin has the same Index, so only the gate's exact source binding can fail.
+CASES += tuple(
+    (f"constructor-payload-{kind}-syntax-fixture-call", "erase/test/inline_test.bend",
+     (f'Suite.Case{{"constructor-payload-{kind}-syntax",unit => Suite.constructor_case_scrutinee_collection_source_syntax('
+      f'{mode}n,LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")})}}'),
+     (f'Suite.Case{{"constructor-payload-{kind}-syntax",unit => Suite.constructor_case_scrutinee_collection_source_syntax('
+      f'{mode}n,LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")}_opaque)}}'),
+     f"row=constructor-payload-{kind}-syntax syntax fixture call differs")
+    for mode, kind in zip((0, 0, 1, 2), COLLECTION_CASE_SCRUTINEE_COLLECTIONS)
+)
+
+# A collection-selected scrutinee case in a collection payload field needs tuple and sum recovery around the whole case.
+CASES += tuple(
+    (f"constructor-payload-{kind}-recovery-passthrough", INLINE,
+     "Inline.index_tuple_enter(Some{width}, shape, legs, fuel, C.Check.size(checker), rest, next)",
+     "Inline.index_source_pending(rest, fuel, Some{F.Term.Sec{shape, legs}}, context, next)",
+     f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
+    for kind in COLLECTION_CASE_SCRUTINEE_COLLECTIONS[:2]
+)
+
+CASES += tuple(
+    (f"constructor-payload-{kind}-recovery-passthrough", INLINE,
+     "Inline.index_sum_context(context, shape, index, arguments, fuel, other, next)",
+     "Inline.index_source_pending(other, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
+     f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
+    for kind in COLLECTION_CASE_SCRUTINEE_COLLECTIONS[2:]
 )
 
 if __name__ == "__main__":

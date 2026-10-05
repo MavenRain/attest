@@ -88,7 +88,7 @@ LAMBDA_ROWS = ("lambda-alias-global", "lambda-alias-dependent",
                "lambda-constructor-payload-case-finite", "lambda-constructor-payload-case-constructor",
                "lambda-constructor-payload-case-finite-tuple", "lambda-constructor-payload-case-finite-sum-left", "lambda-constructor-payload-case-finite-sum-right", "lambda-constructor-payload-case-constructor-tuple", "lambda-constructor-payload-case-constructor-sum-left", "lambda-constructor-payload-case-constructor-sum-right",
                "lambda-constructor-payload-case-scrutinee-finite", "lambda-constructor-payload-case-scrutinee-constructor",
-               "lambda-constructor-payload-mixed-case-scrutinee-finite-constructor", "lambda-constructor-payload-mixed-case-scrutinee-constructor-finite", "lambda-constructor-payload-collection-case-scrutinee-tuple", "lambda-constructor-payload-collection-case-scrutinee-sum-left", "lambda-constructor-payload-collection-case-scrutinee-sum-right", "lambda-constructor-payload-case-scrutinee-collection-tuple", "lambda-constructor-payload-case-scrutinee-collection-sum-left", "lambda-constructor-payload-case-scrutinee-collection-sum-right", "lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite", "lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor", "lambda-constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite", "lambda-constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor",
+               "lambda-constructor-payload-mixed-case-scrutinee-finite-constructor", "lambda-constructor-payload-mixed-case-scrutinee-constructor-finite", "lambda-constructor-payload-collection-case-scrutinee-tuple", "lambda-constructor-payload-collection-case-scrutinee-sum-left", "lambda-constructor-payload-collection-case-scrutinee-sum-right", "lambda-constructor-payload-case-scrutinee-collection-tuple", "lambda-constructor-payload-case-scrutinee-collection-sum-left", "lambda-constructor-payload-case-scrutinee-collection-sum-right", "lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite", "lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor", "lambda-constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite", "lambda-constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor", "lambda-constructor-payload-collection-case-scrutinee-collection-tuple-selected-tuple", "lambda-constructor-payload-collection-case-scrutinee-collection-tuple-selected-sum-left", "lambda-constructor-payload-collection-case-scrutinee-collection-sum-left-selected-sum-right", "lambda-constructor-payload-collection-case-scrutinee-collection-sum-right-selected-tuple",
                "lambda-nested-index-empty", "lambda-nested-index-value",
                "lambda-neutral-index-left", "lambda-neutral-index-right")
 INLINE_ROWS += LAMBDA_ROWS
@@ -113,6 +113,10 @@ INLINE_SUITE_ROWS = frozenset(("let-body", "scrutinee-body", "inherited", "name-
                                "constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor-syntax",
                                "constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite-syntax",
                                "constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor-syntax",
+                               "constructor-payload-collection-case-scrutinee-collection-tuple-selected-tuple-syntax",
+                               "constructor-payload-collection-case-scrutinee-collection-tuple-selected-sum-left-syntax",
+                               "constructor-payload-collection-case-scrutinee-collection-sum-left-selected-sum-right-syntax",
+                               "constructor-payload-collection-case-scrutinee-collection-sum-right-selected-tuple-syntax",
                                "lambda-alias-guards", "lambda-alias-scope",
                                "let-source-syntax", "let-source-guards", "let-source-fuel",
                                "lambda-let-scope",
@@ -415,7 +419,7 @@ def fixture_call_table():
             (f'Suite.Case{{"lambda-constructor-payload-{kind}",unit=>Suite.index_reduction_sealed('
              f'LF.{fixture_name(f"lambda-constructor-payload-{kind}")},'
              f'LF.{fixture_name(f"lambda-constructor-payload-{kind}")}_opaque,layout,{mode}n)}}')
-        for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right", "case-scrutinee-collection-tuple", "case-scrutinee-collection-sum-left", "case-scrutinee-collection-sum-right", "mixed-case-scrutinee-collection-tuple-constructor-finite", "mixed-case-scrutinee-collection-tuple-finite-constructor", "mixed-case-scrutinee-collection-sum-left-constructor-finite", "mixed-case-scrutinee-collection-sum-right-finite-constructor"), start=12)
+        for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right", "case-scrutinee-collection-tuple", "case-scrutinee-collection-sum-left", "case-scrutinee-collection-sum-right", "mixed-case-scrutinee-collection-tuple-constructor-finite", "mixed-case-scrutinee-collection-tuple-finite-constructor", "mixed-case-scrutinee-collection-sum-left-constructor-finite", "mixed-case-scrutinee-collection-sum-right-finite-constructor", "collection-case-scrutinee-collection-tuple-selected-tuple", "collection-case-scrutinee-collection-tuple-selected-sum-left", "collection-case-scrutinee-collection-sum-left-selected-sum-right", "collection-case-scrutinee-collection-sum-right-selected-tuple"), start=12)
     })
     alias_calls.update({
         f"lambda-nested-index-{kind}":
@@ -481,6 +485,13 @@ def fixture_calls():
         if rows != [expected]:
             raise ValueError(f"row={name} syntax fixture call differs")
     for mode, kind in zip((0, 0, 1, 2), ("mixed-case-scrutinee-collection-tuple-constructor-finite", "mixed-case-scrutinee-collection-tuple-finite-constructor", "mixed-case-scrutinee-collection-sum-left-constructor-finite", "mixed-case-scrutinee-collection-sum-right-finite-constructor")):
+        name = "constructor-payload-" + kind + "-syntax"
+        expected = (f'Suite.Case{{"{name}",unit=>Suite.constructor_case_scrutinee_collection_source_syntax('
+                    f'{mode}n,LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")})}}')
+        rows = [line.strip("[],") for line in cases if f'Suite.Case{{"{name}",' in line]
+        if rows != [expected]:
+            raise ValueError(f"row={name} syntax fixture call differs")
+    for mode, kind in zip((0, 0, 1, 2), ("collection-case-scrutinee-collection-tuple-selected-tuple", "collection-case-scrutinee-collection-tuple-selected-sum-left", "collection-case-scrutinee-collection-sum-left-selected-sum-right", "collection-case-scrutinee-collection-sum-right-selected-tuple")):
         name = "constructor-payload-" + kind + "-syntax"
         expected = (f'Suite.Case{{"{name}",unit=>Suite.constructor_case_scrutinee_collection_source_syntax('
                     f'{mode}n,LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")})}}')
