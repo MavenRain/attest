@@ -1668,7 +1668,7 @@ CASES += tuple(
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")},'
       f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")}_opaque,layout,1n)}}'),
      f"row=lambda-constructor-payload-{kind} lambda fixture call differs")
-    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite"), start=12)
+    for mode, kind in enumerate(("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right"), start=12)
 )
 
 CASES += tuple(
@@ -1676,7 +1676,7 @@ CASES += tuple(
      "Inline.index_constructor_payload(shape, name, arguments, fuel, context, index_pending, next)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.In{shape, F.Term.ACtor{name}, arguments}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite")
+    for kind in ("let", "beta", "annotation", "projection", "finite-case", "constructor-case", "tuple", "sum-left", "sum-right", "nested-first", "nested-last", "nested-tuple", "nested-sum-left", "nested-sum-right", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right")
 )
 
 CASES += tuple(
@@ -1684,7 +1684,7 @@ CASES += tuple(
      "next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)",
      "Inline.index_source_pending(index_pending, fuel, Some{F.Term.Elim{F.Term.Elimination{index_shape, index_scrutinee, index_quantity, index_motive, index_branches}}}, context, next)",
      f"INLINE-ERASE row=lambda-constructor-payload-{kind} FAIL")
-    for kind in ("finite-case", "constructor-case", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite")
+    for kind in ("finite-case", "constructor-case", "case-finite", "case-constructor", "case-finite-tuple", "case-finite-sum-left", "case-finite-sum-right", "case-constructor-tuple", "case-constructor-sum-left", "case-constructor-sum-right", "case-scrutinee-finite", "case-scrutinee-constructor", "mixed-case-scrutinee-finite-constructor", "mixed-case-scrutinee-constructor-finite", "collection-case-scrutinee-tuple", "collection-case-scrutinee-sum-left", "collection-case-scrutinee-sum-right")
 )
 
 CASES += (
@@ -1747,6 +1747,43 @@ CASES += (
     ('constructor-payload-mixed-case-scrutinee-finite-constructor-field-order', 'erase/inline.bend', 'Inline.index_constructor_result(shape, name, Inline.reverse(F.Term.t, completed, Nil{}))', 'Inline.index_constructor_result(shape, name, completed)', 'INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-finite-constructor-syntax FAIL'),
     ('constructor-payload-mixed-case-scrutinee-constructor-finite-outer-case-dropped', 'erase/inline.bend', 'next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> index_pending)', 'match index_pending:\n        case Inline.IndexCase{outer_shape, outer_quantity, outer_motive, outer_branches} <> rest:\n          next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> rest)\n        case other:\n          next(index_remaining, Some{index_scrutinee}, Inline.IndexCase{index_shape, index_quantity, index_motive, index_branches} <> other)', 'INLINE-ERASE row=lambda-constructor-payload-mixed-case-scrutinee-constructor-finite FAIL'),
     ('constructor-payload-mixed-case-scrutinee-constructor-finite-field-order', 'erase/inline.bend', 'Inline.index_constructor_result(shape, name, Inline.reverse(F.Term.t, completed, Nil{}))', 'Inline.index_constructor_result(shape, name, completed)', 'INLINE-ERASE row=constructor-payload-mixed-case-scrutinee-constructor-finite-syntax FAIL'),
+)
+
+
+COLLECTION_CASE_SCRUTINEES = ('collection-case-scrutinee-tuple', 'collection-case-scrutinee-sum-left', 'collection-case-scrutinee-sum-right')
+
+CASES += tuple(
+    (f"constructor-payload-{kind}-field-order", INLINE,
+     "Inline.index_constructor_result(shape, name, Inline.reverse(F.Term.t, completed, Nil{}))",
+     "Inline.index_constructor_result(shape, name, completed)",
+     f"INLINE-ERASE row=constructor-payload-{kind}-syntax FAIL")
+    for kind in COLLECTION_CASE_SCRUTINEES
+)
+
+CASES += tuple(
+    (f"constructor-payload-{kind}-syntax-fixture-call", "erase/test/inline_test.bend",
+     (f'Suite.Case{{"constructor-payload-{kind}-syntax",unit => Suite.constructor_case_scrutinee_source_syntax('
+      f'LF.Fixture.lambda_constructor_payload_{kind.replace("-", "_")})}}'),
+     (f'Suite.Case{{"constructor-payload-{kind}-syntax",unit => Suite.constructor_case_scrutinee_source_syntax('
+      'LF.Fixture.lambda_constructor_payload_mixed_case_scrutinee_constructor_finite)}'),
+     f"row=constructor-payload-{kind}-syntax syntax fixture call differs")
+    for kind in COLLECTION_CASE_SCRUTINEES
+)
+
+# Collection-selected scrutinees require tuple and sum recovery before the constructor case.
+CASES += (
+    ("constructor-payload-collection-case-scrutinee-tuple-recovery-passthrough", INLINE,
+     "Inline.index_source_pending(Inline.IndexApplication{application_shape, address} <> rest, fuel, Some{F.Term.Sec{shape, legs}}, context, next)",
+     "Inline.index_source_pending(rest, fuel, Some{F.Term.Sec{shape, legs}}, context, next)",
+     "INLINE-ERASE row=lambda-constructor-payload-collection-case-scrutinee-tuple FAIL"),
+)
+
+CASES += tuple(
+    (f"constructor-payload-collection-case-scrutinee-{side}-recovery-passthrough", INLINE,
+     "Inline.index_source_pending(Inline.IndexCase{case_shape, quantity, motive, branches} <> rest, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
+     "Inline.index_source_pending(rest, fuel, Some{F.Term.In{shape, F.Term.ALeg{index}, arguments}}, context, next)",
+     f"INLINE-ERASE row=lambda-constructor-payload-collection-case-scrutinee-{side} FAIL")
+    for side in ("sum-left", "sum-right")
 )
 
 if __name__ == "__main__":

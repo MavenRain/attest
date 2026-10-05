@@ -1,5 +1,41 @@
 # M0 build log
 
+## 2026-10-04: Stage B collection-selected constructor case scrutinees
+
+Three constructor index fixture pairs select a Payload constructor from the
+second tuple field or either sum branch. Selected fields reduce to distinct
+zero and one values. Unused alternatives return one in both fields. The
+outer constructor case substitutes and swaps both selected fields before
+recovery resumes the trailing IndexBox field.
+
+Modes 38 through 40 recheck alternate source indices in Pick and keep,
+preparation, proof sealing and runtime equality with opaque twins. Three
+syntax rows compare the recovered parsed Index with explicit literal
+fields. The existing parsed-source oracle now has a shared name and serves
+both mixed and collection-selected case scrutinees. The gate binds each
+semantic row to its exact pair and mode and each syntax row to its source.
+Existing recovery code, budgets and refusal guards apply.
+
+`python3 -P dev/validation/collection-case-scrutinee-constructor-payload-fixtures-run.py`
+records full tests, default gates, fresh erasure evidence, eighteen scoped
+mutations and two controls. The edits drop semantic variants, substitute
+syntax fixtures, bypass collection, constructor or case recovery, or
+reverse field order. Each edit must compile and fail its named row.
+Identical edits share hash-verified executions and logs. Thirteen mutation
+reuse checks and nine check-cache checks remain required. Passed-check
+reuse pins the full source and fixture tree, gate scripts, Lean records,
+and repository root so changed test or gate inputs invalidate the cache.
+
+The inline suite passes 285 of 285 cases. The erasure corpus contains four
+global pairs and 136 inline pairs, including 83 lambda pairs. HOUSE retains
+68 unsafe functions and registers 420 catch-all sites. The mutation catalog
+contains 425 anchors. Implementation was prepared in the isolated checkout
+`/Users/oobi/Documents/gpt4/attest-continue-20261004`. Final validation runs
+in `/Users/oobi/Documents/attest`, where the saved Lean evidence is bound
+to the repository path. The record pins the implementation, runner, policy
+and migration inputs. Stage B remains open at the Acc checker frontier and
+full trace comparison.
+
 ## 2026-10-04: Stage B mixed nested case scrutinees in payload fields
 
 Two constructor index fixture pairs compose three case stages in the first

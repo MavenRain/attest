@@ -460,6 +460,20 @@ because inferred readback can lose the universe of a runtime result type.
 Unannotated introductions without an independently inferable type and
 inline proofs in family metadata are also outside this increment.
 
+Collection-selected case scrutinee payload fixtures select a Payload
+constructor from the second field of a tuple or either branch of a sum.
+The unselected tuple field and sum branches use different values. A final
+constructor case substitutes and swaps the selected constructor's two fields,
+then recovery resumes the trailing IndexBox field. Modes 38 through 40
+recheck alternate source indices, preparation, sealing and runtime equality
+with opaque twins. Three syntax rows recover parsed source and compare it
+with explicit literal fields. The gate binds the semantic rows to exact
+pairs and modes and the syntax rows to exact source fixtures.
+`dev/validation/collection-case-scrutinee-constructor-payload-fixtures.json`
+records eighteen scoped mutations and two controls. Each edit must compile
+and fail its named row. These fixtures use the existing recovery budgets
+and refusal guards.
+
 Mixed nested case scrutinee payload fixtures compose three case stages in
 one IndexBox field. A finite case can return a Switch constructor for the
 next case, and a Switch case can return a finite injection for the next
