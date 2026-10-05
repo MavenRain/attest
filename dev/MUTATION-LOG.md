@@ -1,5 +1,30 @@
 # Mutation log
 
+## 2026-10-04: case scrutinee collection payload fixtures
+Eighteen scoped mutations cover three fixture pairs whose constructor index
+field holds a tuple or sum branch with a constructor case. The scrutinee of
+that case is also a case. Three edits replace semantic variants with
+ordinary sealing, three substitute the opaque twin as the syntax fixture, three
+bypass collection recovery, three bypass constructor recovery, and three
+bypass case recovery.
+The final three reverse constructor field order and must fail their named
+syntax row. Semantic and syntax fixture substitutions must fail the gate's
+exact source and mode bindings.
+Among the new rows, the tuple collection bypass skips
+`Inline.index_tuple_enter` and fails only the tuple semantic and syntax
+rows. The sum collection bypass skips `Inline.index_sum_context` and fails
+the semantic and syntax rows of both sum kinds.
+Constructor recovery and field order supply two additional controls. Every
+mutation requires a successful isolated build and its named failure.
+Identical recipes share hash-verified executions with explicit reuse
+metadata. Thirteen self-checks guard mutation reuse. Nine additional checks
+reject stale passed-check caches after test, gate, fixture, Lean evidence,
+schema or repository-root changes.
+The collector and evidence are
+`dev/validation/case-scrutinee-collection-constructor-payload-fixtures-run.py`
+and `dev/validation/case-scrutinee-collection-constructor-payload-fixtures.json`.
+The catalog contains 443 unique anchors.
+
 ## 2026-10-04: collection-selected case scrutinee payload fixtures
 
 Eighteen scoped mutations cover three fixture pairs whose constructor index

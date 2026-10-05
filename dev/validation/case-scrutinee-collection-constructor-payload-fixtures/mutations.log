@@ -1,0 +1,21 @@
+ERASURE-MUTATION constructor-payload-disabled caught
+ERASURE-MUTATION constructor-payload-order caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-tuple-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-left-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-right-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-tuple-passthrough caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-left-passthrough caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-right-passthrough caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-tuple-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-left-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-right-elimination-passthrough caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-tuple-field-order caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-left-field-order caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-right-field-order caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-tuple-syntax-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-left-syntax-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-right-syntax-fixture-call caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-tuple-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-left-recovery-passthrough caught
+ERASURE-MUTATION constructor-payload-case-scrutinee-collection-sum-right-recovery-passthrough caught
+ERASURE-MUTATIONS caught=20 total=443 PARTIAL

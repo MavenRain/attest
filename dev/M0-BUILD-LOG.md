@@ -1,5 +1,44 @@
 # M0 build log
 
+## 2026-10-04: Stage B case scrutinees in collection payload fields
+
+Three constructor index fixture pairs put a constructor case in the first
+tuple field or either sum branch of a collection payload field. The
+scrutinee of that case is a case on a sum injection that returns a Payload
+constructor. The selected branch gives distinct zero and one fields. The
+unused branch returns one in both fields. The outer constructor case
+substitutes and swaps both fields before recovery resumes the trailing
+IndexBox field.
+
+Modes 41 through 43 recheck alternate source indices in Pick and keep,
+preparation, proof sealing and runtime equality with opaque twins. Three
+syntax rows compare the recovered parsed Index with explicit literal
+fields through a new collection parsed-source oracle. The gate binds each
+semantic row to its exact pair and mode and each syntax row to its mode and
+source. Existing recovery code, budgets and refusal guards apply.
+
+`python3 -P dev/validation/case-scrutinee-collection-constructor-payload-fixtures-run.py`
+records full tests, default gates, fresh erasure evidence, eighteen scoped
+mutations and two controls. The edits drop semantic variants, substitute
+the opaque twin as the syntax fixture, bypass collection, constructor or
+case recovery, or reverse field order. Each edit must compile and fail its
+named row. These fixtures have no second field projection, so the tuple
+collection bypass skips `Inline.index_tuple_enter` and the sum bypass skips
+`Inline.index_sum_context`. Identical edits share hash-verified executions
+and logs. Thirteen mutation reuse checks and nine check-cache checks
+remain required. Passed-check reuse pins the full source and fixture tree,
+gate scripts, Lean records, and repository root so changed test or gate
+inputs invalidate the cache.
+
+The inline suite passes 291 of 291 cases. The erasure corpus contains
+four global pairs and 139 inline pairs, including 86 lambda
+pairs. HOUSE retains 68 unsafe functions and registers 420
+catch-all sites. The mutation catalog contains 443 anchors. Implementation
+and final validation run in `/Users/oobi/Documents/attest`, where the saved
+Lean evidence is bound to the repository path. The record pins the
+implementation, runner, policy and migration inputs. Stage B remains open
+at the Acc checker frontier and full trace comparison.
+
 ## 2026-10-04: Stage B collection-selected constructor case scrutinees
 
 Three constructor index fixture pairs select a Payload constructor from the

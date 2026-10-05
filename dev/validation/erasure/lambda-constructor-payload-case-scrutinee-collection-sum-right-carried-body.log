@@ -1,0 +1,15 @@
+rec [nat]
+fun Zero () : union nat := KLit 0
+rec [nat]
+fun One () : union nat := KLit 1
+rec [nat; mu<IndexBox>; sum<union mu<Payload>|union mu<Payload>>; mu<Payload>; sum<union nat|union nat>; leg<mu<Payload>,0,union nat,union nat>; leg<mu<IndexBox>,0>; leg<mu<IndexBox>,1,union sum<union mu<Payload>|union mu<Payload>>,union nat>]
+fun Index$0 (union nat) : union nat := KVar 0
+fun Index$1 (union nat) : union nat := KVar 0
+fun Index () : union mu<IndexBox> := KTag mu<IndexBox> 1 [KTag sum<union mu<Payload>|union mu<Payload>> 1 [KCase mu<Payload> (KCase sum<union nat|union nat> (KTag sum<union nat|union nat> 1 [KLit 0]) [{0 1 (KTag mu<Payload> 0 [KGlobal One; KGlobal One])}; {1 1 (KTag mu<Payload> 0 [KLet z (KVar 0) (KVar 0); KApp (KClos Index$0 1 []) [KGlobal One]])}]) [{0 2 (KTag mu<Payload> 0 [KLet z (KVar 0) (KVar 0); KApp (KClos Index$1 1 []) [KVar 1]])}]]; KGlobal Zero]
+rec [mu<Choice>; leg<mu<Choice>,0>; leg<mu<Choice>,1>]
+fun Pick () : union mu<Choice> := KTag mu<Choice> 1 []
+erased Fn
+erased Alias
+rec [any]
+fun Layout () : union any := KErased
+erased keep

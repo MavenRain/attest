@@ -155,6 +155,18 @@ with opaque twins. Direct syntax rows compare parsed source with explicit
 literal fields. The gate binds every semantic and syntax row to its exact
 fixture, and every semantic variant to its mode.
 
+`python3 -P dev/validation/case-scrutinee-collection-constructor-payload-fixtures-run.py`
+records full tests, default gates, erasure evidence and twenty mutations for
+[constructor case scrutinees in collection payload fields](dev/validation/case-scrutinee-collection-constructor-payload-fixtures.json).
+Three fixture pairs put a constructor case in the first tuple field or either
+sum branch of a collection payload field. Its scrutinee is a case on a sum
+injection that returns a Payload constructor. The outer case substitutes and
+swaps the distinct fields of that constructor before the trailing outer field
+resumes. Modes 41 through 43 check alternate source indices, preparation,
+sealing and runtime equality with opaque twins. Direct syntax rows compare
+parsed source with explicit literal fields. The gate binds every semantic and
+syntax row to its exact fixture, and every semantic variant to its mode.
+
 `python3 -P dev/validation/mixed-case-scrutinee-constructor-payload-fixtures-run.py`
 records full tests, default gates, erasure evidence and twelve mutations for
 [mixed nested case scrutinees](dev/validation/mixed-case-scrutinee-constructor-payload-fixtures.json).
@@ -291,7 +303,7 @@ typed by a universe alias stay transparent. The test examines no other
 position. A proof let that a dependent large elimination reads only as its
 scrutinee is still sealed, and erasure then refuses the program
 (`build --erase` exits 2). The same limit is at commit `c26c41a`.
-The inline suite contains 285 semantic cases, including this boundary. Scrutinee types that need
+The inline suite contains 291 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
 unannotated introductions without an inferable type, and family metadata remain open.
