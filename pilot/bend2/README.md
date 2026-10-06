@@ -26,7 +26,8 @@ commands, tool versions, source hashes, log hashes, and the explicit
 `both_benefits_demonstrated: false` verdict. Logs are alongside it in
 `dev/validation/bend-pilot/`. Log lines omit trailing whitespace; raw
 output hashes are also retained. This is an optional experiment, outside the
-normal Stage A and erasure gates. Stage B remains open.
+normal Stage A and erasure gates. Stage B is closed. `Acc` runtime
+elimination is deferred to Stage C.
 
 ## What the port proves
 

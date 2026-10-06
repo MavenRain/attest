@@ -1,5 +1,46 @@
 # M0 build log
 
+## 2026-10-05: Stage B close
+
+Plan unit B6 closes Stage B. The three Stage B gate legs ran on the clean
+tree at 0d0ecfb and again on the staged close tree, with these verdicts:
+
+- `TRACE-ERASURE rows=159 pairs=151 identical=151 deferred=2 OK`
+- `ERASURE-INCREMENT OK` (the default ERASURE leg; before the close it read
+  `ERASURE-INCREMENT OK; Stage B remains OPEN`)
+- `LEAN-TWIN accept=24/24 refuse=12/12 axioms=0 OK`
+
+The erasure record `dev/validation/erasure.json` now reads `stage_b`
+`CLOSED` with an empty `open` list. Its `deferred.stage-c` list keeps the
+Acc erased proof binder and recursive proof elimination and the five eraser
+scope limits, deferred by the ruling of 2026-10-05. README.md, SPEC.md and
+pilot/bend2/README.md state the close and the deferrals. The plan changelog
+gains C-9. USER step 2 (Bend 2.0.25 pinned and installed, `bend --help` not
+recorded) and USER step 8 (DONE in the term form) have refreshed status
+lines in the plan and in parts/02-stage0.md.
+
+`dev/MUTATION-LOG.md` maps the five Stage B rows of
+`design/attest-m0/parts/09-mutants.md` to recorded mutations: the F2
+evaluator row to `proof-guard` and `row-reinsertion`, the F2 shape row to
+the `f2-a-shape` control, and the LEAN-TWIN row to `refuse-accepted` and
+`missing-row`. Both Acc rows are deferred to Stage C.
+
+Records: `python3 -P dev/erasure-gates.py --record` regenerated
+`dev/validation/erasure.json`, and `python3 -P
+dev/validation/stage-b-trace-comparison-run.py --record` refreshed the
+trace comparison record with its `dev/erasure-gates.py` pin. Older slice
+records under `dev/validation/` pin earlier digests of
+`dev/erasure-gates.py` and `dev/validation/erasure.json` and stay as
+historical evidence. `dev/validation/stage-a-gates.txt` and
+`dev/validation/lean-twin-checks/gates.log` keep the pre-close ERASURE
+verdict line as recorded.
+
+Review: the review-kit reviewer and builder agents of this close returned
+no result at their first request, on two tiers each, so the readiness
+review was done by hand from a read-only survey. No kernel, surface or
+eraser source changed. Stage B is CLOSED. Next: Stage C, lower and encode.
+
+
 ## 2026-10-05: Stage B trace comparison per fixture row
 
 The TRACE-ERASURE leg of `dev/gates.sh` now compares erased traces per

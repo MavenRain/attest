@@ -933,9 +933,9 @@ def record(logs, rows):
         "lakefile.toml", "lean-toolchain", "lake-manifest.json", "dev/carry-manifest.json",
         "dev/bend-migration.json"))
     # USER rulings 2026-10-05: the Acc frontier and the five eraser scope limits move to Stage C.
-    # Stage B stays OPEN until its close unit (M0-PLAN Stage B, unit B6 review-kit close).
-    data = {"version": 1, "scope": "Stage B erasure increment", "stage_b": "OPEN",
-            "rows": rows, "open": ["Stage B close: plan unit B6 review-kit close"],
+    # Stage B is CLOSED by its close unit (M0-PLAN Stage B, unit B6 review-kit close, 2026-10-05).
+    data = {"version": 1, "scope": "Stage B erasure increment", "stage_b": "CLOSED",
+            "rows": rows, "open": [],
             "deferred": {"stage-c": ["Acc erased proof binder and recursive proof elimination",
             "constructor branch and named motive scopes without source syntax for family parameters",
             "unnamed motive scopes without a source scrutinee type",
@@ -966,7 +966,7 @@ def main():
             lines, code = trace_verdict(trace_rows(classes))
             print("\n".join(lines))
             return code
-        print("ERASURE-INCREMENT OK; Stage B remains OPEN")
+        print("ERASURE-INCREMENT OK")
         return 0
     except (OSError, ValueError, subprocess.TimeoutExpired) as error:
         print(f"ERASURE-INCREMENT FAIL: {error}")

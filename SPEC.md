@@ -542,10 +542,11 @@ It records ten scoped mutations and two controls, requiring a successful
 isolated build and a named failure for every edit. Existing recovery
 budgets and refusal guards apply.
 
-Stage B stays open for its close unit. `acc.att` fails the erased-binder
+Stage B is closed. `acc.att` fails the erased-binder
 runtime read check, although its family and constructor check in
 `acc-family.att`. `acc-runtime-proof.att` reaches the recursive singleton
-elimination refusal. Both rows are deferred to Stage C by the ruling of
+elimination refusal. Both rows and the five eraser scope limits of
+`dev/validation/erasure.json` are deferred to Stage C by the ruling of
 2026-10-05. `TRACE-ERASURE` accounts for all 159 base fixture rows: 151 erased
 trace pairs are identical, eight rows have separate checks, and the leg exits
 0 with the two frontier rows deferred. The separate LEAN-TWIN checking corpus

@@ -4,6 +4,22 @@ The Stage B trace collector also runs 18 regression tests for trace-log
 acceptance and case selection. Contradictory, duplicate, missing and malformed
 rows must be rejected, as must empty or unknown case selections.
 
+## 2026-10-05: Stage B close
+
+Plan unit B6 closes Stage B. No new mutation ran for the close. The five
+Stage B rows of `design/attest-m0/parts/09-mutants.md` map to recorded
+mutations as follows. Sections below are older, so "below" means later in
+this file.
+
+| plan row | gate | recorded mutation |
+| --- | --- | --- |
+| F2 seed, evaluator | ERASURE | `proof-guard` and `row-reinsertion` in the F2 sealing section below. F2 function erased outputs differ at row `f2-a`, `first_diff=27`. The plan names TRACE-ERASURE. The recorded leg is ERASURE. |
+| F2 seed, shape | ERASURE, TRACE-ERASURE | The changed-proof-shape control `fixtures/erasure/f2-a-shape.att` agrees with the `f2-a` body log, reported as `shape_insensitive=1`. TRACE-ERASURE pins the shape row against the `f2-a` body trace. |
+| Acc fixture, evaluator | TRACE-ERASURE | Deferred to Stage C with the Acc frontier rows (plan changelog C-8). |
+| Acc fixture, twin | LEAN-TWIN | Deferred to Stage C. The LEAN-TWIN corpus has no Acc row. |
+| LEAN-TWIN | LEAN-TWIN | `refuse-accepted` and `missing-row` in the LEAN-TWIN section below. |
+
+
 ## 2026-10-05: Stage B trace comparison per fixture row
 Nine scoped mutations and two controls cover the per-row TRACE-ERASURE
 comparison. Each case runs the leg in a scratch copy of the tree. Mutations

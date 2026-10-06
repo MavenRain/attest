@@ -1,7 +1,7 @@
 {
   "version": 1,
   "scope": "Stage B erasure increment",
-  "stage_b": "OPEN",
+  "stage_b": "CLOSED",
   "rows": [
     {
       "row": "f2-a",
@@ -1212,9 +1212,7 @@
       "runtime_sha256": "cc21f0f4548c1cb8ec806a7982f431fcc49806c1adeccad93f738bcfe2ab1df4"
     }
   ],
-  "open": [
-    "Stage B close: plan unit B6 review-kit close"
-  ],
+  "open": [],
   "deferred": {
     "stage-c": [
       "Acc erased proof binder and recursive proof elimination",
@@ -1236,7 +1234,7 @@
     "dev/carry-manifest.json": "5877c26b91de435eda1d7a900edef7a5d8c5292027b1980eb329e063c7f8fcf7",
     "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
     "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
-    "dev/erasure-gates.py": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+    "dev/erasure-gates.py": "413fcea69612162cadd4e97de3f51264acd25408b558d648c2dfddba7b727b3f",
     "dev/gates.sh": "526079a9319b83a39bf0b6bbff940ab8846b2047526700574e887ac4d7185e38",
     "dev/setup-bend.sh": "88657a9cec9abde3ad1622963a161ff5d31e9b56f526dd97b71003ea00be10ee",
     "erase/inline.bend": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",

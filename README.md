@@ -217,8 +217,10 @@ runtime equality with opaque twins. A direct syntax row compares explicit
 reduced terms. Mutations also drop only the adjacent outer case frame, so
 passing through the inner result cannot satisfy these rows.
 
-Stage B remains open: `Acc` runtime elimination still hits the erased-binder
-and recursive-singleton restrictions. Closed inline proofs and proofs under
+Stage B is closed. `Acc` runtime elimination (`acc.att`, `acc-runtime-proof.att`)
+still hits the erased-binder and recursive-singleton restrictions. Those two
+rows and the five eraser scope limits of `dev/validation/erasure.json` are
+deferred to Stage C by the ruling of 2026-10-05. Closed inline proofs and proofs under
 typed function, let, type-former, constructor branch, and motive binders now erase like
 their opaque twins. Branch contexts use the original constructor field types
 of families with and without parameters, including dependent fields and nested scopes.
