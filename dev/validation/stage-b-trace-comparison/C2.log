@@ -1,0 +1,173 @@
+PROP-INDEX pass=28 total=28 OK
+ERASURE-REGRESSION rows=4 identical=4 carried_diff=4 shape_insensitive=1 OK
+INLINE-ERASE pass=307 total=307 OK
+ERASURE-INLINE rows=147 identical=147 carried_diff=115 parameter_pairs=8 motive_pairs=24 not_discriminating=32 suite_fixtures=252 OK
+ERASURE-OPEN rows=0 different=0 OPEN
+ERASURE-CLI pass=6 fail=0 OK
+LEAN-TOOLCHAIN pinned=leanprover/lean4:v4.33.1 ran=4.33.1 OK
+LEAN-AXIOMS declarations=8 axioms=['AccFixture.R', 'F2Fixture.opaqueProof'] extra=0 OK
+LEAN-ERASURE sources=3 accepted=2 refused=1 OK
+ACC-FAMILY accepted OK
+ACC-FRONTIER lean=accepted attest=refused reason=proof-quantity OPEN
+ACC-RECURSIVE attest=refused reason=recursive-singleton OPEN
+TRACE row=acc class=frontier check=refused deferred=stage-c
+TRACE row=acc-family class=check-only check=accepted
+TRACE row=acc-runtime-proof class=frontier check=refused deferred=stage-c
+TRACE row=binder-proof class=pair-runtime cmp=identical carried=differs
+TRACE row=branch-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=branch-local-proof class=pair-runtime cmp=identical carried=differs
+TRACE row=branch-multi-ctor class=pair-runtime cmp=identical carried=differs
+TRACE row=branch-nested class=pair-runtime cmp=identical carried=differs
+TRACE row=branch-parameter class=pair-runtime cmp=identical carried=identical
+TRACE row=branch-parameter-annotated class=pair-runtime cmp=identical carried=identical
+TRACE row=branch-parameter-ctor class=pair-runtime cmp=identical carried=identical
+TRACE row=branch-parameter-dependent class=pair-runtime cmp=identical carried=identical
+TRACE row=branch-parameter-function class=pair-runtime cmp=identical carried=identical
+TRACE row=branch-parameter-global class=pair-runtime cmp=identical carried=identical
+TRACE row=branch-parameter-let class=pair-runtime cmp=identical carried=identical
+TRACE row=branch-parameter-universe class=pair-runtime cmp=identical carried=identical
+TRACE row=duplicate-payload class=single erase=accepted
+TRACE row=f2-a class=pair-raw cmp=identical carried=differs
+TRACE row=f2-a-shape class=shape cmp=identical against=f2-a
+TRACE row=f2-b class=pair-raw cmp=identical carried=differs
+TRACE row=lambda-alias-curried class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-alias-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-alias-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-alias-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-annotation-curried class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-annotation-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-annotation-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-annotation-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-beta-curried class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-beta-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-beta-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-beta-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-case-curried class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-case-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-case-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-case-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-curried class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-index-empty class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-index-value class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-annotation class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-beta class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-constructor class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-constructor-sum-left class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-constructor-sum-right class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-constructor-tuple class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-finite class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-finite-sum-left class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-finite-sum-right class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-finite-tuple class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-scrutinee-collection-sum-left class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-scrutinee-collection-sum-right class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-scrutinee-collection-tuple class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-scrutinee-constructor class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-case-scrutinee-finite class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-collection-case-scrutinee-collection-sum-left-selected-sum-right class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-collection-case-scrutinee-collection-sum-right-selected-tuple class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-collection-case-scrutinee-collection-tuple-selected-sum-left class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-collection-case-scrutinee-collection-tuple-selected-tuple class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-collection-case-scrutinee-sum-left class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-collection-case-scrutinee-sum-right class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-collection-case-scrutinee-tuple class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-constructor-case class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-finite-case class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-let class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-mixed-case-scrutinee-collection-sum-left-constructor-finite class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-mixed-case-scrutinee-collection-sum-right-finite-constructor class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-constructor-finite class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-mixed-case-scrutinee-collection-tuple-finite-constructor class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-mixed-case-scrutinee-constructor-finite class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-mixed-case-scrutinee-finite-constructor class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-nested-first class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-nested-last class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-nested-sum-left class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-nested-sum-right class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-nested-tuple class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-projection class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-sum-left class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-sum-right class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-constructor-payload-tuple class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-index-alias-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-index-alias-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-index-curried class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-index-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-index-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-index-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-index-reduction-annotation class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-index-reduction-beta class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-index-reduction-let class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-index-reduction-projection class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-let-curried class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-let-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-let-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-let-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-nested-index-empty class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-nested-index-value class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-neutral-index-left class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-neutral-index-right class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-parameter-curried class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-parameter-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-parameter-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-parameter-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-projection-curried class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-projection-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-projection-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-projection-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-proof class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-recursive-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-recursive-global class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-recursive-indexed class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-recursive-local class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-sum-index-left class=pair-runtime cmp=identical carried=differs
+TRACE row=lambda-sum-index-right class=pair-runtime cmp=identical carried=differs
+TRACE row=let-proof class=pair-runtime cmp=identical carried=differs
+TRACE row=local-dependent class=pair-runtime cmp=identical carried=differs
+TRACE row=local-diagram class=pair-runtime cmp=identical carried=differs
+TRACE row=local-let class=pair-runtime cmp=identical carried=differs
+TRACE row=local-let-alias class=pair-runtime cmp=identical carried=differs
+TRACE row=local-proof class=pair-runtime cmp=identical carried=differs
+TRACE row=local-proof-let-alias class=pair-runtime cmp=identical carried=differs
+TRACE row=local-proof-let-family class=pair-runtime cmp=identical carried=differs
+TRACE row=local-proof-let-type class=pair-runtime cmp=identical carried=differs
+TRACE row=local-proof-let-universe class=pair-runtime cmp=identical carried=differs
+TRACE row=local-proof-let-value class=pair-runtime cmp=identical carried=differs
+TRACE row=local-runtime-call class=pair-runtime cmp=identical carried=differs
+TRACE row=motive-alias-curried class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-alias-dependent class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-alias-global class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-alias-local class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-annotation-curried class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-annotation-dependent class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-application-curried class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-application-dependent class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-application-global class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-application-local class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-beta-curried class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-beta-dependent class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-dependent class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-index class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-let-curried class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-let-dependent class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-parameter class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-parameter-indices class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-plain-annotated class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-plain-dependent class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-plain-global class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-plain-let class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-plain-local class=pair-runtime cmp=identical carried=identical
+TRACE row=motive-self class=pair-runtime cmp=identical carried=identical
+TRACE row=opaque-layout-refusal class=refusal exit=2
+TRACE row=payload-open-proof class=single erase=accepted
+TRACE row=projection-proof class=pair-runtime cmp=identical carried=differs
+TRACE row=projection-second-proof class=pair-runtime cmp=identical carried=differs
+TRACE row=proof-alias class=pair-raw cmp=identical carried=differs
+TRACE row=proof-function class=pair-raw cmp=identical carried=differs
+TRACE row=redeclared-proof class=single erase=accepted
+TRACE row=scrutinee-proof class=pair-runtime cmp=identical carried=differs
+TRACE-COMPARE rows=159 pairs=151 identical=151 carried_differs=119 shape=1 refusal=1 check-only=1 frontier=2 single=3 deferred=2
+TRACE-ERASURE rows=159 pairs=151 identical=151 deferred=2 OK

@@ -77,9 +77,9 @@ Dune test module list. They are retired, with their disposition recorded. The
 existing checked and erased golden files remain covered. The early evaluator
 pilot's OCaml oracle is superseded by the full compiler reference corpus.
 
-`TRACE-ERASURE` retains its existing nonzero result until the Stage B trace
-comparison exists. The Acc frontier and recursive-singleton restrictions are
-unchanged by this migration.
+`TRACE-ERASURE` compares 151 erased trace pairs with their opaque twins and
+checks eight other rows. It exits 0 with the two Acc frontier rows deferred to Stage C. The Acc
+frontier and recursive-singleton restrictions are unchanged by this migration.
 
 ## Native builds
 

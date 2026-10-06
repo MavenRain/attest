@@ -1,5 +1,46 @@
 # M0 build log
 
+## 2026-10-05: Stage B trace comparison per fixture row
+
+The TRACE-ERASURE leg of `dev/gates.sh` now compares erased traces per
+fixture row. `dev/erasure-gates.py` in trace mode first takes a census: every
+base fixture under `fixtures/erasure` must have one row class, and every
+opaque twin must belong to a pair row. The classes are pair-raw (4),
+pair-runtime (147), shape (1), refusal (1), check-only (1), frontier (2) and
+single (3). The gate legs then run as before and keep the erased output of
+each pair. Each pair row compares its proof-body trace with its opaque trace
+through `cmp`, and also compares the two carried eraser outputs: 119 pairs
+differ there and the 32 parameter and motive pairs are identical. The shape
+row `f2-a-shape` must match the `f2-a` body trace. The refusal row pins the
+opaque layout diagnostic. The check-only row must check, and the three single
+rows must check and erase without a twin.
+
+The leg prints one `TRACE row=` line per row, then
+`TRACE-COMPARE rows=159 pairs=151 identical=151 carried_differs=119 shape=1 refusal=1 check-only=1 frontier=2 single=3 deferred=2`
+and the verdict `TRACE-ERASURE rows=159 pairs=151 identical=151 deferred=2 OK`.
+The two Acc frontier rows stay refused with their pinned diagnostics. They are
+deferred to Stage C by the ruling of 2026-10-05, with the five eraser scope
+limits of the erasure record. A frontier row that is not deferred, or a pair
+that differs, fails the leg with
+`TRACE-ERASURE FAIL row=<name> phase=<check|cmp>; Stage B remains OPEN`.
+The default ERASURE leg output is unchanged. The LEAN-TWIN release check
+`trace-frontier` now expects exit 0 and checks the summary against the row
+lines. Stage B stays open for its close unit, plan unit B6.
+
+Evidence: `dev/validation/stage-b-trace-comparison-run.py` runs nine
+mutations and two controls in scratch copies of the tree and records
+`dev/validation/stage-b-trace-comparison.json`. The erasure record
+`dev/validation/erasure.json` lists the deferred items.
+
+Review regressions in `dev/validation/stage-b-trace-comparison-test.py`
+require complete, unique fixture rows, passing row outcomes and matching
+per-class counts. They also reject empty or unknown `--only` selections.
+The collector runs these tests before its mutation cases and records their log.
+The earlier `dev/validation/lean-twin-checks.json` is historical evidence for
+the former expected-failure trace contract. The new Stage B record supplies
+the passing trace controls and their checks with the current log validator;
+it does not claim a new run of all five LEAN-TWIN release legs.
+
 ## 2026-10-05: Stage B collection-selected case scrutinees in collection payload fields
 
 Four constructor index fixture pairs put a Payload case with a

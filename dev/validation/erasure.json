@@ -1213,14 +1213,18 @@
     }
   ],
   "open": [
-    "Acc erased proof binder and recursive proof elimination",
-    "full TRACE-ERASURE including Acc",
-    "constructor branch and named motive scopes without source syntax for family parameters",
-    "unnamed motive scopes without a source scrutinee type",
-    "lambda scopes whose expected type needs normalization beyond transparent alias hops and bounded head annotation, let, beta, tuple projection, finite case, and constructor case reduction",
-    "local proofs without source type syntax",
-    "unannotated proof introductions without an expected type and family metadata"
+    "Stage B close: plan unit B6 review-kit close"
   ],
+  "deferred": {
+    "stage-c": [
+      "Acc erased proof binder and recursive proof elimination",
+      "constructor branch and named motive scopes without source syntax for family parameters",
+      "unnamed motive scopes without a source scrutinee type",
+      "lambda scopes whose expected type needs normalization beyond transparent alias hops and bounded head annotation, let, beta, tuple projection, finite case, and constructor case reduction",
+      "local proofs without source type syntax",
+      "unannotated proof introductions without an expected type and family metadata"
+    ]
+  },
   "implementation_sha256": {
     "AttestTwin/Core.lean": "0150416f62c7711d0ffeff61bb7b4c7eae843c7f4f118ac1f37ee9cc229e4b22",
     "AttestTwin.lean": "9fbf4d57c6c29fdf584946bd255b3ba2430e4599570e52154180f9a97ddba07b",
@@ -1232,7 +1236,7 @@
     "dev/carry-manifest.json": "5877c26b91de435eda1d7a900edef7a5d8c5292027b1980eb329e063c7f8fcf7",
     "dev/cc.py": "3387d3bf3c4bdbfdcc1c02bfcb7e4cdfdbb5a1090f6721859714f386d4933a6c",
     "dev/erase_probe.bend": "0667966fbc9d055fa98e9b6abbf89f48a32332f00471aabde3852ca50cb71d41",
-    "dev/erasure-gates.py": "fa8ff36bcb5999c07b99b3a26f680fa16889b54f69550b00f9b0c9b0769c5427",
+    "dev/erasure-gates.py": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
     "dev/gates.sh": "526079a9319b83a39bf0b6bbff940ab8846b2047526700574e887ac4d7185e38",
     "dev/setup-bend.sh": "88657a9cec9abde3ad1622963a161ff5d31e9b56f526dd97b71003ea00be10ee",
     "erase/inline.bend": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",

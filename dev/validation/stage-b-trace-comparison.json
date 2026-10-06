@@ -1,0 +1,324 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-06T01:56:02.470168+00:00",
+  "root": "/Users/oobi/Documents/gpt4/attest-staged-review-20261005/work",
+  "base_revision": "8186071e5551b0ba6c9e7e905c886c64b1d17650",
+  "scope": "The TRACE-ERASURE leg accounts for every base fixture row, comparing erased traces for paired rows and checking the other row classes separately. It prints one TRACE row line per row, one TRACE-COMPARE summary and one verdict. The two Acc frontier rows are deferred to Stage C by USER ruling of 2026-10-05. Nine mutations of the gate or of the fixture set must fail the leg with the named diagnostic. Two controls must pass with the pinned summary and verdict. Trace-log and case-selection regression tests must pass before collecting the cases.",
+  "gate_command": [
+    "zsh",
+    "-f",
+    "dev/gates.sh",
+    "TRACE-ERASURE"
+  ],
+  "summary_line": "TRACE-COMPARE rows=159 pairs=151 identical=151 carried_differs=119 shape=1 refusal=1 check-only=1 frontier=2 single=3 deferred=2",
+  "verdict_line": "TRACE-ERASURE rows=159 pairs=151 identical=151 deferred=2 OK",
+  "implementation_sha256": {
+    "dev/validation/stage-b-trace-comparison-run.py": "df8c853f8002765867a1c9f51b792f24e8ec85ece534287cf63da18a29350d2b",
+    "dev/validation/stage-b-trace-comparison-test.py": "0714e57ebbcc2f607d4a6769a5c5669164249949735833699240b390e095e625",
+    "dev/erasure-gates.py": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+    "dev/lean-twin-checks.py": "40ded9ab89118b83398047b0a2f72c497f35417cb3c20c32e70536c5582de5a9",
+    "dev/gates.sh": "526079a9319b83a39bf0b6bbff940ab8846b2047526700574e887ac4d7185e38",
+    "dev/validation/stage-b-trace-control.log": "c3b682dbfb39539ff8e7a1a4da32c064f3fbf9adf9570588006520ea1d90d4c8"
+  },
+  "regressions": {
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "-P",
+      "dev/validation/stage-b-trace-comparison-test.py"
+    ],
+    "exit_code": 0,
+    "log": {
+      "path": "dev/validation/stage-b-trace-comparison/regressions.log",
+      "sha256": "11092cf35bf96019653289f5c70211347398bb24b8f49b98c0657e67c7f6c397"
+    }
+  },
+  "cases": [
+    {
+      "name": "M1",
+      "kind": "replace",
+      "path": "dev/erasure-gates.py",
+      "before_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "mutated_sha256": "b785ae317e529a1d79ed16cdc27ae6a4702e229edae3e5cd9fbd85e8eab6a0a7",
+      "gate_exit": 1,
+      "expected_exit": 1,
+      "required": [
+        "carried traces are identical, expected differs"
+      ],
+      "last_line": null,
+      "twin_check": null,
+      "seconds": 246.3,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/M1.log",
+        "sha256": "d9094b7aa2a3ad91debf30618b18ea79e274ee617ca6afa7b280da2abfe2640c"
+      }
+    },
+    {
+      "name": "M2",
+      "kind": "replace",
+      "path": "dev/erasure-gates.py",
+      "before_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "mutated_sha256": "ca00cad90ebb95c9fe618ae12d2c294654b1d42f0a9c0059348ec0747cb0fde3",
+      "gate_exit": 1,
+      "expected_exit": 1,
+      "required": [
+        "erased traces differ"
+      ],
+      "last_line": null,
+      "twin_check": null,
+      "seconds": 246.3,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/M2.log",
+        "sha256": "1ddf6e0f3463b2b783d368f91081fed7c20c824d64725125d5455d726f187b8f"
+      }
+    },
+    {
+      "name": "M3",
+      "kind": "create",
+      "path": "fixtures/erasure/zz-unclassified.att",
+      "before_sha256": null,
+      "mutated_sha256": "73f7f7b758fd67ac5d7fddfe6f4d19f0edef1455036c1c33366d34b58cb6e8f4",
+      "gate_exit": 1,
+      "expected_exit": 1,
+      "required": [
+        "fixture without a row: zz-unclassified.att"
+      ],
+      "last_line": null,
+      "twin_check": null,
+      "seconds": 4.1,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/M3.log",
+        "sha256": "dd1fdf8a6e1395de24b43e3883503e5e66439cd167822039c198874d7908a92e"
+      }
+    },
+    {
+      "name": "M4",
+      "kind": "replace",
+      "path": "dev/erasure-gates.py",
+      "before_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "mutated_sha256": "7dd28448ca6c7e196b9e8fefdf45ad812ed0a0053dfabe09a552c6346fc0abc1",
+      "gate_exit": 1,
+      "expected_exit": 1,
+      "required": [
+        "fixture without a row: motive-self.att"
+      ],
+      "last_line": null,
+      "twin_check": null,
+      "seconds": 2.3,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/M4.log",
+        "sha256": "418429ee980aea0f573d29934595b178ac761298b120990fa3fd6eea31e79dae"
+      }
+    },
+    {
+      "name": "M5",
+      "kind": "replace",
+      "path": "dev/erasure-gates.py",
+      "before_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "mutated_sha256": "213da40e58ae07126df477161af4b0a18ec0f5d74e5b82573ae4f9183624aa14",
+      "gate_exit": 1,
+      "expected_exit": 1,
+      "required": [
+        "erased traces differ"
+      ],
+      "last_line": null,
+      "twin_check": null,
+      "seconds": 241.6,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/M5.log",
+        "sha256": "1ddf6e0f3463b2b783d368f91081fed7c20c824d64725125d5455d726f187b8f"
+      }
+    },
+    {
+      "name": "M6",
+      "kind": "replace",
+      "path": "dev/erasure-gates.py",
+      "before_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "mutated_sha256": "d5a25681cf8a4c51f7d4ebf2e8805a79dd4622028689f48addfc5a56819550f4",
+      "gate_exit": 1,
+      "expected_exit": 1,
+      "required": [
+        "fixture without a row: acc.att",
+        "deferred row without a frontier row: acc"
+      ],
+      "last_line": null,
+      "twin_check": null,
+      "seconds": 10.2,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/M6.log",
+        "sha256": "80b06c69bbe2081883d20f398c0c25da29185162a161f91bcd517d753b433da4"
+      }
+    },
+    {
+      "name": "M7",
+      "kind": "replace",
+      "path": "dev/erasure-gates.py",
+      "before_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "mutated_sha256": "b402a1a5d54f6d9f21a227d2ce3d94db17224f858b44cbde4af5cf8a38474f66",
+      "gate_exit": 1,
+      "expected_exit": 1,
+      "required": [
+        "TRACE-ERASURE FAIL row=acc-runtime-proof phase=check; Stage B remains OPEN"
+      ],
+      "last_line": "TRACE-ERASURE FAIL row=acc-runtime-proof phase=check; Stage B remains OPEN",
+      "twin_check": "reject",
+      "seconds": 284.3,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/M7.log",
+        "sha256": "91edc4dddf7806c993b48ae81dc90104a859645871ffcd8612e5584dd37acece"
+      }
+    },
+    {
+      "name": "M8",
+      "kind": "replace",
+      "path": "dev/erasure-gates.py",
+      "before_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "mutated_sha256": "e8da90fa0dd49db57554811672a7474f7f9bce27c6e47409f20849dbd54da1ea",
+      "gate_exit": 1,
+      "expected_exit": 1,
+      "required": [
+        "Acc frontier changed; update the Stage B gate and corpus"
+      ],
+      "last_line": null,
+      "twin_check": null,
+      "seconds": 275.0,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/M8.log",
+        "sha256": "6f956cd70583befd5e0e6c9088de38962442641dd3425cd11febafa61aee0da3"
+      }
+    },
+    {
+      "name": "M9",
+      "kind": "replace",
+      "path": "dev/erasure-gates.py",
+      "before_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "mutated_sha256": "497a29674672433b0a1eb6821f03dcac635248d88833143164d436d551035c55",
+      "gate_exit": 1,
+      "expected_exit": 1,
+      "required": [
+        "deferred row without a frontier row: acc-family"
+      ],
+      "last_line": null,
+      "twin_check": null,
+      "seconds": 3.9,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/M9.log",
+        "sha256": "2cb95feb63ab00ff2651e7871383a8b0030605ed1dc43582951777979bca06c7"
+      }
+    },
+    {
+      "name": "C1",
+      "kind": "none",
+      "path": "dev/erasure-gates.py",
+      "before_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "mutated_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "gate_exit": 0,
+      "expected_exit": 0,
+      "required": [
+        "TRACE-COMPARE rows=159 pairs=151 identical=151 carried_differs=119 shape=1 refusal=1 check-only=1 frontier=2 single=3 deferred=2",
+        "TRACE-ERASURE rows=159 pairs=151 identical=151 deferred=2 OK"
+      ],
+      "last_line": "TRACE-ERASURE rows=159 pairs=151 identical=151 deferred=2 OK",
+      "twin_check": "accept",
+      "seconds": 272.9,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/C1.log",
+        "sha256": "c3b682dbfb39539ff8e7a1a4da32c064f3fbf9adf9570588006520ea1d90d4c8"
+      }
+    },
+    {
+      "name": "C2",
+      "kind": "append",
+      "path": "dev/erasure-gates.py",
+      "before_sha256": "51138aab14bc21d66ddd759c7f982440c9b3f197608c0fb6efa0425d320f0add",
+      "mutated_sha256": "4d239e227fdb2cf84aa8f8803ee1941049730baf9a54edf2a17f90fbdfd1f7ab",
+      "gate_exit": 0,
+      "expected_exit": 0,
+      "required": [
+        "TRACE-COMPARE rows=159 pairs=151 identical=151 carried_differs=119 shape=1 refusal=1 check-only=1 frontier=2 single=3 deferred=2",
+        "TRACE-ERASURE rows=159 pairs=151 identical=151 deferred=2 OK"
+      ],
+      "last_line": "TRACE-ERASURE rows=159 pairs=151 identical=151 deferred=2 OK",
+      "twin_check": "accept",
+      "seconds": 225.2,
+      "gate_command": [
+        "zsh",
+        "-f",
+        "dev/gates.sh",
+        "TRACE-ERASURE"
+      ],
+      "log": {
+        "path": "dev/validation/stage-b-trace-comparison/C2.log",
+        "sha256": "c3b682dbfb39539ff8e7a1a4da32c064f3fbf9adf9570588006520ea1d90d4c8"
+      }
+    }
+  ],
+  "result": "STAGE-B-TRACE-COMPARISON cases=11 mutations=9 controls=2 OK",
+  "collection": {
+    "mode": "independent scratch cases in parallel",
+    "workers": 3,
+    "orchestrator": {
+      "path": "/Users/oobi/Documents/gpt4/attest-staged-review-20261005/collect.py",
+      "sha256": "e487d609ba1d7fe5731b144ee304ec14b74e7ef7c47e7b288f48b50540162521"
+    }
+  }
+}

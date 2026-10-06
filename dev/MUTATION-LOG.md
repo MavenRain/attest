@@ -1,5 +1,26 @@
 # Mutation log
 
+The Stage B trace collector also runs 18 regression tests for trace-log
+acceptance and case selection. Contradictory, duplicate, missing and malformed
+rows must be rejected, as must empty or unknown case selections.
+
+## 2026-10-05: Stage B trace comparison per fixture row
+Nine scoped mutations and two controls cover the per-row TRACE-ERASURE
+comparison. Each case runs the leg in a scratch copy of the tree. Mutations
+M1, M2 and M5 break the comparison itself: a compare of a file with itself,
+a compare that always reports a difference, and an extra byte in the opaque
+trace. Each fails on a named pair row. M3 adds an unclassified fixture, M4
+drops a motive row from its class table, M6 empties the frontier table and
+M9 defers a row that is not a frontier row. Each fails in the census before
+any leg runs. M7 removes `acc-runtime-proof` from the deferred table: the leg
+ends with `TRACE-ERASURE FAIL row=acc-runtime-proof phase=check; Stage B
+remains OPEN` and the LEAN-TWIN release check rejects the log. M8 changes
+one byte of the pinned Acc diagnostic and fails with `Acc frontier changed`.
+Control C1 runs the unchanged tree and C2 a comment-only edit of the gate.
+Both print the pinned summary and verdict and pass the release check.
+The collector and evidence are `dev/validation/stage-b-trace-comparison-run.py`
+and `dev/validation/stage-b-trace-comparison.json`.
+
 ## 2026-10-05: collection-selected case scrutinee collection payload fixtures
 Twenty-four scoped mutations cover four fixture pairs whose constructor
 index field holds a tuple or sum branch with a collection-selected case

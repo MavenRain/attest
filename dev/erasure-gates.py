@@ -193,6 +193,37 @@ PROP_SUITE_ROWS = frozenset(('nat-index',
  'recursive-big-later-field'))
 # New frontier rows must reproduce a difference before they are added here.
 OPEN_ROWS = {}
+# TRACE-ERASURE rows. Each base fixture in fixtures/erasure has exactly one
+# row. A base fixture is a .att file whose stem does not end in -opaque. The
+# pair rows are ROWS (raw output) and INLINE_ROWS, PARAMETER_ROWS and
+# MOTIVE_ROWS (runtime projection). The tables below hold all other rows.
+TRACE_DIR = Path(".gatework/erasure/trace")
+# The pair legs put the compared bytes here: erased body, erased twin, carried
+# body, carried twin. The trace leg does not run the driver again for a pair.
+TRACE_OUTPUT = {}
+# Shape rows: the erased output must equal the body trace of the named raw row.
+TRACE_SHAPE = {"f2-a-shape": "f2-a"}
+# Refusal rows: the exit code and the diagnostic of build --erase.
+TRACE_REFUSAL = {"opaque-layout-refusal": (2, b"a tuple stands at a type that is not a right former")}
+# Check-only rows: the checker accepts the file and the gate does not erase it.
+TRACE_CHECK_ONLY = ("acc-family",)
+# Single rows have no opaque twin: check and build --erase exit 0 with no diagnostics.
+TRACE_SINGLE = ("duplicate-payload", "payload-open-proof", "redeclared-proof")
+# Frontier rows: the checker refuses the file. Each row has a log name, the
+# diagnostic, the failure text and the OPEN line. Stage B closes only when
+# this table is empty.
+FRONTIER = {
+    "acc": ("ACC-ATTEST", b"quantity: the erased binder accessible is read in a runtime position",
+            "Acc frontier changed; update the Stage B gate and corpus",
+            "ACC-FRONTIER lean=accepted attest=refused reason=proof-quantity OPEN"),
+    "acc-runtime-proof": ("ACC-RECURSIVE",
+                          b"universe: a large elimination out of a proposition needs a subsingleton family at Acc",
+                          "Acc recursive elimination frontier changed",
+                          "ACC-RECURSIVE attest=refused reason=recursive-singleton OPEN"),
+}
+# USER ruling 2026-10-05: the Acc frontier moves to Stage C. A deferred row stays pinned as refused.
+# It does not fail the Stage B trace comparison. A frontier row that is not listed here fails it.
+DEFERRED = {"acc": "stage-c", "acc-runtime-proof": "stage-c"}
 
 
 def digest(data):
@@ -256,6 +287,7 @@ def regression(logs):
                            ["_build/default/dev/erase_probe.exe", str(opaque)]).stdout
         if not before_a or not before_b or before_a == before_b:
             raise ValueError(f"row={name} carried eraser did not reproduce the regression")
+        TRACE_OUTPUT[name] = (a, b, before_a, before_b)
         records.append({"row": name, "body_sha256": digest((ROOT / body).read_bytes()),
                         "opaque_sha256": digest((ROOT / opaque).read_bytes()),
                         "erased_sha256": digest(a), "carried_diff": True,
@@ -560,6 +592,7 @@ def inline_rows(logs):
             raise ValueError(f"row={name} carried eraser did not reproduce the inline regression")
         if name in PARAMETER_ROWS + MOTIVE_ROWS and carried_diff:
             raise ValueError(f"row={name} carried eraser now differs: move the row into INLINE_ROWS")
+        TRACE_OUTPUT[name] = (a, b, before_a, before_b)
         records.append({"row": name,
                         "expected": "runtime-identical" if name in INLINE_ROWS else "runtime-identical-coarse",
                         "carried_diff": carried_diff,
@@ -740,18 +773,153 @@ def twins(logs):
             raise ValueError(f"LEAN-{name} was refused for a different reason")
     axioms(logs)
     execute(logs, "ACC-FAMILY", [DRIVER, "check", "fixtures/erasure/acc-family.att"])
-    acc = execute(logs, "ACC-ATTEST", [DRIVER, "check", "fixtures/erasure/acc.att"], 1)
-    if b"quantity: the erased binder accessible is read in a runtime position" not in acc.stderr:
-        raise ValueError("Acc frontier changed; update the Stage B gate and corpus")
-    recursive = execute(logs, "ACC-RECURSIVE",
-                        [DRIVER, "check", "fixtures/erasure/acc-runtime-proof.att"], 1)
-    if b"universe: a large elimination out of a proposition needs a subsingleton family at Acc" not in recursive.stderr:
-        raise ValueError("Acc recursive elimination frontier changed")
+    for name, (log, diagnostic, moved, _) in FRONTIER.items():
+        refused = execute(logs, log, [DRIVER, "check", f"fixtures/erasure/{name}.att"], 1)
+        if diagnostic not in refused.stderr:
+            raise ValueError(moved)
     print(f"LEAN-ERASURE sources={len(TWINS) + len(NEGATIVE_TWINS)} "
           f"accepted={len(TWINS)} refused={len(NEGATIVE_TWINS)} OK")
     print("ACC-FAMILY accepted OK")
-    print("ACC-FRONTIER lean=accepted attest=refused reason=proof-quantity OPEN")
-    print("ACC-RECURSIVE attest=refused reason=recursive-singleton OPEN")
+    for *_, line in FRONTIER.values():
+        print(line)
+
+
+def trace_classes():
+    """Give each TRACE row one class. A name in two tables is an error."""
+    tables = (("pair-raw", ROWS), ("pair-runtime", INLINE_ROWS + PARAMETER_ROWS + MOTIVE_ROWS),
+              ("shape", TRACE_SHAPE), ("refusal", TRACE_REFUSAL), ("check-only", TRACE_CHECK_ONLY),
+              ("frontier", FRONTIER), ("single", TRACE_SINGLE))
+    names = [name for _, table in tables for name in table]
+    repeated = sorted({name for name in names if names.count(name) > 1})
+    if repeated:
+        raise ValueError(f"TRACE census: row in two classes: {repeated}")
+    return {name: kind for kind, table in tables for name in table}
+
+
+def trace_census():
+    """The base fixtures on disk must equal the rows, and the twins must equal the pair rows."""
+    classes = trace_classes()
+    stems = {path.stem for path in (ROOT / "fixtures/erasure").glob("*.att")}
+    base = {stem for stem in stems if not stem.endswith("-opaque")}
+    sealed = {stem.removesuffix("-opaque") for stem in stems - base}
+    paired = {name for name, kind in classes.items() if kind in ("pair-raw", "pair-runtime")}
+    problems = ([f"fixture without a row: {name}.att" for name in sorted(base - set(classes))]
+                + [f"row without a fixture: {name}" for name in sorted(set(classes) - base)]
+                + [f"opaque twin without a pair row: {name}-opaque.att" for name in sorted(sealed - paired)]
+                + [f"pair row without an opaque twin: {name}" for name in sorted(paired - sealed)]
+                + [f"deferred row without a frontier row: {name}" for name in sorted(set(DEFERRED) - set(FRONTIER))])
+    if problems:
+        raise ValueError("TRACE census: " + "; ".join(problems))
+    return classes
+
+
+def trace_file(work, name, suffix, data):
+    path = work / (name + suffix)
+    path.write_bytes(data)
+    return path
+
+
+def trace_cmp(left, right):
+    """Compare two trace files with cmp: identical or differs. Any other exit is an error."""
+    code = subprocess.run(["cmp", "-s", str(left), str(right)], cwd=ROOT, timeout=120).returncode
+    if code not in (0, 1):
+        raise ValueError(f"cmp exit={code} left={left.name} right={right.name}")
+    return "identical" if code == 0 else "differs"
+
+
+def trace_pair(work, name):
+    if name not in TRACE_OUTPUT:
+        raise ValueError(f"row={name} has no captured erased output")
+    body, opaque, carried_body, carried_opaque = TRACE_OUTPUT[name]
+    erased = trace_cmp(trace_file(work, name, ".body", body), trace_file(work, name, ".opaque", opaque))
+    if erased != "identical":
+        raise ValueError(f"row={name} erased traces differ")
+    carried = trace_cmp(trace_file(work, name, ".carried-body", carried_body),
+                        trace_file(work, name, ".carried-opaque", carried_opaque))
+    expected = "identical" if name in PARAMETER_ROWS + MOTIVE_ROWS else "differs"
+    if carried != expected:
+        raise ValueError(f"row={name} carried traces are {carried}, expected {expected}")
+    return {"cmp": erased, "carried": carried}
+
+
+def trace_shape(work, name):
+    against = TRACE_SHAPE[name]
+    if against not in ROWS or against not in TRACE_OUTPUT:
+        raise ValueError(f"row={name} has no raw body trace of row={against}")
+    erased = execute(work, "TRACE-" + name, [DRIVER, "build", "--erase", f"fixtures/erasure/{name}.att"])
+    if erased.stderr:
+        raise ValueError(f"row={name} shape erasure printed diagnostics")
+    result = trace_cmp(trace_file(work, name, ".body", erased.stdout),
+                       trace_file(work, name, ".against", TRACE_OUTPUT[against][0]))
+    if result != "identical":
+        raise ValueError(f"row={name} erased trace differs from row={against}")
+    return {"cmp": result, "against": against}
+
+
+def trace_refusal(work, name):
+    code, diagnostic = TRACE_REFUSAL[name]
+    refused = execute(work, "TRACE-" + name,
+                      [DRIVER, "build", "--erase", f"fixtures/erasure/{name}.att"], code)
+    if diagnostic not in refused.stderr or b"fun " in refused.stdout:
+        raise ValueError(f"row={name} refusal diagnostic or output contract")
+    return {"exit": code}
+
+
+def trace_check_only(work, name):
+    execute(work, "TRACE-" + name, [DRIVER, "check", f"fixtures/erasure/{name}.att"])
+    return {"check": "accepted"}
+
+
+def trace_frontier(work, name):
+    _, diagnostic, moved, _ = FRONTIER[name]
+    refused = execute(work, "TRACE-" + name, [DRIVER, "check", f"fixtures/erasure/{name}.att"], 1)
+    if diagnostic not in refused.stderr:
+        raise ValueError(f"row={name} {moved}")
+    return {"check": "refused", **({"deferred": DEFERRED[name]} if name in DEFERRED else {})}
+
+
+def trace_single(work, name):
+    path = f"fixtures/erasure/{name}.att"
+    execute(work, "TRACE-" + name + "-check", [DRIVER, "check", path])
+    erased = execute(work, "TRACE-" + name, [DRIVER, "build", "--erase", path])
+    if erased.stderr or not erased.stdout:
+        raise ValueError(f"row={name} single erasure printed diagnostics or no output")
+    trace_file(work, name, ".body", erased.stdout)
+    return {"erase": "accepted"}
+
+
+TRACE_HANDLERS = {"pair-raw": trace_pair, "pair-runtime": trace_pair, "shape": trace_shape,
+                  "refusal": trace_refusal, "check-only": trace_check_only,
+                  "frontier": trace_frontier, "single": trace_single}
+
+
+def trace_rows(classes):
+    """Write the trace files and compare them: one record per row, sorted by row name."""
+    work = ROOT / TRACE_DIR
+    if work.exists():
+        shutil.rmtree(work)
+    work.mkdir(parents=True)
+    return [{"row": name, "class": kind, **TRACE_HANDLERS[kind](work, name)}
+            for name, kind in sorted(classes.items())]
+
+
+def trace_verdict(rows):
+    """Pure decision: the row records in, the printed lines and the exit code out."""
+    pairs = [row for row in rows if row["class"] in ("pair-raw", "pair-runtime")]
+    identical = sum(row["cmp"] == "identical" for row in pairs)
+    deferred = sum("deferred" in row for row in rows)
+    kinds = [row["class"] for row in rows]
+    lines = [" ".join(["TRACE"] + [f"{key}={value}" for key, value in row.items()]) for row in rows]
+    lines.append(f"TRACE-COMPARE rows={len(rows)} pairs={len(pairs)} identical={identical} "
+                 f"carried_differs={sum(row['carried'] == 'differs' for row in pairs)} "
+                 + " ".join(f"{kind}={kinds.count(kind)}"
+                            for kind in ("shape", "refusal", "check-only", "frontier", "single"))
+                 + f" deferred={deferred}")
+    failed = ([(row["row"], "cmp") for row in pairs if row["cmp"] != "identical"]
+              + [(row["row"], "check") for row in rows if row["class"] == "frontier" and "deferred" not in row])
+    if failed:
+        return lines + [f"TRACE-ERASURE FAIL row={failed[0][0]} phase={failed[0][1]}; Stage B remains OPEN"], 1
+    return lines + [f"TRACE-ERASURE rows={len(rows)} pairs={len(pairs)} identical={identical} deferred={deferred} OK"], 0
 
 
 def record(logs, rows):
@@ -764,14 +932,16 @@ def record(logs, rows):
         "dev/gates.sh", "dev/cc.py", "dev/bend-toolchain.json", "dev/setup-bend.sh", "Makefile", "AttestTwin.lean",
         "lakefile.toml", "lean-toolchain", "lake-manifest.json", "dev/carry-manifest.json",
         "dev/bend-migration.json"))
+    # USER rulings 2026-10-05: the Acc frontier and the five eraser scope limits move to Stage C.
+    # Stage B stays OPEN until its close unit (M0-PLAN Stage B, unit B6 review-kit close).
     data = {"version": 1, "scope": "Stage B erasure increment", "stage_b": "OPEN",
-            "rows": rows, "open": ["Acc erased proof binder and recursive proof elimination",
-            "full TRACE-ERASURE including Acc",
+            "rows": rows, "open": ["Stage B close: plan unit B6 review-kit close"],
+            "deferred": {"stage-c": ["Acc erased proof binder and recursive proof elimination",
             "constructor branch and named motive scopes without source syntax for family parameters",
             "unnamed motive scopes without a source scrutinee type",
             "lambda scopes whose expected type needs normalization beyond transparent alias hops and bounded head annotation, let, beta, tuple projection, finite case, and constructor case reduction",
             "local proofs without source type syntax",
-            "unannotated proof introductions without an expected type and family metadata"],
+            "unannotated proof introductions without an expected type and family metadata"]},
             "implementation_sha256": {str(p.relative_to(ROOT)): digest(p.read_bytes())
                                       for p in sorted(set(paths))},
             "logs_sha256": {p.name: digest(p.read_bytes()) for p in sorted(logs.glob("*.log"))}}
@@ -786,14 +956,16 @@ def main():
     logs = ROOT / ("dev/validation/erasure" if args.record else ".gatework/erasure")
     logs.mkdir(parents=True, exist_ok=True)
     try:
+        classes = trace_census() if args.mode == "trace" else {}
         rows = regression(logs) + inline_rows(logs) + open_rows(logs)
         cli_checks(logs)
         twins(logs)
         if args.record:
             record(logs, rows)
         if args.mode == "trace":
-            print("TRACE-ERASURE FAIL row=acc phase=check; Stage B remains OPEN")
-            return 1
+            lines, code = trace_verdict(trace_rows(classes))
+            print("\n".join(lines))
+            return code
         print("ERASURE-INCREMENT OK; Stage B remains OPEN")
         return 0
     except (OSError, ValueError, subprocess.TimeoutExpired) as error:

@@ -542,10 +542,13 @@ It records ten scoped mutations and two controls, requiring a successful
 isolated build and a named failure for every edit. Existing recovery
 budgets and refusal guards apply.
 
-Stage B remains open: `acc.att` fails the erased-binder runtime read check,
-although its family and constructor check in `acc-family.att`.
-`acc-runtime-proof.att` reaches the recursive singleton elimination refusal.
-`TRACE-ERASURE` continues to exit 1. The separate LEAN-TWIN checking corpus
+Stage B stays open for its close unit. `acc.att` fails the erased-binder
+runtime read check, although its family and constructor check in
+`acc-family.att`. `acc-runtime-proof.att` reaches the recursive singleton
+elimination refusal. Both rows are deferred to Stage C by the ruling of
+2026-10-05. `TRACE-ERASURE` accounts for all 159 base fixture rows: 151 erased
+trace pairs are identical, eight rows have separate checks, and the leg exits
+0 with the two frontier rows deferred. The separate LEAN-TWIN checking corpus
 passes 24 ACCEPT and 12 REFUSE pairs in the shared fragment. This increment
 changes no checker rule, carry pin, term constructor, shape, or R0 count.
 
@@ -604,7 +607,8 @@ and the timing helper are outside the kernel.
 surface, axiom, budget, and timing checks. It then runs the erasure regression,
 CLI, initial Lean checks, and the complete LEAN-TWIN checking corpus.
 `STAGE-A`, `ERASURE`, and `LEAN-TWIN` select each group;
-`TRACE-ERASURE` exits 1 while the Acc frontier is open. Gates stop on a failed
+`TRACE-ERASURE` compares the erased traces per fixture row and exits 0 with
+the Acc frontier rows deferred to Stage C. Gates stop on a failed
 command and keep leg output under `.gatework/stage-a/` and `.gatework/erasure/`.
 Kernel timing uses
 one warm-up and seven measured runs, each batching 100 operations with a

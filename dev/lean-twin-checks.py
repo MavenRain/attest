@@ -7,14 +7,16 @@ Usage: python3 -P dev/lean-twin-checks.py [--record] [--timeout SECONDS]
 The five checks run from the repository root in order: the full gate
 battery, the complete Bend test suite, the
 corpus record command, the mutation record command, and the TRACE-ERASURE
-frontier, which must still fail while Stage B is open. Each check must exit
-with its expected code. The two record commands rewrite
+comparison, which must pass with the Acc rows deferred to Stage C. Each check
+must exit with its expected code. The two record commands rewrite
 dev/validation/lean-twin.json and dev/validation/lean-twin-mutations.json,
 so a run of this script is the one regeneration of all three records.
 
 The test leg builds through make test and runs every registered program.
-Its log must contain the complete 16-program summary. The frontier leg
-must name the known Acc check refusal; an unrelated failure is rejected.
+Its log must contain the complete 16-program summary. The trace leg
+must print the verified Acc frontier line, one TRACE-COMPARE summary and one
+passing verdict. The counts of the summary must agree with the TRACE row
+lines. Each frontier row must be deferred to Stage C.
 
 Every log is written under .gatework/lean-twin-checks. With --record the
 logs are copied to dev/validation/lean-twin-checks (the directory is wiped
@@ -35,6 +37,7 @@ which this record run writes again at its end.
 The per-command timeout defaults to 900 seconds and is recorded explicitly.
 """
 import argparse
+from collections import Counter
 import datetime
 import hashlib
 import json
@@ -57,7 +60,14 @@ RECORDS = {
 TIMEOUT = 900
 RECORDING = "ATTEST_LEAN_TWIN_CHECKS_RECORDING"
 TEST_SUMMARY = "TESTS programs=16 OK"
-TRACE_FAILURE = "TRACE-ERASURE FAIL row=acc phase=check; Stage B remains OPEN"
+TRACE_VERDICT = "TRACE-ERASURE rows={rows} pairs={pairs} identical={pairs} deferred={deferred} OK"
+TRACE_SUMMARY = re.compile(r"TRACE-COMPARE rows=(\d+) pairs=(\d+) identical=(\d+) carried_differs=(\d+) "
+                           r"shape=(\d+) refusal=(\d+) check-only=(\d+) frontier=(\d+) single=(\d+) deferred=(\d+)")
+TRACE_FIELDS = {
+    "pair-raw": {"cmp", "carried"}, "pair-runtime": {"cmp", "carried"},
+    "shape": {"cmp", "against"}, "refusal": {"exit"}, "check-only": {"check"},
+    "frontier": {"check", "deferred"}, "single": {"erase"},
+}
 
 
 def digest(data):
@@ -70,10 +80,50 @@ def check_test_log(text):
 
 
 def check_trace_log(text):
-    if text.splitlines().count(TRACE_FAILURE) != 1:
-        raise ValueError("trace-frontier did not reach the known Acc check refusal")
-    if "ACC-FRONTIER lean=accepted attest=refused reason=proof-quantity OPEN" not in text.splitlines():
+    lines = text.splitlines()
+    if "ACC-FRONTIER lean=accepted attest=refused reason=proof-quantity OPEN" not in lines:
         raise ValueError("trace-frontier missing verified Acc frontier")
+    summaries = [match for match in map(TRACE_SUMMARY.fullmatch, lines) if match]
+    if len(summaries) != 1 or sum(line.startswith("TRACE-COMPARE ") for line in lines) != 1:
+        raise ValueError("trace-frontier missing the one TRACE-COMPARE summary")
+    (summary,) = summaries
+    rows, pairs, identical, carried, shape, refusal, check_only, frontier, single, deferred = map(int, summary.groups())
+    printed = {}
+    for line in (line for line in lines if line.startswith("TRACE ")):
+        fields = line.split()[1:]
+        if any(field.count("=") != 1 for field in fields):
+            raise ValueError("trace-frontier malformed TRACE row")
+        row = dict(field.split("=") for field in fields)
+        name, kind = row.get("row"), row.get("class")
+        if (len(row) != len(fields) or not name or name in printed or kind not in TRACE_FIELDS
+                or set(row) != {"row", "class"} | TRACE_FIELDS[kind]):
+            raise ValueError("trace-frontier malformed or duplicate TRACE row")
+        if (("cmp" in row and row["cmp"] != "identical")
+                or ("carried" in row and row["carried"] not in ("identical", "differs"))
+                or ("check" in row and row["check"] != ("refused" if kind == "frontier" else "accepted"))
+                or (kind == "frontier" and row["deferred"] != "stage-c")
+                or (kind == "refusal" and row["exit"] != "2")
+                or (kind == "single" and row["erase"] != "accepted")):
+            raise ValueError(f"trace-frontier failed TRACE row: {name}")
+        printed[name] = row
+    expected = {path.stem for path in (ROOT / "fixtures/erasure").glob("*.att")
+                if not path.stem.endswith("-opaque")}
+    if set(printed) != expected:
+        raise ValueError("trace-frontier TRACE rows disagree with the fixture census")
+    for row in printed.values():
+        if row["class"] == "shape" and printed.get(row["against"], {}).get("class") != "pair-raw":
+            raise ValueError("trace-frontier shape row has no raw pair target")
+    kinds = Counter(row["class"] for row in printed.values())
+    pair_rows = [row for row in printed.values() if row["class"] in ("pair-raw", "pair-runtime")]
+    actual = (len(printed), len(pair_rows), len(pair_rows),
+              sum(row["carried"] == "differs" for row in pair_rows),
+              *(kinds[kind] for kind in ("shape", "refusal", "check-only", "frontier", "single")),
+              kinds["frontier"])
+    if tuple(map(int, summary.groups())) != actual or frontier < 1:
+        raise ValueError("trace-frontier TRACE-COMPARE summary disagrees with its TRACE rows")
+    verdicts = [line for line in lines if line.startswith("TRACE-ERASURE ")]
+    if verdicts != [TRACE_VERDICT.format(rows=rows, pairs=pairs, deferred=deferred)]:
+        raise ValueError("trace-frontier did not pass with the Acc rows deferred to Stage C")
 
 
 CHECKS = [
@@ -85,7 +135,7 @@ CHECKS = [
     {"name": "mutation-record",
      "command": ["python3", "-P", "dev/lean-twin-mutations.py", "--record"], "expected": 0},
     {"name": "trace-frontier", "command": ["zsh", "-f", "dev/gates.sh", "TRACE-ERASURE"],
-     "expected": 1, "inspect": check_trace_log},
+     "expected": 0, "inspect": check_trace_log},
 ]
 
 

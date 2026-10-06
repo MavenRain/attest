@@ -335,10 +335,17 @@ scrutinee is still sealed, and erasure then refuses the program
 The inline suite contains 307 semantic cases, including this boundary. Scrutinee types that need
 normalization or inference beyond those source forms,
 lambda scopes requiring further normalization, local proofs without source type syntax,
-unannotated introductions without an inferable type, and family metadata remain open.
-`zsh -f dev/gates.sh TRACE-ERASURE` runs the erasure regression, prints the
-remaining Acc frontier rows, and always exits 1 until the Stage B
-trace comparison exists.
+unannotated introductions without an inferable type, and family metadata are
+deferred to Stage C by the ruling of 2026-10-05.
+`zsh -f dev/gates.sh TRACE-ERASURE` runs the erasure regression and then
+accounts for all 159 base fixture rows, including 151 erased trace pairs
+compared with their opaque twins and eight rows with separate checks.
+It prints one `TRACE row=` line per row, the summary
+`TRACE-COMPARE rows=159 pairs=151 identical=151 carried_differs=119 shape=1 refusal=1 check-only=1 frontier=2 single=3 deferred=2`
+and the verdict `TRACE-ERASURE rows=159 pairs=151 identical=151 deferred=2 OK`.
+The two Acc frontier rows stay refused. They are deferred to Stage C by the
+ruling of 2026-10-05. The leg exits 1 on a pair that differs or on a frontier
+row that is not deferred.
 See [the build log](dev/M0-BUILD-LOG.md).
 
 The Lean package is reusable with `require attestTwin from "../attest"` in

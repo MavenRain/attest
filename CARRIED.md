@@ -29,7 +29,7 @@ See [the migration notes](dev/BEND-MIGRATION.md) for the current build and check
 | `lib/check.ml` | Allow erased Prop indices above the family universe and erased constructor fields directly determined by those indices. Retain Type bounds, quantity checks, positivity, and the recursive singleton restriction. |
 | `test/dune` | Build the kernel and surface runners, include their fixtures in runtest, and omit EVM executable stanzas. |
 | `dev/dunecho.sh` | Rename the optional switch selector to ATTEST_OPAM_SWITCH and explicitly select this tree as the build root, including nested scratch copies. |
-| `dev/gates.sh` | Select the attest Stage A, initial erasure, and full LEAN-TWIN gates; keep full TRACE-ERASURE open on Acc. |
+| `dev/gates.sh` | Select the attest Stage A, initial erasure, and full LEAN-TWIN gates; TRACE-ERASURE compares erased traces per fixture row with the Acc rows deferred to Stage C. |
 | `dev/carry-check.py` | Verify assay and mechanism origins, exact adaptation hashes, and the complete carried file set. |
 | `dev/r0-count.sh` | Invoke the count checker that verifies the driver's exit status and the complete fenced block. |
 | `dev/r0-audit.py` | Inspect every declared shape constructor and the attest backend directories. |
