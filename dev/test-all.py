@@ -15,6 +15,7 @@ PROGRAMS = (
     ("erase/test/refusal_test.exe",),
     ("erase/test/prop_index.exe",), ("erase/test/opaque_test.exe",),
     ("erase/test/inline_test.exe",),
+    ("test/elf_test.exe",),
 )
 
 def main():

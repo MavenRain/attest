@@ -2,7 +2,7 @@
 from pathlib import Path
 import re
 
-ROOTS = ("lib", "surface", "bin", "erase", "test", "dev")
+ROOTS = ("lib", "surface", "bin", "erase", "elf", "test", "dev")
 TOKENS = re.compile(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|//[^\n]*|\#[^\n]*')
 DEFINITION = re.compile(r"^(?:@unsafe\s+)?def\s+([\w.]+)\b")
 ARM = re.compile(r"(\s*)case\s+([^:]+):")

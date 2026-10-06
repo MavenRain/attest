@@ -5,11 +5,25 @@ import subprocess
 import sys
 
 root = Path(__file__).resolve().parent.parent
+HALT_IMAGE = "corpus/halt.elf"
+REFERENCE_SUFFIXES = (".s", ".o")
+
+
+def encoder_fixture(relative):
+    """Stage C fixtures under corpus/: the clang reference objects of corpus/ref/
+    (one .s and one .o per row plus manifest.json) and the HALT ELF image.
+    ENC-XCHECK pins and checks them; they carry no postulates."""
+    path = Path(relative)
+    in_reference = path.parts[:2] == ("corpus", "ref") and len(path.parts) == 3
+    reference_file = path.suffix in REFERENCE_SUFFIXES or path.name == "manifest.json"
+    return relative == HALT_IMAGE or (in_reference and reference_file)
+
+
 try:
     accepted = (".att", ".kan")
     entries = sorted(p for p in (root / "corpus").rglob("*") if p.is_file())
     strangers = [str(p.relative_to(root)) for p in entries
-                 if p.suffix not in accepted]
+                 if p.suffix not in accepted and not encoder_fixture(str(p.relative_to(root)))]
     if strangers:
         raise ValueError("unexpected corpus content: " + ", ".join(strangers))
     sources = [p for p in entries if p.suffix in accepted]

@@ -1,0 +1,222 @@
+{
+  "version": 1,
+  "assembler": "clang --target=riscv64-unknown-elf -march=rv64im -mno-relax",
+  "rows": [
+    {
+      "name": "add",
+      "kind": "dossier",
+      "asm": "add a0, a1, a2",
+      "object": "corpus/ref/add.o",
+      "sha256": "914e1dd67684bf70c9671dd7ab0857ca7cb4a5de6a263a190e250631f1d16392",
+      "word": "0x00c58533"
+    },
+    {
+      "name": "addi",
+      "kind": "dossier",
+      "asm": "addi a0, a1, 5",
+      "object": "corpus/ref/addi.o",
+      "sha256": "8f097e134f800005725f15adaeb99f63f37951e2dc4f50a09c2148ccc02390bd",
+      "word": "0x00558513"
+    },
+    {
+      "name": "lw",
+      "kind": "dossier",
+      "asm": "lw a0, 8(a1)",
+      "object": "corpus/ref/lw.o",
+      "sha256": "42f888b7b2f767852b668ff87be829ea7e6160e67d86599d247ea69027bcb5b5",
+      "word": "0x0085a503"
+    },
+    {
+      "name": "sw",
+      "kind": "dossier",
+      "asm": "sw a0, 12(a1)",
+      "object": "corpus/ref/sw.o",
+      "sha256": "0f73d34d64b650528c738223c5bf81dbc07e5850e069fa7ee058665ce5b303fc",
+      "word": "0x00a5a623"
+    },
+    {
+      "name": "beq",
+      "kind": "dossier",
+      "asm": "beq a0, a1, . + 36",
+      "object": "corpus/ref/beq.o",
+      "sha256": "bd215cac8cb309467f611e12f308d1b1933c3e9cad451a0b618a8209258a2b92",
+      "word": "0x02b50263"
+    },
+    {
+      "name": "lui",
+      "kind": "dossier",
+      "asm": "lui a0, 0x12345",
+      "object": "corpus/ref/lui.o",
+      "sha256": "e2b38430f70ef0831667c81ca080fd1bf38bce95261f01ce21ab8d00a43c750b",
+      "word": "0x12345537"
+    },
+    {
+      "name": "auipc",
+      "kind": "dossier",
+      "asm": "auipc a0, 0x1",
+      "object": "corpus/ref/auipc.o",
+      "sha256": "193bc11e9efbcefc47ae2fa8d08f47f64d458d6a3ca9e1282d3d5321d239ecf6",
+      "word": "0x00001517"
+    },
+    {
+      "name": "jal",
+      "kind": "dossier",
+      "asm": "jal ra, . + 24",
+      "object": "corpus/ref/jal.o",
+      "sha256": "3a3b92306fc099808c5179711cddbfe94a94f82cac44b6078c1276ba20e4142c",
+      "word": "0x018000ef"
+    },
+    {
+      "name": "jalr",
+      "kind": "dossier",
+      "asm": "jalr ra, 4(a1)",
+      "object": "corpus/ref/jalr.o",
+      "sha256": "a6dae0e95a968b696e745d12e0f13463940ba5639092c0d62b7e238186803c7c",
+      "word": "0x004580e7"
+    },
+    {
+      "name": "mul",
+      "kind": "dossier",
+      "asm": "mul a0, a1, a2",
+      "object": "corpus/ref/mul.o",
+      "sha256": "54a3f24a8e88b09878b9ee360d98f35b35db41148a95139c87226bcee7747a04",
+      "word": "0x02c58533"
+    },
+    {
+      "name": "mulh",
+      "kind": "dossier",
+      "asm": "mulh a0, a1, a2",
+      "object": "corpus/ref/mulh.o",
+      "sha256": "02933df0332bcbf4b3b4e8e3634c460361c2441dac7ad5ea897ed6914f253974",
+      "word": "0x02c59533"
+    },
+    {
+      "name": "div",
+      "kind": "dossier",
+      "asm": "div a0, a1, a2",
+      "object": "corpus/ref/div.o",
+      "sha256": "ec42e96129a5772cf1dc8646361fa0d09b48cb9cde420aa4eb369ddcda4b363c",
+      "word": "0x02c5c533"
+    },
+    {
+      "name": "rem",
+      "kind": "dossier",
+      "asm": "rem a0, a1, a2",
+      "object": "corpus/ref/rem.o",
+      "sha256": "9496f4698570985116261e73519356bb922afc7e7da2068ec3932cac2fb957b6",
+      "word": "0x02c5e533"
+    },
+    {
+      "name": "ecall",
+      "kind": "dossier",
+      "asm": "ecall",
+      "object": "corpus/ref/ecall.o",
+      "sha256": "36d536956875bdc768de619f01364b2a4e4c380c4ac9ecb3a010325a76ad51d8",
+      "word": "0x00000073"
+    },
+    {
+      "name": "addi-neg",
+      "kind": "object",
+      "asm": "addi a0, a0, -1",
+      "object": "corpus/ref/addi-neg.o",
+      "sha256": "1147ad9782869d62d870f4c8e01696bee615617ffab8567a7a4625fe0eccea2a",
+      "word": "0xfff50513"
+    },
+    {
+      "name": "lwu",
+      "kind": "object",
+      "asm": "lwu a0, 0(a0)",
+      "object": "corpus/ref/lwu.o",
+      "sha256": "a62267211b259f900123434f14d385f9dc486a33285cd226436b1cb2eab7174a",
+      "word": "0x00056503"
+    },
+    {
+      "name": "ld",
+      "kind": "object",
+      "asm": "ld a0, 0(sp)",
+      "object": "corpus/ref/ld.o",
+      "sha256": "5dbc73971f92e82139a13fc3c550eb28024ab8b0124255edae4b0eb59e1cf6e7",
+      "word": "0x00013503"
+    },
+    {
+      "name": "sd",
+      "kind": "object",
+      "asm": "sd a0, 0(sp)",
+      "object": "corpus/ref/sd.o",
+      "sha256": "a034a064e2e85d613327f8aeabe49cae0568f8f44286b76837d99a682bbd6cb4",
+      "word": "0x00a13023"
+    },
+    {
+      "name": "addw",
+      "kind": "object",
+      "asm": "addw a0, a1, a2",
+      "object": "corpus/ref/addw.o",
+      "sha256": "7f55feeda50134e8caa42db72694de53c8d3832455759383c7690e1a65563e3e",
+      "word": "0x00c5853b"
+    },
+    {
+      "name": "subw",
+      "kind": "object",
+      "asm": "subw a0, a1, a2",
+      "object": "corpus/ref/subw.o",
+      "sha256": "16f283045649dd6720fd65cc1fed1c48df14d22dc540295011e97e8bd767893c",
+      "word": "0x40c5853b"
+    },
+    {
+      "name": "sllw",
+      "kind": "object",
+      "asm": "sllw a0, a1, a2",
+      "object": "corpus/ref/sllw.o",
+      "sha256": "f6728ee096d669cb75e5fbd87a953e04440708d65b1cd1a7a65351a169d02195",
+      "word": "0x00c5953b"
+    },
+    {
+      "name": "srlw",
+      "kind": "object",
+      "asm": "srlw a0, a1, a2",
+      "object": "corpus/ref/srlw.o",
+      "sha256": "c014bba84017f3224ac218592a71be831ab7f011023dcee927d29d33227fb5c0",
+      "word": "0x00c5d53b"
+    },
+    {
+      "name": "sraw",
+      "kind": "object",
+      "asm": "sraw a0, a1, a2",
+      "object": "corpus/ref/sraw.o",
+      "sha256": "61afc8fcfce52c53d2126916c75e980f380cd98d2c27cb512135861e1bf2eadc",
+      "word": "0x40c5d53b"
+    },
+    {
+      "name": "mulw",
+      "kind": "object",
+      "asm": "mulw a0, a1, a2",
+      "object": "corpus/ref/mulw.o",
+      "sha256": "f4335564d6d3393d432e3419660b97f2b01c303ac842c20d847cfce6997c66b7",
+      "word": "0x02c5853b"
+    },
+    {
+      "name": "divw",
+      "kind": "object",
+      "asm": "divw a0, a1, a2",
+      "object": "corpus/ref/divw.o",
+      "sha256": "912904fe4e8666af1420cdfff060dda2fd16473d6f03e6f8517f4b2388e050a0",
+      "word": "0x02c5c53b"
+    },
+    {
+      "name": "remw",
+      "kind": "object",
+      "asm": "remw a0, a1, a2",
+      "object": "corpus/ref/remw.o",
+      "sha256": "c1f5c557711a086f8b207459754a398c10bfaa26760f8bae2864ff013277b2fd",
+      "word": "0x02c5e53b"
+    },
+    {
+      "name": "halt-addi",
+      "kind": "object",
+      "asm": "addi t0, x0, 0",
+      "object": "corpus/ref/halt-addi.o",
+      "sha256": "75af9fb0b695f2e7f58e68756da0ba21a6749eeecde4973c516726e34d7f2c27",
+      "word": "0x00000293"
+    }
+  ]
+}

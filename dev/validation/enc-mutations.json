@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "baseline_sha256": "91216223150acfb001559543a626241a2f70e8f305dd4cf47b21442bfa7a9e17",
+  "implementation_sha256": {
+    "corpus/ref/manifest.json": "1cbda4fb9b6539b392653adcff80d81ce0217463d5973353b8d50761112a396c",
+    "dev/enc-mutations.py": "514dfdbbb403b955b5f4435e4f868dd6412c7ac29f7b7eaac1a2a073c1ed40f9",
+    "dev/enc-xcheck.py": "4b920000cd557299bcb9bdd55d902010f5df5d43e2f782508b4785b43f674460",
+    "elf/elf64.bend": "27dad4b5255338efe7f2e6e71a629eb98de00093987c5b2c6220db87e9fcfd8f",
+    "elf/rv64im.bend": "315466e92f18d661def8d71ba527aa3498b7872382bd0aed99a05a052f1ebf62"
+  },
+  "mutations": [
+    {
+      "name": "funct3",
+      "file": "elf/rv64im.bend",
+      "diagnostic": "FAIL insn=addi ours=0x00559513 ref=0x00558513",
+      "exit": 1,
+      "output_sha256": "9df846499f9376c60d30a8be460d8843ed0da368c702a0c98fe8a8c6e8361e81"
+    },
+    {
+      "name": "immediate",
+      "file": "elf/rv64im.bend",
+      "diagnostic": "mismatch=1 FAIL",
+      "exit": 1,
+      "output_sha256": "36a55fb09988bec30942ee275ad80feb8d180bae6a3110c51fc647ec154ceeb6"
+    },
+    {
+      "name": "register",
+      "file": "elf/rv64im.bend",
+      "diagnostic": "FAIL insn=add ours=",
+      "exit": 1,
+      "output_sha256": "7e1672db573a75149099cd862bdc866e463873c1deda5ff2909a81ca93255e01"
+    },
+    {
+      "name": "compressed",
+      "file": "elf/rv64im.bend",
+      "diagnostic": "FAIL insn=c.addi width=16 allowed=32",
+      "exit": 1,
+      "output_sha256": "023911a76f4979467aa520387c2f7784f329e3cd6a8edc94da01e76a0671a29a"
+    },
+    {
+      "name": "w-object",
+      "file": "corpus/ref/addw.o",
+      "diagnostic": "FAIL missing=addw",
+      "exit": 1,
+      "output_sha256": "e834b04acda664dad31928624dd5c375c597d60023d0d73aa4f189dc965abfba"
+    }
+  ],
+  "logs_sha256": {
+    "compressed.log": "023911a76f4979467aa520387c2f7784f329e3cd6a8edc94da01e76a0671a29a",
+    "funct3.log": "9df846499f9376c60d30a8be460d8843ed0da368c702a0c98fe8a8c6e8361e81",
+    "immediate.log": "36a55fb09988bec30942ee275ad80feb8d180bae6a3110c51fc647ec154ceeb6",
+    "register.log": "7e1672db573a75149099cd862bdc866e463873c1deda5ff2909a81ca93255e01",
+    "w-object.log": "e834b04acda664dad31928624dd5c375c597d60023d0d73aa4f189dc965abfba"
+  }
+}

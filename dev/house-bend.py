@@ -35,9 +35,9 @@ def check(root):
         site_errors.extend(f"{kind}: unregistered {row}" for row in sorted((actual - allowed).elements()))
         site_errors.extend(f"{kind}: stale policy entry {row}" for row in sorted((allowed - actual).elements()))
     report("no-exception", scan(r"(?<![\w.])(?:raise|throw|panic|assert|try|catch)\b|\b(?:Result|Maybe)\.unwrap\b") + site_errors)
-    pure = lambda path: path.startswith(("lib/", "erase/")) and "/test/" not in path
+    pure = lambda path: path.startswith(("lib/", "erase/", "elf/")) and "/test/" not in path
     report("no-mutable-state", scan(r"\b(?:IO|File|Ref)\.|\b(?:mutable|foreign)\b|@(?:ffi|extern)\b", pure))
-    print("HOUSE no-mutable-state roots=lib erase")
+    print("HOUSE no-mutable-state roots=lib erase elf")
 
     io_errors = scan(r"\bFile\.(?:open|read_bytes|close)\b", lambda path: path != "surface/io.bend")
     io = cleaned.get("surface/io.bend", "")

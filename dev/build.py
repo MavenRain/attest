@@ -32,6 +32,8 @@ TARGETS = {
     "erase-probe": ("dev/erase_probe.bend", "dev/erase_probe.exe"),
     "pass-bench": ("dev/pass_bench.bend", "dev/pass_bench.exe"),
     "suite-probe": ("dev/suite_probe.bend", "dev/suite_probe.exe"),
+    "enc-xcheck": ("test/enc_xcheck.bend", "test/enc_xcheck.exe"),
+    "elf-test": ("test/elf_test.bend", "test/elf_test.exe"),
 }
 IMPORT = re.compile(r"^import[^\S\n]+(\S+\.bend)(?:[^\S\n]+as[^\S\n]+\w+)?[^\S\n]*(?:(?://|#)[^\n]*)?$", re.M)
 

@@ -554,6 +554,10 @@
       "original_sha256": "df58b4be8e532f589ff77c16fa5fdb567dc08e45493de875915de174cc1cd08e",
       "sha256": "93b692935507393a42b060be84c039c913a7ef1ba50112eede414db85c8868f6"
     },
+    "dev/gates.sh": {
+      "original_sha256": "526079a9319b83a39bf0b6bbff940ab8846b2047526700574e887ac4d7185e38",
+      "sha256": "41e17457d212d575f885e7be537fecc193abe066f583336fac1d8da65061707b"
+    },
     "dev/house.sh": {
       "original_sha256": "ba20b71be4572bd613d45969523df0c99cc51e4c8a2cd1dd635c8a3d4534cc36",
       "sha256": "59f15c3916c880545710bd1a4be76f4e6b2901d3ef5fb2d495d753a203e3840d"
@@ -573,6 +577,8 @@
     "dev/parse_probe.bend": "124ef1bee2c984c0b9eea8a15cb96a0aaa16e2783c4136b36facc7c4c86a62b6",
     "dev/pass_bench.bend": "dd822e70d9b8ca2b0da2cf998349d07e6f6fd624020672b50374a8cc052fe37d",
     "dev/suite_probe.bend": "04e93ed4a697239cbebd78e5efe65ce50b5d32e290e36e87bca8d2d3dc34b5d9",
+    "elf/elf64.bend": "27dad4b5255338efe7f2e6e71a629eb98de00093987c5b2c6220db87e9fcfd8f",
+    "elf/rv64im.bend": "315466e92f18d661def8d71ba527aa3498b7872382bd0aed99a05a052f1ebf62",
     "erase/inline.bend": "af34d17c7dadee8f3c923ed56437411f221f000b42dcc6f4d45c9250b25b7101",
     "erase/opaque.bend": "947c2f0e50fd913a246416dc62785ef99b27bc8de088161e6069f9bbfb0f8315",
     "erase/test/branch_fixtures.bend": "cf6214a33b1bb173092ebcb7933f21feaba9ca19682fcbcc6f58e7e0c6acd12a",
@@ -623,6 +629,8 @@
     "surface/parser.bend": "e75f5d91d889e51e3f71035045207dda2e99240c9d39c7757ca1bbf5f27ef1d0",
     "surface/syntax.bend": "18af1494be60cc968fbc512395789a90ea43174ae420255bdb665137e9e2dd7e",
     "surface/token.bend": "5e06340c5a96a7b1e992bbe1b03819721a34218dc124319593e9d35b32e6c705",
+    "test/elf_test.bend": "24566544985b4aa21da3db86f4077049db391312348ba66bf0a77eb053efa4e2",
+    "test/enc_xcheck.bend": "47cf2540065fe933dfad15ec7154fd9cedeaec98c4972c027aefd388079d3615",
     "test/foundation.bend": "231625b1b03ae90fcf2bc87ac01c2993fbe167ec2761a9932df45e4ff2433f3d",
     "test/global_map.bend": "22b1e8552dd1aeb88d0e7fe741d24cd2b0927a7590e0b0f59fe0f4f3bc3d5f93",
     "test/kernel.bend": "afd7e773cd16d56be3098c93145e2d8d6a8e225d8878514ed0418122f02f1d84",

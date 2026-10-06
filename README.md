@@ -350,6 +350,17 @@ ruling of 2026-10-05. The leg exits 1 on a pair that differs or on a frontier
 row that is not deferred.
 See [the build log](dev/M0-BUILD-LOG.md).
 
+Stage C has started with unit C2, the encoder. `elf/rv64im.bend` encodes the
+RV64IM instruction rows as 32-bit words with range-checked immediates, and
+`elf/elf64.bend` writes an ELF64 image with one PT_LOAD segment at 0x78000000.
+The ENC-XCHECK gate (`dev/gates.sh ENC-XCHECK`, driver `dev/enc-xcheck.py`)
+compares every word with a clang reference object pinned under `corpus/ref/`
+and checks the 4108-byte `corpus/halt.elf` layout and instruction bytes, then
+reads it with llvm-readelf. A missing fixture fails the gate; `--pin` explicitly
+replaces it only after validation. Five encoder mutants run under
+`dev/enc-mutations.py`. The lowering (`lower/`), the harness and the
+ELF-ACCEPTED gate are later slices.
+
 The Lean package is reusable with `require attestTwin from "../attest"` in
 a dependent project's `lakefile.lean`, followed by `import AttestTwin`.
 Its sources use term proofs; the `Acc` witness checks elimination in the

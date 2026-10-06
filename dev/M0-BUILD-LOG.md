@@ -1,5 +1,116 @@
 # M0 build log
 
+## 2026-10-06: Encoder staged review corrections
+
+This entry supersedes the unpadded HALT layout and validation claims in the
+original C2 report below. Three MEDIUM findings were reproduced and fixed:
+
+1. The 132-byte ELF placed text at offset 120 with p_vaddr 0x78000000 and
+   p_align 4096. Its offset and address were not congruent, violating the
+   [ELF program-header specification](https://gabi.xinuos.com/elf/07-pheader.html).
+   The writer now pads to offset 4096, producing a 4108-byte HALT image.
+   ENC-XCHECK validates the complete header, LOAD fields, padding and HALT
+   instruction bytes before invoking llvm-readelf.
+2. An ordinary cross-check recreated a missing corpus/halt.elf and passed.
+   Missing fixtures now fail; creation requires explicit `--pin`.
+3. `--pin` replaced the saved fixture before validation, even when it then
+   failed on a bad entry address. It now validates a temporary image first
+   and replaces the fixture only after every check succeeds.
+
+`dev/enc-xcheck-test.py` runs seven regression tests, including malformed
+segment subcases. The original staged tree produced ten failing assertions;
+the corrected tree passes all seven tests. The ENC-XCHECK gate runs these
+regressions in both its named leg and the default gate sequence.
+`test/elf_test.bend` passes 17 checks, including alignment residues. All 27
+assembly sources and manifest rows were checked, and reassembling every
+reference object with clang reproduced its bytes and SHA-256.
+
+Final validation on the corrected tree:
+
+- `STAGE-A OK`: 337 kernel cases, all seven benchmark repetitions, house and
+  corpus checks; trusted encoder lines are 309/800.
+- `TESTS programs=17 OK`, including `INLINE-ERASE pass=307 total=307 OK` and
+  `ELF-ENCODER pass=17 total=17`.
+- `ENC-MUTATIONS caught=5 total=5 OK` and all seven HALT gate regressions pass.
+- `LEAN-TWIN accept=24/24 refuse=12/12 axioms=0 OK`.
+- `ELF-HALT bytes=4108 entry=0x78000000 OK` and
+  `ENC-XCHECK rows=14 objects=13 mismatch=0`.
+- `ERASURE-INCREMENT OK`; its record was regenerated after the fixes.
+
+The first two erasure attempts exceeded the existing 120-second limit for
+the unchanged inline test. The final isolated Bun run passed with that
+limit unchanged. A Node trial could not load `bun:ffi` and supplies no
+passing evidence. No check or timeout was weakened. The migration record
+and both encoder validation records were also regenerated.
+
+## 2026-10-06: Stage C encoder (unit C2)
+
+Plan unit C2 adds the RV64IM encoder and the ELF64 writer under `elf/`
+(Bend 2), the ENC-XCHECK gate and the five encoder mutants of
+`design/attest-m0/parts/09-mutants.md:33-37`. Verdicts on the staged tree:
+
+- `ELF-ENCODER pass=16 total=16` (`test/elf_test.exe`, part of `make test`)
+- `ELF-HALT bytes=132 entry=0x78000000 OK` then
+  `ENC-XCHECK rows=14 objects=13 mismatch=0` (`dev/gates.sh ENC-XCHECK`)
+- `ENC-MUTATIONS caught=5 total=5 OK` (`dev/enc-mutations.py --record`)
+- `HOUSE OK` with `HOUSE no-mutable-state roots=lib erase elf`
+- `TRUSTED-LINES kernel=6000/6000 lower=0/1100 encoder=292/800 harness=0/100 OK`
+- Stage A and Stage B legs unchanged: `STAGE-A OK`,
+  `TRACE-ERASURE rows=159 pairs=151 identical=151 deferred=2 OK`,
+  `LEAN-TWIN accept=24/24 refuse=12/12 axioms=0 OK`, `ERASURE-INCREMENT OK`
+
+Counts: 27 encoder rows, 14 from the dossier reference table and 13 object
+rows (addi-neg, lwu, ld, sd, the eight W forms, halt-addi); every word equals
+the clang word read back by `llvm-objdump`. The HALT image is 132 bytes
+(64-byte header, 56-byte program header, 12 code bytes) and llvm-readelf reads
+it as ELF64, little endian, EXEC, RISC-V, entry 0x78000000, one LOAD segment
+with flags R E. The encoder holds 292 of its 800 trusted lines.
+
+Files: `elf/rv64im.bend` (204 lines), `elf/elf64.bend` (87 lines),
+`test/enc_xcheck.bend`, `test/elf_test.bend`, `dev/enc-xcheck.py`,
+`dev/enc-mutations.py`, `dev/gates.sh` (ENC-XCHECK leg), `dev/build.py`
+(targets enc-xcheck, elf-test), `dev/test-all.py` (elf-test row),
+`dev/bend-source.py` and `dev/house-bend.py` (root `elf`), `corpus/ref/`
+(27 `.s`, 27 `.o`, `manifest.json`), `corpus/halt.elf`, the records below,
+README.md, SPEC.md, the plan changelog C-10, `parts/06-emission.md:49`,
+`parts/08-gates.md:37` and `M0-PLAN.md:425`, this log and
+`dev/MUTATION-LOG.md`. `dev/bend-migration.py` (root `elf`) and `dev/bend-migration.json`
+(re-recorded, 64 Bend sources) and `dev/axioms-empty.py` (encoder fixture allowance
+under corpus/) are part of the slice.
+
+Deviations from the plan text, all recorded in changelog C-10:
+
+1. The addi-neg reference is `addi a0, a0, -1` (0xfff50513); the mutant
+   table says `addi a0, x0, -1`.
+2. The W-object mutant drops `corpus/ref/addw.o`; the plan says addiw, and
+   the IR of `parts/06-emission.md` has no addiw row.
+3. The HALT image is the 132-byte ELF64 form; the 96-byte count is ELF32.
+4. The funct3 mutant diagnostic names the dossier addi row
+   (`ours=0x00559513 ref=0x00558513`); the plan's `0x00001513` names the HALT
+   a0 row, and the gate reports the first mismatch in dump order.
+5. The HALT bytes for `addi t0, x0, 0` are `93 02 00 00`; the dossier's
+   `13 02 00 00` (tool:253) encodes `addi tp, x0, 0` (rd = x4). clang VERIFIED
+   on 2026-10-06; `parts/06-emission.md:49` is corrected.
+
+Records: `dev/validation/enc-xcheck.json` (new; pins `elf/*.bend`,
+`corpus/ref/*`, `corpus/halt.elf`, the two test programs, `dev/enc-xcheck.py`,
+`dev/build.py`, `dev/gates.sh`, `dev/bend-toolchain.json`; logs under
+`dev/validation/enc-xcheck/`) and `dev/validation/enc-mutations.json` (new;
+logs under `dev/validation/enc-mutations/`). `dev/validation/erasure.json` is
+fresh: it pins `dev/gates.sh`, `dev/build.py` and `dev/bend-migration.json`, and it was
+re-recorded after the migration fix (it does not pin `dev/axioms-empty.py`).
+`dev/validation/enc-xcheck.json` and `dev/validation/enc-mutations.json` are fresh.
+`dev/validation/erasure-mutations.json` pins `dev/gates.sh` and `dev/build.py` and is stale
+by wiring; its battery was not re-run (long run, no encoder input).
+`dev/validation/stage-a.json` is historical (2026-09-28 record; `dev/stage-a-gates.py` has
+no record flag). Every older slice record that pins those files stays historical.
+
+Process: the wf-builder fable xhigh agent and the one opus xhigh retry died
+at their first request (reasoning_extraction) at the build start and again
+at the close, so the unit was hand-built in the main loop. No independent
+review agent ran. ELF-ACCEPTED and `harness/` (unit C3) wait on USER step 6
+(sp1-sdk 6.1.0 fetch). Next: unit C1 `lower/`.
+
 ## 2026-10-05: Stage B close
 
 Plan unit B6 closes Stage B. The three Stage B gate legs ran on the clean

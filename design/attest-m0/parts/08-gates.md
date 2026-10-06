@@ -34,7 +34,7 @@ The status words follow verdict:118 ("PROVE-ONCE done or OPEN") and brief:541 OQ
 
 | gate | command | printed line and pass rule | M0 status |
 | --- | --- | --- | --- |
-| ENC-XCHECK | `attest enc-xcheck corpus/ref/` | `ENC-XCHECK rows=14 objects=N mismatch=0`;  every instruction the lowering emits matches the 14-row reference encoding plus one rv64 reference object per W form, assembled once and pinned;  no C extension (verdict:107, VERIFIED);  `llvm-readelf` is absent today (VERIFIED by `command -v llvm-readelf` on 2026-09-22), so the reference objects wait on USER step 3 (brief:543, VERIFIED) | binding |
+| ENC-XCHECK | `attest enc-xcheck corpus/ref/` | `ENC-XCHECK rows=14 objects=N mismatch=0`;  every instruction the lowering emits matches the 14-row reference encoding plus one rv64 reference object per W form, assembled once and pinned;  no C extension (verdict:107, VERIFIED);  `llvm-readelf` is present under /opt/homebrew/opt/llvm/bin (VERIFIED 2026-10-06);  the 27 reference objects are assembled by clang and pinned under corpus/ref/ with manifest.json (unit C2, 2026-10-06) | binding |
 | ELF-ACCEPTED | `cargo run -p attest-harness -- execute corpus/ROW.elf` per row | `ELF-ACCEPTED rows=N exit0=N`;  the SP1 v6.1.0 executor loads every corpus ELF64 and halts with exit 0 (brief:346, VERIFIED), starting with the 96-byte HALT fixture (verdict:107 and dossier:253, VERIFIED);  pc_base is at least 32 and a multiple of 4 (dossier:101, VERIFIED) | binding |
 
 ### Stage D rows

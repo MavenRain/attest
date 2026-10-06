@@ -4,6 +4,31 @@ The Stage B trace collector also runs 18 regression tests for trace-log
 acceptance and case selection. Contradictory, duplicate, missing and malformed
 rows must be rejected, as must empty or unknown case selections.
 
+## 2026-10-06: HALT gate review regressions
+
+`dev/enc-xcheck-test.py` checks ELF segment alignment, explicit creation of a
+missing fixture, preservation of the prior fixture after an invalid pin,
+malformed LOAD offsets/addresses/sizes/alignment, and incorrect HALT code.
+Seven tests pass after the review fixes; the original staged implementation
+produced ten failing assertions. These regressions run under ENC-XCHECK and
+do not replace the five encoder mutants below.
+
+## 2026-10-06: Stage C encoder (unit C2)
+
+`dev/enc-mutations.py` runs the five encoder rows of
+`design/attest-m0/parts/09-mutants.md:33-37` against the ENC-XCHECK gate
+(`dev/enc-xcheck.py`) in a copy of the tree under `.gatework/enc-copies/`.
+Record: `dev/validation/enc-mutations.json`, logs under
+`dev/validation/enc-mutations/`. Verdict: `ENC-MUTATIONS caught=5 total=5 OK`.
+
+| plan row | mutation | diagnostic |
+|---|---|---|
+| funct3 | the addi arm of `Rv.encode` calls `Rv.i_type(19, 1, ...)` (bit 12 set) | `ENC-XCHECK rows=14 objects=13 mismatch=1 FAIL insn=addi ours=0x00559513 ref=0x00558513`; the plan's `0x00001513` names the HALT a0 row, the gate reports the first mismatch in dump order, the dossier addi row |
+| immediate field | `Rv.i_bits` places the I-type immediate at bit 19 | `ENC-XCHECK rows=14 objects=13 mismatch=1 FAIL insn=addi ours=0x002d8513 ref=0x00558513`; the plan names addi-neg, the first I-type row in dump order is addi |
+| register fields | `Rv.r_type` packs rs2 at bit 15 and rs1 at bit 20 | `ENC-XCHECK rows=14 objects=13 mismatch=1 FAIL insn=add ours=0x00b60533 ref=0x00c58533` |
+| compressed | the addi arm emits `c.addi` with width 16 | `ENC-XCHECK FAIL insn=c.addi width=16 allowed=32` |
+| W form object | `corpus/ref/addw.o` is deleted in the copy | `ENC-XCHECK rows=14 objects=12 FAIL missing=addw`; the plan says addiw, the IR has no addiw row, the eight W forms are addw, subw, sllw, srlw, sraw, mulw, divw, remw |
+
 ## 2026-10-05: Stage B close
 
 Plan unit B6 closes Stage B. No new mutation ran for the close. The five

@@ -553,6 +553,16 @@ trace pairs are identical, eight rows have separate checks, and the leg exits
 passes 24 ACCEPT and 12 REFUSE pairs in the shared fragment. This increment
 changes no checker rule, carry pin, term constructor, shape, or R0 count.
 
+Stage C encoder. The encoder in `elf/` maps each RV64IM instruction row to
+one 32-bit word. The R, I, S, B, U and J packers check their immediates and
+return `Fail` on an out-of-range value or an odd branch offset. The ELF64
+writer emits a 64-byte header, one 56-byte PT_LOAD program header (flags R E,
+vaddr 0x78000000, align 0x1000), zero padding to file offset 0x1000, and the code.
+The HALT image (`addi t0, x0, 0`; `addi a0, x0, 0`; `ecall`) is 4108 bytes.
+The file offset and virtual address are congruent modulo the segment alignment.
+No compressed (C extension) word is
+emitted; the ENC-XCHECK gate refuses any width other than 32.
+
 ## 2 Kernel
 
 `Lan` and `Ran` are the only type formers. Universes, variables, substitution,

@@ -15,7 +15,7 @@ import subprocess
 import sys
 
 REFERENCE = "ba7a65416e7786031b64dc997e9300d2741ce889"
-ROOTS = ("lib", "surface", "bin", "erase", "test", "dev")
+ROOTS = ("lib", "surface", "bin", "erase", "elf", "test", "dev")
 RECORD = "dev/bend-migration.json"
 RETIRED_TOOLS = {"dev/house-catchalls.py", "dev/house-allow.txt", "pilot/bend2/run.py"}
 
